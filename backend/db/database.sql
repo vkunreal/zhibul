@@ -19,10 +19,10 @@ CREATE TABLE users (
 DROP TABLE IF EXISTS candidates;
 CREATE TABLE candidates (
   `id` SERIAL PRIMARY KEY,
-  `phone` BIGINT UNSIGNED NOT NULL,
+  `phone` BIGINT UNSIGNED NOT NULL UNIQUE,
   `name` VARCHAR(50),
   `company` VARCHAR(100),
-  `email` VARCHAR(50),
+  `email` VARCHAR(50) UNIQUE,
   `comment` VARCHAR(300)
 );
 
@@ -30,31 +30,23 @@ CREATE TABLE candidates (
 DROP TABLE IF EXISTS categories;
 CREATE TABLE categories (
   `id` SERIAL PRIMARY KEY,
-  `name` VARCHAR(50) NOT NULL
-);
-
--- undercategories
-DROP TABLE IF EXISTS undercategories;
-CREATE TABLE undercategories (
-  `id` SERIAL PRIMARY KEY,
-  `category_id` BIGINT UNSIGNED NOT NULL,
   `name` VARCHAR(50) NOT NULL,
-
-  FOREIGN KEY (category_id) REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE
+  `parent_id` BIGINT,
+  `is_contains` BOOLEAN NOT NULL
 );
 
 -- items
 DROP TABLE IF EXISTS items;
 CREATE TABLE items (
   `id` SERIAL PRIMARY KEY,
-  `undercategory_id` BIGINT UNSIGNED NOT NULL,
-  `name` VARCHAR(50) NOT NULL,
+  `category_id` BIGINT UNSIGNED NOT NULL,
+  `name` VARCHAR(50) NOT NULL UNIQUE,
   `brand` VARCHAR(50) NOT NULL,
   `manufacturer` VARCHAR(50) NOT NULL,
   `count` INT UNSIGNED NOT NULL,
   `price` INT UNSIGNED NOT NULL,
 
-  FOREIGN KEY (undercategory_id) REFERENCES undercategories(id) ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY (category_id) REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- options
@@ -78,26 +70,26 @@ CREATE TABLE items_options (
 /* load data */
 
 -- categories
-INSERT INTO categories(name)
+INSERT INTO categories(name, parent_id, is_contains)
 VALUES
-('Компрессоры');
+('Компрессоры', null, true);
 
 -- undercategories
-INSERT INTO undercategories(category_id, name)
+INSERT INTO categories(name, parent_id, is_contains)
 VALUES
-(1, 'С прямым приводом'),
-(1, 'С ременным приводом');
+('С прямым приводом', 1, 0),
+('С ременным приводом', 1, 0);
 
 -- items
-INSERT INTO items(undercategory_id, name, brand, manufacturer, count, price)
+INSERT INTO items(category_id, name, brand, manufacturer, count, price)
 VALUES
-(1, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1047B', 'Intel', 'Польша', 20, 64800),
-(1, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1048B', 'Intel', 'Германия', 14, 70200),
-(1, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1047B', 'Intel', 'Польша', 7, 73900),
-(2, 'Chocolate', 'Intel', 'Польша', 20, 64800),
-(2, 'Chocolate 2', 'Intel', 'Германия', 14, 70200),
-(2, 'Chocolate 3', 'Intel', 'Польша', 7, 73900),
-(1, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1048B', 'Intel', 'Россия', 11, 77300);
+(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1047B', 'Intel', 'Польша', 20, 64800),
+(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1048B', 'Intel', 'Германия', 14, 70200),
+(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1047B', 'Intel', 'Польша', 7, 73900),
+(3, 'Chocolate', 'Intel', 'Польша', 20, 64800),
+(3, 'Chocolate 2', 'Intel', 'Германия', 14, 70200),
+(3, 'Chocolate 3', 'Intel', 'Польша', 7, 73900),
+(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1048B', 'Intel', 'Россия', 11, 77300);
 
 -- options
 INSERT INTO options(name, value)
@@ -113,10 +105,10 @@ VALUES
 -- items_options
 INSERT INTO items_options(item_id, option_id)
 VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(1, 4),
-(1, 5),
-(1, 6),
-(1, 7);
+(2, 1),
+(2, 2),
+(2, 3),
+(2, 4),
+(2, 5),
+(2, 6),
+(2, 7);

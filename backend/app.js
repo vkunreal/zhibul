@@ -1,18 +1,20 @@
 require('dotenv').config()
 const express = require('express')
 const path = require('path')
-// const cors = require('cors')
+const cors = require('cors')
 
 const app = express()
 const PORT = process.env.PORT || 5000
 
 const ItemsRouter = require('./routers/ItemsRouter')
+const CategoriesRouter = require('./routers/CategoriesRouter')
 
 app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(express.json())
-// app.use(cors({ origin: 'http://localhost:3000' }))
+app.use(cors({ origin: 'http://localhost:3000' }))
 
 app.use('/api', ItemsRouter)
+app.use('/api', CategoriesRouter)
 
 app.get('/', (req, res) => {
   res.status(200).json({ message: req.query.id })
