@@ -8,7 +8,6 @@ const queryItems = `
     name,
     brand,
     manufacturer,
-    count,
     price
   FROM items
 `
@@ -22,6 +21,14 @@ class ItemsServices {
   // get all items from db by category id
   async getItemsFromCategoryId(category_id) {
     return await request(`${queryItems} WHERE category_id = "${category_id}";`)
+  }
+
+  // get item from db by id
+  async getItemFromId(item_id) {
+    return await request(
+      `${queryItems} WHERE id = "${item_id}"`,
+      (res) => res[0][0]
+    )
   }
 
   async changeItemById({
@@ -47,12 +54,14 @@ class ItemsServices {
     return { status: true }
   }
 
-  // get item from db by id
-  async getItemFromId(item_id) {
-    return await request(
-      `${queryItem} WHERE id = "${item_id}"`,
-      (res) => res[0][0]
-    )
+  async addItem({ category_id, name, brand, manufacturer, price }) {
+    await request(`
+      INSERT INTO items(category_id, name, brand, manufacturer, price)
+      VALUES ("${category_id}", "${name}", "${brand}", "${manufacturer}", "${price}")
+    `)
+
+    writeLog('Item was added')
+    return { status: true }
   }
 
   // delete item from db by id

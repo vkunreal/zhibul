@@ -52,3 +52,52 @@ Delete category
 | Name | Type   |
 | ---- | ------ |
 | id   | String |
+
+# Items
+
+### GET `/api/items/:(category_id)||(null)`
+
+Get items by category id or get all items
+
+### GET `/api/item/:id`
+
+Get item by id
+
+### POST `/api/change/item/`
+
+Change item
+
+## Body
+
+| Name         | Type   |
+| ------------ | ------ |
+| item_id      | String |
+| category_id  | String |
+| name         | String |
+| brand        | String |
+| manufacturer | String |
+| price        | String |
+
+### POST `/api/item/`
+
+Add new item
+
+## Body
+
+| Name         | Type   |
+| ------------ | ------ |
+| category_id  | String |
+| name         | String |
+| brand        | String |
+| manufacturer | String |
+| price        | String |
+
+### DELETE `/api/item/`
+
+Delete item by id
+
+## Body
+
+| Name | Type   |
+| ---- | ------ |
+| id   | String |

@@ -48,7 +48,7 @@ DROP TABLE IF EXISTS items;
 CREATE TABLE items (
   `id` SERIAL PRIMARY KEY,
   `category_id` BIGINT UNSIGNED NOT NULL,
-  `name` VARCHAR(50) NOT NULL UNIQUE,
+  `name` VARCHAR(50) NOT NULL,
   `brand` VARCHAR(50) NOT NULL,
   `manufacturer` VARCHAR(50) NOT NULL,
   `price` INT UNSIGNED NOT NULL,
@@ -81,15 +81,15 @@ VALUES
 ('С ременным приводом', 1, 0);
 
 -- items
-INSERT INTO items(category_id, name, brand, manufacturer, count, price)
+INSERT INTO items(category_id, name, brand, manufacturer, price)
 VALUES
-(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1047B', 'Intel', 'Польша', 20, 64800),
-(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1048B', 'Intel', 'Германия', 14, 70200),
-(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1047B', 'Intel', 'Польша', 7, 73900),
-(3, 'Chocolate', 'Intel', 'Польша', 20, 64800),
-(3, 'Chocolate 2', 'Intel', 'Германия', 14, 70200),
-(3, 'Chocolate 3', 'Intel', 'Польша', 7, 73900),
-(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1048B', 'Intel', 'Россия', 11, 77300);
+(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1047B', 'Intel', 'Польша', 64800),
+(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1048B', 'Intel', 'Германия', 70200),
+(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1047B', 'Intel', 'Польша', 73900),
+(3, 'Chocolate', 'Intel', 'Польша', 64800),
+(3, 'Chocolate 2', 'Intel', 'Германия', 70200),
+(3, 'Chocolate 3', 'Intel', 'Польша', 73900),
+(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1048B', 'Intel', 'Россия', 77300);
 
 -- options
 INSERT INTO options(item_id, name, value)
