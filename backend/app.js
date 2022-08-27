@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/images/:image', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'public', req.params.image))
+  res.sendFile(path.resolve(__dirname, 'public', 'images', req.params.image))
 })
 
 app.listen(PORT, () => {
