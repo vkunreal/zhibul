@@ -1,4 +1,5 @@
 const { request } = require('../db/database')
+const { writeLog } = require('../writeLog')
 
 class CategoriesServices {
   // get all categories by parent_id
@@ -17,15 +18,21 @@ class CategoriesServices {
       `UPDATE categories SET is_contains = "1" WHERE id = "${parent_id}"`
     )
 
-    return await request(`
+    await request(`
       INSERT INTO categories (name, parent_id, is_contains)
       VALUES ("${name}", "${parent_id}", 0)
     `)
+
+    writeLog('Category was added')
+    return { status: true }
   }
 
   // delete category by id
   async deleteCategoryById(id) {
-    return await request(`DELETE FROM categories WHERE id = "${id}"`)
+    await request(`DELETE FROM categories WHERE id = "${id}"`)
+
+    writeLog('Category was deleted')
+    return { status: true }
   }
 }
 

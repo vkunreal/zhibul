@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 5000
 const ItemsRouter = require('./routers/ItemsRouter')
 const CategoriesRouter = require('./routers/CategoriesRouter')
 const UsersRouter = require('./routers/UsersRouter')
+const OptionsRouter = require('./routers/OptionsRouter')
 
 app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(express.json())
@@ -17,6 +18,7 @@ app.use(cors({ origin: 'http://localhost:3000' }))
 app.use('/api', ItemsRouter)
 app.use('/api', CategoriesRouter)
 app.use('/api', UsersRouter)
+app.use('/api', OptionsRouter)
 
 app.get('/', (req, res) => {
   res.status(200).json({ message: req.query.id })

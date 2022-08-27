@@ -4,6 +4,14 @@ USE zhibul;
 
 /* Create tables */
 
+-- app variables
+DROP TABLE IF EXISTS app_variables;
+CREATE TABLE app_variables (
+  `id` SERIAL PRIMARY KEY,
+  `name` VARCHAR(50) NOT NULL,
+  `value` VARCHAR(100) NOT NULL
+);
+
 -- users
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
@@ -43,7 +51,6 @@ CREATE TABLE items (
   `name` VARCHAR(50) NOT NULL UNIQUE,
   `brand` VARCHAR(50) NOT NULL,
   `manufacturer` VARCHAR(50) NOT NULL,
-  `count` INT UNSIGNED NOT NULL,
   `price` INT UNSIGNED NOT NULL,
 
   FOREIGN KEY (category_id) REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE
@@ -53,18 +60,11 @@ CREATE TABLE items (
 DROP TABLE IF EXISTS options;
 CREATE TABLE options (
   `id` SERIAL PRIMARY KEY,
-  `name` VARCHAR(50) NOT NULL,
-  `value` VARCHAR(50) NOT NULL
-);
-
--- items <-> options
-DROP TABLE IF EXISTS items_options;
-CREATE TABLE items_options (
   `item_id` BIGINT UNSIGNED NOT NULL,
-  `option_id` BIGINT UNSIGNED NOT NULL,
-
-  FOREIGN KEY (item_id) REFERENCES items(id) ON UPDATE CASCADE ON DELETE CASCADE,
-  FOREIGN KEY (option_id) REFERENCES options(id) ON UPDATE CASCADE ON DELETE CASCADE
+  `name` VARCHAR(50) NOT NULL,
+  `value` VARCHAR(50) NOT NULL,
+  
+  FOREIGN KEY (item_id) REFERENCES items(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 /* load data */
@@ -92,23 +92,12 @@ VALUES
 (2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1048B', 'Intel', 'Россия', 11, 77300);
 
 -- options
-INSERT INTO options(name, value)
+INSERT INTO options(item_id, name, value)
 VALUES
-('Объем ресивера', '24'),
-('Цилиндров / Ступеней', '1/1'),
-('Литр / Мин', '200'),
-('Атмосфер', '8'),
-('Мощность (кВт)', '1,5'),
-('Напряжение (В)', '220'),
-('Вес (кг)', '27');
-
--- items_options
-INSERT INTO items_options(item_id, option_id)
-VALUES
-(2, 1),
-(2, 2),
-(2, 3),
-(2, 4),
-(2, 5),
-(2, 6),
-(2, 7);
+(2, 'Объем ресивера', '24'),
+(2, 'Цилиндров / Ступеней', '1/1'),
+(2, 'Литр / Мин', '200'),
+(2, 'Атмосфер', '8'),
+(2, 'Мощность (кВт)', '1,5'),
+(2, 'Напряжение (В)', '220'),
+(2, 'Вес (кг)', '27');

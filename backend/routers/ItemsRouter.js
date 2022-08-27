@@ -4,13 +4,8 @@ const ItemsController = require('../controllers/ItemsController')
 const ItemsRouter = new Router()
 
 ItemsRouter.get('/items/', ItemsController.getItemsFromCategory)
-ItemsRouter.get('/item/', ItemsController.getItem)
+ItemsRouter.get('/item/:id', ItemsController.getItem)
 
-ItemsRouter.post(
-  '/item/:undercategory_id',
-  ItemsController.addItemFromUndercategoryId
-)
-
-ItemsRouter.delete('/item/:item_id', ItemsController.deleteItemFromId)
+ItemsRouter.delete('/item/', ItemsController.deleteItemById)
 
 module.exports = ItemsRouter
