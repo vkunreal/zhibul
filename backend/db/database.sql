@@ -8,7 +8,7 @@ USE zhibul;
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   `id` SERIAL PRIMARY KEY,
-  `phone` BIGINT NOT NULL,
+  `phone` VARCHAR(20),
   `name` VARCHAR(50),
   `company` VARCHAR(100),
   `email` VARCHAR(50),
@@ -19,10 +19,10 @@ CREATE TABLE users (
 DROP TABLE IF EXISTS candidates;
 CREATE TABLE candidates (
   `id` SERIAL PRIMARY KEY,
-  `phone` BIGINT UNSIGNED NOT NULL UNIQUE,
+  `phone` VARCHAR(20),
   `name` VARCHAR(50),
   `company` VARCHAR(100),
-  `email` VARCHAR(50) UNIQUE,
+  `email` VARCHAR(50),
   `comment` VARCHAR(300)
 );
 
