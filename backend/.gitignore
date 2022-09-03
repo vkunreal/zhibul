@@ -2,4 +2,4 @@
 /dist
 /build
 /public/images/*
-/logs/*
+/logs/*.log
