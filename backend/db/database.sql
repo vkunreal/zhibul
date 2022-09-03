@@ -51,7 +51,7 @@ CREATE TABLE items (
   `name` VARCHAR(50) NOT NULL,
   `brand` VARCHAR(50) NOT NULL,
   `manufacturer` VARCHAR(50) NOT NULL,
-  `price` INT UNSIGNED NOT NULL,
+  `price` VARCHAR(20) NOT NULL,
 
   FOREIGN KEY (category_id) REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -83,13 +83,13 @@ VALUES
 -- items
 INSERT INTO items(category_id, name, brand, manufacturer, price)
 VALUES
-(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1047B', 'Intel', 'Польша', 64800),
-(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1048B', 'Intel', 'Германия', 70200),
-(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1047B', 'Intel', 'Польша', 73900),
-(3, 'Chocolate', 'Intel', 'Польша', 64800),
-(3, 'Chocolate 2', 'Intel', 'Германия', 70200),
-(3, 'Chocolate 3', 'Intel', 'Польша', 73900),
-(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1048B', 'Intel', 'Россия', 77300);
+(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1047B', 'Intel', 'Польша', "648"),
+(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1048B', 'Intel', 'Германия', "702.02"),
+(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1047B', 'Intel', 'Польша', "739"),
+(3, 'Chocolate', 'Intel', 'Польша', "648"),
+(3, 'Chocolate 2', 'Intel', 'Германия', "702"),
+(3, 'Chocolate 3', 'Intel', 'Польша', "739"),
+(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1048B', 'Intel', 'Россия', "773");
 
 -- options
 INSERT INTO options(item_id, name, value)
