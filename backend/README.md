@@ -63,7 +63,7 @@ Get items by category id or get all items
 
 Get item by id
 
-### POST `/api/change/item/`
+### PUT `/api/change/item/`
 
 Change item
 
@@ -95,6 +95,112 @@ Add new item
 ### DELETE `/api/item/`
 
 Delete item by id
+
+## Body
+
+| Name | Type   |
+| ---- | ------ |
+| id   | String |
+
+# Options
+
+### GET `/api/options/:item_id`
+
+Get options of item
+
+### PUT `/api/option`
+
+Change option
+
+## Body
+
+| Name      | Type   |
+| --------- | ------ |
+| option_id | String |
+| name      | String |
+| value     | String |
+
+### POST `/api/option`
+
+Add new option
+
+## Body
+
+| Name    | Type   |
+| ------- | ------ |
+| item_id | String |
+| name    | String |
+| value   | String |
+
+### DELETE `/api/option`
+
+## Body
+
+| Name      | Type   |
+| --------- | ------ |
+| option_id | String |
+
+# Users
+
+### GET `/api/users`
+
+Get all users
+
+### GET `/api/user/:id`
+
+Get user by id
+
+### POST `/api/user`
+
+Add a new user
+
+## Body
+
+| Name    | Type   |
+| ------- | ------ |
+| phone   | String |
+| name    | String |
+| company | String |
+| email   | String |
+| comment | String |
+
+### DELETE `/api/user`
+
+Delete user
+
+## Body
+
+| Name | Type   |
+| ---- | ------ |
+| id   | String |
+
+# Candidates
+
+### GET `/api/candidates`
+
+Get all candidates
+
+### GET `/api/candidate/:id`
+
+Get candidate by id
+
+### POST `/api/candidate`
+
+Add a new candidate
+
+## Body
+
+| Name    | Type   |
+| ------- | ------ |
+| phone   | String |
+| name    | String |
+| company | String |
+| email   | String |
+| comment | String |
+
+### DELETE `/api/candidate`
+
+Delete candidate
 
 ## Body
 

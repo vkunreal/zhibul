@@ -7,7 +7,7 @@ ItemsRouter.get('/items/', ItemsController.getItemsFromCategory)
 ItemsRouter.get('/item/:id', ItemsController.getItem)
 
 ItemsRouter.post('/item/', ItemsController.addItem)
-ItemsRouter.post('/change/item', ItemsController.changeItem)
+ItemsRouter.put('/item', ItemsController.changeItem)
 
 ItemsRouter.delete('/item/', ItemsController.deleteItemById)
 

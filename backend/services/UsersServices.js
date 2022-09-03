@@ -33,6 +33,8 @@ class UsersServices {
       writeLog('User was created')
       response = { status: true }
     }
+
+    return response
   }
 
   // delete user by id
