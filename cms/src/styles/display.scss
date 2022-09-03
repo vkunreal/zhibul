@@ -1,0 +1,338 @@
+@import './mixins.scss';
+@import './variables.scss';
+
+.fill-height {
+  height: 100%;
+}
+
+.fill-width {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-italic {
+  font-style: italic;
+}
+
+.shrink {
+  flex-shrink: 0;
+}
+
+.grow-0 {
+  flex-grow: 0;
+}
+
+.grow-1 {
+  flex-grow: 1;
+}
+
+.hidden {
+  overflow: hidden;
+}
+
+$display: inline-block, inline, inline-flex, flex, block, none;
+@each $d in $display {
+  .d-#{$d} {
+    display: #{$d};
+  }
+  .d-#{$d}-i {
+    display: #{$d} !important;
+  }
+}
+
+.no-scroll {
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  &::-webkit-scrollbar {
+    width: 0 !important;
+    height: 0;
+    display: none !important;
+    background: transparent;
+  }
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-column-reverse {
+  flex-direction: column-reverse;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+$flex: (
+  'start': flex-start,
+  'center': center,
+  'end': flex-end,
+  'space-between': space-between,
+  'space-around': space-around,
+);
+
+@each $f, $v in $flex {
+  .align-#{$f} {
+    align-items: $v;
+  }
+  .justify-#{$f} {
+    justify-content: $v;
+  }
+}
+
+$steps: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 16, 20, 35;
+$sides: (
+  't': 'top',
+  'r': 'right',
+  'b': 'bottom',
+  'l': 'left',
+);
+
+@each $step in $steps {
+  .pd-#{$step} {
+    padding: $step * 0.5rem !important;
+  }
+
+  .g-#{$step} {
+    gap: $step * 0.5rem !important;
+  }
+  .gr-#{$step} {
+    row-gap: $step * 0.5rem !important;
+  }
+  .gc-#{$step} {
+    column-gap: $step * 0.5rem !important;
+  }
+
+  @each $letter, $side in $sides {
+    .m#{$letter}-#{$step} {
+      margin-#{$side}: $step * 0.5rem !important;
+    }
+    .p#{$letter}-#{$step} {
+      padding-#{$side}: $step * 0.5rem !important;
+    }
+    @if $step > 0 {
+      .m#{$letter}-n#{$step} {
+        margin-#{$side}: $step * -0.5rem !important;
+      }
+    }
+  }
+}
+
+@include smartphone {
+  @each $d in $display {
+    .d-xs-#{$d} {
+      display: #{$d} !important;
+    }
+  }
+  @each $f, $v in $flex {
+    .align-xs-#{$f} {
+      align-items: $v;
+    }
+    .justify-xs-#{$f} {
+      justify-content: $v;
+    }
+  }
+  @each $step in $steps {
+    .g-xs-#{$step} {
+      gap: $step * 0.5rem !important;
+    }
+    @each $letter, $side in $sides {
+      .m#{$letter}-xs-#{$step} {
+        margin-#{$side}: $step * 0.5rem !important;
+      }
+      .p#{$letter}-xs-#{$step} {
+        padding-#{$side}: $step * 0.5rem !important;
+      }
+    }
+  }
+}
+
+@include tablet {
+  .flex-sm-row {
+    flex-direction: row;
+  }
+
+  .flex-sm-row-reverse {
+    flex-direction: row-reverse;
+  }
+
+  .flex-sm-column {
+    flex-direction: column;
+  }
+
+  @each $step in $steps {
+    .g-sm-#{$step} {
+      gap: $step * 0.5rem !important;
+    }
+    .gr-sm-#{$step} {
+      row-gap: $step * 0.5rem !important;
+    }
+    .gc-sm-#{$step} {
+      column-gap: $step * 0.5rem !important;
+    }
+
+    .pd-sm-#{$step} {
+      padding: $step * 0.5rem !important;
+    }
+
+    .pl-sm-#{$step} {
+      padding-left: $step * 0.5rem !important;
+    }
+
+    .pr-sm-#{$step} {
+      padding-right: $step * 0.5rem !important;
+    }
+
+    .pt-sm-#{$step} {
+      padding-top: $step * 0.5rem !important;
+    }
+
+    .pb-sm-#{$step} {
+      padding-bottom: $step * 0.5rem !important;
+    }
+
+    @each $letter, $side in $sides {
+      .m#{$letter}-sm-#{$step} {
+        margin-#{$side}: $step * 0.5rem !important;
+      }
+      @if $step > 0 {
+        .m#{$letter}-sm-n#{$step} {
+          margin-#{$side}: $step * -0.5rem !important;
+        }
+      }
+    }
+  }
+
+  @each $f, $v in $flex {
+    .align-sm-#{$f} {
+      align-items: $v;
+    }
+    .justify-sm-#{$f} {
+      justify-content: $v;
+    }
+  }
+
+  @each $d in $display {
+    .d-sm-#{$d} {
+      display: #{$d} !important;
+    }
+  }
+}
+
+@include laptop {
+  .flex-md-row {
+    flex-direction: row;
+  }
+
+  .flex-md-column {
+    flex-direction: column;
+  }
+
+  .flex-md-row-reverse {
+    flex-direction: row-reverse;
+  }
+
+  .flex-md-column-reverse {
+    flex-direction: column-reverse;
+  }
+
+  @each $f, $v in $flex {
+    .align-md-#{$f} {
+      align-items: $v;
+    }
+    .justify-md-#{$f} {
+      justify-content: $v;
+    }
+  }
+
+  @each $step in $steps {
+    .g-md-#{$step} {
+      gap: $step * 0.5rem !important;
+    }
+    .gr-md-#{$step} {
+      row-gap: $step * 0.5rem !important;
+    }
+    .gc-md-#{$step} {
+      column-gap: $step * 0.5rem !important;
+    }
+
+    .pd-md-#{$step} {
+      padding: $step * 0.5rem !important;
+    }
+
+    @each $letter, $side in $sides {
+      .m#{$letter}-md-#{$step} {
+        margin-#{$side}: $step * 0.5rem !important;
+      }
+      .p#{$letter}-md-#{$step} {
+        padding-#{$side}: $step * 0.5rem !important;
+      }
+      @if $step > 0 {
+        .m#{$letter}-md-n#{$step} {
+          margin-#{$side}: $step * -0.5rem !important;
+        }
+      }
+    }
+  }
+
+  @each $d in $display {
+    .d-md-#{$d} {
+      display: #{$d} !important;
+    }
+  }
+}
+
+@include desktop {
+  .flex-lg-row {
+    flex-direction: row;
+  }
+
+  @each $step in $steps {
+    .g-lg-#{$step} {
+      gap: $step * 0.5rem !important;
+    }
+    .gr-lg-#{$step} {
+      row-gap: $step * 0.5rem !important;
+    }
+    .gc-lg-#{$step} {
+      column-gap: $step * 0.5rem !important;
+    }
+
+    .pd-lg-#{$step} {
+      padding: $step * 0.5rem !important;
+    }
+
+    @each $letter, $side in $sides {
+      .m#{$letter}-lg-#{$step} {
+        margin-#{$side}: $step * 0.5rem !important;
+      }
+      .p#{$letter}-lg-#{$step} {
+        padding-#{$side}: $step * 0.5rem !important;
+      }
+      @if $step > 0 {
+        .m#{$letter}-lg-n#{$step} {
+          margin-#{$side}: $step * -0.5rem !important;
+        }
+      }
+    }
+  }
+
+  @each $d in $display {
+    .d-lg-#{$d} {
+      display: #{$d} !important;
+    }
+  }
+}
