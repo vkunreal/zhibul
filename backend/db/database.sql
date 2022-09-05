@@ -16,8 +16,8 @@ CREATE TABLE app_variables (
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   `id` SERIAL PRIMARY KEY,
-  `phone` VARCHAR(20),
-  `name` VARCHAR(50),
+  `phone` VARCHAR(20) NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
   `company` VARCHAR(100),
   `email` VARCHAR(50),
   `comment` VARCHAR(300)
