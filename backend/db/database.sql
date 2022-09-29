@@ -20,7 +20,7 @@ CREATE TABLE users (
   `name` VARCHAR(50) NOT NULL,
   `company` VARCHAR(100),
   `email` VARCHAR(50),
-  `comment` VARCHAR(300)
+  `comment` VARCHAR(500)
 );
 
 -- candidates
@@ -31,7 +31,7 @@ CREATE TABLE candidates (
   `name` VARCHAR(50),
   `company` VARCHAR(100),
   `email` VARCHAR(50),
-  `comment` VARCHAR(300)
+  `comment` VARCHAR(500)
 );
 
 -- categories
@@ -70,34 +70,34 @@ CREATE TABLE options (
 /* load data */
 
 -- categories
-INSERT INTO categories(name, parent_id, is_contains)
-VALUES
-('Компрессоры', null, true);
+-- INSERT INTO categories(name, parent_id, is_contains)
+-- VALUES
+-- ('Компрессоры', null, true);
 
 -- undercategories
-INSERT INTO categories(name, parent_id, is_contains)
-VALUES
-('С прямым приводом', 1, 0),
-('С ременным приводом', 1, 0);
+-- INSERT INTO categories(name, parent_id, is_contains)
+-- VALUES
+-- ('С прямым приводом', 1, 0),
+-- ('С ременным приводом', 1, 0);
 
 -- items
-INSERT INTO items(category_id, name, brand, manufacturer, price)
-VALUES
-(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1047B', 'Intel', 'Польша', "648"),
-(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1048B', 'Intel', 'Германия', "702.02"),
-(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1047B', 'Intel', 'Польша', "739"),
-(3, 'Chocolate', 'Intel', 'Польша', "648"),
-(3, 'Chocolate 2', 'Intel', 'Германия', "702"),
-(3, 'Chocolate 3', 'Intel', 'Польша', "739"),
-(2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1048B', 'Intel', 'Россия', "773");
+-- INSERT INTO items(category_id, name, brand, manufacturer, price)
+-- VALUES
+-- (2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1047B', 'Intel', 'Польша', "648"),
+-- (2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1048B', 'Intel', 'Германия', "702.02"),
+-- (2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1047B', 'Intel', 'Польша', "739"),
+-- (3, 'Chocolate', 'Intel', 'Польша', "648"),
+-- (3, 'Chocolate 2', 'Intel', 'Германия', "702"),
+-- (3, 'Chocolate 3', 'Intel', 'Польша', "739"),
+-- (2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1048B', 'Intel', 'Россия', "773");
 
 -- options
-INSERT INTO options(item_id, name, value)
-VALUES
-(2, 'Объем ресивера', '24'),
-(2, 'Цилиндров / Ступеней', '1/1'),
-(2, 'Литр / Мин', '200'),
-(2, 'Атмосфер', '8'),
-(2, 'Мощность (кВт)', '1,5'),
-(2, 'Напряжение (В)', '220'),
-(2, 'Вес (кг)', '27');
+-- INSERT INTO options(item_id, name, value)
+-- VALUES
+-- (2, 'Объем ресивера', '24'),
+-- (2, 'Цилиндров / Ступеней', '1/1'),
+-- (2, 'Литр / Мин', '200'),
+-- (2, 'Атмосфер', '8'),
+-- (2, 'Мощность (кВт)', '1,5'),
+-- (2, 'Напряжение (В)', '220'),
+-- (2, 'Вес (кг)', '27');

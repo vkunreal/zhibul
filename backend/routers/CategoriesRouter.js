@@ -3,10 +3,14 @@ const CategoriesController = require('../controllers/CategoriesController')
 
 const categoriesRouter = new Router()
 
-categoriesRouter.post('/categories/', CategoriesController.getAllCategoriesById)
+categoriesRouter.get('/categories/', CategoriesController.getAllCategories)
+categoriesRouter.get(
+  '/categories/:id',
+  CategoriesController.getAllCategoriesById
+)
 
 categoriesRouter.post('/category/', CategoriesController.addCategory)
 
-categoriesRouter.delete('/category/', CategoriesController.deleteCategory)
+categoriesRouter.delete('/category/:id', CategoriesController.deleteCategory)
 
 module.exports = categoriesRouter

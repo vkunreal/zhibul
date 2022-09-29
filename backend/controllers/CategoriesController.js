@@ -2,19 +2,20 @@ const CategoriesServices = require('../services/CategoriesServices')
 const { writeLog } = require('../writeLog')
 
 class CategoriesController {
+  async getAllCategories(req, res) {
+    const categories = await CategoriesServices.getAllCategories()
+
+    res.status(200).json(categories)
+  }
+
   // get all categories (body = { parent_id })
   async getAllCategoriesById(req, res) {
-    const parent_id = req.body.parent_id
+    const parent_id = req.params.parent_id
 
-    if (parent_id === undefined || !String(parent_id).trim()) {
-      writeLog('Parent id is not found')
-      res.status(400).json({ status: false })
-    } else {
-      const categories = await CategoriesServices.getAllCategoriesByParentId(
-        parent_id
-      )
-      res.status(200).json(categories)
-    }
+    const categories = await CategoriesServices.getAllCategoriesByParentId(
+      parent_id
+    )
+    res.status(200).json(categories)
   }
 
   // add new category (body = { name, parent_id })
@@ -34,9 +35,10 @@ class CategoriesController {
 
   // delete category (body = { id })
   async deleteCategory(req, res) {
-    const categoryId = req.body.id
+    const categoryId = req.params.id
+    console.log(categoryId, !!categoryId)
 
-    if (!categoryId || !String(categoryId).trim()) {
+    if (categoryId === undefined || !String(categoryId).trim()) {
       writeLog('Category id is not found')
       return res.status(400).json({ status: false })
     }

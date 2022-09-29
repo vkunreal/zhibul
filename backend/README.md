@@ -22,26 +22,17 @@ Server would open on adress [http://localhost:5000](http://localhost:5000).
 
 # Categories
 
-### POST `/api/categories/`
+### GET `/api/categories`
+
+Get all categories
+
+### GET `/api/categories/:id`
 
 Get all categories by parent id
 
-## Body
-
-| Name      | Type   |
-| --------- | ------ |
-| parent_id | String |
-
-### POST `/api/category/`
+### POST `/api/category/:id`
 
 Add new category
-
-## Body
-
-| Name      | Type   |
-| --------- | ------ |
-| name      | String |
-| parent_id | String |
 
 ### DELETE `/api/category/`
 

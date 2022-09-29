@@ -2,6 +2,10 @@ const { request } = require('../db/database')
 const { writeLog } = require('../writeLog')
 
 class CategoriesServices {
+  async getAllCategories() {
+    return await request('SELECT * FROM categories')
+  }
+
   // get all categories by parent_id
   async getAllCategoriesByParentId(parent_id) {
     if (parent_id === null) {

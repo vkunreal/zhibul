@@ -1,0 +1,11 @@
+{
+  "name": "zhibul",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "backend:serve": "cd backend && npm run dev",
+    "backend:start": "cd backend && npm start",
+    "cms:start": "cd cms && npm start",
+    "cms:build": "cd cms && npm run build"
+  }
+}
