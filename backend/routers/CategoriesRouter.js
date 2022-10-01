@@ -11,6 +11,8 @@ categoriesRouter.get(
 
 categoriesRouter.post('/category/', CategoriesController.addCategory)
 
+categoriesRouter.put('/category/', CategoriesController.changeCategory)
+
 categoriesRouter.delete('/category/:id', CategoriesController.deleteCategory)
 
 module.exports = categoriesRouter

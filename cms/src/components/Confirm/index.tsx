@@ -20,7 +20,7 @@ export const Confirm: React.FC<IConfirmProps> = ({
       <DialogContent className="d-flex justify-end g-1">
         {children}
 
-        <Button variant="outlined" onClick={onClose}>
+        <Button variant="outlined" color="error" onClick={onClose}>
           Отмена
         </Button>
       </DialogContent>

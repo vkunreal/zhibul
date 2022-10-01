@@ -31,6 +31,21 @@ class CategoriesServices {
     return { status: true }
   }
 
+  // change category by id
+  async changeCategoryById(id, name) {
+    await request(`
+      UPDATE categories SET name = "${name}" WHERE id = "${id}"
+    `)
+      .then(() => {
+        writeLog('Category was changed')
+        return { status: true }
+      })
+      .catch(() => {
+        writeLog('Changing category was failed')
+        return { status: false }
+      })
+  }
+
   // delete category by id
   async deleteCategoryById(id) {
     await request(`DELETE FROM categories WHERE id = "${id}"`)

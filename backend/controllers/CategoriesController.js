@@ -33,6 +33,19 @@ class CategoriesController {
     res.status(201).json(result)
   }
 
+  // change category (body = { id, name })
+  async changeCategory(req, res) {
+    const { id, name } = req.body
+
+    if (name.length < 2) {
+      writeLog('Uncorrected category name')
+      res.status(400).json({ status: false })
+    }
+
+    const result = await CategoriesServices.changeCategoryById(id, name)
+    res.status(200).json(result)
+  }
+
   // delete category (body = { id })
   async deleteCategory(req, res) {
     const categoryId = req.params.id

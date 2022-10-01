@@ -32,15 +32,20 @@ const deleteCategory = (id: number) => ({
 // getState: () => IStore
 export const getCategoriesDB: any = () => async (dispatch: Dispatch) => {
   await axios.get('/api/categories').then(({ data }) => {
-    console.log(data)
     dispatch(setCategories(data))
   })
 }
 
+export const changeCategoryDB: any =
+  (id: number, name: string) => async (dispatch: Dispatch) => {
+    await axios.put('/api/category', { id, name }).then(() => {
+      dispatch(getCategoriesDB())
+    })
+  }
+
 export const deleteCategoryDB: any =
   (id: number) => async (dispatch: Dispatch) => {
-    await axios.delete('/api/category/' + id).then(({ data }) => {
-      console.log(data)
-      dispatch(getCategoriesDB(data))
+    await axios.delete('/api/category/' + id).then(() => {
+      dispatch(getCategoriesDB())
     })
   }

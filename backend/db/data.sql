@@ -25,4 +25,10 @@ VALUES
 -- test
 ('Test 1', 9, false),
 ('Test 2', 9, false),
-('Test 3', 9, false);
+('Test 3', 9, false),
+('Test 4', 9, false),
+('Test 5', 9, false),
+('Test 6', 9, false),
+('Test 7', 9, false),
+('Test 8', 9, false),
+('Test 9', 9, false);

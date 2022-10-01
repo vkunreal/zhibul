@@ -34,15 +34,9 @@ Get all categories by parent id
 
 Add new category
 
-### DELETE `/api/category/`
+### DELETE `/api/category/:id`
 
 Delete category
-
-## Body
-
-| Name | Type   |
-| ---- | ------ |
-| id   | String |
 
 # Items
 
