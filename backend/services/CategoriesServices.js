@@ -18,14 +18,20 @@ class CategoriesServices {
 
   // add new category
   async addCategory(name, parent_id) {
-    await request(
-      `UPDATE categories SET is_contains = "1" WHERE id = "${parent_id}"`
-    )
-
-    await request(`
-      INSERT INTO categories (name, parent_id, is_contains)
-      VALUES ("${name}", "${parent_id}", 0)
-    `)
+    if (parent_id !== null) {
+      await request(
+        `UPDATE categories SET is_contains = "1" WHERE id = "${parent_id}"`
+      )
+      await request(`
+        INSERT INTO categories (name, parent_id, is_contains)
+        VALUES ("${name}", "${parent_id}", 0)
+      `)
+    } else {
+      await request(`
+        INSERT INTO categories (name, parent_id, is_contains)
+        VALUES ("${name}", ${parent_id}, 0)
+      `)
+    }
 
     writeLog('Category was added')
     return { status: true }

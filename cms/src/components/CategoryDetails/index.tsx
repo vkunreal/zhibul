@@ -2,14 +2,25 @@ import { useEffect, useState } from 'react'
 import { Button } from '@mui/material'
 import { ICategory } from '../../interfaces/Items'
 import { Spacer } from '../Spacer'
+import { AddCategoryButton } from '../AddCategoryButton'
 
-export const CategoryDetails = ({
+interface ICategoryDetailsProps {
+  categories: ICategory[]
+  category: ICategory
+  getCategories: (id: number) => ICategory[]
+  setDeletedCategory: (category: ICategory) => void
+  setChangedCategory: (category: ICategory) => void
+  setParentId: (id: number) => void
+}
+
+export const CategoryDetails: React.FC<ICategoryDetailsProps> = ({
   categories,
   category,
   getCategories,
   setDeletedCategory,
   setChangedCategory,
-}: any) => {
+  setParentId,
+}) => {
   // data
   const [subcategories, setSubcategories] = useState<ICategory[]>([])
 
@@ -61,8 +72,16 @@ export const CategoryDetails = ({
               getCategories={getCategories}
               setDeletedCategory={setDeletedCategory}
               setChangedCategory={setChangedCategory}
+              setParentId={setParentId}
             />
           ))}
+
+        {subVisible && (
+          <AddCategoryButton
+            className="mb-1"
+            onClick={() => setParentId(category.id)}
+          />
+        )}
       </ul>
     </div>
   )

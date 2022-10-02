@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   Button,
   Dialog,
@@ -5,31 +6,26 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
-import { ICategory } from '../../interfaces/Items'
+import { ICategoryCandidate } from '../../interfaces/Items'
 
-interface IChangeMenuProps {
-  category: ICategory
+interface IAddMenuProps {
   isOpen: boolean
-  saveCategory: (category: ICategory) => void
+  parent_id: number | null
   onClose: () => void
+  addCategory: (category: ICategoryCandidate) => void
 }
 
-export const ChangeMenu: React.FC<IChangeMenuProps> = ({
+export const AddMenu: React.FC<IAddMenuProps> = ({
   isOpen,
-  category,
-  saveCategory,
+  parent_id,
   onClose,
+  addCategory,
 }) => {
   const [name, setName] = useState('')
 
-  useEffect(() => {
-    setName(category?.name)
-  }, [category])
-
   return (
     <Dialog open={isOpen} onClose={onClose} fullWidth>
-      <DialogTitle>Изменение категории</DialogTitle>
+      <DialogTitle>Добавление категории</DialogTitle>
 
       <DialogContent className="d-flex flex-column g-3">
         <TextField
@@ -45,11 +41,10 @@ export const ChangeMenu: React.FC<IChangeMenuProps> = ({
             variant="outlined"
             color="success"
             onClick={() => {
-              const newCategory = { ...category, name }
-              saveCategory(newCategory)
+              addCategory({ name, parent_id })
             }}
           >
-            Сохранить
+            Добавить
           </Button>
 
           <Button variant="outlined" color="error" onClick={onClose}>

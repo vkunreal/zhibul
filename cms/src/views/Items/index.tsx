@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CategoryDetails } from '../../components/CategoryDetails'
 import { selectCategories } from '../../store/items/selectors'
 import {
+  addCategoryDB,
   changeCategoryDB,
   deleteCategoryDB,
   getCategoriesDB,
@@ -11,7 +12,9 @@ import { Confirm } from '../../components/Confirm'
 import { ChangeMenu } from '../../components/ChangeMenu'
 import { Button } from '@mui/material'
 import { ICategory } from '../../interfaces/Items'
+import { AddCategoryButton } from '../../components/AddCategoryButton'
 import './styles.scss'
+import { AddMenu } from '../../components/AddMenu'
 
 const viewTypes = ['По категориям', 'По товарам']
 
@@ -23,8 +26,11 @@ export const Items: React.FC = () => {
   const [changedCategory, setChangedCategory] = useState<ICategory>(
     categories[0]
   )
+  const [parentId, setParentId] = useState<number | null>(null)
+
   const [deleteDialog, setDeleteDialog] = useState(false)
   const [changeDialog, setChangeDialog] = useState(false)
+  const [addDialog, setAddDialog] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -48,6 +54,11 @@ export const Items: React.FC = () => {
     setDeleteDialog(false)
   }
 
+  const addCategory = (category: any) => {
+    dispatch(addCategoryDB(category))
+    setAddDialog(false)
+  }
+
   const setChangeCategory = (category: ICategory) => {
     setChangedCategory(category)
     setChangeDialog(true)
@@ -58,12 +69,18 @@ export const Items: React.FC = () => {
     setDeleteDialog(true)
   }
 
+  const handleSetParentId = (id: number) => {
+    setParentId(id)
+    setAddDialog(true)
+    console.log(id)
+  }
+
   return (
     <div className="items pd-2">
       <h1>Товары</h1>
 
-      <div className="items__sort mt-1">
-        <h3 className="items__sort--title mb-1">Вид:</h3>
+      <div className="items__sort d-flex align-center g-2 mt-1">
+        <h3 className="items__sort--title mt-1 mb-1">Вид:</h3>
 
         <ul className="items__sort__list d-flex">
           {viewTypes.map((type: string) => (
@@ -92,13 +109,19 @@ export const Items: React.FC = () => {
                   categories={categories}
                   category={category}
                   getCategories={getCategories}
-                  openDeleteDialog={() => setDeleteDialog(true)}
-                  openChangeDialog={() => setChangeDialog(true)}
+                  setParentId={handleSetParentId}
                   setDeletedCategory={setDeleteCategory}
                   setChangedCategory={setChangeCategory}
                 />
               </li>
             ))}
+
+          <AddCategoryButton
+            onClick={() => {
+              setAddDialog(true)
+              setParentId(null)
+            }}
+          />
         </ul>
       )}
 
@@ -117,6 +140,13 @@ export const Items: React.FC = () => {
         onClose={() => setChangeDialog(false)}
         category={changedCategory}
         saveCategory={saveCategory}
+      />
+
+      <AddMenu
+        isOpen={addDialog}
+        parent_id={parentId}
+        onClose={() => setAddDialog(false)}
+        addCategory={addCategory}
       />
     </div>
   )

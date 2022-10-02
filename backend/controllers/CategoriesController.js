@@ -22,6 +22,8 @@ class CategoriesController {
   async addCategory(req, res) {
     const { name, parent_id } = req.body
 
+    console.log(req.body)
+
     if (name.length < 2) {
       writeLog('Uncorrected category name')
       res.status(400).json({ status: false })
