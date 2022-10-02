@@ -3,18 +3,25 @@ import { Navbar } from '../components/Navbar'
 import { Candidates } from './Candidates'
 import { Items } from './Items'
 import { Users } from './Users'
+import './RoutesComp.scss'
 
 export const RoutesComp: React.FC = () => {
   return (
     <BrowserRouter>
-      <Navbar />
+      <div className="routes d-flex g-2">
+        <div className="routes__navbar">
+          <Navbar />
+        </div>
 
-      <Routes>
-        <Route path="/" />
-        <Route path="/users" element={<Users />} />
-        <Route path="/candidates" element={<Candidates />} />
-        <Route path="/items" element={<Items />} />
-      </Routes>
+        <div className="routes__content">
+          <Routes>
+            <Route path="/" />
+            <Route path="/users" element={<Users />} />
+            <Route path="/candidates" element={<Candidates />} />
+            <Route path="/items" element={<Items />} />
+          </Routes>
+        </div>
+      </div>
     </BrowserRouter>
   )
 }
