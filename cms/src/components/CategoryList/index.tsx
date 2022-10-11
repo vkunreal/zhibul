@@ -9,7 +9,7 @@ import {
   getCategoriesDB,
 } from '../../store/items/actions'
 import { Confirm } from '../../components/Confirm'
-import { ChangeMenu } from '../../components/ChangeMenu'
+import { ChangeCategoryMenu } from '../ChangeCategoryMenu'
 import { Button } from '@mui/material'
 import { ICategory, ICategoryCandidate } from '../../interfaces/Items'
 import { AddCategoryButton } from '../../components/AddCategoryButton'
@@ -119,7 +119,7 @@ export const CategoryList: React.FC = () => {
       </Confirm>
 
       {/* change category menu */}
-      <ChangeMenu
+      <ChangeCategoryMenu
         isOpen={changeDialog}
         onClose={() => setChangeDialog(false)}
         category={changedCategory}

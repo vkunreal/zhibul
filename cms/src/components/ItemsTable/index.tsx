@@ -1,4 +1,5 @@
 import {
+  Button,
   Table,
   TableBody,
   TableCell,
@@ -10,9 +11,15 @@ import { IItem } from '../../interfaces/Items'
 
 interface IItemsTableProps {
   items: IItem[]
+  setDeleteItem: (item: IItem) => void
+  setChangeItem: (item: IItem) => void
 }
 
-export const ItemsTable: React.FC<IItemsTableProps> = ({ items }) => {
+export const ItemsTable: React.FC<IItemsTableProps> = ({
+  items,
+  setDeleteItem,
+  setChangeItem,
+}) => {
   return (
     <TableContainer>
       <Table>
@@ -20,33 +27,31 @@ export const ItemsTable: React.FC<IItemsTableProps> = ({ items }) => {
           <TableRow>
             <TableCell align="center">Категория</TableCell>
             <TableCell align="center">Название</TableCell>
-            <TableCell align="center">Описание</TableCell>
-            <TableCell align="center">Бренд</TableCell>
-            <TableCell align="center">Производитель</TableCell>
             <TableCell align="center">Цена</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.map(
-            ({
-              id,
-              category,
-              name,
-              description,
-              brand,
-              manufacturer,
-              price,
-            }) => (
-              <TableRow key={id}>
-                <TableCell align="center">{category}</TableCell>
-                <TableCell align="center">{name}</TableCell>
-                <TableCell align="center">{description}</TableCell>
-                <TableCell align="center">{brand}</TableCell>
-                <TableCell align="center">{manufacturer}</TableCell>
-                <TableCell align="center">{price}</TableCell>
-              </TableRow>
-            )
-          )}
+          {items.map((item) => (
+            <TableRow key={item.id}>
+              <TableCell align="center">{item.category}</TableCell>
+              <TableCell align="center">{item.name}</TableCell>
+              <TableCell align="center">{item.price}</TableCell>
+              <TableCell align="center">
+                <Button variant="outlined" onClick={() => setChangeItem(item)}>
+                  Изменить
+                </Button>
+
+                <Button
+                  className="ml-2"
+                  variant="outlined"
+                  color="error"
+                  onClick={() => setDeleteItem(item)}
+                >
+                  Удалить
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>

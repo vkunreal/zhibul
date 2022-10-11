@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react'
 import {
   Button,
   Dialog,
@@ -5,17 +6,16 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
 import { ICategory } from '../../interfaces/Items'
 
-interface IChangeMenuProps {
+interface IChangeCategoryMenuProps {
   category: ICategory
   isOpen: boolean
   saveCategory: (category: ICategory) => void
   onClose: () => void
 }
 
-export const ChangeMenu: React.FC<IChangeMenuProps> = ({
+export const ChangeCategoryMenu: React.FC<IChangeCategoryMenuProps> = ({
   isOpen,
   category,
   saveCategory,
