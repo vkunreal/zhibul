@@ -1,11 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { CategoryList } from '../../components/CategoryList'
+import { ItemsView } from '../../components/ItemsView'
+import { getItemsDB } from '../../store/items/actions'
+import { selectItems } from '../../store/items/selectors'
 import './styles.scss'
 
 const viewTypes = ['По категориям', 'По товарам']
 
 export const Items: React.FC = () => {
-  const [viewType, setViewType] = useState(viewTypes[0])
+  const [viewType, setViewType] = useState(viewTypes[1])
+  const items = useSelector(selectItems)
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(getItemsDB())
+  }, [])
 
   return (
     <div className="items pd-2">
@@ -31,7 +42,11 @@ export const Items: React.FC = () => {
         </ul>
       </div>
 
-      {viewType === viewTypes[0] && <CategoryList />}
+      <div className="mt-2">
+        {viewType === viewTypes[0] && <CategoryList />}
+
+        {viewType === viewTypes[1] && <ItemsView items={items} />}
+      </div>
     </div>
   )
 }

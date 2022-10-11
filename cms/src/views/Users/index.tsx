@@ -107,7 +107,7 @@ export const Users: React.FC = () => {
         </TableContainer>
       )}
 
-      {!users.length && <p>Пользователей нет</p>}
+      {!users.length && !loading && <p>Пользователей нет</p>}
 
       {loading && (
         <div className="d-flex justify-center mt-35">

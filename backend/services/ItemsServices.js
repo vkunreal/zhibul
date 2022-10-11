@@ -4,8 +4,10 @@ const { writeLog } = require('../writeLog')
 const queryItems = `
   SELECT
     id,
+    category_id,
     (SELECT name FROM categories WHERE id = category_id) as category,
     name,
+    description,
     brand,
     manufacturer,
     price

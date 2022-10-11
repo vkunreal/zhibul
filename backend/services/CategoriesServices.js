@@ -54,10 +54,18 @@ class CategoriesServices {
 
   // delete category by id
   async deleteCategoryById(id) {
-    await request(`DELETE FROM categories WHERE id = "${id}"`)
-
-    writeLog('Category was deleted')
-    return { status: true }
+    Promise.all([
+      await request(`DELETE FROM categories WHERE id = "${id}"`),
+      await request(`DELETE FROM categories WHERE parent_id = "${id}"`),
+    ])
+      .then(() => {
+        writeLog('Category was deleted')
+        return { status: true }
+      })
+      .catch(() => {
+        writeLog('Deleting category was failed')
+        return { status: false }
+      })
   }
 }
 

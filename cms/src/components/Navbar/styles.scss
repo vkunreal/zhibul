@@ -8,6 +8,12 @@
     border-radius: 0.5rem;
     transition: 0.1s;
 
+    &.active {
+      transform: scale(1.05);
+      background: #333;
+      color: #fff;
+    }
+
     &:hover {
       transform: scale(1.05);
     }

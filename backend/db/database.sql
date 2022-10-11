@@ -49,11 +49,21 @@ CREATE TABLE items (
   `id` SERIAL PRIMARY KEY,
   `category_id` BIGINT UNSIGNED NOT NULL,
   `name` VARCHAR(50) NOT NULL,
+  `description` VARCHAR(200),
   `brand` VARCHAR(50) NOT NULL,
   `manufacturer` VARCHAR(50) NOT NULL,
   `price` VARCHAR(20) NOT NULL,
 
   FOREIGN KEY (category_id) REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- images
+DROP TABLE IF EXISTS images;
+CREATE TABLE images (
+  `item_id` BIGINT UNSIGNED NOT NULL,
+  `src` VARCHAR(200) NOT NULL,
+
+  FOREIGN KEY (item_id) REFERENCES items(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- options

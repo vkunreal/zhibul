@@ -109,7 +109,7 @@ export const Candidates: React.FC = () => {
         </TableContainer>
       )}
 
-      {!candidates.length && <p>Потенциальных покупателей нет</p>}
+      {!candidates.length && !loading && <p>Потенциальных покупателей нет</p>}
 
       {loading && (
         <div className="d-flex justify-center mt-35">

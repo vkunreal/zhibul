@@ -1,14 +1,20 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
-import { ICategory } from './../../interfaces/Items'
+import { ICategory, IItem } from './../../interfaces/Items'
 
 export enum ItemsActions {
   SET_CATEGORIES = 'ITEMS::SET_CATEGORIES',
+  SET_ITEMS = 'ITEMS::SET_ITEMS',
 }
 
 const setCategories = (categories: ICategory) => ({
   type: ItemsActions.SET_CATEGORIES,
   payload: categories,
+})
+
+const setItems = (items: IItem) => ({
+  type: ItemsActions.SET_ITEMS,
+  payload: items,
 })
 
 export const getCategoriesDB: any = () => async (dispatch: Dispatch) => {
@@ -38,3 +44,9 @@ export const deleteCategoryDB: any =
       dispatch(getCategoriesDB())
     })
   }
+
+export const getItemsDB: any = () => async (dispatch: Dispatch) => {
+  await axios.get('/api/items').then(({ data }) => {
+    dispatch(setItems(data))
+  })
+}
