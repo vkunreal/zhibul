@@ -81,7 +81,7 @@ class ItemsController {
 
   // delete item by id
   async deleteItemById(req, res) {
-    const item_id = req.body.id
+    const item_id = req.params.id
 
     const result = await ItemsServices.deleteItemFromId(item_id)
 

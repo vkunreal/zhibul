@@ -48,7 +48,7 @@ Get items by category id or get all items
 
 Get item by id
 
-### PUT `/api/change/item/`
+### PUT `/api/item/`
 
 Change item
 
@@ -77,15 +77,9 @@ Add new item
 | manufacturer | String |
 | price        | String |
 
-### DELETE `/api/item/`
+### DELETE `/api/item/:id`
 
 Delete item by id
-
-## Body
-
-| Name | Type   |
-| ---- | ------ |
-| id   | String |
 
 # Options
 

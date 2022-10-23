@@ -7,8 +7,8 @@ ItemsRouter.get('/items/', ItemsController.getItemsFromCategory)
 ItemsRouter.get('/item/:id', ItemsController.getItem)
 
 ItemsRouter.post('/item/', ItemsController.addItem)
-ItemsRouter.put('/item', ItemsController.changeItem)
+ItemsRouter.put('/item/', ItemsController.changeItem)
 
-ItemsRouter.delete('/item/', ItemsController.deleteItemById)
+ItemsRouter.delete('/item/:id', ItemsController.deleteItemById)
 
 module.exports = ItemsRouter

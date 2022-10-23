@@ -50,3 +50,16 @@ export const getItemsDB: any = () => async (dispatch: Dispatch) => {
     dispatch(setItems(data))
   })
 }
+
+export const changeItemDB: any =
+  (item: IItem) => async (dispatch: Dispatch) => {
+    await axios.put('/api/item/', item).then(() => {
+      dispatch(getItemsDB())
+    })
+  }
+
+export const deleteItemDB: any = (id: number) => async (dispatch: Dispatch) => {
+  await axios.delete(`/api/item/${id}`).then(() => {
+    dispatch(getItemsDB())
+  })
+}

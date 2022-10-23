@@ -3,13 +3,21 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   TextField,
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { IItem } from '../../interfaces/Items'
+import { IItemCategory } from '../ItemsView'
+import { SelectItemCategory } from '../SelectItemCategory'
 
 interface IChangeItemMenu {
   item: IItem
+  categories: IItemCategory[]
   isOpen: boolean
   onClose: () => void
   saveItem: (item: IItem) => void
@@ -17,10 +25,12 @@ interface IChangeItemMenu {
 
 export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
   item,
+  categories,
   isOpen,
   onClose,
   saveItem,
 }) => {
+  const [categoryId, setCategoryId] = useState(0)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [brand, setBrand] = useState('')
@@ -28,18 +38,28 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
   const [price, setPrice] = useState('')
 
   useEffect(() => {
-    setName(item.name)
-    setDescription(item.description)
-    setBrand(item.brand)
-    setManufacturer(item.manufacturer)
-    setPrice(item.price)
+    setName(item?.name || '')
+    setDescription(item?.description || '')
+    setBrand(item?.brand || '')
+    setManufacturer(item?.manufacturer || '')
+    setPrice(item?.price || '')
   }, [item])
+
+  const handleCategorySelect = (category: IItemCategory) => {
+    setCategoryId(category?.id || 0)
+  }
 
   return (
     <Dialog open={isOpen} onClose={onClose} fullWidth>
-      <DialogTitle>Изменение категории</DialogTitle>
+      <DialogTitle>Изменение товара</DialogTitle>
 
       <DialogContent className="d-flex flex-column g-3">
+        <SelectItemCategory
+          value={item?.category}
+          categories={categories}
+          onSelect={handleCategorySelect}
+        />
+
         <TextField
           placeholder="Название"
           value={name}
@@ -87,6 +107,8 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
             onClick={() => {
               const newItem = {
                 ...item,
+                item_id: item.id,
+                category_id: categoryId,
                 name,
                 description,
                 brand,
