@@ -51,6 +51,12 @@ export const getItemsDB: any = () => async (dispatch: Dispatch) => {
   })
 }
 
+export const addItemDB: any = (item: IItem) => async (dispatch: Dispatch) => {
+  await axios.post('/api/item', item).then(() => {
+    dispatch(getItemsDB())
+  })
+}
+
 export const changeItemDB: any =
   (item: IItem) => async (dispatch: Dispatch) => {
     await axios.put('/api/item/', item).then(() => {

@@ -2,7 +2,7 @@ import './styles.scss'
 
 interface IAddCategoryButtonProps {
   className?: string
-  onClick: () => void
+  onClick?: () => void
 }
 
 export const AddCategoryButton: React.FC<IAddCategoryButtonProps> = ({

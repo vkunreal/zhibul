@@ -11,7 +11,7 @@ export interface ICategoryCandidate {
 }
 
 export interface IItem {
-  id: number
+  id?: number
   category_id: number
   category: string
   name: string

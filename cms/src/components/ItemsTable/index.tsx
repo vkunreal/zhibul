@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material'
+import { useNavigate } from 'react-router'
 import { IItem } from '../../interfaces/Items'
 
 interface IItemsTableProps {
@@ -20,6 +21,12 @@ export const ItemsTable: React.FC<IItemsTableProps> = ({
   setDeleteItem,
   setChangeItem,
 }) => {
+  const navigate = useNavigate()
+
+  const configureItem = (item: IItem) => {
+    navigate('/configure', { state: { item } })
+  }
+
   return (
     <TableContainer>
       <Table>
@@ -36,11 +43,21 @@ export const ItemsTable: React.FC<IItemsTableProps> = ({
               <TableCell align="center">{item.category}</TableCell>
               <TableCell align="center">{item.name}</TableCell>
               <TableCell align="center">{item.price}</TableCell>
-              <TableCell align="center">
-                <Button variant="outlined" onClick={() => setChangeItem(item)}>
+              <TableCell className="d-flex flex-column" align="center">
+                <Button
+                  variant="outlined"
+                  color="warning"
+                  onClick={() => configureItem(item)}
+                >
+                  Настроить
+                </Button>
+                <Button
+                  className="ml-2"
+                  variant="outlined"
+                  onClick={() => setChangeItem(item)}
+                >
                   Изменить
                 </Button>
-
                 <Button
                   className="ml-2"
                   variant="outlined"

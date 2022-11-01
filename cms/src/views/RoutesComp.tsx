@@ -3,6 +3,7 @@ import { Navbar } from '../components/Navbar'
 import { Candidates } from './Candidates'
 import { Items } from './Items'
 import { Users } from './Users'
+import { Configure } from './Configure'
 import './RoutesComp.scss'
 
 export const RoutesComp: React.FC = () => {
@@ -19,6 +20,7 @@ export const RoutesComp: React.FC = () => {
             <Route path="/users" element={<Users />} />
             <Route path="/candidates" element={<Candidates />} />
             <Route path="/items" element={<Items />} />
+            <Route path="/configure" element={<Configure />} />
           </Routes>
         </div>
       </div>
