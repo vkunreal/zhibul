@@ -52,6 +52,12 @@ class ItemsController {
     res.status(200).json(item)
   }
 
+  async getItemImages(req, res) {
+    const item_id = req.params.item_id
+    const images = await ItemsServices.getItemImages(item_id)
+    res.status(200).json(images)
+  }
+
   async changeItem(req, res) {
     const item = req.body
     const test = testItem(item)

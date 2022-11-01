@@ -56,3 +56,10 @@ VALUES
 (11, 'Pepsi', 'Sugar water', 'WALCOM', 'WALCOM (Италия)', '440.00'),
 (15, 'Cs go', 'Game', 'WALCOM', 'WALCOM (Италия)', '465.00'),
 (15, 'Dota', 'Game', 'WALCOM', 'WALCOM (Италия)', '1065.00');
+
+-- images
+INSERT INTO images (item_id, src)
+VALUES
+(1, 'http://localhost:5000/images/Genesi%20HTE.png'),
+(2, 'http://localhost:5000/images/Genesi%20HVLP.png'),
+(3, 'http://localhost:5000/images/GenesiGEO.png');

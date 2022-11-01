@@ -25,6 +25,10 @@ class ItemsServices {
     return await request(`${queryItems} WHERE category_id = "${category_id}";`)
   }
 
+  async getItemImages(item_id) {
+    return await request(`SELECT src FROM images WHERE item_id = "${item_id}"`)
+  }
+
   // get item from db by id
   async getItemFromId(item_id) {
     return await request(

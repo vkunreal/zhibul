@@ -10,6 +10,7 @@ const ItemsRouter = require('./routers/ItemsRouter')
 const CategoriesRouter = require('./routers/CategoriesRouter')
 const UsersRouter = require('./routers/UsersRouter')
 const OptionsRouter = require('./routers/OptionsRouter')
+const { existsSync } = require('fs')
 
 app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(express.json())
@@ -25,7 +26,17 @@ app.get('/', (req, res) => {
 })
 
 app.get('/images/:image', (req, res) => {
-  res.sendFile(path.resolve(__dirname, 'public', 'images', req.params.image))
+  const imagePath = path.resolve(
+    __dirname,
+    'public',
+    'images',
+    req.params.image
+  )
+  if (existsSync(imagePath)) {
+    res.sendFile(imagePath)
+  } else {
+    res.status(400).json({ status: false })
+  }
 })
 
 app.listen(PORT, () => {
