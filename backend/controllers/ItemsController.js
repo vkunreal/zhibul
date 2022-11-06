@@ -1,5 +1,7 @@
 const ItemsServices = require('../services/ItemsServices')
 const { writeLog } = require('../writeLog')
+const path = require('path')
+const fs = require('fs')
 
 const testItem = (item) => {
   if (!item.category_id || !String(item.category_id).trim()) {
@@ -92,6 +94,59 @@ class ItemsController {
     const result = await ItemsServices.deleteItemFromId(item_id)
 
     res.status(200).json(result)
+  }
+
+  async loadImages(req, res) {
+    const { item_id } = req.params
+    if (!req.files) {
+      return res.status(400).json({ status: false })
+    }
+    const files = Object.values(req.files)
+    files.forEach((file) => {
+      if (!file) {
+        return res.status(500).json({ status: false })
+      }
+      const imageName = `image-${item_id}-${Date.now() + file.name}`
+      const imagePath = path.resolve(
+        __dirname,
+        '..',
+        'public',
+        'images',
+        imageName
+      )
+      file.mv(imagePath, async (err) => {
+        if (err) {
+          console.log(err)
+          return res.status(500).send(err)
+        }
+        await ItemsServices.addImageToDB(
+          item_id,
+          'http://localhost:5000/images/' + imageName
+        )
+        res.status(200).json({ status: true })
+      })
+    })
+  }
+
+  async deleteImage(req, res) {
+    const imageName = req.params.image_name
+    const imagePath = path.resolve(
+      __dirname,
+      '..',
+      'public',
+      'images',
+      imageName
+    )
+    fs.unlink(imagePath, async (err) => {
+      if (err) {
+        res.status(500).json({ status: false })
+        console.log(err)
+      }
+      await ItemsServices.deleteImageInDB(
+        'http://localhost:5000/images/' + imageName
+      )
+      res.status(200).json({ status: true })
+    })
   }
 }
 

@@ -77,6 +77,16 @@ class ItemsServices {
     writeLog('Item was delete')
     return { status: true }
   }
+
+  async addImageToDB(item_id, imageName) {
+    await request(`INSERT INTO images (item_id, src)
+      VALUES
+      ("${item_id}", "${imageName}")`)
+  }
+
+  async deleteImageInDB(imageSrc) {
+    await request(`DELETE FROM images WHERE src = "${imageSrc}"`)
+  }
 }
 
 module.exports = new ItemsServices()
