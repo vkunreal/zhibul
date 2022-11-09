@@ -1,0 +1,36 @@
+.option {
+  position: relative;
+  background: rgb(245, 245, 245);
+  border-radius: 10px;
+
+  & input {
+    width: 200px;
+    height: 35px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 0;
+    user-select: none;
+    outline: none;
+    box-sizing: border-box;
+    border: 1px solid #fff;
+    font-size: 14px;
+    transition: 0.3s;
+    &:focus {
+      font-size: 16px;
+    }
+  }
+
+  &-change {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  &.dragging {
+    transform: scale(0.98);
+  }
+  &.drop {
+    opacity: 1;
+  }
+}

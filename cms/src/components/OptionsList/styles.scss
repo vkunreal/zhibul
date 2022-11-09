@@ -1,0 +1,10 @@
+.options {
+  &-list {
+    max-width: 800px;
+    &-item {
+      height: 50px;
+      background: #eee;
+      border-radius: 10px;
+    }
+  }
+}

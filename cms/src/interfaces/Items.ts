@@ -20,3 +20,11 @@ export interface IItem {
   manufacturer: string
   price: string
 }
+
+export interface IOption {
+  id?: number
+  item_id: number
+  position: number
+  name: string
+  value: string
+}

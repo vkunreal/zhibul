@@ -17,3 +17,9 @@ export const getItemImages = async (item_id: number) => {
 //     console.log(data)
 //   })
 // }
+
+export const deleteImageDB = async (src: string) => {
+  return await axios
+    .delete('/api/item/delete/image', { data: { src } })
+    .then(({ data }) => data)
+}

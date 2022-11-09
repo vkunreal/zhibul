@@ -71,6 +71,7 @@ DROP TABLE IF EXISTS options;
 CREATE TABLE options (
   `id` SERIAL PRIMARY KEY,
   `item_id` BIGINT UNSIGNED NOT NULL,
+  `position` INT UNSIGNED NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   `value` VARCHAR(50) NOT NULL,
   

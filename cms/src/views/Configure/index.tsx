@@ -1,8 +1,9 @@
 import { Button } from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router'
+import { OptionsList } from '../../components/OptionsList'
 import { IItem } from '../../interfaces/Items'
-import { getItemImages } from '../../store/items/requests'
+import { deleteImageDB, getItemImages } from '../../store/items/requests'
 import './styles.scss'
 
 interface ILocationItem {
@@ -20,10 +21,6 @@ export const Configure: React.FC = () => {
   useEffect(() => {
     getItemImages(item?.id || 0).then((imagesDB) => setImages(imagesDB))
   }, [item])
-
-  useEffect(() => {
-    console.log('images', loadedImages)
-  }, [loadedImages])
 
   const handleOpenFile = () => fileRef?.current?.click()
 
@@ -45,30 +42,11 @@ export const Configure: React.FC = () => {
       }
       reader.readAsDataURL(file)
     })
-    // const selectedFile = files[0]
-    // const reader = new FileReader()
-
-    // reader.onload = (e) => {
-    //   const result = (e.target as any).result
-    //   setLoadedImages((oldImages) => [...oldImages, result])
-    // }
-    // reader.readAsDataURL(selectedFile)
-    // const formData = new FormData()
-    // formData.append('file', selectedFile)
-    // const res = await fetch('/upload', {
-    //   method: 'POST',
-    //   body: formData,
-    // })
-    // const { status } = await res.json()
-    // if (status) {
-
-    // }
   }
 
   const handleLoadImage = async () => {
     setChange(false)
     const formData = new FormData()
-    // formData.append('files', selectedFiles)
     for (let i = 0; i < selectedFiles.length; i++) {
       formData.append(selectedFiles[i].name, selectedFiles[i])
     }
@@ -81,12 +59,15 @@ export const Configure: React.FC = () => {
       setImages((old) => [...old, ...loadedImages])
       setLoadedImages([])
     }
-    // const imagesJSON = JSON.stringify(loadedImages)
-    // postLoadedImages(imagesJSON)
   }
 
   const deleteLoadImage = (image: string) => {
     setLoadedImages(loadedImages.filter((elem) => elem !== image))
+  }
+
+  const deleteImage = async (src: string) => {
+    await deleteImageDB(src)
+    await getItemImages(item?.id || 0).then((imagesDB) => setImages(imagesDB))
   }
 
   return (
@@ -94,7 +75,14 @@ export const Configure: React.FC = () => {
       <div className="configure-images scroll d-flex g-2">
         {images.map((image, i) => (
           <div className="configure-image" key={image + i}>
-            {change && <span className="configure-image-close">&#10006;</span>}
+            {change && (
+              <span
+                className="configure-image-close"
+                onClick={() => deleteImage(image)}
+              >
+                &#10006;
+              </span>
+            )}
             <img src={image} alt="item image" />
           </div>
         ))}
@@ -129,7 +117,7 @@ export const Configure: React.FC = () => {
               color="success"
               onClick={handleLoadImage}
             >
-              Сохранить
+              Готово
             </Button>
             <Button variant="outlined" color="warning" onClick={handleOpenFile}>
               Загрузить
@@ -158,6 +146,8 @@ export const Configure: React.FC = () => {
       <p>
         <b>Цена:</b> {item.price}
       </p>
+
+      <OptionsList item_id={item.id || 0} />
     </div>
   )
 }

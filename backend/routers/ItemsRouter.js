@@ -12,6 +12,6 @@ ItemsRouter.post('/item/', ItemsController.addItem)
 ItemsRouter.put('/item/', ItemsController.changeItem)
 
 ItemsRouter.delete('/item/:id', ItemsController.deleteItemById)
-ItemsRouter.delete('/item/image/:image_name', ItemsController.deleteImage)
+ItemsRouter.delete('/item/delete/image', ItemsController.deleteImage)
 
 module.exports = ItemsRouter

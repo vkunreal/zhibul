@@ -129,7 +129,7 @@ class ItemsController {
   }
 
   async deleteImage(req, res) {
-    const imageName = req.params.image_name
+    const imageName = req.body.src.split('/').pop()
     const imagePath = path.resolve(
       __dirname,
       '..',
