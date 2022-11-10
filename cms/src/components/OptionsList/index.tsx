@@ -2,10 +2,17 @@ import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from '@mui/material'
 import { IOption, IOptionPosition } from '../../interfaces/Items'
-import { changePositionsDB, getOptionsDB } from '../../store/options/actions'
+import {
+  addOptionDB,
+  changePositionsDB,
+  getOptionsDB,
+} from '../../store/options/actions'
 import { selectOptions } from '../../store/options/selectors'
 import { OptionElem } from '../OptionElem'
 import './styles.scss'
+import { AddOptionButton } from '../AddOptionButton'
+import { AddOptionMenu } from '../AddOptionMenu'
+import { IChangeOption } from '../../store/options/interfaces'
 
 interface IOptionsListProps {
   item_id: number
@@ -16,6 +23,7 @@ export const OptionsList: React.FC<IOptionsListProps> = ({ item_id }) => {
   const [items, setItems] = useState<IOption[]>(options)
   const [positions, setPositions] = useState<IOptionPosition[]>([])
   const [currentOption, setCurrentOption] = useState<IOption | null>(null)
+  const [optionDialog, setOptionDialog] = useState(false)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -29,6 +37,10 @@ export const OptionsList: React.FC<IOptionsListProps> = ({ item_id }) => {
   useEffect(() => {
     setItems(options)
   }, [options])
+
+  useEffect(() => {
+    setPositions(items.map((i) => ({ id: i.id || 0, position: i.position })))
+  }, [items])
 
   const onDragStart = (e: any, option: IOption) => {
     setCurrentOption(option)
@@ -70,29 +82,44 @@ export const OptionsList: React.FC<IOptionsListProps> = ({ item_id }) => {
     dispatch(changePositionsDB(positions, item_id))
   }
 
+  const addOption = (option: IChangeOption) => {
+    let nPosition = 1
+    if (positions.length) {
+      nPosition = Math.max(...positions.map((p) => p.position)) + 1
+    }
+    const newOption = { ...option, item_id, position: nPosition }
+    if (
+      option.name &&
+      option.name.trim() &&
+      option.value &&
+      option.value.trim()
+    )
+      dispatch(addOptionDB(newOption, item_id))
+  }
+
   return (
     <div>
-      {options.length}
-      {items.length}
-      {!!items.length && (
-        <div>
-          <h2 className="mb-2">Опции:</h2>
+      <div>
+        <h2 className="mb-2">Опции:</h2>
 
-          <div className="options-list d-flex flex-column g-2 mb-4">
-            {items.sort(sortOptions).map((option, i) => (
-              <OptionElem
-                option={option}
-                item_id={item_id}
-                id={'c' + i}
-                key={option.id}
-                onDragStart={onDragStart}
-                onDragLeave={onDragLeave}
-                onDragOver={onDragOver}
-                onDrop={onDrop}
-              />
-            ))}
-          </div>
+        <div className="options-list d-flex flex-column g-2 mb-4">
+          {items.sort(sortOptions).map((option, i) => (
+            <OptionElem
+              option={option}
+              item_id={item_id}
+              id={'c' + i}
+              key={option.id}
+              onDragStart={onDragStart}
+              onDragLeave={onDragLeave}
+              onDragOver={onDragOver}
+              onDrop={onDrop}
+            />
+          ))}
 
+          <AddOptionButton onClick={() => setOptionDialog(true)} />
+        </div>
+
+        {!!items.length && (
           <div className="d-flex g-2 mt-2 mb-2 fill-width">
             <Button
               variant="outlined"
@@ -110,8 +137,15 @@ export const OptionsList: React.FC<IOptionsListProps> = ({ item_id }) => {
               Отменить
             </Button>
           </div>
-        </div>
-      )}
+        )}
+
+        <AddOptionMenu
+          isOpen={optionDialog}
+          item_id={item_id}
+          addOption={addOption}
+          onClose={() => setOptionDialog(false)}
+        />
+      </div>
     </div>
   )
 }

@@ -36,11 +36,13 @@ class OptionsController {
     const option = req.body
 
     if (!option.item_id || !String(option.item_id).trim()) {
-      return res.status(400).json({ message: 'Item id is not found' })
+      return res.status(400).json({ status: false })
     } else if (!option.name || !option.name.trim()) {
-      return res.status(400).json({ message: 'Option name is not found' })
+      return res.status(400).json({ status: false })
     } else if (!option.value || !option.value.trim()) {
-      return res.status(400).json({ message: 'Option value is not found' })
+      return res.status(400).json({ status: false })
+    } else if (!option.position) {
+      return res.status(400).json({ status: false })
     }
 
     const result = await OptionsServices.addOptionByItemId(option)

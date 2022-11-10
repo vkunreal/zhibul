@@ -2,7 +2,7 @@ import { IOption } from '../../interfaces/Items'
 import { OptionsActions } from './actions'
 
 export interface IChangeOption {
-  option_id: number
+  option_id?: number
   name: string
   value: string
 }

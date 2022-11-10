@@ -48,12 +48,12 @@ class OptionsServices {
   }
 
   // add option by item id
-  async addOptionByItemId({ item_id, name, value }) {
+  async addOptionByItemId({ item_id, name, value, position }) {
     let response
 
     await request(`
-      INSERT INTO options (item_id, name, value)
-      VALUES ("${item_id}", "${name}", "${value}")
+      INSERT INTO options (item_id, name, value, position)
+      VALUES ("${item_id}", "${name}", "${value}", "${position}")
     `).catch(() => {
       writeLog('Adding option was failed')
       response = { status: false }

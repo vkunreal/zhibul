@@ -105,11 +105,12 @@ Add new option
 
 ## Body
 
-| Name    | Type   |
-| ------- | ------ |
-| item_id | String |
-| name    | String |
-| value   | String |
+| Name     | Type   |
+| -------- | ------ |
+| item_id  | number |
+| name     | String |
+| value    | String |
+| position | number |
 
 ### DELETE `/api/option`
 

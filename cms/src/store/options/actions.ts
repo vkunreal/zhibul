@@ -19,6 +19,14 @@ export const getOptionsDB: any =
     })
   }
 
+export const addOptionDB: any =
+  (option: IOption, item_id: number) => async (dispatch: Dispatch) => {
+    await axios.post('/api/option', option).then(({ data }) => {
+      console.log(data)
+      dispatch(getOptionsDB(item_id))
+    })
+  }
+
 export const changeOptionDB: any =
   (option: IChangeOption, item_id: number) => async (dispatch: Dispatch) => {
     await axios.put('/api/option', option).then(({ data }) => {
