@@ -102,7 +102,9 @@ class ItemsController {
       return res.status(400).json({ status: false })
     }
     const files = Object.values(req.files)
-    files.forEach((file) => {
+    const urls = []
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
       if (!file) {
         return res.status(500).json({ status: false })
       }
@@ -114,18 +116,17 @@ class ItemsController {
         'images',
         imageName
       )
-      file.mv(imagePath, async (err) => {
+      const imageUrl = 'http://localhost:5000/images/' + imageName
+      urls.push(imageUrl)
+      await file.mv(imagePath, async (err) => {
         if (err) {
           console.log(err)
           return res.status(500).send(err)
         }
-        await ItemsServices.addImageToDB(
-          item_id,
-          'http://localhost:5000/images/' + imageName
-        )
-        res.status(200).json({ status: true })
+        await ItemsServices.addImageToDB(item_id, imageUrl)
       })
-    })
+    }
+    res.status(200).json({ status: true, response: urls })
   }
 
   async deleteImage(req, res) {

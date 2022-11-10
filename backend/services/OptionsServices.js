@@ -33,6 +33,20 @@ class OptionsServices {
     return response
   }
 
+  async changeOptionsPosition(positions) {
+    let response
+    for (let i = 0; i < positions.length; i++) {
+      await request(
+        `UPDATE options SET position = "${positions[i].position}" WHERE id = "${positions[i].id}"`
+      )
+        .then(() => {
+          response = { status: true }
+        })
+        .catch(console.log)
+    }
+    return response
+  }
+
   // add option by item id
   async addOptionByItemId({ item_id, name, value }) {
     let response

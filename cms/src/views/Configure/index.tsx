@@ -14,13 +14,18 @@ export const Configure: React.FC = () => {
   const item = (useLocation().state as ILocationItem).item
   const fileRef = useRef<HTMLInputElement | null>(null)
   const [images, setImages] = useState<string[]>([])
-  const [loadedImages, setLoadedImages] = useState<string[]>([])
+  const [loadedImages, setLoadedImages] = useState<any[]>([])
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [change, setChange] = useState(false)
 
   useEffect(() => {
     getItemImages(item?.id || 0).then((imagesDB) => setImages(imagesDB))
   }, [item])
+
+  useEffect(() => {
+    setSelectedFiles([])
+    setLoadedImages([])
+  }, [change])
 
   const handleOpenFile = () => fileRef?.current?.click()
 
@@ -35,10 +40,14 @@ export const Configure: React.FC = () => {
       if (!file.type.match('image')) {
         return
       }
+      const fileName = file.name
       const reader = new FileReader()
       reader.onload = (e) => {
         const result = (e.target as any).result
-        setLoadedImages((oldImages) => [...oldImages, result])
+        setLoadedImages((oldImages) => [
+          ...oldImages,
+          { name: fileName, result },
+        ])
       }
       reader.readAsDataURL(file)
     })
@@ -46,6 +55,7 @@ export const Configure: React.FC = () => {
 
   const handleLoadImage = async () => {
     setChange(false)
+    if (!selectedFiles.length) return
     const formData = new FormData()
     for (let i = 0; i < selectedFiles.length; i++) {
       formData.append(selectedFiles[i].name, selectedFiles[i])
@@ -54,15 +64,17 @@ export const Configure: React.FC = () => {
       method: 'POST',
       body: formData,
     })
-    const { status } = await res.json()
+    const { status, response } = await res.json()
     if (status) {
-      setImages((old) => [...old, ...loadedImages])
-      setLoadedImages([])
+      setImages((old) => [...old, ...response])
     }
+    setLoadedImages([])
+    setSelectedFiles([])
   }
 
-  const deleteLoadImage = (image: string) => {
-    setLoadedImages(loadedImages.filter((elem) => elem !== image))
+  const deleteLoadImage = (name: string) => {
+    setLoadedImages(loadedImages.filter((elem) => elem.name !== name))
+    setSelectedFiles(selectedFiles.filter((elem) => elem.name !== name))
   }
 
   const deleteImage = async (src: string) => {
@@ -87,16 +99,16 @@ export const Configure: React.FC = () => {
           </div>
         ))}
         {loadedImages.map((image, i) => (
-          <div className="configure-image loaded" key={image + i}>
+          <div className="configure-image loaded" key={image.name + i}>
             {change && (
               <span
                 className="configure-image-close"
-                onClick={() => deleteLoadImage(image)}
+                onClick={() => deleteLoadImage(image.name)}
               >
                 &#10006;
               </span>
             )}
-            <img src={image} alt="item image" />
+            <img src={image.result} alt="item image" />
           </div>
         ))}
       </div>

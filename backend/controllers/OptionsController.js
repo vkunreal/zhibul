@@ -25,6 +25,12 @@ class OptionsController {
     return res.status(200).json(result)
   }
 
+  async changeOptionsPosition(req, res) {
+    const body = req.body
+    const response = await OptionsServices.changeOptionsPosition(body)
+    res.status(200).json(response)
+  }
+
   // add option (body = {item_id(required), name (required), value (required)})
   async addOption(req, res) {
     const option = req.body

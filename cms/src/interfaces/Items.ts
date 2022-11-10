@@ -28,3 +28,8 @@ export interface IOption {
   name: string
   value: string
 }
+
+export interface IOptionPosition {
+  id: number
+  position: number
+}

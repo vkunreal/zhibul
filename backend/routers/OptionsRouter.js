@@ -6,6 +6,7 @@ const OptionsRouter = new Router()
 OptionsRouter.get('/options/:item_id', OptionsController.getOptions)
 
 OptionsRouter.put('/option', OptionsController.changeOption)
+OptionsRouter.put('/option/positions', OptionsController.changeOptionsPosition)
 
 OptionsRouter.post('/option', OptionsController.addOption)
 
