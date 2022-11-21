@@ -6,6 +6,8 @@
     "backend:serve": "cd backend && npm run dev",
     "backend:start": "cd backend && npm start",
     "cms:start": "cd cms && npm start",
-    "cms:build": "cd cms && npm run build"
+    "cms:build": "cd cms && npm run build",
+    "frontend:serve": "cd frontend && yarn dev",
+    "frontend:build": "cd frontend && yarn build"
   }
 }
