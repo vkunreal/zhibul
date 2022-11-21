@@ -1,0 +1,17 @@
+@import "variables";
+
+$systemColors: (
+  "white": $white,
+);
+
+@each $name, $color in $systemColors {
+  .text--#{$name} {
+    color: $color !important;
+  }
+  .bg--#{$name} {
+    background-color: $color !important;
+  }
+  .border--#{$name} {
+    box-shadow: 0 0 1px 1px $color !important;
+  }
+}

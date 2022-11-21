@@ -1,0 +1,61 @@
+@import './variables.scss';
+
+@mixin toSmartphone {
+  @media screen and (max-width: #{$point-display-xs - 1px}) {
+    @content;
+  }
+}
+
+@mixin smartphone {
+  @media screen and (min-width: #{$point-display-xs}) {
+    @content;
+  }
+}
+
+@mixin toTablet {
+  @media screen and (max-width: #{$point-display-sm - 1px}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and (min-width: #{$point-display-sm}) {
+    @content;
+  }
+}
+
+@mixin tabletToLaptop {
+  @media screen and (min-width: #{$point-display-sm}) and (max-width: #{$point-display-md - 1px}) {
+    @content;
+  }
+}
+
+@mixin toLaptop {
+  @media screen and (max-width: #{$point-display-md - 1px}) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media screen and (min-width: #{$point-display-md}) {
+    @content;
+  }
+}
+
+@mixin laptopToDesktop {
+  @media screen and (min-width: #{$point-display-md}) and (max-width: #{$point-display-lg - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (min-width: #{$point-display-lg}) {
+    @content;
+  }
+}
+
+@mixin desktop-xl {
+  @media screen and (min-width: #{$point-display-xl}) {
+    @content;
+  }
+}
