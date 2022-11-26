@@ -70,79 +70,79 @@
       </div>
     </div>
 
-    <div class="home__contacts fill-width d-flex justify-center mt-8 mb-8">
-      <div
-        class="
-          home__contacts-wrapper
-          fill-width
-          d-flex
-          justify-space-between
-          g-8
-        "
-      >
-        <div class="fill-width">
-          <h2 class="text-center mb-16">Контакты</h2>
+    <div
+      class="
+        home__contacts
+        fill-width
+        d-flex
+        flex-column
+        align-center
+        mt-8
+        mb-8
+      "
+    >
+      <div class="">
+        <h2 class="text-center mb-16">Контакты</h2>
 
-          <v-row>
-            <v-col
-              class="
-                home__contacts-block
-                border-right border-bottom
-                d-flex
-                flex-column
-                justify-center
-                align-center
-              "
-            >
-              <h4>Адрес</h4>
-              <p>г. Минск, Селицкого 21К</p>
-            </v-col>
-            <v-col
-              class="
-                home__contacts-block
-                border-bottom
-                d-flex
-                flex-column
-                justify-center
-                align-center
-              "
-            >
-              <h4>Продажи</h4>
-              <p>г. Минск, Селицкого 21К</p>
-            </v-col>
-          </v-row>
+        <v-row>
+          <v-col
+            class="
+              home__contacts-block
+              border-right border-bottom
+              d-flex
+              flex-column
+              justify-center
+              align-center
+            "
+          >
+            <h4>Адрес</h4>
+            <p>г. Минск, Селицкого 21К</p>
+          </v-col>
+          <v-col
+            class="
+              home__contacts-block
+              border-bottom
+              d-flex
+              flex-column
+              justify-center
+              align-center
+            "
+          >
+            <h4>Продажи</h4>
+            <p>г. Минск, Селицкого 21К</p>
+          </v-col>
+        </v-row>
 
-          <v-row>
-            <v-col
-              class="
-                home__contacts-block
-                border-right
-                d-flex
-                flex-column
-                justify-center
-                align-center
-              "
-            >
-              <h4>Услуги</h4>
-              <p>г. Минск, Селицкого 21К</p>
-            </v-col>
-            <v-col
-              class="
-                home__contacts-block
-                d-flex
-                flex-column
-                justify-center
-                align-center
-              "
-            >
-              <h4>E-mail</h4>
-              <p>г. Минск, Селицкого 21К</p>
-            </v-col>
-          </v-row>
-        </div>
-
-        <v-feed-back class="fill-width" />
+        <v-row>
+          <v-col
+            class="
+              home__contacts-block
+              border-right
+              d-flex
+              flex-column
+              justify-center
+              align-center
+            "
+          >
+            <h4>Услуги</h4>
+            <p>г. Минск, Селицкого 21К</p>
+          </v-col>
+          <v-col
+            class="
+              home__contacts-block
+              d-flex
+              flex-column
+              justify-center
+              align-center
+            "
+          >
+            <h4>E-mail</h4>
+            <p>г. Минск, Селицкого 21К</p>
+          </v-col>
+        </v-row>
       </div>
+
+      <v-feed-back class="fill-width mt-10" />
     </div>
   </section>
 </template>
@@ -153,6 +153,9 @@ import VFeedBack from "../components/VFeedBack.vue";
 export default {
   name: "IndexPage",
   components: { VFeedBack },
+  head: () => ({
+    title: "Главная",
+  }),
 };
 </script>
 
@@ -188,7 +191,8 @@ export default {
       max-width: 1024px;
     }
     &-block {
-      min-height: 220px;
+      min-width: 300px;
+      min-height: 300px;
       &.border-right {
         border-right: 1px solid $light-grey;
       }

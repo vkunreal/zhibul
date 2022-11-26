@@ -2,6 +2,7 @@
 
 $systemColors: (
   "white": $white,
+  "primary": $colorPrimary,
 );
 
 @each $name, $color in $systemColors {
