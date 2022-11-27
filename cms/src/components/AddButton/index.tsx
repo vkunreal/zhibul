@@ -1,20 +1,25 @@
 import './styles.scss'
 
-interface IAdditemButtonProps {
+interface IAddButtonProps {
+  children: React.ReactNode
   className?: string
   onClick?: () => void
 }
 
-export const AddItemButton: React.FC<IAdditemButtonProps> = ({
+const AddButton: React.FC<IAddButtonProps> = ({
+  children,
   className,
   onClick,
 }) => {
+  console.log(className)
   return (
     <button
       className={'add-item-button fill-width ' + className}
       onClick={onClick}
     >
-      &#10010; Добавить товар
+      &#10010; {children}
     </button>
   )
 }
+
+export default AddButton

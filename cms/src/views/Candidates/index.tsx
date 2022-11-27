@@ -67,6 +67,12 @@ export const Candidates: React.FC = () => {
     <div className="pd-4">
       <h1>Потенциальные покупатели</h1>
 
+      <p className="mt-2 mb-4">
+        Потенциальные покупатели - раздел, в котором хранятся посетители,
+        вводившие данные в обратной связи, но по какой-то причине покинувшие
+        сайт
+      </p>
+
       {!!candidates.length && (
         <TableContainer>
           <Table>

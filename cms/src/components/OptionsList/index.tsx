@@ -10,7 +10,7 @@ import {
 import { selectOptions } from '../../store/options/selectors'
 import { OptionElem } from '../OptionElem'
 import './styles.scss'
-import { AddOptionButton } from '../AddOptionButton'
+import AddOptionButton from '../AddButton'
 import { AddOptionMenu } from '../AddOptionMenu'
 import { IChangeOption } from '../../store/options/interfaces'
 
@@ -116,7 +116,9 @@ export const OptionsList: React.FC<IOptionsListProps> = ({ item_id }) => {
             />
           ))}
 
-          <AddOptionButton onClick={() => setOptionDialog(true)} />
+          <AddOptionButton onClick={() => setOptionDialog(true)}>
+            Добавить опцию
+          </AddOptionButton>
         </div>
 
         {!!items.length && (

@@ -19,9 +19,9 @@ export const getVariablesDB: any = () => async (dispatch: Dispatch) => {
 }
 
 export const addVariableDB: any =
-  (variable: IVariable, item_id: number) => async (dispatch: Dispatch) => {
+  (variable: IVariable) => async (dispatch: Dispatch) => {
     await axios.post('/api/variable', variable).then(() => {
-      dispatch(getVariablesDB(item_id))
+      dispatch(getVariablesDB())
     })
   }
 

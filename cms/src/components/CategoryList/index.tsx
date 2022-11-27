@@ -12,7 +12,7 @@ import { Confirm } from '../../components/Confirm'
 import { ChangeCategoryMenu } from '../ChangeCategoryMenu'
 import { Button } from '@mui/material'
 import { ICategory, ICategoryCandidate } from '../../interfaces/Items'
-import { AddCategoryButton } from '../../components/AddCategoryButton'
+import AddCategoryButton from '../../components/AddButton'
 import { AddMenu } from '../../components/AddMenu'
 
 export const CategoryList: React.FC = () => {
@@ -100,11 +100,14 @@ export const CategoryList: React.FC = () => {
 
         {/* add new category button */}
         <AddCategoryButton
+          className="items__category-button"
           onClick={() => {
             setAddDialog(true)
             setParentId(null)
           }}
-        />
+        >
+          Добавить категорию
+        </AddCategoryButton>
       </ul>
 
       {/* delete category confirm */}

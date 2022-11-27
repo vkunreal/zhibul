@@ -13,14 +13,17 @@ import { useSelector } from 'react-redux'
 import { ChangeVariableMenu } from '../../components/ChangeVariableMenu'
 import { IVariable } from '../../interfaces/App'
 import {
+  addVariableDB,
   changeVariableDB,
   deleteVariableDB,
   getVariablesDB,
 } from '../../store/variables/actions'
 import { selectVariables } from '../../store/variables/selectors'
+import AddVariableButton from '../../components/AddButton'
 
 export const Variables: React.FC = () => {
   const [changeMenu, setChangeMenu] = useState(false)
+  const [addMenu, setAddMenu] = useState(false)
   const [changedVariable, setChangedVariable] = useState<IVariable | null>(null)
 
   const variables = useSelector(selectVariables)
@@ -39,9 +42,14 @@ export const Variables: React.FC = () => {
     setChangeMenu(true)
   }
 
-  const saveVariable = (variable: IVariable) => {
+  const changeVariable = (variable: IVariable) => {
     dispatch(changeVariableDB(variable))
     setChangeMenu(false)
+  }
+
+  const addVariable = (variable: IVariable) => {
+    dispatch(addVariableDB(variable))
+    setAddMenu(false)
   }
 
   return (
@@ -90,11 +98,23 @@ export const Variables: React.FC = () => {
         </Table>
       </TableContainer>
 
+      <AddVariableButton className="mt-2" onClick={() => setAddMenu(true)}>
+        Добавить переменную
+      </AddVariableButton>
+
       <ChangeVariableMenu
+        title="Добавление переменной"
+        isOpen={addMenu}
+        onClose={() => setAddMenu(false)}
+        saveVariable={addVariable}
+      />
+
+      <ChangeVariableMenu
+        title="Изменение переменной"
         variable={changedVariable}
         isOpen={changeMenu}
         onClose={() => setChangeMenu(false)}
-        saveVariable={saveVariable}
+        saveVariable={changeVariable}
       />
     </div>
   )

@@ -8,7 +8,7 @@ import {
   deleteItemDB,
   getCategoriesDB,
 } from '../../store/items/actions'
-import { AddItemButton } from '../AddItemButton'
+import AddItemButton from '../AddButton'
 import { AddItemMenu } from '../AddItemMenu'
 import { ChangeItemMenu } from '../ChangeItemMenu'
 import { Confirm } from '../Confirm'
@@ -51,7 +51,9 @@ export const ItemsView: React.FC<IItemsViewProps> = ({ items }) => {
   }, [])
 
   useEffect(() => {
-    const filteredCategories = allCategoriesDB.filter(category => !category.is_contains)
+    const filteredCategories = allCategoriesDB.filter(
+      (category) => !category.is_contains
+    )
     setAllCategories(filteredCategories)
   }, [allCategoriesDB])
 
@@ -125,7 +127,9 @@ export const ItemsView: React.FC<IItemsViewProps> = ({ items }) => {
         setChangeItem={setChangeItem}
       />
 
-      <AddItemButton className="mt-2" onClick={() => setAddDialog(true)} />
+      <AddItemButton className="mt-2" onClick={() => setAddDialog(true)}>
+        Добавить товар
+      </AddItemButton>
 
       <Confirm
         isOpen={deleteDialog}

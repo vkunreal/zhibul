@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '@mui/material'
 import { ICategory } from '../../interfaces/Items'
 import { Spacer } from '../Spacer'
-import { AddCategoryButton } from '../AddCategoryButton'
+import AddCategoryButton from '../AddButton'
 
 interface ICategoryDetailsProps {
   categories: ICategory[]
@@ -78,9 +78,11 @@ export const CategoryDetails: React.FC<ICategoryDetailsProps> = ({
 
         {subVisible && (
           <AddCategoryButton
-            className="mb-1"
+            className="items__category-button mb-1"
             onClick={() => setParentId(category.id)}
-          />
+          >
+            Добавить категорию
+          </AddCategoryButton>
         )}
       </ul>
     </div>

@@ -41,6 +41,10 @@
     flex-direction: column;
     gap: 0.5rem;
 
+    &-button {
+      max-width: 600px;
+    }
+
     &__name {
       max-width: 600px;
       height: 40px;

@@ -5,6 +5,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
@@ -13,7 +14,8 @@ import {
 import { IVariable } from '../../interfaces/App'
 
 interface IChangeVariableMenuProps {
-  variable: IVariable | null
+  title: string
+  variable?: IVariable | null
   isOpen: boolean
   saveVariable: (variable: IVariable) => void
   onClose: () => void
@@ -31,6 +33,7 @@ const VariableTypes = [
 
 export const ChangeVariableMenu: React.FC<IChangeVariableMenuProps> = ({
   isOpen,
+  title,
   variable,
   saveVariable,
   onClose,
@@ -41,7 +44,7 @@ export const ChangeVariableMenu: React.FC<IChangeVariableMenuProps> = ({
   useEffect(() => {
     setName(variable?.name || '')
     setValue(variable?.value || '')
-  }, [variable])
+  }, [isOpen])
 
   const handleNameChange = (e: SelectChangeEvent) => {
     setName(e.target.value as string)
@@ -49,12 +52,14 @@ export const ChangeVariableMenu: React.FC<IChangeVariableMenuProps> = ({
 
   return (
     <Dialog open={isOpen} onClose={onClose} fullWidth>
-      <DialogTitle>Изменение переменной</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
 
       <DialogContent className="d-flex flex-column g-3">
-        <FormControl fullWidth>
+        <FormControl variant="standard" fullWidth>
+          <InputLabel id="change-variable-label">Переменная</InputLabel>
+
           <Select
-            labelId="items-view__label"
+            labelId="change-variable-label"
             value={name}
             onChange={handleNameChange}
           >
