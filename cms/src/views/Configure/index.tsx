@@ -137,7 +137,7 @@ export const Configure: React.FC = () => {
           </div>
         ) : (
           <Button variant="outlined" onClick={() => setChange(true)}>
-            Изменить
+            Добавить / удалить картинку
           </Button>
         )}
       </div>
