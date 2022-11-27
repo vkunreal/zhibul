@@ -1,8 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Navbar } from '../components/Navbar'
+import { Variables } from './Variables'
+import { Users } from './Users'
 import { Candidates } from './Candidates'
 import { Items } from './Items'
-import { Users } from './Users'
 import { Configure } from './Configure'
 import './RoutesComp.scss'
 
@@ -17,6 +18,7 @@ export const RoutesComp: React.FC = () => {
         <div className="routes__content">
           <Routes>
             <Route path="/" />
+            <Route path="/variables" element={<Variables />} />
             <Route path="/users" element={<Users />} />
             <Route path="/candidates" element={<Candidates />} />
             <Route path="/items" element={<Items />} />

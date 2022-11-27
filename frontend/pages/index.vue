@@ -1,7 +1,7 @@
 <template>
   <section class="home d-flex flex-column align-center">
     <div class="home-wrapper fill-width pd-4">
-      <h1 class="text-uppercase">О компании</h1>
+      <h1 class="text-uppercase">О нас</h1>
 
       <div class="home__devider mt-4 mb-8" />
 

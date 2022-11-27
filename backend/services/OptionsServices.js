@@ -21,7 +21,7 @@ class OptionsServices {
     await request(
       `UPDATE options SET value = "${value}" WHERE id = "${option_id}"`
     ).catch(() => {
-      ;+writeLog('Changing value was failed')
+      writeLog('Changing value was failed')
       response = { status: false }
     })
 

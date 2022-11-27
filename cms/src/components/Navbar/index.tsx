@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 import './styles.scss'
 
 const routes = [
+  { name: 'Переменные', url: '/variables' },
   { name: 'Пользователи', url: '/users' },
   { name: 'Кандидаты', url: '/candidates' },
   { name: 'Товары', url: '/items' },

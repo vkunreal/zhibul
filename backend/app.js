@@ -11,6 +11,7 @@ const ItemsRouter = require('./routers/ItemsRouter')
 const CategoriesRouter = require('./routers/CategoriesRouter')
 const UsersRouter = require('./routers/UsersRouter')
 const OptionsRouter = require('./routers/OptionsRouter')
+const VariablesRouter = require('./routers/VariablesRouter')
 const { existsSync } = require('fs')
 
 app.use(express.static(path.resolve(__dirname, 'public')))
@@ -23,6 +24,7 @@ app.use('/api', ItemsRouter)
 app.use('/api', CategoriesRouter)
 app.use('/api', UsersRouter)
 app.use('/api', OptionsRouter)
+app.use('/api', VariablesRouter)
 
 app.get('/images/:image', (req, res) => {
   const imagePath = path.resolve(
