@@ -10,7 +10,7 @@
           align-center
         "
       >
-        <div class="pointer">
+        <div class="pointer" @click="logoClick">
           <img width="140" src="@/static/logo.png" alt="logo" />
         </div>
 
@@ -28,7 +28,9 @@
       </header>
     </div>
 
-    <nav class="d-flex justify-space-between"></nav>
+    <nav class="v-app__nav d-flex justify-center pd-2 mt-1">
+      <v-categories class="v-app__nav__categories fill-width" />
+    </nav>
 
     <main class="fill-height">
       <nuxt />
@@ -71,9 +73,17 @@
 </template>
 
 <script>
+import VCategories from "~/components/VCategories.vue";
+
 export default {
   name: "DefaultLayout",
+  components: { VCategories },
   data: () => ({}),
+  methods: {
+    logoClick() {
+      this.$router.push("/");
+    },
+  },
 };
 </script>
 
@@ -98,6 +108,12 @@ export default {
       & p {
         margin-bottom: 0;
       }
+    }
+  }
+
+  &__nav {
+    &__categories {
+      max-width: 1024px;
     }
   }
 
