@@ -2,7 +2,7 @@ const { request } = require('../db/database')
 const { writeLog } = require('../writeLog')
 
 class VariablesServices {
-  async getVaribales() {
+  async getVariables() {
     return await request('SELECT * FROM app_variables')
   }
 

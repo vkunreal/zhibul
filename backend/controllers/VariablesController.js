@@ -2,7 +2,7 @@ const VariablesServices = require('../services/VariablesServices')
 
 class VariablesController {
   async getVariables(req, res) {
-    const variables = await VariablesServices.getVaribales()
+    const variables = await VariablesServices.getVariables()
 
     res.status(200).json(variables)
   }

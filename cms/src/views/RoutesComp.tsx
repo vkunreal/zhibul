@@ -5,6 +5,7 @@ import { Users } from './Users'
 import { Candidates } from './Candidates'
 import { Items } from './Items'
 import { Configure } from './Configure'
+import { Pages } from './Pages'
 import './RoutesComp.scss'
 
 export const RoutesComp: React.FC = () => {
@@ -23,6 +24,7 @@ export const RoutesComp: React.FC = () => {
             <Route path="/candidates" element={<Candidates />} />
             <Route path="/items" element={<Items />} />
             <Route path="/configure" element={<Configure />} />
+            <Route path="/pages" element={<Pages />} />
           </Routes>
         </div>
       </div>

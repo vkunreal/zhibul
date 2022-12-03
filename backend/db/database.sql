@@ -78,6 +78,26 @@ CREATE TABLE options (
   FOREIGN KEY (item_id) REFERENCES items(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+-- pages
+DROP TABLE IF EXISTS pages;
+CREATE TABLE pages (
+  `url` VARCHAR(70) NOT NULL PRIMARY KEY,
+  `name` VARCHAR(70) NOT NULL,
+  `text` VARCHAR(500),
+  `seo_title` VARCHAR(70),
+  `seo_description` VARCHAR(150),
+  `seo_keywords` VARCHAR(150)
+);
+
+-- page images
+DROP TABLE IF EXISTS page_images;
+CREATE TABLE page_images (
+  `page_url` VARCHAR(70) NOT NULL,
+  `src` VARCHAR(200) NOT NULL,
+
+  FOREIGN KEY (page_url) REFERENCES pages(url) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 /* load data */
 
 -- categories

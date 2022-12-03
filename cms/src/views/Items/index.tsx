@@ -19,7 +19,7 @@ export const Items: React.FC = () => {
   }, [])
 
   return (
-    <div className="items pd-2">
+    <div className="items pd-4">
       <h1>Товары</h1>
 
       <div className="items__sort d-flex align-center g-2 mt-1">

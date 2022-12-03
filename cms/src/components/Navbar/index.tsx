@@ -6,6 +6,7 @@ const routes = [
   { name: 'Пользователи', url: '/users' },
   { name: 'Кандидаты', url: '/candidates' },
   { name: 'Товары', url: '/items' },
+  { name: 'Страницы', url: '/pages' },
 ]
 
 export const Navbar: React.FC = () => {
