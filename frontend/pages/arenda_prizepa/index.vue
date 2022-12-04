@@ -1,9 +1,9 @@
 <template>
   <section>
-    <h1 class="mb-4">Контакты</h1>
+    <h1 class="mb-4">Аренда прицепа</h1>
   </section>
 </template>
-
-<script>
+    
+    <script>
 export default {};
 </script>

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <div class="v-app__header-wrapper d-flex justify-center pd-1">
+    <div class="v-app__header-wrapper fill-width d-flex justify-center pd-1">
       <header
         class="
           v-app__header

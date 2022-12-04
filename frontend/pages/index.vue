@@ -142,7 +142,9 @@
         </v-row>
       </div>
 
-      <v-feed-back class="fill-width mt-10" />
+      <div class="home__feedback fill-width d-flex justify-center mt-10">
+        <v-feed-back />
+      </div>
     </div>
   </section>
 </template>
@@ -200,6 +202,9 @@ export default {
         border-bottom: 1px solid $light-grey;
       }
     }
+  }
+  &__feedback {
+    background: $colorPrimary;
   }
 }
 </style>

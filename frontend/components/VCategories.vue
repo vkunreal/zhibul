@@ -42,7 +42,7 @@ const tabs = [
     title: "Покупателю",
     url: "/pokupatelu",
     tabs: [
-      { title: "Доставка", url: "delivery" },
+      { title: "Доставка", url: "/delivery" },
       { title: "Гарантия", url: "/garanty" },
       { title: "Оплата", url: "/payment" },
       { title: "Акции", url: "/actions" },
