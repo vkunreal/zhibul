@@ -79,7 +79,7 @@ class PagesController {
   async deletePage(req, res) {
     const url = req.body.url
 
-    if (!url.trim()) {
+    if (!url || !url.trim()) {
       writeLog('deletePage: url is not defined')
       return res.status(400).json({ status: false })
     }

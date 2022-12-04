@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { ChangeVariableMenu } from '../../components/ChangeVariableMenu'
-import { IVariable } from '../../interfaces/App'
+import { IVariable, variablesList } from '../../interfaces/App'
 import {
   addVariableDB,
   changeVariableDB,
@@ -72,7 +72,10 @@ export const Variables: React.FC = () => {
           <TableBody>
             {variables.map((variable) => (
               <TableRow key={variable.id}>
-                <TableCell align="center">{variable.name}</TableCell>
+                <TableCell align="center">
+                  {variablesList.find(({ type }) => type === variable.name)
+                    ?.name || ''}
+                </TableCell>
                 <TableCell align="center">{variable.value}</TableCell>
                 <TableCell align="center">
                   <Button

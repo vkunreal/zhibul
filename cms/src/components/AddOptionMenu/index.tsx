@@ -7,18 +7,15 @@ import {
   TextField,
 } from '@mui/material'
 import { IChangeOption } from '../../store/options/interfaces'
-import { useDispatch } from 'react-redux'
 
 interface IAddOptionMenuProps {
   isOpen: boolean
-  item_id: number
   onClose: () => void
   addOption: (option: IChangeOption) => void
 }
 
 export const AddOptionMenu: React.FC<IAddOptionMenuProps> = ({
   isOpen,
-  item_id,
   addOption,
   onClose,
 }) => {

@@ -11,7 +11,7 @@ import {
   SelectChangeEvent,
   TextField,
 } from '@mui/material'
-import { IVariable } from '../../interfaces/App'
+import { IVariable, variablesList } from '../../interfaces/App'
 
 interface IChangeVariableMenuProps {
   title: string
@@ -20,16 +20,6 @@ interface IChangeVariableMenuProps {
   saveVariable: (variable: IVariable) => void
   onClose: () => void
 }
-
-const VariableTypes = [
-  'phone',
-  'address',
-  'work_time',
-  'years',
-  'clients',
-  'partners',
-  'repair_done',
-]
 
 export const ChangeVariableMenu: React.FC<IChangeVariableMenuProps> = ({
   isOpen,
@@ -63,9 +53,9 @@ export const ChangeVariableMenu: React.FC<IChangeVariableMenuProps> = ({
             value={name}
             onChange={handleNameChange}
           >
-            {VariableTypes.map((type, i) => (
-              <MenuItem key={i} value={type}>
-                {type}
+            {variablesList.map(({ type, name }) => (
+              <MenuItem key={type} value={type}>
+                {name}
               </MenuItem>
             ))}
           </Select>

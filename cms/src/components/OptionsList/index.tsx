@@ -143,7 +143,6 @@ export const OptionsList: React.FC<IOptionsListProps> = ({ item_id }) => {
 
         <AddOptionMenu
           isOpen={optionDialog}
-          item_id={item_id}
           addOption={addOption}
           onClose={() => setOptionDialog(false)}
         />

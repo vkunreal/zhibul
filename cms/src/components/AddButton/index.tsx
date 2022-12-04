@@ -11,7 +11,6 @@ const AddButton: React.FC<IAddButtonProps> = ({
   className,
   onClick,
 }) => {
-  console.log(className)
   return (
     <button
       className={'add-item-button fill-width ' + className}
