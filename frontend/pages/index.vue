@@ -35,34 +35,42 @@
     </div>
 
     <div
-      class="home__promotion fill-width d-flex justify-center pt-12 pb-12 mb-2"
+      class="home__promotion fill-width d-flex justify-center pt-12 pb-12"
     >
       <div
         class="home__promotion-wrapper fill-width d-flex justify-space-between"
       >
         <div>
-          <h3 class="home__promotion-title text-center">12</h3>
+          <h3 class="home__promotion-title text-center">
+            {{ variable("years") }}
+          </h3>
           <p class="home__promotion-text text-uppercase text-center">
             Лет на рынке
           </p>
         </div>
 
         <div>
-          <h3 class="home__promotion-title text-center">209</h3>
+          <h3 class="home__promotion-title text-center">
+            {{ variable("clients") }}
+          </h3>
           <p class="home__promotion-text text-uppercase text-center">
             Клиентов
           </p>
         </div>
 
         <div>
-          <h3 class="home__promotion-title text-center">12</h3>
+          <h3 class="home__promotion-title text-center">
+            {{ variable("partners") }}
+          </h3>
           <p class="home__promotion-text text-uppercase text-center">
             Партнеров
           </p>
         </div>
 
         <div>
-          <h3 class="home__promotion-title text-center">2974</h3>
+          <h3 class="home__promotion-title text-center">
+            {{ variable("repair_done") }}
+          </h3>
           <p class="home__promotion-text text-uppercase text-center">
             Произведено ремонта
           </p>
@@ -70,78 +78,20 @@
       </div>
     </div>
 
+    <iframe
+      src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=196054484550"
+      width="100%"
+      height="520"
+      frameborder="0"
+    />
+
     <div
       class="
         home__contacts
         fill-width
-        d-flex
-        flex-column
-        align-center
-        mt-8
         mb-8
       "
     >
-      <div class="">
-        <h2 class="text-center mb-16">Контакты</h2>
-
-        <v-row>
-          <v-col
-            class="
-              home__contacts-block
-              border-right border-bottom
-              d-flex
-              flex-column
-              justify-center
-              align-center
-            "
-          >
-            <h4>Адрес</h4>
-            <p>г. Минск, Селицкого 21К</p>
-          </v-col>
-          <v-col
-            class="
-              home__contacts-block
-              border-bottom
-              d-flex
-              flex-column
-              justify-center
-              align-center
-            "
-          >
-            <h4>Продажи</h4>
-            <p>г. Минск, Селицкого 21К</p>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col
-            class="
-              home__contacts-block
-              border-right
-              d-flex
-              flex-column
-              justify-center
-              align-center
-            "
-          >
-            <h4>Услуги</h4>
-            <p>г. Минск, Селицкого 21К</p>
-          </v-col>
-          <v-col
-            class="
-              home__contacts-block
-              d-flex
-              flex-column
-              justify-center
-              align-center
-            "
-          >
-            <h4>E-mail</h4>
-            <p>г. Минск, Селицкого 21К</p>
-          </v-col>
-        </v-row>
-      </div>
-
       <div class="home__feedback fill-width d-flex justify-center mt-10">
         <v-feed-back />
       </div>
@@ -150,6 +100,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import VFeedBack from "../components/VFeedBack.vue";
 
 export default {
@@ -158,6 +109,23 @@ export default {
   head: () => ({
     title: "Главная",
   }),
+  mounted() {
+    console.log(this.appVariables);
+  },
+  computed: {
+    ...mapGetters("app", ["appVariables"]),
+    variable() {
+      return (variableName) =>
+        this.appVariables?.find(({ name }) => name === variableName)?.value ||
+        0;
+    },
+  },
+  async fetch({ store }) {
+    const appVariables = store.getters.appVariables;
+    if (!appVariables || appVariables.length === 0) {
+      await store.dispatch("app/fetchVariables");
+    }
+  },
 };
 </script>
 

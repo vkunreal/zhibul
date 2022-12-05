@@ -83,7 +83,7 @@ DROP TABLE IF EXISTS pages;
 CREATE TABLE pages (
   `url` VARCHAR(70) NOT NULL PRIMARY KEY,
   `name` VARCHAR(70) NOT NULL,
-  `text` VARCHAR(1500),
+  `text` VARCHAR(3000),
   `seo_title` VARCHAR(70),
   `seo_description` VARCHAR(250),
   `seo_keywords` VARCHAR(150)

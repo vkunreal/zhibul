@@ -24,7 +24,9 @@
           <p class="v-app__header__block-text">zhibul.maksim@yandex.ru</p>
         </div>
 
-        <v-btn color="yellow" large>Заказать звонок</v-btn>
+        <v-btn large color="yellow" @click="$orderModal()"
+          >Заказать звонок</v-btn
+        >
       </header>
     </div>
 
@@ -69,16 +71,23 @@
         <p class="text-center mt-10">© 2022 ZHBL</p>
       </footer>
     </div>
+
+    <v-order-modal ref="order-modal" />
   </v-app>
 </template>
 
 <script>
+import Vue from "vue";
 import VCategories from "~/components/VCategories.vue";
+import VOrderModal from "../components/VOrderModal.vue";
 
 export default {
   name: "DefaultLayout",
-  components: { VCategories },
+  components: { VCategories, VOrderModal },
   data: () => ({}),
+  mounted() {
+    Vue.prototype.$orderModal = this.$refs["order-modal"].open;
+  },
   methods: {
     logoClick() {
       this.$router.push("/");
