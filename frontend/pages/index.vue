@@ -34,9 +34,7 @@
       </p>
     </div>
 
-    <div
-      class="home__promotion fill-width d-flex justify-center pt-12 pb-12"
-    >
+    <div class="home__promotion fill-width d-flex justify-center pt-12 pb-12">
       <div
         class="home__promotion-wrapper fill-width d-flex justify-space-between"
       >
@@ -85,14 +83,8 @@
       frameborder="0"
     />
 
-    <div
-      class="
-        home__contacts
-        fill-width
-        mb-8
-      "
-    >
-      <div class="home__feedback fill-width d-flex justify-center mt-10">
+    <div class="home__contacts fill-width">
+      <div class="home__feedback fill-width d-flex justify-center">
         <v-feed-back />
       </div>
     </div>
@@ -109,9 +101,6 @@ export default {
   head: () => ({
     title: "Главная",
   }),
-  mounted() {
-    console.log(this.appVariables);
-  },
   computed: {
     ...mapGetters("app", ["appVariables"]),
     variable() {

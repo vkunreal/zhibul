@@ -87,9 +87,9 @@ export const Users: React.FC = () => {
                 >
                   <TableCell align="center">{phone}</TableCell>
                   <TableCell align="center">{name}</TableCell>
-                  <TableCell align="center">{company}</TableCell>
-                  <TableCell align="center">{email}</TableCell>
-                  <TableCell align="center">{comment}</TableCell>
+                  <TableCell align="center">{company || '-'}</TableCell>
+                  <TableCell align="center">{email || '-'}</TableCell>
+                  <TableCell align="center">{comment || '-'}</TableCell>
                   <TableCell align="center">
                     <Button
                       color="error"

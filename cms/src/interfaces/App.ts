@@ -14,7 +14,13 @@ export interface IPage {
 }
 
 export const variablesList = [
-  { type: 'phone', name: 'Телефон' },
+  { type: 'phone_sales', name: 'Телефон продаж' },
+  { type: 'phone_services', name: 'Телефон услуг' },
+  { type: 'tg', name: 'Телеграм' },
+  { type: 'vk', name: 'Вк' },
+  { type: 'inst', name: 'Инстаграм' },
+  { type: 'viber', name: 'Вайбер' },
+  { type: 'email', name: 'Эл. почта' },
   { type: 'address', name: 'Адрес' },
   { type: 'work_time', name: 'Время работы' },
   { type: 'years', name: 'Лет на рынке' },

@@ -25,6 +25,23 @@ export const actions = {
     const page = await this.$axios.$get("/pages/" + url);
     commit("setPage", page);
   },
+  async sendFeedback(
+    {},
+    { name = "", phone = "", company = "", email = "", comment = "" } = {}
+  ) {
+    console.log("DATA", name, phone);
+    if (!name.trim() || !phone.trim()) {
+      console.error("App store sendFeedback: not found name or phone");
+      return;
+    }
+    return await this.$axios.$post("/user", {
+      name,
+      phone,
+      company,
+      email,
+      comment,
+    });
+  },
 };
 
 export const getters = {

@@ -1,5 +1,5 @@
 <template>
-  <div class="v-feed-back d-flex justify-space-around g-8 pd-6">
+  <section class="v-feed-back fill-width d-flex justify-space-around g-8 pd-6">
     <div class="fill-width">
       <h2 class="mb-4">Есть вопросы или необходима консультация?</h2>
       <p>Заполните форму и наш специалист ответит на все возникшие вопросы!</p>
@@ -21,14 +21,21 @@
 
       <v-textarea v-model="comment" class="fill-width" label="Комментарий" />
 
-      <v-btn large class="fill-width" color="white" :disabled="submitDisabled"
+      <v-btn
+        large
+        class="fill-width"
+        color="white"
+        :disabled="submitDisabled"
+        @click="submit"
         >Отправить</v-btn
       >
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "VFeedBack",
   data: () => ({
@@ -42,6 +49,24 @@ export default {
   computed: {
     submitDisabled() {
       return !this.name.trim() || this.phone.length < 19;
+    },
+  },
+  methods: {
+    ...mapActions("app", ["sendFeedback"]),
+    submit() {
+      const { name, phone, company, email, comment, submitDisabled } = this;
+      // if (!submitDisabled) return;
+
+      this.sendFeedback({
+        name,
+        phone,
+        company,
+        email,
+        comment,
+        submitDisabled,
+      }).then((res) => {
+        console.log(res, "submited");
+      });
     },
   },
 };

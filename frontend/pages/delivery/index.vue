@@ -1,6 +1,14 @@
 <template>
-  <section>
-    <h1 class="mb-4">Доставка</h1>
+  <section class="fill-width d-flex flex-column align-center">
+    <div class="delivery fill-width">
+      <h1 class="mb-4">{{ pageTitle }}</h1>
+
+      <p>{{ pageText }}</p>
+
+      <div class="bg--primary fill-width d-flex justify-center mt-10 mb-10">
+        <v-feed-back />
+      </div>
+    </div>
 
     <script
       type="text/javascript"
@@ -10,8 +18,43 @@
     ></script>
   </section>
 </template>
-    
-    <script>
-export default {};
+
+<script>
+import { mapGetters } from "vuex";
+import VFeedBack from "@/components/VFeedBack";
+
+export default {
+  components: { VFeedBack },
+  computed: {
+    ...mapGetters("app", ["page"]),
+    // variable() {
+    //   return (variableName) =>
+    //     this.appVariables?.find(({ name }) => name === variableName)?.value ||
+    //     null;
+    // },
+    // variables() {
+    //   return (variableName) =>
+    //     this.appVariables?.filter(({ name }) => name === variableName);
+    // },
+    pageTitle() {
+      return this.page?.name || "Доставка";
+    },
+    pageText() {
+      return this.page?.text || "";
+    },
+  },
+  async fetch({ store }) {
+    await store.dispatch("app/fetchPage", "delivery");
+    // const appVariables = store.getters.appVariables;
+    // if (!appVariables || appVariables.length === 0) {
+    //   await store.dispatch("app/fetchVariables");
+    // }
+  },
+};
 </script>
-    
+
+<style lang="scss">
+.delivery {
+  max-width: 1024px;
+}
+</style>
