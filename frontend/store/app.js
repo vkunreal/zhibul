@@ -1,11 +1,15 @@
 export const state = () => ({
   appVariables: [],
+  categories: [],
   page: null,
 });
 
 export const mutations = {
   setVariables(state, variables) {
     state.appVariables = variables;
+  },
+  setCategories(state, categories) {
+    state.categories = categories;
   },
   setPage(state, page) {
     state.page = page;
@@ -16,6 +20,10 @@ export const actions = {
   async fetchVariables({ commit }) {
     const variables = await this.$axios.$get("/variables");
     commit("setVariables", variables);
+  },
+  async fetchCategories({ commit }) {
+    const categories = await this.$axios.$get("/categories");
+    commit("setCategories", categories);
   },
   async fetchPage({ commit }, url = "") {
     if (!url || !url.trim()) {
@@ -46,5 +54,6 @@ export const actions = {
 
 export const getters = {
   appVariables: (s) => s.appVariables,
+  categories: (s) => s.categories,
   page: (s) => s.page,
 };

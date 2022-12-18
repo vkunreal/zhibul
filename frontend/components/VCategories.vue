@@ -1,7 +1,61 @@
 <template>
   <section class="v-categories d-flex">
-    <div>
-      <p>Menu</p>
+    <div
+      class="v-categories__menu"
+      @mouseover="categoriesVisible = true"
+      @mouseleave="
+        categoriesVisible = false;
+        categoryDetail = null;
+      "
+    >
+      <p class="text-uppercase">Каталог товаров</p>
+
+      <transition name="fade">
+        <div
+          v-if="categoriesVisible"
+          class="v-categories__menu-list d-flex g-4 pd-2"
+        >
+          <ul class="d-flex flex-column g-1">
+            <li
+              class="d-flex justify-space-between align-center g-1"
+              v-for="{ id, name, url, is_contains } in categoriesList()"
+              :key="id"
+              @mouseover="categoryDetail = id"
+              @click="
+                categoriesVisible = false;
+                categoryDetail = null;
+              "
+            >
+              <nuxt-link :to="'/' + url">
+                {{ name }}
+              </nuxt-link>
+              <svg class="ml-4" v-if="is_contains" width="12" height="12">
+                <use xlink:href="@/static/icons.svg#slider-arrow" />
+              </svg>
+            </li>
+          </ul>
+
+          <transition name="fade">
+            <ul
+              class="v-categories__menu-list-details d-flex flex-column g-1"
+              v-if="categoryDetail && categoriesList(categoryDetail).length"
+            >
+              <li
+                v-for="{ id, name, url } in categoriesList(categoryDetail)"
+                :key="id"
+                @click="
+                  categoriesVisible = false;
+                  categoryDetail = null;
+                "
+              >
+                <nuxt-link :to="url">
+                  {{ name }}
+                </nuxt-link>
+              </li>
+            </ul>
+          </transition>
+        </div>
+      </transition>
     </div>
 
     <ul class="d-flex g-2">
@@ -13,7 +67,7 @@
         @mouseover="tabNesting = url"
         @mouseleave="tabNesting = null"
       >
-        <nuxt-link :to="url">
+        <nuxt-link class="text-uppercase" :to="url">
           {{ title }}
         </nuxt-link>
 
@@ -36,6 +90,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 const tabs = [
   { title: "О компании", url: "/" },
   {
@@ -63,16 +119,19 @@ const tabs = [
 export default {
   name: "VCategories",
   data: () => ({
+    categoriesVisible: false,
+    categoryDetail: null,
     tabNesting: null,
   }),
+  mounted() {},
   computed: {
+    ...mapGetters("app", ["categories"]),
     tabs() {
       return tabs;
     },
-  },
-  methods: {
-    tabMouseOver(url) {
-      console.log(url);
+    categoriesList() {
+      return (parentId = null) =>
+        this.categories.filter((c) => c.parent_id === parentId);
     },
   },
 };
@@ -80,22 +139,53 @@ export default {
 
 <style lang="scss">
 .v-categories {
+  & a {
+    text-decoration: none;
+  }
+  &__menu {
+    position: relative;
+    z-index: 1000;
+    &-list {
+      width: max-content;
+      position: absolute;
+      background: $colorGrey;
+      color: $white;
+      & ul {
+        padding-left: 0 !important;
+      }
+      & li {
+        list-style: none;
+      }
+      & a {
+        color: $white;
+      }
+    }
+  }
   &__link {
     list-style: none;
     & a {
-      text-decoration: none;
       color: $black;
     }
     &-list {
-      background: $white;
+      background: $colorGrey;
+      width: max-content;
       & a {
         min-width: 120px;
         padding: 0.5rem;
+        color: $white !important;
         &:hover {
           background: $colorPrimary;
         }
       }
     }
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>

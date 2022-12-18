@@ -152,34 +152,32 @@
 
 <script>
 import Vue from "vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import VCategories from "~/components/VCategories.vue";
 import VOrderModal from "../components/VOrderModal.vue";
 
 export default {
   name: "DefaultLayout",
   components: { VCategories, VOrderModal },
-  mounted() {
+  async mounted() {
     Vue.prototype.$orderModal = this.$refs["order-modal"].open;
+
+    await this.fetchVariables();
+    await this.fetchCategories();
   },
   computed: {
     ...mapGetters("app", ["appVariables"]),
     variable() {
       return (variableName) =>
         this.appVariables?.find(({ name }) => name === variableName)?.value ||
-        0;
+        "";
     },
   },
   methods: {
+    ...mapActions("app", ["fetchVariables", "fetchCategories"]),
     logoClick() {
       this.$router.push("/");
     },
-  },
-  async fetch({ store }) {
-    const appVariables = store.getters.appVariables;
-    if (!appVariables || appVariables.length === 0) {
-      await store.dispatch("app/fetchVariables");
-    }
   },
 };
 </script>

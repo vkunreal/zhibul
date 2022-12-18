@@ -1,17 +1,32 @@
 const { request } = require('../db/database')
 const { writeLog } = require('../writeLog')
 
+// const queryItems = `
+//   SELECT
+//     id,
+//     category_id,
+//     (SELECT name FROM categories WHERE id = category_id) as category,
+//     name,
+//     description,
+//     brand,
+//     manufacturer,
+//     price
+//   FROM items
+// `
 const queryItems = `
   SELECT
     id,
+    (SELECT name FROM categories WHERE id = category_id) AS category,
+    (SELECT GROUP_CONCAT(src SEPARATOR ',') FROM images WHERE item_id = id) AS images,
     category_id,
-    (SELECT name FROM categories WHERE id = category_id) as category,
     name,
     description,
     brand,
     manufacturer,
     price
   FROM items
+  JOIN images ON images.item_id = items.id
+  GROUP BY items.id
 `
 
 class ItemsServices {
