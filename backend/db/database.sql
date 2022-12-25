@@ -12,6 +12,12 @@ CREATE TABLE app_variables (
   `value` VARCHAR(100) NOT NULL
 );
 
+DROP TABLE IF EXISTS countries;
+CREATE TABLE countries (
+  `id` SERIAL PRIMARY KEY,
+  `name` VARCHAR(120) NOT NULL
+);
+
 -- users
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
@@ -41,7 +47,10 @@ CREATE TABLE categories (
   `name` VARCHAR(50) NOT NULL,
   `url` VARCHAR(70) NOT NULL,
   `parent_id` BIGINT,
-  `is_contains` BOOLEAN NOT NULL
+  `is_contains` BOOLEAN NOT NULL,
+  `seo_title` VARCHAR(70),
+  `seo_description` VARCHAR(250),
+  `seo_keywords` VARCHAR(150)
 );
 
 -- items
@@ -49,13 +58,18 @@ DROP TABLE IF EXISTS items;
 CREATE TABLE items (
   `id` SERIAL PRIMARY KEY,
   `category_id` BIGINT UNSIGNED NOT NULL,
+  `url` VARCHAR(120) NOT NULL UNIQUE,
   `name` VARCHAR(50) NOT NULL,
   `description` VARCHAR(200),
   `brand` VARCHAR(50) NOT NULL,
-  `manufacturer` VARCHAR(50) NOT NULL,
+  `manufacturer_id` BIGINT UNSIGNED NOT NULL,
   `price` VARCHAR(20) NOT NULL,
+  `seo_title` VARCHAR(70),
+  `seo_description` VARCHAR(250),
+  `seo_keywords` VARCHAR(150),
 
-  FOREIGN KEY (category_id) REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY (category_id) REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (manufacturer_id) REFERENCES countries(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- images
@@ -98,38 +112,3 @@ CREATE TABLE page_images (
 
   FOREIGN KEY (page_url) REFERENCES pages(url) ON UPDATE CASCADE ON DELETE CASCADE
 );
-
-/* load data */
-
--- categories
--- INSERT INTO categories(name, parent_id, is_contains)
--- VALUES
--- ('Компрессоры', null, true);
-
--- undercategories
--- INSERT INTO categories(name, parent_id, is_contains)
--- VALUES
--- ('С прямым приводом', 1, 0),
--- ('С ременным приводом', 1, 0);
-
--- items
--- INSERT INTO items(category_id, name, brand, manufacturer, price)
--- VALUES
--- (2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1047B', 'Intel', 'Польша', "648"),
--- (2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/С-24.J1048B', 'Intel', 'Германия', "702.02"),
--- (2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1047B', 'Intel', 'Польша', "739"),
--- (3, 'Chocolate', 'Intel', 'Польша', "648"),
--- (3, 'Chocolate 2', 'Intel', 'Германия', "702"),
--- (3, 'Chocolate 3', 'Intel', 'Польша', "739"),
--- (2, 'КОМПРЕССОР ПОРШНЕВОЙ СБ4/C-50.J1048B', 'Intel', 'Россия', "773");
-
--- options
--- INSERT INTO options(item_id, name, value)
--- VALUES
--- (2, 'Объем ресивера', '24'),
--- (2, 'Цилиндров / Ступеней', '1/1'),
--- (2, 'Литр / Мин', '200'),
--- (2, 'Атмосфер', '8'),
--- (2, 'Мощность (кВт)', '1,5'),
--- (2, 'Напряжение (В)', '220'),
--- (2, 'Вес (кг)', '27');

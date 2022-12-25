@@ -32,6 +32,31 @@ VALUES
 ('Резьбовые переходники', 'test18', 5, false),
 ('Цанговые соединения', 'test19', 5, false);
 
+-- variables
+INSERT INTO app_variables (name, value)
+VALUES
+('phone_sales', '+375 (29) 741-52-26'),
+('phone_services', '+375 (44) 758-16-43'),
+('email', 'zhibul.maksim@yandex.ru'),
+('address', 'г. Минск, Селицкого 21К'),
+('work_time', 'Пн-Чт 09.00-17.00'),
+('work_time', 'Пт 09.00-16.00'),
+('years', '12'),
+('clients', '209'),
+('partners', '12'),
+('repair_done', '2974');
+
+-- countries
+INSERT INTO countries (name)
+VALUES
+('Беларусь'),
+('Германия'),
+('Италия'),
+('Китай'),
+('Польша'),
+('Россия'),
+('Тайвань');
+
 -- test
 INSERT INTO users (phone, name, company, email, comment)
 VALUES
@@ -55,23 +80,29 @@ VALUES
 ('Картонуз', '+375 29 545-21-87');
 
 -- items
-INSERT INTO items (category_id, name, description, brand, manufacturer, price)
+INSERT INTO items (category_id, url, name, description, brand, manufacturer_id, price)
 VALUES
-(9, 'КРАСКОРАСПЫЛИТЕЛЬ WALCOM SLIM XLIGHT HTE SR', 'Поставка осуществляется в кейсе без редуктора-регулятора давления.', 'WALCOM', 'WALCOM (Италия)', '390.00'),
-(9, 'КРАСКОРАСПЫЛИТЕЛЬ WALCOM SLIM XLIGHT HTE', 'Поставка осуществляется в кейсе с редуктором-регулятором давления.', 'WALCOM', 'WALCOM (Италия)', '440.00'),
-(9, 'КРАСКОРАСПЫЛИТЕЛЬ WALCOM SLIM XLIGHT HVLP', 'Поставка осуществляется в кейсе с редуктором-регулятором давления.', 'WALCOM', 'WALCOM (Италия)', '465.00'),
-(9, 'КРАСКОРАСПЫЛИТЕЛЬ WALCOM GENESI HTE', 'Поставка осуществляется в кейсе с регулятором давления воздуха ТОР с манометром.', 'WALCOM', 'WALCOM (Италия)', '1065.00'),
-(11, 'Cola', 'Sugar water', 'WALCOM', 'WALCOM (Италия)', '390.00'),
-(11, 'Pepsi', 'Sugar water', 'WALCOM', 'WALCOM (Италия)', '440.00'),
-(15, 'Cs go', 'Game', 'WALCOM', 'WALCOM (Италия)', '465.00'),
-(15, 'Dota', 'Game', 'WALCOM', 'WALCOM (Италия)', '1065.00');
+(9, 'item1', 'КРАСКОРАСПЫЛИТЕЛЬ WALCOM SLIM XLIGHT HTE SR', 'Поставка осуществляется в кейсе без редуктора-регулятора давления.', 'WALCOM', 3, '390.00'),
+(9, 'item2', 'КРАСКОРАСПЫЛИТЕЛЬ WALCOM SLIM XLIGHT HTE', 'Поставка осуществляется в кейсе с редуктором-регулятором давления.', 'WALCOM', 3, '440.00'),
+(9, 'item3', 'КРАСКОРАСПЫЛИТЕЛЬ WALCOM SLIM XLIGHT HVLP', 'Поставка осуществляется в кейсе с редуктором-регулятором давления.', 'WALCOM', 3, '465.00'),
+(9, 'item4', 'КРАСКОРАСПЫЛИТЕЛЬ WALCOM GENESI HTE', 'Поставка осуществляется в кейсе с регулятором давления воздуха ТОР с манометром.', 'WALCOM', 3, '1065.00'),
+(11, 'item5', 'Cola', 'Sugar water', 'WALCOM', 3, '390.00'),
+(11, 'item6', 'Pepsi', 'Sugar water', 'WALCOM', 3, '440.00'),
+(15, 'item7', 'Cs go', 'Game', 'WALCOM', 3, '465.00'),
+(15, 'item8', 'Dota', 'Game', 'WALCOM', 3, '1065.00');
 
 -- images
 INSERT INTO images (item_id, src)
 VALUES
 (1, 'http://localhost:5000/images/Genesi%20HTE.png'),
 (2, 'http://localhost:5000/images/Genesi%20HVLP.png'),
-(3, 'http://localhost:5000/images/GenesiGEO.png');
+(2, 'http://localhost:5000/images/GenesiGEO.png'),
+(3, 'http://localhost:5000/images/Genesi%20HVLP.png'),
+(4, 'http://localhost:5000/images/Genesi%20HVLP.png'),
+(5, 'http://localhost:5000/images/Genesi%20HVLP.png'),
+(6, 'http://localhost:5000/images/Genesi%20HVLP.png'),
+(7, 'http://localhost:5000/images/Genesi%20HVLP.png'),
+(8, 'http://localhost:5000/images/GenesiGEO.png');
 
 INSERT INTO pages (url, name, text, seo_title, seo_description, seo_keywords)
 VALUES

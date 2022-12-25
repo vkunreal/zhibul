@@ -4,19 +4,14 @@
       <h1>{{ categoryName }}</h1>
 
       <div class="mt-4">
-        <div v-if="items?.length" class="d-flex flex-wrap">
-          <div
-            class="category__item pd-2"
-            v-for="{ id, name, brand, manufacturer, price } in items"
-            :key="id"
-          >
-            <img height="200" :src="itemImage(id)" :alt="name" />
-            <h3>{{ name }} {{ id }}</h3>
-            <p>{{ brand }}</p>
-            <p>{{ manufacturer }}</p>
-            <p>{{ price }} руб.</p>
-          </div>
+        <div v-if="items?.length" class="category__list">
+          <template v-for="item in items">
+            <nuxt-link :to="category.url + '/' + item.url" :key="item.id">
+              <v-product class="category__item" :product="item" />
+            </nuxt-link>
+          </template>
         </div>
+        <h3 v-else>Товаров пока нет</h3>
       </div>
     </div>
   </section>
@@ -24,8 +19,10 @@
 
 <script>
 import { mapGetters } from "vuex";
+import VProduct from "@/components/VProduct";
 
 export default {
+  components: { VProduct },
   watch: {
     categories() {
       console.log(this.categoryName);
@@ -43,13 +40,12 @@ export default {
     categoryName() {
       return this.category?.name || "";
     },
-    itemImage() {
-      return (id) =>
-        this.items.filter((i) => i.id === id)[0]?.images?.split(",")[0] || "";
-    },
   },
-  async fetch({ store }) {
-    await store.dispatch("items/fetchItems", { categoryId: this.category?.id });
+  // { store, req, redirect }
+  async fetch({ store, params }) {
+    if (params?.url) {
+      await store.dispatch("items/fetchItems", { url: params.url });
+    }
   },
 };
 </script>
@@ -58,29 +54,28 @@ export default {
 @import "@/assets/mixins.scss";
 
 .category {
-  & ul {
-    padding-left: 0 !important;
-  }
-  & li {
-    list-style: none;
+  & a {
+    color: #000;
+    text-decoration: none;
   }
   &-wrapper {
     max-width: 1024px;
   }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
   &__item {
     width: 100%;
-    margin: 5px;
   }
 
   @include tablet {
-    &__item {
-      width: 48%;
-    }
-  }
-
-  @include laptop {
-    &__item {
-      width: 32%;
+    &__list {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
     }
   }
 }

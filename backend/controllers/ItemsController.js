@@ -34,15 +34,16 @@ const testItem = (item) => {
 }
 
 class ItemsController {
-  // get items from category_id
-  async getItemsFromCategory(req, res) {
-    let items
+  async getAllItems(req, res) {
+    const items = await ItemsServices.getAllItems()
 
-    if (req.query.category_id) {
-      items = await ItemsServices.getItemsFromCategoryId(req.query.category_id)
-    } else {
-      items = await ItemsServices.getAllItems()
-    }
+    res.status(200).json(items)
+  }
+
+  async getItemsFromUrl(req, res) {
+    const items = await ItemsServices.getItemsFromCategoryUrl(
+      req.params.category_url
+    )
 
     res.status(200).json(items)
   }
@@ -50,6 +51,12 @@ class ItemsController {
   // get one item from id or name
   async getItem(req, res) {
     const item = await ItemsServices.getItemFromId(req.params.id)
+
+    res.status(200).json(item)
+  }
+
+  async getItemFromUrl(req, res) {
+    const item = await ItemsServices.getItemFromUrl(req.params.item_url)
 
     res.status(200).json(item)
   }

@@ -48,8 +48,8 @@
                   categoryDetail = null;
                 "
               >
-                <nuxt-link :to="url">
-                  {{ name }}
+                <nuxt-link :to="'/' + url">
+                  {{ name }} {{ "/" + url }}
                 </nuxt-link>
               </li>
             </ul>

@@ -1,43 +1,75 @@
 const { request } = require('../db/database')
 const { writeLog } = require('../writeLog')
 
-// const queryItems = `
-//   SELECT
-//     id,
-//     category_id,
-//     (SELECT name FROM categories WHERE id = category_id) as category,
-//     name,
-//     description,
-//     brand,
-//     manufacturer,
-//     price
-//   FROM items
-// `
 const queryItems = `
   SELECT
-    id,
-    (SELECT name FROM categories WHERE id = category_id) AS category,
-    (SELECT GROUP_CONCAT(src SEPARATOR ',') FROM images WHERE item_id = id) AS images,
-    category_id,
-    name,
-    description,
-    brand,
-    manufacturer,
-    price
-  FROM items
-  JOIN images ON images.item_id = items.id
-  GROUP BY items.id
+    it.id,
+    c.url as category_url,
+    c.name as category_name,
+    GROUP_CONCAT(im.src SEPARATOR ',') as images,
+    it.category_id,
+    it.url,
+    it.name,
+    it.description,
+    ct.name as manufacturer,
+    it.brand,
+    it.price
+  FROM items it
+  JOIN categories c ON it.category_id = c.id
+  JOIN images im ON im.item_id = it.id
+  JOIN countries ct ct.id = it.manufacturer_id
+  GROUP BY it.id
+`
+
+const queryItemsByCategoryUrl = (category_url) => `
+  SELECT
+    it.id,
+    c.url as category_url,
+    c.name as category_name,
+    GROUP_CONCAT(im.src SEPARATOR ',') as images,
+    it.category_id,
+    it.url,
+    it.name,
+    it.description,
+    ct.name as manufacturer,
+    it.brand,
+    it.price
+  FROM items it
+  JOIN categories c ON it.category_id = c.id AND c.url = "${category_url}"
+  JOIN images im ON im.item_id = it.id
+  JOIN countries ct ON ct.id = it.manufacturer_id
+  GROUP BY it.id
+`
+
+const queryItemByUrl = (item_url) => `
+  SELECT
+    it.id,
+    c.url as category_url,
+    c.name as category_name,
+    GROUP_CONCAT(im.src SEPARATOR ',') as images,
+    it.category_id,
+    it.url,
+    it.name,
+    it.description,
+    ct.name as manufacturer,
+    it.brand,
+    it.price
+  FROM items it
+  JOIN categories c ON it.category_id = c.id
+  JOIN images im ON im.item_id = it.id
+  JOIN countries ct ON ct.id = it.manufacturer_id
+  WHERE it.url = "${item_url}"
+  GROUP BY it.id
 `
 
 class ItemsServices {
   // get all items from db
   async getAllItems() {
-    return await request(queryItems)
+    return await request(queryItems())
   }
 
-  // get all items from db by category id
-  async getItemsFromCategoryId(category_id) {
-    return await request(`${queryItems} WHERE category_id = "${category_id}";`)
+  async getItemsFromCategoryUrl(category_url) {
+    return await request(queryItemsByCategoryUrl(category_url))
   }
 
   async getItemImages(item_id) {
@@ -50,6 +82,10 @@ class ItemsServices {
       `${queryItems} WHERE id = "${item_id}"`,
       (res) => res[0][0]
     )
+  }
+
+  async getItemFromUrl(item_url) {
+    return await request(queryItemByUrl(item_url), (it) => it[0][0])
   }
 
   async changeItemById({

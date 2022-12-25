@@ -3,8 +3,11 @@ const ItemsController = require('../controllers/ItemsController')
 
 const ItemsRouter = new Router()
 
-ItemsRouter.get('/items/', ItemsController.getItemsFromCategory)
-ItemsRouter.get('/item/:id', ItemsController.getItem)
+ItemsRouter.get('/items/', ItemsController.getAllItems)
+ItemsRouter.get('/items/:category_url', ItemsController.getItemsFromUrl)
+
+// ItemsRouter.get('/item/:id', ItemsController.getItem)
+ItemsRouter.get('/item/:item_url', ItemsController.getItemFromUrl)
 ItemsRouter.get('/item/images/:item_id', ItemsController.getItemImages)
 
 ItemsRouter.post('/item/images/:item_id', ItemsController.loadImages)
