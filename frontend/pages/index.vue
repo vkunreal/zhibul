@@ -1,7 +1,34 @@
 <template>
   <section class="home d-flex flex-column align-center">
-    <div class="home-wrapper fill-width pd-4">
-      <h1 class="text-uppercase">О нас</h1>
+    <!-- :vertical="true"
+    :vertical-delimiters="true" -->
+    <v-carousel
+      v-if="slider"
+      :show-arrows="false"
+      :interval="5000"
+      :cycle="true"
+    >
+      <v-carousel-item
+        v-for="{ id, title, brand, url, images: { desktop } } in slider"
+        :key="id"
+        :src="desktop"
+      >
+        <div class="d-flex fill-height flex-column justify-center align-center">
+          <p
+            class="home__slider-title text--primary text-uppercase text-center"
+          >
+            {{ title }} <br />
+            {{ brand }}
+          </p>
+          <v-btn class="home__slider-button" @click="$router.push('/' + url)"
+            >Подробнее</v-btn
+          >
+        </div>
+      </v-carousel-item>
+    </v-carousel>
+
+    <div class="home-wrapper fill-width mt-4 mb-4 pl-2 pr-2">
+      <h1 class="text-uppercase">О компании</h1>
 
       <div class="home__devider mt-4 mb-8" />
 
@@ -102,7 +129,7 @@ export default {
     title: "Главная",
   }),
   computed: {
-    ...mapGetters("app", ["appVariables"]),
+    ...mapGetters("app", ["appVariables", "slider"]),
     variable() {
       return (variableName) =>
         this.appVariables?.find(({ name }) => name === variableName)?.value ||
@@ -111,8 +138,12 @@ export default {
   },
   async fetch({ store }) {
     const appVariables = store.getters.appVariables;
+    const slider = store.getters.slider;
     if (!appVariables || appVariables.length === 0) {
       await store.dispatch("app/fetchVariables");
+    }
+    if (!slider) {
+      await store.dispatch("app/fetchSlider");
     }
   },
 };
@@ -120,6 +151,18 @@ export default {
 
 <style lang="scss">
 .home {
+  &__slider {
+    &-title {
+      font-size: 26px;
+      font-weight: 900;
+    }
+    &-button {
+      background: $primaryGrey !important;
+      color: $white !important;
+      border-radius: 0 !important;
+      padding: 25px 30px !important;
+    }
+  }
   &-wrapper {
     max-width: 1024px;
   }

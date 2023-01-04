@@ -27,7 +27,7 @@ VALUES
 ('Шпилько-штифтозабивной пистолет', 'shtiftozabivnyepistolety', 4, false),
 ('Быстросъемные соединения', 'test14', 5, false),
 ('Глушители', 'test15', 5, false),
-('Клапаны', 'test16', 5, false),
+('Клапаны', 'klapany', 5, false),
 ('Краны', 'test17', 5, false),
 ('Резьбовые переходники', 'test18', 5, false),
 ('Цанговые соединения', 'test19', 5, false);
@@ -38,7 +38,7 @@ VALUES
 ('phone_sales', '+375 (29) 741-52-26'),
 ('phone_services', '+375 (44) 758-16-43'),
 ('email', 'zhibul.maksim@yandex.ru'),
-('address', 'г. Минск, Селицкого 21К'),
+('address', 'г. Минск, Селицкого 21К, 4 этаж, кабинет 1'),
 ('work_time', 'Пн-Чт 09.00-17.00'),
 ('work_time', 'Пт 09.00-16.00'),
 ('years', '12'),
@@ -55,7 +55,25 @@ VALUES
 ('Китай'),
 ('Польша'),
 ('Россия'),
-('Тайвань');
+('Тайвань'),
+('Хорватия');
+
+-- slider
+INSERT INTO slides (url, title, brand)
+VALUES
+('kraskoraspyliteli', 'Краскораспылители', 'WALCOM'),
+('krepezh', 'Крепежные изделия', 'EMES'),
+('kompressory', 'Компрессоры', 'REMEZA');
+
+-- slider images
+INSERT INTO slider_images (slide_id, display, src)
+VALUES
+(1, 'desktop', 'http://localhost:5000/slider/slide1.jpg'),
+(2, 'desktop', 'http://localhost:5000/slider/slide2.jpg'),
+(3, 'desktop', 'http://localhost:5000/slider/slide3.jpg'),
+(1, 'mobile', 'http://localhost:5000/slider/slide1.jpg'),
+(2, 'mobile', 'http://localhost:5000/slider/slide2.jpg'),
+(3, 'mobile', 'http://localhost:5000/slider/slide3.jpg');
 
 -- test
 INSERT INTO users (phone, name, company, email, comment)

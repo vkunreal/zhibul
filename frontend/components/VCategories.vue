@@ -8,7 +8,15 @@
         categoryDetail = null;
       "
     >
-      <p class="text-uppercase">Каталог товаров</p>
+      <div
+        class="v-categories__menu-catalog d-flex align-center pointer g-1 pd-2 pt-3 pb-3 pr-14"
+      >
+        <svg class="text--white" width="30" height="30">
+          <use xlink:href="@/static/icons.svg#menu" />
+        </svg>
+
+        <p class="text-uppercase">Каталог товаров</p>
+      </div>
 
       <transition name="fade">
         <div
@@ -49,7 +57,7 @@
                 "
               >
                 <nuxt-link :to="'/' + url">
-                  {{ name }} {{ "/" + url }}
+                  {{ name }}
                 </nuxt-link>
               </li>
             </ul>
@@ -58,9 +66,9 @@
       </transition>
     </div>
 
-    <ul class="d-flex g-2">
+    <ul class="d-flex g-2 pl-0">
       <li
-        class="v-categories__link ml-2 mr-2"
+        class="v-categories__link pt-4 pb-3 ml-2 mr-2"
         style="position: relative"
         v-for="{ title, url, tabs } in tabs"
         :key="url"
@@ -73,11 +81,10 @@
 
         <div
           v-if="tabs && tabNesting === url"
-          class="v-categories__link-list pt-2"
-          style="position: absolute; z-index: 100000"
+          class="v-categories__link-list mt-2"
         >
           <div
-            class="d-flex flex-column mt-2"
+            class="d-flex flex-column g-2"
             v-for="{ title, url } in tabs"
             :key="url"
           >
@@ -142,13 +149,30 @@ export default {
   & a {
     text-decoration: none;
   }
+  & p {
+    margin-bottom: 0 !important;
+  }
   &__menu {
     position: relative;
     z-index: 1000;
+    &-catalog {
+      background: $primaryGrey;
+      color: $white;
+      &:after {
+        content: "";
+
+        position: absolute;
+        right: 0;
+        bottom: 0;
+
+        border-bottom: 53px solid white;
+        border-left: 55px solid $primaryGrey;
+      }
+    }
     &-list {
       width: max-content;
       position: absolute;
-      background: $colorGrey;
+      background: $primaryGrey;
       color: $white;
       & ul {
         padding-left: 0 !important;
@@ -169,6 +193,8 @@ export default {
     &-list {
       background: $colorGrey;
       width: max-content;
+      position: absolute;
+      z-index: 1000;
       & a {
         min-width: 120px;
         padding: 0.5rem;

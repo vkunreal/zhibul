@@ -65,7 +65,7 @@ const queryItemByUrl = (item_url) => `
 class ItemsServices {
   // get all items from db
   async getAllItems() {
-    return await request(queryItems())
+    return await request('SELECT * FROM items')
   }
 
   async getItemsFromCategoryUrl(category_url) {

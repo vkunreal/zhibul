@@ -8,14 +8,26 @@
           <img width="140" src="@/static/logo.png" alt="logo" />
         </div>
 
-        <div class="v-app__header__block d-flex flex-column">
-          <p class="text-uppercase">Телефон</p>
-          <p class="v-app__header__block-text">+375 (29) 741-52-26</p>
+        <div class="v-app__header__block d-flex align-center g-2">
+          <svg width="25" height="25">
+            <use xlink:href="@/static/icons.svg#phone" />
+          </svg>
+
+          <div>
+            <p class="v-app__header__block-text">
+              {{ variable("phone_sales") }}
+            </p>
+            <p class="v-app__header__block-text">
+              {{ variable("phone_services") }}
+            </p>
+          </div>
         </div>
 
-        <div class="v-app__header__block d-flex flex-column">
-          <p class="text-uppercase">E-mail</p>
-          <p class="v-app__header__block-text">zhibul.maksim@yandex.ru</p>
+        <div class="v-app__header__block d-flex align-center g-2">
+          <svg width="30" height="30">
+            <use xlink:href="@/static/icons.svg#email" />
+          </svg>
+          <p class="v-app__header__block-text">{{ variable("email") }}</p>
         </div>
 
         <v-btn large color="yellow" @click="$orderModal()"
@@ -24,7 +36,7 @@
       </header>
     </div>
 
-    <nav class="v-app__nav d-flex justify-center pd-2 mt-1">
+    <nav class="v-app__nav d-flex justify-center mt-1 mb-4">
       <v-categories class="v-app__nav__categories fill-width" />
     </nav>
 
@@ -38,7 +50,7 @@
           class="v-app__footer__contacts d-flex justify-space-between g-4 mt-4 mb-8"
         >
           <div
-            class="v-app__footer__contacts__block fill-width d-flex align-center pd-4 g-4"
+            class="v-app__footer__contacts__block fill-width d-flex justify-center align-center pd-4 g-4"
           >
             <svg width="40" height="40">
               <use xlink:href="@/static/icons.svg#phone" />
@@ -54,7 +66,7 @@
           </div>
 
           <div
-            class="v-app__footer__contacts__block fill-width d-flex justify-end align-center pd-4 g-4"
+            class="v-app__footer__contacts__block fill-width d-flex justify-center align-center pd-4 g-4"
           >
             <svg width="40" height="40">
               <use xlink:href="@/static/icons.svg#email" />
@@ -70,18 +82,18 @@
           </div>
         </div>
 
-        <div class="v-app__footer__sections d-flex justify-space-between">
+        <div class="v-app__footer__sections d-flex justify-space-between g-10">
           <div class="v-app__footer__section fill-width">
             <h4 class="v-app__footer__section-title">Каталог</h4>
             <ul class="d-flex flex-column g-1 mt-1">
-              <li class="v-app__footer__section-list-elem">
-                <nuxt-link to="/category1">Категория 1</nuxt-link>
-              </li>
-              <li class="v-app__footer__section-list-elem">
-                <nuxt-link to="/category1">Категория 2</nuxt-link>
-              </li>
-              <li class="v-app__footer__section-list-elem">
-                <nuxt-link to="/category1">Категория 3</nuxt-link>
+              <li
+                class="v-app__footer__section-list-elem"
+                v-for="{ id, name, url } in parentCategories"
+                :key="id"
+              >
+                <nuxt-link :to="url">
+                  {{ name }}
+                </nuxt-link>
               </li>
             </ul>
           </div>
@@ -143,6 +155,8 @@
             >
           </div>
         </div>
+
+        <p class="text-center mt-4">© 2022 ZHBL</p>
       </footer>
     </div>
 
@@ -166,11 +180,14 @@ export default {
     await this.fetchCategories();
   },
   computed: {
-    ...mapGetters("app", ["appVariables"]),
+    ...mapGetters("app", ["appVariables", "categories"]),
     variable() {
       return (variableName) =>
         this.appVariables?.find(({ name }) => name === variableName)?.value ||
         "";
+    },
+    parentCategories() {
+      return this.categories.filter((c) => !c.parent_id);
     },
   },
   methods: {
@@ -194,6 +211,8 @@ export default {
     &-wrapper {
       background: $primaryGrey;
       color: $white;
+      position: fixed;
+      z-index: 1001;
     }
     &__block {
       font-size: 12px;
@@ -207,6 +226,7 @@ export default {
   }
 
   &__nav {
+    padding-top: 80px !important;
     &__categories {
       max-width: 1024px;
     }

@@ -13,6 +13,7 @@ const UsersRouter = require('./routers/UsersRouter')
 const OptionsRouter = require('./routers/OptionsRouter')
 const VariablesRouter = require('./routers/VariablesRouter')
 const PagesRouter = require('./routers/PagesRouter')
+const SliderRouter = require('./routers/SliderRouter')
 const { existsSync } = require('fs')
 
 app.use(express.static(path.resolve(__dirname, 'public')))
@@ -27,12 +28,27 @@ app.use('/api', UsersRouter)
 app.use('/api', OptionsRouter)
 app.use('/api', VariablesRouter)
 app.use('/api', PagesRouter)
+app.use('/api', SliderRouter)
 
 app.get('/images/:image', (req, res) => {
   const imagePath = path.resolve(
     __dirname,
     'public',
     'images',
+    req.params.image
+  )
+  if (existsSync(imagePath)) {
+    res.sendFile(imagePath)
+  } else {
+    res.status(400).json({ status: false })
+  }
+})
+
+app.get('/slider/:image', (req, res) => {
+  const imagePath = path.resolve(
+    __dirname,
+    'public',
+    'slider',
     req.params.image
   )
   if (existsSync(imagePath)) {

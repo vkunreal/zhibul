@@ -42,7 +42,7 @@ export default {
     margin: 0;
   }
   &__image {
-    width: 40%;
+    width: 45%;
   }
   &__info {
     margin-left: 10px;

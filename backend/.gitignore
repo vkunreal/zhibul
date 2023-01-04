@@ -5,4 +5,8 @@
 /public/images/*.png
 /public/images/*.svg
 /public/images/*.gif
+/public/slider/*.jpg
+/public/slider/*.png
+/public/slider/*.svg
+/public/slider/*.gif
 /logs/*.log

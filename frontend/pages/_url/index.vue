@@ -6,7 +6,7 @@
       <div class="mt-4">
         <div v-if="items?.length" class="category__list">
           <template v-for="item in items">
-            <nuxt-link :to="category.url + '/' + item.url" :key="item.id">
+            <nuxt-link :to="category?.url + '/' + item.url" :key="item.id">
               <v-product class="category__item" :product="item" />
             </nuxt-link>
           </template>
@@ -25,7 +25,7 @@ export default {
   components: { VProduct },
   watch: {
     categories() {
-      console.log(this.categoryName);
+      console.log(this.categories);
     },
   },
   computed: {

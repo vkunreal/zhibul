@@ -2,6 +2,7 @@ export const state = () => ({
   appVariables: [],
   categories: [],
   page: null,
+  slider: null,
 });
 
 export const mutations = {
@@ -13,6 +14,9 @@ export const mutations = {
   },
   setPage(state, page) {
     state.page = page;
+  },
+  setSlider(state, slider) {
+    state.slider = slider;
   },
 };
 
@@ -37,7 +41,6 @@ export const actions = {
     {},
     { name = "", phone = "", company = "", email = "", comment = "" } = {}
   ) {
-    console.log("DATA", name, phone);
     if (!name.trim() || !phone.trim()) {
       console.error("App store sendFeedback: not found name or phone");
       return;
@@ -50,10 +53,15 @@ export const actions = {
       comment,
     });
   },
+  async fetchSlider({ commit }) {
+    const slider = await this.$axios.$get("/slider");
+    commit("setSlider", slider);
+  },
 };
 
 export const getters = {
   appVariables: (s) => s.appVariables,
   categories: (s) => s.categories,
   page: (s) => s.page,
+  slider: (s) => s.slider,
 };

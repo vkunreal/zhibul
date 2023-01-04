@@ -104,11 +104,21 @@ CREATE TABLE pages (
   `seo_keywords` VARCHAR(150)
 );
 
--- page images
-DROP TABLE IF EXISTS page_images;
-CREATE TABLE page_images (
-  `page_url` VARCHAR(70) NOT NULL,
+-- slider
+DROP TABLE IF EXISTS slides;
+CREATE TABLE slides (
+  `id` SERIAL PRIMARY KEY,
+  `url` VARCHAR(70) NOT NULL,
+  `title` VARCHAR(120) NOT NULL,
+  `brand` VARCHAR(70) NOT NULL
+);
+
+-- slider images
+DROP TABLE IF EXISTS slider_images;
+CREATE TABLE slider_images (
+  `slide_id` BIGINT UNSIGNED NOT NULL,
+  `display` VARCHAR(50) NOT NULL,
   `src` VARCHAR(200) NOT NULL,
 
-  FOREIGN KEY (page_url) REFERENCES pages(url) ON UPDATE CASCADE ON DELETE CASCADE
+  FOREIGN KEY (slide_id) REFERENCES slides(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
