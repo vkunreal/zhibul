@@ -7,7 +7,7 @@ VALUES
 (5, 'Соеденительные элементы Aignep', 'soedinitelnyeelementy', null, true),
 (6, 'Шланги и трубки', 'trubki_shlangi_rvd', null, false),
 (7, 'Бачки', 'zapasnyechasti', 1, false),
-(8, 'Регуляторы давления', 'zapasnyechasti', 1, false),
+(8, 'Регуляторы давления', 'reg_dav', 1, false),
 (9, 'Серия Carbonio', 'test1', 1, false),
 (10, 'Серия Ego', 'test2', 1, false),
 (11, 'Серия Genesi', 'test4', 1, false),
@@ -68,12 +68,12 @@ VALUES
 -- slider images
 INSERT INTO slider_images (slide_id, display, src)
 VALUES
-(1, 'desktop', 'http://localhost:5000/slider/slide1.jpg'),
-(2, 'desktop', 'http://localhost:5000/slider/slide2.jpg'),
-(3, 'desktop', 'http://localhost:5000/slider/slide3.jpg'),
-(1, 'mobile', 'http://localhost:5000/slider/slide1.jpg'),
-(2, 'mobile', 'http://localhost:5000/slider/slide2.jpg'),
-(3, 'mobile', 'http://localhost:5000/slider/slide3.jpg');
+(1, 'desktop', 'http://localhost:5000/slider/slide1.png'),
+(2, 'desktop', 'http://localhost:5000/slider/slide2.png'),
+(3, 'desktop', 'http://localhost:5000/slider/slide3.png'),
+(1, 'mobile', 'http://localhost:5000/slider/slide1.png'),
+(2, 'mobile', 'http://localhost:5000/slider/slide2.png'),
+(3, 'mobile', 'http://localhost:5000/slider/slide3.png');
 
 -- test
 INSERT INTO users (phone, name, company, email, comment)
@@ -220,7 +220,7 @@ VALUES
 (118, 14, 'test118', 'Набор сменных сопел Walcom Xlight HVLP 830019', 'В набор входит: Распыляющая головка, сопло, игла-пружина', 'Walcom', 3, '0.99'),
 (119, 14, 'test119', 'Набор сменных сопел Walcom Xlight HVLP 830022', 'В набор входит: Распыляющая головка, сопло, игла-пружина', 'Walcom', 3, '0.99'),
 (120, 14, 'test120', 'Набор сменных сопел Walcom Xlight HVLP 830025', 'В набор входит: Распыляющая головка, сопло, игла-пружина', 'Walcom', 3, '0.99'),
-(121, 15, 'test121', 'СБ4/C-24.J1047B', '', 'REMEZA', 1, '655'),
+(121, 15, 'test121', 'СБ4/C-24.J1047B', 'Очень большое, разноплановое, обширное и глубокое описание товара, а самое главное - ТЕСТОВОЕ!!! Чтобы описание заняло достаточно пространства приходится набирать много бессмысленного текста, зато когда тут будет настоящее описание, можно будет видеть его корректно =)', 'REMEZA', 1, '655'),
 (122, 15, 'test122', 'СБ4/C-24.J1048B', '', 'REMEZA', 1, '705'),
 (123, 15, 'test123', 'СБ4/C-50.J1047B', '', 'REMEZA', 1, '745'),
 (124, 15, 'test124', 'СБ4/C-50.J1048B', '', 'REMEZA', 1, '780'),
@@ -495,6 +495,11 @@ VALUES
 (120, 'http://localhost:5000/images/im27.png'),
 (120, 'http://localhost:5000/images/im27-2.png'),
 (121, 'http://localhost:5000/images/im28.png'),
+(121, 'http://localhost:5000/images/im29.png'),
+(121, 'http://localhost:5000/images/im30.png'),
+(121, 'http://localhost:5000/images/im31.png'),
+(121, 'http://localhost:5000/images/im32.png'),
+(121, 'http://localhost:5000/images/im33.png'),
 (122, 'http://localhost:5000/images/im29.png'),
 (123, 'http://localhost:5000/images/im30.png'),
 (124, 'http://localhost:5000/images/im31.png'),

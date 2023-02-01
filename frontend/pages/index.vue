@@ -3,6 +3,7 @@
     <!-- :vertical="true"
     :vertical-delimiters="true" -->
     <v-carousel
+      class="home__slider"
       v-if="slider"
       :show-arrows="false"
       :interval="5000"
@@ -14,9 +15,7 @@
         :src="desktop"
       >
         <div class="d-flex fill-height flex-column justify-center align-center">
-          <p
-            class="home__slider-title text--primary text-uppercase text-center"
-          >
+          <p class="home__slider-title text--white text-uppercase text-center">
             {{ title }} <br />
             {{ brand }}
           </p>
@@ -152,6 +151,12 @@ export default {
 <style lang="scss">
 .home {
   &__slider {
+    .mdi-circle::before {
+      content: "\F0131";
+    }
+    .v-btn--round {
+      border-radius: 2px;
+    }
     &-title {
       font-size: 26px;
       font-weight: 900;

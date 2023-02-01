@@ -36,8 +36,10 @@
       </header>
     </div>
 
-    <nav class="v-app__nav d-flex justify-center mt-1 mb-4">
+    <nav class="v-app__nav d-flex justify-center mt-1 mb-1">
+      <div class="v-app__nav-spacer left" />
       <v-categories class="v-app__nav__categories fill-width" />
+      <div class="v-app__nav-spacer right" />
     </nav>
 
     <main class="fill-height">
@@ -83,7 +85,7 @@
         </div>
 
         <div class="v-app__footer__sections d-flex justify-space-between g-10">
-          <div class="v-app__footer__section fill-width">
+          <!-- <div class="v-app__footer__section fill-width">
             <h4 class="v-app__footer__section-title">Каталог</h4>
             <ul class="d-flex flex-column g-1 mt-1">
               <li
@@ -96,9 +98,9 @@
                 </nuxt-link>
               </li>
             </ul>
-          </div>
+          </div> -->
 
-          <div class="v-app__footer__section fill-width">
+          <!-- <div class="v-app__footer__section fill-width">
             <h4 class="v-app__footer__section-title">Покупателю</h4>
             <ul class="d-flex flex-column g-1 mt-1">
               <li class="v-app__footer__section-list-elem">
@@ -114,7 +116,7 @@
                 <nuxt-link to="/actions">Акции</nuxt-link>
               </li>
             </ul>
-          </div>
+          </div> -->
 
           <div class="fill-width">
             <ul class="d-flex g-1">
@@ -176,6 +178,13 @@ export default {
   async mounted() {
     Vue.prototype.$orderModal = this.$refs["order-modal"].open;
 
+    Array.from(document.getElementsByTagName("img")).forEach(
+      (img) =>
+        (img.ondragstart = function () {
+          return false;
+        })
+    );
+
     await this.fetchVariables();
     await this.fetchCategories();
   },
@@ -186,9 +195,9 @@ export default {
         this.appVariables?.find(({ name }) => name === variableName)?.value ||
         "";
     },
-    parentCategories() {
-      return this.categories.filter((c) => !c.parent_id);
-    },
+    // parentCategories() {
+    //   return this.categories.filter((c) => !c.parent_id);
+    // },
   },
   methods: {
     ...mapActions("app", ["fetchVariables", "fetchCategories"]),
@@ -202,8 +211,8 @@ export default {
 <style lang="scss">
 @import "@/assets/display.scss";
 @import "@/assets/mixins.scss";
-@import "@/assets/variables.scss";
 @import "@/assets/colors.scss";
+@import "@/assets/bundle.scss";
 
 .v-app {
   &__header {
@@ -229,6 +238,14 @@ export default {
     padding-top: 80px !important;
     &__categories {
       max-width: 1024px;
+    }
+    &-spacer {
+      width: 100%;
+      height: 100%;
+      display: none;
+      &.left {
+        background: $primaryGrey;
+      }
     }
   }
 
@@ -298,6 +315,17 @@ export default {
         & svg:hover {
           color: $colorPrimary;
         }
+      }
+    }
+  }
+
+  @include laptop {
+    &__nav {
+      &__categories {
+        min-width: 1024px;
+      }
+      &-spacer {
+        display: block;
       }
     }
   }

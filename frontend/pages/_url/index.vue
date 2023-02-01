@@ -1,6 +1,29 @@
 <template>
-  <section class="category fill-width d-flex justify-center mb-10 pl-2 pr-2">
-    <div class="category-wrapper fill-width">
+  <section class="category fill-width d-flex flex-column align-center mb-10">
+    <div class="breadcrumbs">
+      <div class="breadcrumbs-wrapper">
+        <p class="breadcrumbs__link">
+          <nuxt-link class="mr-1" to="/">Каталог</nuxt-link> /
+        </p>
+        <p
+          class="breadcrumbs__link"
+          v-for="category in breadCategories.slice(0, -1)"
+          :key="category?.id"
+        >
+          <nuxt-link class="mr-1" :to="`/${category?.url}`">{{
+            category?.name
+          }}</nuxt-link>
+          /
+        </p>
+        <p class="breadcrumbs__link">
+          <nuxt-link class="mr-1" :to="`/${category?.url}`">{{
+            category?.name
+          }}</nuxt-link>
+        </p>
+      </div>
+    </div>
+
+    <div class="category-wrapper fill-width pl-2 pr-2">
       <h1>{{ categoryName }}</h1>
 
       <div class="mt-4">
@@ -23,11 +46,6 @@ import VProduct from "@/components/VProduct";
 
 export default {
   components: { VProduct },
-  watch: {
-    categories() {
-      console.log(this.categories);
-    },
-  },
   computed: {
     ...mapGetters("app", ["categories"]),
     ...mapGetters("items", ["items"]),
@@ -39,6 +57,18 @@ export default {
     },
     categoryName() {
       return this.category?.name || "";
+    },
+    breadCategories() {
+      let tempCategory = this.category;
+      const result = [];
+      while (tempCategory?.parent_id) {
+        result.push(tempCategory);
+        tempCategory =
+          this.categories.filter((c) => c.id === tempCategory.parent_id)[0] ||
+          null;
+      }
+      result.push(tempCategory);
+      return result.reverse();
     },
   },
   // { store, req, redirect }
