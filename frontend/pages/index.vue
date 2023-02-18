@@ -152,7 +152,8 @@ export default {
 .home {
   &__slider {
     .mdi-circle::before {
-      content: "\F0131";
+      // content: "\F0131";
+      content: "\2611";
     }
     .v-btn--round {
       border-radius: 2px;

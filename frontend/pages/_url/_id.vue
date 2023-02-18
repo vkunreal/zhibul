@@ -5,14 +5,18 @@
         <p class="breadcrumbs__link">
           <nuxt-link class="mr-1" to="/">Каталог</nuxt-link> /
         </p>
-        <p class="breadcrumbs__link">
-          <nuxt-link class="mr-1" :to="`/${itemDetails.category_url}`">{{
-            itemDetails.category_name
+        <p
+          class="breadcrumbs__link"
+          v-for="category in breadCategories"
+          :key="category?.id"
+        >
+          <nuxt-link class="mr-1" :to="`/${category?.url}`">{{
+            category?.name
           }}</nuxt-link>
           /
         </p>
         <p class="breadcrumbs__link">
-          <a class="mr-1" href="">{{ itemDetails.name }}</a>
+          <nuxt-link class="mr-1" to="">{{ itemDetails.name }}</nuxt-link>
         </p>
       </div>
     </div>
@@ -21,7 +25,7 @@
       <template v-if="itemDetails">
         <!-- title -->
         <h1 class="mt-4">
-          {{ itemDetails.category_name }}: {{ itemDetails.name }}
+          {{ itemDetails.name }}
         </h1>
         <!-- title -->
 
@@ -35,6 +39,7 @@
             />
             <div
               class="product__images-footer d-flex g-1"
+              v-if="images.length > 1"
               @mouseover="($event) => $event.target.focus()"
             >
               <img
@@ -117,36 +122,56 @@ export default {
     image: null,
   }),
   mounted() {
-    function scrollHorizontally(e) {
-      e = window.event || e;
-      var delta = Math.max(-1, Math.min(1, e.wheelDelta || -e.detail));
-      document.getElementsByClassName("product__images-footer")[0].scrollLeft -=
-        delta * 30; // Multiplied by 10
-      e.preventDefault();
-    }
-    if (
-      document.getElementsByClassName("product__images-footer")[0]
-        .addEventListener
-    ) {
-      // IE9, Chrome, Safari, Opera
-      document
-        .getElementsByClassName("product__images-footer")[0]
-        .addEventListener("mousewheel", scrollHorizontally, false);
-      // Firefox
-      document
-        .getElementsByClassName("product__images-footer")[0]
-        .addEventListener("DOMMouseScroll", scrollHorizontally, false);
-    } else {
-      // IE 6/7/8
-      document
-        .getElementsByClassName("product__images-footer")[0]
-        .attachEvent("onmousewheel", scrollHorizontally);
+    if (this.images.length > 1) {
+      function scrollHorizontally(e) {
+        e = window.event || e;
+        var delta = Math.max(-1, Math.min(1, e.wheelDelta || -e.detail));
+        document.getElementsByClassName(
+          "product__images-footer"
+        )[0].scrollLeft -= delta * 30; // Multiplied by 10
+        e.preventDefault();
+      }
+      if (
+        document.getElementsByClassName("product__images-footer")[0]
+          .addEventListener
+      ) {
+        // IE9, Chrome, Safari, Opera
+        document
+          .getElementsByClassName("product__images-footer")[0]
+          .addEventListener("mousewheel", scrollHorizontally, false);
+        // Firefox
+        document
+          .getElementsByClassName("product__images-footer")[0]
+          .addEventListener("DOMMouseScroll", scrollHorizontally, false);
+      } else {
+        // IE 6/7/8
+        document
+          .getElementsByClassName("product__images-footer")[0]
+          .attachEvent("onmousewheel", scrollHorizontally);
+      }
     }
   },
   computed: {
+    ...mapGetters("app", ["categories"]),
     ...mapGetters("items", ["itemDetails", "itemOptions"]),
     images() {
       return this.itemDetails?.images.split(",") || [];
+    },
+    breadCategories() {
+      let tempCategory = this.categories.filter(
+        (c) => c.url === this.itemDetails.category_url
+      )[0];
+
+      const result = [];
+      while (tempCategory?.parent_id) {
+        result.push(tempCategory);
+        tempCategory =
+          this.categories.filter((c) => c.id === tempCategory.parent_id)[0] ||
+          null;
+      }
+
+      result.push(tempCategory);
+      return result.reverse() || [];
     },
   },
   async fetch({ store, params }) {
@@ -186,9 +211,15 @@ export default {
     }
     &-footer {
       width: 450px;
-      overflow-x: scroll;
+      overflow-x: auto;
       &::-webkit-scrollbar {
-        display: none;
+        height: 8px;
+        background-color: $light-grey;
+        border-radius: 9em;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: $primaryGrey;
+        border-radius: 9em;
       }
     }
   }

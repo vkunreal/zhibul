@@ -133,6 +133,7 @@ class ItemsController {
         await ItemsServices.addImageToDB(item_id, imageUrl)
       })
     }
+
     res.status(200).json({ status: true, response: urls })
   }
 

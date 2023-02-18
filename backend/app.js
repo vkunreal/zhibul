@@ -3,6 +3,7 @@ const express = require('express')
 const path = require('path')
 const cors = require('cors')
 const fileUpload = require('express-fileupload')
+const { existsSync } = require('fs')
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -14,7 +15,7 @@ const OptionsRouter = require('./routers/OptionsRouter')
 const VariablesRouter = require('./routers/VariablesRouter')
 const PagesRouter = require('./routers/PagesRouter')
 const SliderRouter = require('./routers/SliderRouter')
-const { existsSync } = require('fs')
+const FilesRouter = require('./routers/FilesRouter')
 
 app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(express.static(path.resolve(__dirname, 'build')))
@@ -29,6 +30,7 @@ app.use('/api', OptionsRouter)
 app.use('/api', VariablesRouter)
 app.use('/api', PagesRouter)
 app.use('/api', SliderRouter)
+app.use('/api', FilesRouter)
 
 app.get('/images/:image', (req, res) => {
   const imagePath = path.resolve(
@@ -53,6 +55,15 @@ app.get('/slider/:image', (req, res) => {
   )
   if (existsSync(imagePath)) {
     res.sendFile(imagePath)
+  } else {
+    res.status(400).json({ status: false })
+  }
+})
+
+app.get('/files/:file', (req, res) => {
+  const filePath = path.resolve(__dirname, 'public', 'files', req.params.file)
+  if (existsSync(filePath)) {
+    res.sendFile(filePath)
   } else {
     res.status(400).json({ status: false })
   }

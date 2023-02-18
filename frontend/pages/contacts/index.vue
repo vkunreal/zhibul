@@ -1,7 +1,7 @@
 <template>
   <section class="fill-width d-flex flex-column align-center">
     <div class="contacts fill-width">
-      <h1 class="mb-4">{{ pageTitle }}</h1>
+      <h1 class="text-center mt-4 mb-4">{{ pageTitle }}</h1>
 
       <p>{{ pageText }}</p>
 
@@ -12,7 +12,7 @@
           <svg width="40" height="40" class="contacts__contact-icon">
             <use xlink:href="@/static/icons.svg#phone" />
           </svg>
-          <h5 class="contacts__contact-name mt-2">Звонок по РБ</h5>
+          <h5 class="contacts__contact-name mt-2">Телефон</h5>
           <p class="contacts__contact-value">{{ variable("phone_sales") }}</p>
         </li>
 
@@ -73,7 +73,7 @@
       </div>
     </div>
 
-    <div class="bg--primary fill-width d-flex justify-center mt-10 mb-10">
+    <div class="bg--primary fill-width d-flex justify-center mt-10">
       <v-feed-back />
     </div>
 

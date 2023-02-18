@@ -1,7 +1,18 @@
 <template>
   <section class="fill-width d-flex flex-column align-center">
+    <div class="breadcrumbs">
+      <div class="breadcrumbs-wrapper">
+        <p class="breadcrumbs__link">
+          <nuxt-link class="mr-1" to="/">Главная</nuxt-link> /
+        </p>
+        <p class="breadcrumbs__link">
+          <nuxt-link class="mr-1" to="">Доставка</nuxt-link>
+        </p>
+      </div>
+    </div>
+
     <div class="delivery fill-width">
-      <h1 class="mb-4">{{ pageTitle }}</h1>
+      <h1 class="mt-4 mb-4">{{ pageTitle }}</h1>
 
       <p>{{ pageText }}</p>
 

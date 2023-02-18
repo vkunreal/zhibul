@@ -15,7 +15,7 @@
           <use xlink:href="@/static/icons.svg#menu" />
         </svg>
 
-        <p class="text-uppercase">Каталог товаров</p>
+        <p class="text-uppercase">Каталог</p>
       </div>
 
       <transition name="fade">

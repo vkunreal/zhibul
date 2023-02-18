@@ -24,7 +24,7 @@
     </div>
 
     <div class="category-wrapper fill-width pl-2 pr-2">
-      <h1>{{ categoryName }}</h1>
+      <h1 class="mt-4">{{ categoryName }}</h1>
 
       <div class="mt-4">
         <div v-if="items?.length" class="category__list">

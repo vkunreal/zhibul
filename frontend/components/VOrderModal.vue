@@ -12,7 +12,7 @@
         <v-text-field
           v-model="phone"
           class="fill-width"
-          label="Телефон"
+          label="Телефон *"
           v-mask="phoneMask"
         />
       </v-card-text>
@@ -43,7 +43,7 @@ export default {
   },
   computed: {
     submitDisabled() {
-      return !this.name.trim() || this.phone.length < 19;
+      return this.phone.length < 19;
     },
   },
   methods: {
