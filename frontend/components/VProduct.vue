@@ -38,21 +38,23 @@ export default {
 .v-product {
   display: flex;
   cursor: pointer;
+  flex-direction: column;
   & p {
     margin: 0;
   }
   &__image {
-    width: 45%;
+    width: 100%;
   }
   &__info {
     margin-left: 10px;
   }
   @include tablet {
-    flex-direction: column;
+    flex-direction: row;
     &__image {
-      width: 100%;
+      width: 300px;
     }
     &__info {
+      width: 100%;
       padding: 10px;
       margin-left: 0;
     }

@@ -27,7 +27,7 @@
       <h1 class="mt-4">{{ categoryName }}</h1>
 
       <div class="mt-4">
-        <div v-if="items?.length" class="category__list">
+        <div v-if="items?.length" class="category__list d-flex flex-column">
           <template v-for="item in items">
             <nuxt-link :to="category?.url + '/' + item.url" :key="item.id">
               <v-product class="category__item" :product="item" />
@@ -93,20 +93,11 @@ export default {
   }
 
   &__list {
-    display: flex;
-    flex-direction: column;
     gap: 10px;
   }
 
   &__item {
     width: 100%;
-  }
-
-  @include tablet {
-    &__list {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-    }
   }
 }
 </style>

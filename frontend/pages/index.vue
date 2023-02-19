@@ -8,6 +8,7 @@
       :show-arrows="false"
       :interval="5000"
       :cycle="true"
+      delimiter-icon="mdi-minus"
     >
       <v-carousel-item
         v-for="{ id, title, brand, url, images: { desktop } } in slider"
@@ -151,13 +152,6 @@ export default {
 <style lang="scss">
 .home {
   &__slider {
-    .mdi-circle::before {
-      // content: "\F0131";
-      content: "\2611";
-    }
-    .v-btn--round {
-      border-radius: 2px;
-    }
     &-title {
       font-size: 26px;
       font-weight: 900;

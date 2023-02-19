@@ -24,14 +24,14 @@
     <div class="product-wrapper fill-width">
       <template v-if="itemDetails">
         <!-- title -->
-        <h1 class="mt-4">
+        <h1 class="mt-4 ml-2 ml-md-0">
           {{ itemDetails.name }}
         </h1>
         <!-- title -->
 
-        <div class="fill-width d-flex">
+        <div class="fill-width d-flex flex-column flex-md-row pd-2 pd-md-0">
           <!-- main image -->
-          <div class="product__images">
+          <div class="product__images d-flex flex-column align-center">
             <img
               width="450"
               :src="image ? image : images[0]"
@@ -56,22 +56,22 @@
           <!-- main image -->
 
           <!-- details -->
-          <div class="d-flex flex-column fill-width g-2 pd-1">
+          <div class="d-flex flex-column fill-width mt-2 mt-md-0 g-2 pd-1">
             <h2>Характеристики товара:</h2>
 
             <!-- brand -->
             <div class="d-flex justify-space-between">
-              <p>Бренд</p>
+              <nobr>Бренд</nobr>
               <div class="product__dotted-spacer fill-width" />
-              <p>{{ itemDetails.brand }}</p>
+              <nobr>{{ itemDetails.brand }}</nobr>
             </div>
             <!-- brand -->
 
             <!-- manufacrurer -->
             <div class="d-flex justify-space-between">
-              <p>Производитель</p>
+              <nobr>Производитель</nobr>
               <div class="product__dotted-spacer fill-width" />
-              <p>{{ itemDetails.manufacturer }}</p>
+              <nobr>{{ itemDetails.manufacturer }}</nobr>
             </div>
             <!-- manufacrurer -->
 
@@ -205,12 +205,12 @@ export default {
     font-size: 20px;
   }
   &__images {
-    width: 450px;
+    width: 100%;
     & img {
       user-select: none;
     }
     &-footer {
-      width: 450px;
+      width: 100%;
       overflow-x: auto;
       &::-webkit-scrollbar {
         height: 8px;
@@ -220,6 +220,15 @@ export default {
       &::-webkit-scrollbar-thumb {
         background-color: $primaryGrey;
         border-radius: 9em;
+      }
+    }
+  }
+
+  @include laptop {
+    &__images {
+      width: 450px;
+      &-footer {
+        width: 450px;
       }
     }
   }
