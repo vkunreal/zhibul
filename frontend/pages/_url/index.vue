@@ -27,7 +27,34 @@
       <h1 class="mt-4">{{ categoryName }}</h1>
 
       <div class="mt-4">
-        <div v-if="items?.length" class="category__list d-flex flex-column">
+        <div
+          v-if="
+            !category?.parent_id && !items?.length && undercategories.length
+          "
+        >
+          <nuxt-link
+            v-for="{ name, description, image, url } in undercategories"
+            :to="url"
+          >
+            <div class="d-flex justify-space-between" :title="name">
+              <div>
+                <h3>{{ name }}</h3>
+                <p>{{ description }}</p>
+
+                <div>
+                  <button>Каталог</button>
+                  <button>Запрос</button>
+                </div>
+              </div>
+
+              <img width="400" :src="image" :alt="name" />
+            </div>
+          </nuxt-link>
+        </div>
+        <div
+          v-else-if="items?.length"
+          class="category__list d-flex flex-column"
+        >
           <template v-for="item in items">
             <nuxt-link :to="category?.url + '/' + item.url" :key="item.id">
               <v-product class="category__item" :product="item" />
@@ -54,6 +81,14 @@ export default {
     },
     category() {
       return this.categories.filter((c) => c.url === this.url)[0] || null;
+    },
+    undercategories() {
+      console.log(
+        this.categories.filter((c) => c?.parent_id === this?.category.id) || []
+      );
+      return (
+        this.categories.filter((c) => c?.parent_id === this?.category.id) || []
+      );
     },
     categoryName() {
       return this.category?.name || "";

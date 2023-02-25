@@ -45,6 +45,8 @@ DROP TABLE IF EXISTS categories;
 CREATE TABLE categories (
   `id` SERIAL PRIMARY KEY,
   `name` VARCHAR(50) NOT NULL,
+  `description` text,
+  `image` VARCHAR(150),
   `url` VARCHAR(70) NOT NULL,
   `parent_id` BIGINT,
   `is_contains` BOOLEAN NOT NULL,

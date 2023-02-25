@@ -24,7 +24,7 @@
     <div class="product-wrapper fill-width">
       <template v-if="itemDetails">
         <!-- title -->
-        <h1 class="mt-4 ml-2 ml-md-0">
+        <h1 class="text-center text-uppercase mt-8 ml-2 ml-md-0 mb-8">
           {{ itemDetails.name }}
         </h1>
         <!-- title -->
