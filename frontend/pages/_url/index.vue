@@ -24,32 +24,38 @@
     </div>
 
     <div class="category-wrapper fill-width pl-2 pr-2">
-      <h1 class="mt-4">{{ categoryName }}</h1>
+      <h1 class="mt-8 mb-8 text-center text-uppercase">{{ categoryName }}</h1>
 
       <div class="mt-4">
         <div
           v-if="
             !category?.parent_id && !items?.length && undercategories.length
           "
+          class="d-flex flex-column g-8"
         >
-          <nuxt-link
+          <div
             v-for="{ name, description, image, url } in undercategories"
-            :to="url"
+            class="d-flex justify-space-between"
+            :title="name"
           >
-            <div class="d-flex justify-space-between" :title="name">
-              <div>
-                <h3>{{ name }}</h3>
-                <p>{{ description }}</p>
+            <div class="d-flex flex-column justify-space-between">
+              <h3>{{ name }}</h3>
+              <p>{{ description }}</p>
 
-                <div>
-                  <button>Каталог</button>
-                  <button>Запрос</button>
-                </div>
+              <div class="d-flex g-2">
+                <nuxt-link :to="url">
+                  <button class="category__undercategories-button catalog">
+                    Каталог
+                  </button>
+                </nuxt-link>
+                <button class="category__undercategories-button request">
+                  Запрос
+                </button>
               </div>
-
-              <img width="400" :src="image" :alt="name" />
             </div>
-          </nuxt-link>
+
+            <img width="400" :src="image" :alt="name" />
+          </div>
         </div>
         <div
           v-else-if="items?.length"

@@ -92,18 +92,18 @@
               <p>Стоимость: {{ itemDetails.price }} руб / шт</p>
             </div>
             <!-- price -->
-
-            <!-- description -->
-            <template v-if="itemDetails?.description">
-              <h2>Описание товара:</h2>
-
-              <div v-html="itemDetails?.description" />
-            </template>
-            <!-- description -->
           </div>
           <!-- details -->
         </div>
       </template>
+
+      <!-- description -->
+      <template v-if="itemDetails?.description">
+        <h2>Описание товара:</h2>
+
+        <div v-html="itemDetails?.description" />
+      </template>
+      <!-- description -->
 
       <!-- product not found -->
       <template v-else>
