@@ -1,8 +1,10 @@
+@import "./mixins.scss";
+
 .breadcrumbs {
   width: 100%;
   background: $primaryGrey;
   color: $white;
-  display: flex;
+  display: none;
   justify-content: center;
   margin-top: -4px;
 
@@ -22,5 +24,9 @@
     &:hover {
       text-decoration: underline !important;
     }
+  }
+
+  @include laptop {
+    display: flex;
   }
 }

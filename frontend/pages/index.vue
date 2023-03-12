@@ -9,6 +9,7 @@
       :interval="5000"
       :cycle="true"
       delimiter-icon="mdi-minus"
+      height="800"
     >
       <v-carousel-item
         v-for="{ id, title, brand, url, images: { desktop } } in slider"
@@ -161,6 +162,9 @@ export default {
       color: $white !important;
       border-radius: 0 !important;
       padding: 25px 30px !important;
+    }
+    .v-btn::before {
+      content: unset;
     }
   }
   &-wrapper {

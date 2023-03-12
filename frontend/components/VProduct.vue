@@ -8,9 +8,11 @@
 
     <div class="v-product__info d-flex flex-column g-2">
       <h3 class="v-product__info-title">{{ product.name }}</h3>
-      <p class="v-product__info-field">{{ product.brand }}</p>
-      <p class="v-product__info-field">{{ product.manufacturer }}</p>
-      <p class="v-product__info-field">{{ product.price }} руб.</p>
+      <p class="v-product__info-field">Бренд: {{ product.brand }}</p>
+      <p class="v-product__info-field">
+        Страна производитель: {{ product.manufacturer }}
+      </p>
+      <p class="v-product__info-field">Цена: {{ product.price }} руб.</p>
     </div>
   </section>
 </template>
@@ -51,7 +53,7 @@ export default {
   @include tablet {
     flex-direction: row;
     &__image {
-      width: 300px;
+      width: 500px;
     }
     &__info {
       width: 100%;

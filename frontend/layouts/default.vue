@@ -2,9 +2,9 @@
   <v-app>
     <div class="v-app__header-wrapper fill-width d-flex justify-center pd-1">
       <header
-        class="v-app__header fill-width d-flex justify-space-around align-center"
+        class="v-app__header fill-width d-flex justify-space-between align-center"
       >
-        <div class="pointer" @click="logoClick">
+        <div class="d-flex align-center pointer" @click="logoClick">
           <img width="140" src="@/static/logo.png" alt="logo" />
         </div>
 
@@ -13,13 +13,19 @@
             <use xlink:href="@/static/icons.svg#phone" />
           </svg>
 
-          <div>
-            <p class="v-app__header__block-text">
-              {{ variable("phone_sales") }}
-            </p>
-            <p class="v-app__header__block-text">
-              {{ variable("phone_services") }}
-            </p>
+          <div class="d-flex flex-column">
+            <a
+              :href="`tel:${phone_sales}`"
+              class="v-app__header__block-text text--white"
+            >
+              {{ phone_sales }}
+            </a>
+            <a
+              :href="`tel:${phone_services}`"
+              class="v-app__header__block-text text--white"
+            >
+              {{ phone_services }}
+            </a>
           </div>
         </div>
 
@@ -27,7 +33,11 @@
           <svg width="30" height="30">
             <use xlink:href="@/static/icons.svg#email" />
           </svg>
-          <p class="v-app__header__block-text">{{ variable("email") }}</p>
+          <a
+            :href="`mailto:${email}`"
+            class="v-app__header__block-text text--white"
+            >{{ email }}</a
+          >
         </div>
 
         <v-btn large color="yellow" @click="$orderModal()"
@@ -51,8 +61,9 @@
         <div
           class="v-app__footer__contacts d-flex justify-space-between g-4 mt-4 mb-8"
         >
-          <div
-            class="v-app__footer__contacts__block fill-width d-flex justify-center align-center pd-4 g-4"
+          <a
+            class="v-app__footer__contacts__block fill-width d-flex justify-center align-center text--white pd-4 g-4"
+            :href="`tel:${phone_sales}`"
           >
             <svg width="40" height="40">
               <use xlink:href="@/static/icons.svg#phone" />
@@ -62,13 +73,14 @@
                 Звонок по Беларуси
               </h4>
               <p class="v-app__footer__contacts__block-text">
-                {{ variable("phone_sales") }}
+                {{ phone_sales }}
               </p>
             </div>
-          </div>
+          </a>
 
-          <div
-            class="v-app__footer__contacts__block fill-width d-flex justify-center align-center pd-4 g-4"
+          <a
+            class="v-app__footer__contacts__block fill-width d-flex justify-center align-center text--white pd-4 g-4"
+            :href="`mailto:${email}`"
           >
             <svg width="40" height="40">
               <use xlink:href="@/static/icons.svg#email" />
@@ -78,10 +90,10 @@
                 Электронная почта
               </h4>
               <p class="v-app__footer__contacts__block-text">
-                {{ variable("email") }}
+                {{ email }}
               </p>
             </div>
-          </div>
+          </a>
         </div>
 
         <div class="v-app__footer__sections d-flex justify-space-between g-10">
@@ -158,7 +170,7 @@
           </div>
         </div>
 
-        <p class="text-center mt-4">© 2022 ZHBL</p>
+        <p class="text-center mt-4">© 2023 ZHBL</p>
       </footer>
     </div>
 
@@ -195,6 +207,15 @@ export default {
         this.appVariables?.find(({ name }) => name === variableName)?.value ||
         "";
     },
+    phone_sales() {
+      return this.variable("phone_sales");
+    },
+    phone_services() {
+      return this.variable("phone_services");
+    },
+    email() {
+      return this.variable("email");
+    },
     // parentCategories() {
     //   return this.categories.filter((c) => !c.parent_id);
     // },
@@ -217,6 +238,7 @@ export default {
 .v-app {
   &__header {
     max-width: 1024px;
+    height: 65px;
     &-wrapper {
       background: $primaryGrey;
       color: $white;
@@ -227,6 +249,7 @@ export default {
       font-size: 12px;
       &-text {
         font-weight: bold;
+        text-decoration: none;
       }
       & p {
         margin-bottom: 0;
@@ -266,6 +289,7 @@ export default {
     &__contacts {
       &__block {
         background: $colorGrey;
+        text-decoration: none;
         &-title {
           font-size: 14px;
           font-weight: 400;

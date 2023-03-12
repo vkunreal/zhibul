@@ -59,6 +59,7 @@ CREATE TABLE categories (
 DROP TABLE IF EXISTS items;
 CREATE TABLE items (
   `id` SERIAL PRIMARY KEY,
+  `code` VARCHAR(6) UNIQUE NOT  NULL,
   `category_id` BIGINT UNSIGNED NOT NULL,
   `url` VARCHAR(120) NOT NULL UNIQUE,
   `name` VARCHAR(120) NOT NULL,
@@ -102,6 +103,7 @@ CREATE TABLE options (
   `position` INT UNSIGNED NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   `value` VARCHAR(150) NOT NULL,
+  `is_dropdown` INT default 0,
   
   FOREIGN KEY (item_id) REFERENCES items(id) ON UPDATE CASCADE ON DELETE CASCADE
 );

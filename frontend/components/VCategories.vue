@@ -8,14 +8,21 @@
         categoryDetail = null;
       "
     >
-      <div
-        class="v-categories__menu-catalog d-flex align-center pointer g-1 pd-2 pt-3 pb-3 pr-14"
-      >
-        <svg class="text--white" width="30" height="30">
-          <use xlink:href="@/static/icons.svg#menu" />
-        </svg>
+      <div class="d-flex">
+        <nuxt-link
+          to="/catalog"
+          class="v-categories__menu-catalog d-flex align-center text--white pointer g-1 pt-3 pb-3 pr-2"
+        >
+          <svg class="text--white" width="30" height="30">
+            <use xlink:href="@/static/icons.svg#menu" />
+          </svg>
 
-        <p class="text-uppercase">Каталог</p>
+          <p class="text-uppercase">Каталог</p>
+        </nuxt-link>
+
+        <svg class="v-categories__menu-catalog-treug">
+          <use xlink:href="@/static/icons.svg#treug" />
+        </svg>
       </div>
 
       <transition name="fade">
@@ -58,6 +65,10 @@
               >
                 <nuxt-link :to="'/' + url">
                   {{ name }}
+
+                  <svg class="ml-4" v-if="is_contains" width="12" height="12">
+                    <use xlink:href="@/static/icons.svg#slider-arrow" />
+                  </svg>
                 </nuxt-link>
               </li>
             </ul>
@@ -88,7 +99,15 @@
             v-for="{ title, url } in tabs"
             :key="url"
           >
-            <nuxt-link :to="url">{{ title }}</nuxt-link>
+            <nuxt-link
+              class="d-flex justify-space-between align-center"
+              :to="url"
+            >
+              {{ title }}
+              <svg class="ml-4" width="12" height="12">
+                <use xlink:href="@/static/icons.svg#slider-arrow" />
+              </svg>
+            </nuxt-link>
           </div>
         </div>
       </li>
@@ -154,19 +173,14 @@ export default {
   }
   &__menu {
     position: relative;
-    z-index: 1000;
+    z-index: 99;
     &-catalog {
       background: $primaryGrey;
       color: $white;
-      &:after {
-        content: "";
-
-        position: absolute;
-        right: 0;
-        bottom: 0;
-
-        border-bottom: 53px solid white;
-        border-left: 55px solid $primaryGrey;
+      &-treug {
+        width: 54px;
+        height: 54px;
+        color: $primaryGrey;
       }
     }
     &-list {
@@ -190,18 +204,24 @@ export default {
     & a {
       color: $black;
     }
+    & .nuxt-link-exact-active {
+      color: $colorSecondary !important;
+    }
     &-list {
-      background: $colorGrey;
-      width: max-content;
+      background: $primaryGrey;
+      width: 250px;
       position: absolute;
       z-index: 1000;
       & a {
         min-width: 120px;
-        padding: 0.5rem;
+        padding: 0.75rem;
         color: $white !important;
         &:hover {
           background: $colorPrimary;
         }
+      }
+      & .nuxt-link-exact-active {
+        color: $white !important;
       }
     }
   }

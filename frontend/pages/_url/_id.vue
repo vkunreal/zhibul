@@ -1,23 +1,27 @@
 <template>
   <section class="product fill-width d-flex flex-column align-center mb-10">
     <div class="breadcrumbs">
-      <div class="breadcrumbs-wrapper">
-        <p class="breadcrumbs__link">
-          <nuxt-link class="mr-1" to="/">Каталог</nuxt-link> /
-        </p>
-        <p
-          class="breadcrumbs__link"
-          v-for="category in breadCategories"
-          :key="category?.id"
-        >
-          <nuxt-link class="mr-1" :to="`/${category?.url}`">{{
-            category?.name
-          }}</nuxt-link>
-          /
-        </p>
-        <p class="breadcrumbs__link">
-          <nuxt-link class="mr-1" to="">{{ itemDetails.name }}</nuxt-link>
-        </p>
+      <div class="breadcrumbs-wrapper justify-space-between">
+        <div class="d-flex g-1">
+          <p class="breadcrumbs__link">
+            <nuxt-link class="mr-1" to="/">Каталог</nuxt-link> /
+          </p>
+          <p
+            class="breadcrumbs__link"
+            v-for="category in breadCategories"
+            :key="category?.id"
+          >
+            <nuxt-link class="mr-1" :to="`/${category?.url}`">{{
+              category?.name
+            }}</nuxt-link>
+            /
+          </p>
+          <p class="breadcrumbs__link">
+            <nuxt-link class="mr-1" to="">{{ itemDetails.name }}</nuxt-link>
+          </p>
+        </div>
+
+        <p v-if="itemDetails">{{ itemDetails?.code }}</p>
       </div>
     </div>
 
@@ -29,9 +33,11 @@
         </h1>
         <!-- title -->
 
-        <div class="fill-width d-flex flex-column flex-md-row pd-2 pd-md-0">
+        <div
+          class="fill-width d-flex flex-column flex-md-row pd-2 mb-8 pd-md-0"
+        >
           <!-- main image -->
-          <div class="product__images d-flex flex-column align-center">
+          <div class="product__images d-flex flex-column align-center mr-10">
             <img
               width="450"
               :src="image ? image : images[0]"
@@ -59,6 +65,19 @@
           <div class="d-flex flex-column fill-width mt-2 mt-md-0 g-2 pd-1">
             <h2>Характеристики товара:</h2>
 
+            <!-- dropdown -->
+            <v-select
+              class="mb-n4"
+              v-for="{ id, name, value } in itemOptions.filter(
+                (op) => op.is_dropdown
+              )"
+              :key="id"
+              :label="name"
+              :items="value.split('-')"
+              :value="value.split('-')[0]"
+            />
+            <!-- dropdown -->
+
             <!-- brand -->
             <div class="d-flex justify-space-between">
               <nobr>Бренд</nobr>
@@ -78,7 +97,9 @@
             <!-- options -->
             <div
               class="d-flex justify-space-between"
-              v-for="{ id, name, value } in itemOptions"
+              v-for="{ id, name, value } in itemOptions.filter(
+                (op) => !op.is_dropdown
+              )"
               :key="id"
             >
               <nobr>{{ name }}</nobr>
@@ -98,11 +119,11 @@
       </template>
 
       <!-- description -->
-      <template v-if="itemDetails?.description">
+      <div class="pd-3 pd-md-0" v-if="itemDetails?.description">
         <h2>Описание товара:</h2>
 
         <div v-html="itemDetails?.description" />
-      </template>
+      </div>
       <!-- description -->
 
       <!-- product not found -->

@@ -6,25 +6,27 @@
       <p>{{ pageText }}</p>
 
       <ul class="d-flex justify-space-between g-2 mt-10">
-        <li
+        <a
           class="contacts__contact fill-width d-flex flex-column g-1 align-center text-center"
+          :href="`tel:${phone_sales}`"
         >
           <svg width="40" height="40" class="contacts__contact-icon">
             <use xlink:href="@/static/icons.svg#phone" />
           </svg>
           <h5 class="contacts__contact-name mt-2">Телефон</h5>
           <p class="contacts__contact-value">{{ variable("phone_sales") }}</p>
-        </li>
+        </a>
 
-        <li
+        <a
           class="contacts__contact fill-width d-flex flex-column g-1 align-center text-center"
+          :href="`mailto:${email}`"
         >
           <svg width="40" height="40" class="contacts__contact-icon">
             <use xlink:href="@/static/icons.svg#email" />
           </svg>
           <h5 class="contacts__contact-name mt-2">Электронная почта</h5>
           <p class="contacts__contact-value">{{ variable("email") }}</p>
-        </li>
+        </a>
       </ul>
 
       <div class="contacts__card-wrapper fill-width d-flex justify-center">
@@ -109,6 +111,12 @@ export default {
     pageText() {
       return this.page?.text || "";
     },
+    phone_sales() {
+      return this.variable("phone_sales");
+    },
+    email() {
+      return this.variable("email");
+    },
   },
   async fetch({ store }) {
     await store.dispatch("app/fetchPage", "contacts");
@@ -124,6 +132,8 @@ export default {
 .contacts {
   max-width: 1024px;
   &__contact {
+    color: $black !important;
+    text-decoration: none;
     list-style: none;
     padding: 35px;
     box-shadow: 0 4px 16px rgb(0 0 0 / 4%), 0 1px 4px rgb(0 0 0 / 14%);

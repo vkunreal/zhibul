@@ -39,7 +39,7 @@
             :title="name"
           >
             <div class="d-flex flex-column justify-space-between">
-              <h3>{{ name }}</h3>
+              <h2 class="category__undercategories-title">{{ name }}</h2>
               <p>{{ description }}</p>
 
               <div class="d-flex g-2">
@@ -139,6 +139,25 @@ export default {
 
   &__item {
     width: 100%;
+  }
+
+  &__undercategories {
+    &-title {
+      font-size: 29px;
+      font-weight: 400;
+    }
+    &-button {
+      padding: 8px 24px;
+      font-size: 18px;
+      font-weight: 700;
+      &.catalog {
+        background: $primaryGrey;
+        color: $white;
+      }
+      &.request {
+        border: 1px solid $primaryGrey;
+      }
+    }
   }
 }
 </style>

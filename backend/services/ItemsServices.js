@@ -4,6 +4,7 @@ const { writeLog } = require('../writeLog')
 const queryItems = `
   SELECT
     it.id,
+    it.code,
     c.url as category_url,
     c.name as category_name,
     GROUP_CONCAT(im.src SEPARATOR ',') as images,
@@ -24,6 +25,7 @@ const queryItems = `
 const queryItemsByCategoryUrl = (category_url) => `
   SELECT
     it.id,
+    it.code,
     c.url as category_url,
     c.name as category_name,
     GROUP_CONCAT(im.src SEPARATOR ',') as images,
@@ -44,6 +46,7 @@ const queryItemsByCategoryUrl = (category_url) => `
 const queryItemByUrl = (item_url) => `
   SELECT
     it.id,
+    it.code,
     c.url as category_url,
     c.name as category_name,
     GROUP_CONCAT(im.src SEPARATOR ',') as images,
