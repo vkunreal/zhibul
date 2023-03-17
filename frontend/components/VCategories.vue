@@ -209,7 +209,7 @@ export default {
     }
     &-list {
       background: $primaryGrey;
-      width: 250px;
+      width: 270px;
       position: absolute;
       z-index: 1000;
       & a {
@@ -218,6 +218,7 @@ export default {
         color: $white !important;
         &:hover {
           background: $colorPrimary;
+          color: $primaryGrey;
         }
       }
       & .nuxt-link-exact-active {

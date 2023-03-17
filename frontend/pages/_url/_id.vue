@@ -67,7 +67,7 @@
 
             <!-- dropdown -->
             <v-select
-              class="mb-n4"
+              class="mb-n2"
               v-for="{ id, name, value } in itemOptions.filter(
                 (op) => op.is_dropdown
               )"
@@ -75,6 +75,7 @@
               :label="name"
               :items="value.split('-')"
               :value="value.split('-')[0]"
+              variant="default"
             />
             <!-- dropdown -->
 
