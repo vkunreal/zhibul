@@ -5,6 +5,7 @@
   "scripts": {
     "backend:serve": "cd backend && npm run dev",
     "backend:start": "cd backend && npm start",
+    "backend:forever": "cd backend && forever app.js",
     "cms:serve": "cd cms && npm start",
     "cms:build": "cd cms && npm run build",
     "frontend:serve": "cd frontend && yarn dev",
