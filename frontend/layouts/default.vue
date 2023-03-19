@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app id="v-app">
     <div class="v-app__header-wrapper fill-width d-flex justify-center pd-1">
       <header
         class="v-app__header fill-width d-flex justify-space-between align-center"
@@ -187,7 +187,15 @@ import VOrderModal from "../components/VOrderModal.vue";
 export default {
   name: "DefaultLayout",
   components: { VCategories, VOrderModal },
+  data() {
+    return {
+      isPassword: true,
+      password: "test",
+    };
+  },
   async mounted() {
+    this.checkPassword();
+
     Vue.prototype.$orderModal = this.$refs["order-modal"].open;
 
     Array.from(document.getElementsByTagName("img")).forEach(
@@ -224,6 +232,26 @@ export default {
     ...mapActions("app", ["fetchVariables", "fetchCategories"]),
     logoClick() {
       this.$router.push("/");
+    },
+    checkPassword() {
+      const app = document.getElementById("v-app");
+      const lsPassword = localStorage.getItem("password");
+
+      if (this.isPassword || (lsPassword && lsPassword === this.password)) {
+        return true;
+      }
+
+      app.style.display = "none";
+      const password = prompt("Enter your password");
+
+      if (password === this.password) {
+        app.style.display = "";
+        localStorage.setItem("password", this.password);
+        return true;
+      } else {
+        localStorage.setItem("password", false);
+        return false;
+      }
     },
   },
 };

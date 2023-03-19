@@ -18,6 +18,14 @@ CREATE TABLE countries (
   `name` VARCHAR(120) NOT NULL
 );
 
+-- admins
+DROP TABLE IF EXISTS admins;
+CREATE TABLE admins (
+  `id` SERIAL PRIMARY KEY,
+  `name` VARCHAR(120) UNIQUE NOT NULL,
+  `password_hash` VARCHAR(200) NOT NULL
+);
+
 -- users
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (

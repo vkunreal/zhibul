@@ -8,6 +8,7 @@ const { existsSync } = require('fs')
 const app = express()
 const PORT = process.env.PORT || 5000
 
+const AuthRouter = require('./routers/AuthRouter')
 const ItemsRouter = require('./routers/ItemsRouter')
 const CategoriesRouter = require('./routers/CategoriesRouter')
 const UsersRouter = require('./routers/UsersRouter')
@@ -23,6 +24,7 @@ app.use(express.json())
 app.use(cors({ origin: 'http://localhost:3000' }))
 app.use(fileUpload({}))
 
+app.use('/api', AuthRouter)
 app.use('/api', ItemsRouter)
 app.use('/api', CategoriesRouter)
 app.use('/api', UsersRouter)
