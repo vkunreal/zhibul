@@ -237,7 +237,7 @@ export default {
       const app = document.getElementById("v-app");
       const lsPassword = localStorage.getItem("password");
 
-      if (this.isPassword || (lsPassword && lsPassword === this.password)) {
+      if (!this.isPassword || (lsPassword && lsPassword === this.password)) {
         return true;
       }
 
