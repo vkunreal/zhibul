@@ -190,7 +190,7 @@ export default {
   data() {
     return {
       isPassword: true,
-      password: "test",
+      password: "cF3|9#RSy}f?7VG@s~4Y0pVtn~q?ZV@u",
     };
   },
   async mounted() {
@@ -235,9 +235,9 @@ export default {
     },
     checkPassword() {
       const app = document.getElementById("v-app");
-      const lsPassword = localStorage.getItem("password");
+      const lsPassword = localStorage.getItem("wnps");
 
-      if (!this.isPassword || (lsPassword && lsPassword === this.password)) {
+      if (!this.isPassword || lsPassword) {
         return true;
       }
 
@@ -246,10 +246,10 @@ export default {
 
       if (password === this.password) {
         app.style.display = "";
-        localStorage.setItem("password", this.password);
+        localStorage.setItem("wnps", true);
         return true;
       } else {
-        localStorage.setItem("password", false);
+        localStorage.setItem("wnps", false);
         return false;
       }
     },
