@@ -157,7 +157,7 @@ export default {
     },
     categoriesList() {
       return (parentId = null) =>
-        this.categories.filter((c) => c.parent_id === parentId);
+        this.categories.filter((c) => c.parent_id === parentId) || {};
     },
   },
 };

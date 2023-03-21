@@ -13,28 +13,32 @@ const setVariables = (options: IVariable[]) => ({
 })
 
 export const getVariablesDB: any = () => async (dispatch: Dispatch) => {
-  await axios.get('/api/variables').then(({ data }) => {
+  await axios.get('http://194.67.110.169/api/variables').then(({ data }) => {
     dispatch(setVariables(data))
   })
 }
 
 export const addVariableDB: any =
   (variable: IVariable) => async (dispatch: Dispatch) => {
-    await axios.post('/api/variable', variable).then(() => {
-      dispatch(getVariablesDB())
-    })
+    await axios
+      .post('http://194.67.110.169/api/variable', variable)
+      .then(() => {
+        dispatch(getVariablesDB())
+      })
   }
 
 export const changeVariableDB: any =
   (variable: IChangeVariable) => async (dispatch: Dispatch) => {
-    await axios.put('/api/variable', variable).then(() => {
+    await axios.put('http://194.67.110.169/api/variable', variable).then(() => {
       dispatch(getVariablesDB())
     })
   }
 
 export const deleteVariableDB: any =
   (id: number) => async (dispatch: Dispatch) => {
-    await axios.delete('/api/variable', { data: { id: id } }).then(() => {
-      dispatch(getVariablesDB())
-    })
+    await axios
+      .delete('http://194.67.110.169/api/variable', { data: { id: id } })
+      .then(() => {
+        dispatch(getVariablesDB())
+      })
   }
