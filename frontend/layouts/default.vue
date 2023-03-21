@@ -237,7 +237,7 @@ export default {
       const app = document.getElementById("v-app");
       const lsPassword = localStorage.getItem("wnps");
 
-      if (!this.isPassword || lsPassword) {
+      if (!this.isPassword || !!Number(lsPassword)) {
         return true;
       }
 
@@ -246,10 +246,10 @@ export default {
 
       if (password === this.password) {
         app.style.display = "";
-        localStorage.setItem("wnps", true);
+        localStorage.setItem("wnps", 1);
         return true;
       } else {
-        localStorage.setItem("wnps", false);
+        localStorage.setItem("wnps", 0);
         return false;
       }
     },
