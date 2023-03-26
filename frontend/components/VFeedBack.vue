@@ -1,5 +1,7 @@
 <template>
-  <section class="v-feed-back fill-width d-flex justify-space-around g-8 pd-6">
+  <section
+    class="v-feed-back fill-width d-flex flex-column flex-md-row justify-space-around g-8 pd-6"
+  >
     <div class="fill-width">
       <h2 class="mb-4">Есть вопросы или необходима консультация?</h2>
       <p>Заполните форму и наш специалист ответит на все возникшие вопросы!</p>

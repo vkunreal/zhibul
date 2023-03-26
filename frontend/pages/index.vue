@@ -28,7 +28,7 @@
       </v-carousel-item>
     </v-carousel>
 
-    <div class="home-wrapper fill-width mt-4 mb-4 pl-2 pr-2">
+    <div class="home-wrapper fill-width mt-4 mb-4 pl-3 pr-3">
       <h1 class="text-uppercase">О компании</h1>
 
       <div class="home__devider mt-4 mb-8" />
@@ -64,7 +64,7 @@
 
     <div class="home__promotion fill-width d-flex justify-center pt-12 pb-12">
       <div
-        class="home__promotion-wrapper fill-width d-flex justify-space-between"
+        class="home__promotion-wrapper fill-width d-flex flex-column flex-md-row g-4 justify-space-beetwen justify-md-space-around"
       >
         <div>
           <h3 class="home__promotion-title text-center">

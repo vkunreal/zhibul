@@ -1,43 +1,47 @@
 <template>
   <v-app id="v-app">
-    <div class="v-app__header-wrapper fill-width d-flex justify-center pd-1">
+    <div
+      class="v-app__header-wrapper d-block d-md-none fill-width d-flex justify-center pd-4"
+    >
       <header
-        class="v-app__header fill-width d-flex justify-space-between align-center"
+        class="v-app__header fill-width d-flex flex-column g-4 align-center"
       >
         <div class="d-flex align-center pointer" @click="logoClick">
           <img width="140" src="@/static/logo.png" alt="logo" />
         </div>
 
-        <div class="v-app__header__block d-flex align-center g-2">
-          <svg width="25" height="25">
-            <use xlink:href="@/static/icons.svg#phone" />
-          </svg>
+        <div class="d-flex flex-column g-2">
+          <div class="v-app__header__block d-flex align-center g-2">
+            <svg class="shrink" width="35" height="35">
+              <use xlink:href="@/static/icons.svg#phone" />
+            </svg>
 
-          <div class="d-flex flex-column">
-            <a
-              :href="`tel:${phone_sales}`"
-              class="v-app__header__block-text text--white"
-            >
-              {{ phone_sales }}
-            </a>
-            <a
-              :href="`tel:${phone_services}`"
-              class="v-app__header__block-text text--white"
-            >
-              {{ phone_services }}
-            </a>
+            <div class="d-flex flex-column align-center fill-width">
+              <a
+                :href="`tel:${phone_sales}`"
+                class="v-app__header__block-text text--white"
+              >
+                {{ phone_sales }}
+              </a>
+              <a
+                :href="`tel:${phone_services}`"
+                class="v-app__header__block-text text--white"
+              >
+                {{ phone_services }}
+              </a>
+            </div>
           </div>
-        </div>
 
-        <div class="v-app__header__block d-flex align-center g-2">
-          <svg width="30" height="30">
-            <use xlink:href="@/static/icons.svg#email" />
-          </svg>
-          <a
-            :href="`mailto:${email}`"
-            class="v-app__header__block-text text--white"
-            >{{ email }}</a
-          >
+          <div class="v-app__header__block d-flex align-center g-2">
+            <svg width="30" height="30">
+              <use xlink:href="@/static/icons.svg#email" />
+            </svg>
+            <a
+              :href="`mailto:${email}`"
+              class="v-app__header__block-text text--white"
+              >{{ email }}</a
+            >
+          </div>
         </div>
 
         <v-btn large color="yellow" @click="$orderModal()"
@@ -46,26 +50,76 @@
       </header>
     </div>
 
-    <nav class="v-app__nav d-flex justify-center mt-1 mb-1">
-      <div class="v-app__nav-spacer left" />
-      <v-categories class="v-app__nav__categories fill-width" />
-      <div class="v-app__nav-spacer right" />
-    </nav>
+    <div class="v-app__top">
+      <div
+        class="v-app__header-wrapper d-none d-md-flex fill-width justify-center pd-1"
+      >
+        <header
+          class="v-app__header fill-width d-flex justify-space-between align-center"
+        >
+          <div class="d-flex align-center pointer" @click="logoClick">
+            <img width="140" src="@/static/logo.png" alt="logo" />
+          </div>
 
-    <main class="fill-height">
+          <div class="v-app__header__block d-flex align-center g-2">
+            <svg width="25" height="25">
+              <use xlink:href="@/static/icons.svg#phone" />
+            </svg>
+
+            <div class="d-flex flex-column">
+              <a
+                :href="`tel:${phone_sales}`"
+                class="v-app__header__block-text text--white"
+              >
+                {{ phone_sales }}
+              </a>
+              <a
+                :href="`tel:${phone_services}`"
+                class="v-app__header__block-text text--white"
+              >
+                {{ phone_services }}
+              </a>
+            </div>
+          </div>
+
+          <div class="v-app__header__block d-flex align-center g-2">
+            <svg width="30" height="30">
+              <use xlink:href="@/static/icons.svg#email" />
+            </svg>
+            <a
+              :href="`mailto:${email}`"
+              class="v-app__header__block-text text--white"
+              >{{ email }}</a
+            >
+          </div>
+
+          <v-btn large color="yellow" @click="$orderModal()"
+            >Заказать звонок</v-btn
+          >
+        </header>
+      </div>
+
+      <nav class="v-app__nav d-flex justify-center mt-1 mb-1">
+        <div class="v-app__nav-spacer left" />
+        <v-categories class="v-app__nav__categories fill-width" />
+        <div class="v-app__nav-spacer right" />
+      </nav>
+    </div>
+
+    <main class="v-app__content fill-height">
       <nuxt />
     </main>
 
     <div class="v-app__footer-wrapper d-flex justify-center pd-2">
       <footer class="v-app__footer fill-width">
         <div
-          class="v-app__footer__contacts d-flex justify-space-between g-4 mt-4 mb-8"
+          class="v-app__footer__contacts d-flex flex-column flex-md-row justify-space-between g-4 mt-4 mb-8"
         >
           <a
-            class="v-app__footer__contacts__block fill-width d-flex justify-center align-center text--white pd-4 g-4"
+            class="v-app__footer__contacts__block fill-width d-flex flex-wrap justify-center align-center text--white pd-4 g-4"
             :href="`tel:${phone_sales}`"
           >
-            <svg width="40" height="40">
+            <svg class="shrink" width="35" height="35">
               <use xlink:href="@/static/icons.svg#phone" />
             </svg>
             <div>
@@ -79,10 +133,10 @@
           </a>
 
           <a
-            class="v-app__footer__contacts__block fill-width d-flex justify-center align-center text--white pd-4 g-4"
+            class="v-app__footer__contacts__block fill-width d-flex flex-wrap justify-center align-center text--white pd-4 g-4"
             :href="`mailto:${email}`"
           >
-            <svg width="40" height="40">
+            <svg class="shrink" width="40" height="40">
               <use xlink:href="@/static/icons.svg#email" />
             </svg>
             <div>
@@ -96,42 +150,11 @@
           </a>
         </div>
 
-        <div class="v-app__footer__sections d-flex justify-space-between g-10">
-          <!-- <div class="v-app__footer__section fill-width">
-            <h4 class="v-app__footer__section-title">Каталог</h4>
-            <ul class="d-flex flex-column g-1 mt-1">
-              <li
-                class="v-app__footer__section-list-elem"
-                v-for="{ id, name, url } in parentCategories"
-                :key="id"
-              >
-                <nuxt-link :to="url">
-                  {{ name }}
-                </nuxt-link>
-              </li>
-            </ul>
-          </div> -->
-
-          <!-- <div class="v-app__footer__section fill-width">
-            <h4 class="v-app__footer__section-title">Покупателю</h4>
-            <ul class="d-flex flex-column g-1 mt-1">
-              <li class="v-app__footer__section-list-elem">
-                <nuxt-link to="/delivery">Доставка</nuxt-link>
-              </li>
-              <li class="v-app__footer__section-list-elem">
-                <nuxt-link to="/garanty">Гарантия</nuxt-link>
-              </li>
-              <li class="v-app__footer__section-list-elem">
-                <nuxt-link to="/payment">Оплата</nuxt-link>
-              </li>
-              <li class="v-app__footer__section-list-elem">
-                <nuxt-link to="/actions">Акции</nuxt-link>
-              </li>
-            </ul>
-          </div> -->
-
+        <div
+          class="v-app__footer__sections d-flex flex-column flex-sm-row align-center g-4 g-sm-10"
+        >
           <div class="fill-width">
-            <ul class="d-flex g-1">
+            <ul class="d-flex justify-center justify-sm-start g-1">
               <li class="v-app__footer__app">
                 <a :href="variable('tg') || ''">
                   <svg width="30" height="30">
@@ -175,6 +198,7 @@
     </div>
 
     <v-order-modal ref="order-modal" />
+    <v-categories-modal ref="categories-modal" />
   </v-app>
 </template>
 
@@ -197,6 +221,7 @@ export default {
     this.checkPassword();
 
     Vue.prototype.$orderModal = this.$refs["order-modal"].open;
+    Vue.prototype.$categoriesModal = this.$refs["categories-modal"].open;
 
     Array.from(document.getElementsByTagName("img")).forEach(
       (img) =>
@@ -265,16 +290,17 @@ export default {
 
 .v-app {
   &__header {
+    margin-top: 62px;
     max-width: 1024px;
-    height: 65px;
     &-wrapper {
       background: $primaryGrey;
       color: $white;
-      position: fixed;
       z-index: 1001;
+      width: 100%;
     }
     &__block {
       font-size: 12px;
+      max-width: 200px;
       &-text {
         font-weight: bold;
         text-decoration: none;
@@ -286,7 +312,7 @@ export default {
   }
 
   &__nav {
-    padding-top: 80px !important;
+    height: 54px;
     &__categories {
       max-width: 1024px;
     }
@@ -298,6 +324,13 @@ export default {
         background: $primaryGrey;
       }
     }
+  }
+
+  &__top {
+    width: 100%;
+    background: $white;
+    position: fixed;
+    z-index: 1001;
   }
 
   &__footer {
@@ -319,12 +352,12 @@ export default {
         background: $colorGrey;
         text-decoration: none;
         &-title {
-          font-size: 14px;
+          font-size: 12px;
           font-weight: 400;
           color: $dark-grey;
         }
         &-text {
-          font-size: 28px !important;
+          font-size: 18px !important;
         }
       }
     }
@@ -372,12 +405,33 @@ export default {
   }
 
   @include laptop {
+    &__header {
+      height: 65px;
+      margin-top: 0;
+    }
+
     &__nav {
       &__categories {
         min-width: 1024px;
       }
       &-spacer {
         display: block;
+      }
+    }
+
+    &__content {
+      margin-top: 143px;
+    }
+
+    &__contacts {
+      &__block {
+        &-title {
+          font-size: 14px;
+          font-weight: 400;
+        }
+        &-text {
+          font-size: 28px !important;
+        }
       }
     }
   }
