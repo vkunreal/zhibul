@@ -172,7 +172,7 @@
         <transition name="fade">
           <div
             v-if="categoriesVisible"
-            class="v-categories__menu-list d-none d-sm-flex g-4 pd-2 mt-13"
+            class="v-categories__menu-list d-none d-sm-flex g-4 pd-1 mt-13"
           >
             <v-categories-list />
           </div>
@@ -207,35 +207,11 @@ import { mapGetters } from "vuex";
 import VCategoriesList from "./VCategoriesList.vue";
 import EventBus from "@/plugins/EventBus.js";
 
-const tabs = [
-  { title: "О компании", url: "/" },
-  {
-    title: "Покупателю",
-    url: "/pokupatelu",
-    tabs: [
-      { title: "Доставка", url: "/delivery" },
-      //      { title: "Гарантия", url: "/garanty" },
-      //      { title: "Оплата", url: "/payment" },
-      //      { title: "Акции", url: "/actions" },
-    ],
-  },
-  {
-    title: "Услуги",
-    url: "/uslugi",
-    tabs: [
-      { title: "Ремонт пневмоинструмента", url: "/remont_pnevmoinstrymenta" },
-      { title: "Аренда автоприцепов", url: "/arenda_prizepa" },
-    ],
-  },
-  //  { title: "Новости", url: "/news" },
-  { title: "Контакты", url: "/contacts" },
-];
-
 export default {
   name: "VCategories",
   components: { VCategoriesList },
   data: () => ({
-    categoriesVisible: false,
+    categoriesVisible: true,
     categoryDetail: null,
     tabNesting: null,
   }),
@@ -262,7 +238,6 @@ export default {
       }
     },
     modalClosed() {
-      console.log("CLOSED");
       this.categoriesVisible = false;
     },
   },
