@@ -56,6 +56,61 @@
       </div>
       <!-- mobile catalog -->
     </div>
+
+    <ul class="v-categories__tabs d-flex g-6 align-center">
+      <!-- <li
+        class="v-categories__tabs-link"
+        v-for="{ title, url, tabs } in tabs"
+        :key="url"
+        @mouseover="tabNesting = url"
+        @mouseleave="tabNesting = null"
+      >
+        <div>
+          <nuxt-link :to="url">{{ title }}</nuxt-link>
+        </div>
+
+        <ul
+          class="v-categories__tabs-link-list d-flex flex-column"
+          v-if="tabNesting === url"
+        >
+          <li>1</li>
+          <li>2</li>
+          <li>3</li>
+        </ul>
+      </li> -->
+      <li
+        class="v-categories__link pt-4 pb-3 ml-2 mr-2"
+        style="position: relative"
+        v-for="{ title, url, tabs } in tabs"
+        :key="url"
+        @mouseover="tabNesting = url"
+        @mouseleave="tabNesting = null"
+      >
+        <nuxt-link class="text-uppercase" :to="url">
+          {{ title }}
+        </nuxt-link>
+        <div
+          v-if="tabs && tabNesting === url"
+          class="v-categories__link-list d-flex flex-column mt-2"
+        >
+          <div
+            class="d-flex flex-column g-2"
+            v-for="{ title, url } in tabs"
+            :key="url"
+          >
+            <nuxt-link
+              class="d-flex justify-space-between align-center"
+              :to="url"
+            >
+              {{ title }}
+              <svg class="ml-4" width="12" height="12">
+                <use xlink:href="@/static/icons.svg#slider-arrow" />
+              </svg>
+            </nuxt-link>
+          </div>
+        </div>
+      </li>
+    </ul>
   </section>
 </template>
 
@@ -63,6 +118,30 @@
 import { mapGetters } from "vuex";
 import VCategoriesList from "./VCategoriesList.vue";
 import EventBus from "@/plugins/EventBus.js";
+
+const tabs = [
+  { title: "О компании", url: "/" },
+  {
+    title: "Покупателю",
+    url: "/pokupatelu",
+    tabs: [
+      { title: "Доставка", url: "/delivery" },
+      //      { title: "Гарантия", url: "/garanty" },
+      //      { title: "Оплата", url: "/payment" },
+      //      { title: "Акции", url: "/actions" },
+    ],
+  },
+  {
+    title: "Услуги",
+    url: "/uslugi",
+    tabs: [
+      { title: "Ремонт пневмоинструмента", url: "/remont_pnevmoinstrymenta" },
+      { title: "Аренда автоприцепов", url: "/arenda_prizepa" },
+    ],
+  },
+  //  { title: "Новости", url: "/news" },
+  { title: "Контакты", url: "/contacts" },
+];
 
 export default {
   name: "VCategories",
@@ -135,6 +214,46 @@ export default {
       }
       & a {
         color: $white;
+      }
+    }
+  }
+
+  &__link {
+    &-list {
+      width: max-content;
+      position: absolute;
+      top: 40px;
+      background: $colorGrey;
+      a {
+        color: $white !important;
+        padding: 14px;
+        &:hover {
+          background: $colorPrimary;
+        }
+      }
+    }
+  }
+
+  &__tabs {
+    width: 100%;
+    li {
+      list-style: none;
+    }
+    a {
+      color: $primaryGrey;
+      &.nuxt-link-exact-active {
+        color: $colorSecondary;
+      }
+    }
+    &-link {
+      position: relative;
+      &-list {
+        position: absolute;
+        top: 30px;
+        background: $primaryGrey;
+        color: $white;
+        padding-left: 0;
+        padding: 1rem;
       }
     }
   }
