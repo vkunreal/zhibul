@@ -57,7 +57,7 @@
       <!-- mobile catalog -->
     </div>
 
-    <ul class="v-categories__tabs d-flex g-6 align-center">
+    <ul class="v-categories__tabs d-none d-md-flex g-6 align-center">
       <!-- <li
         class="v-categories__tabs-link"
         v-for="{ title, url, tabs } in tabs"
@@ -220,7 +220,6 @@ export default {
 
   &__link {
     &-list {
-      width: max-content;
       position: absolute;
       top: 40px;
       background: $colorGrey;

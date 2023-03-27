@@ -77,6 +77,7 @@
     <ul v-if="!expandedLinks && categoryDetail" class="d-flex flex-column g-1">
       <li
         class="d-flex align-center g-1"
+        style="width: max-content"
         v-for="{ id, name, url } in categoriesList(categoryDetail)"
         :key="id"
       >
