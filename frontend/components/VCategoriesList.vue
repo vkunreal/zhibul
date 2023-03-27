@@ -1,6 +1,6 @@
 <template>
   <section class="v-categories-list d-flex g-2 pd-1">
-    <ul class="d-flex flex-column g-1">
+    <ul class="d-flex fill-width flex-column g-1">
       <li v-for="{ id, name, url, is_contains } in categoriesList()" :key="id">
         <template v-if="expandedLinks">
           <!-- link -->
