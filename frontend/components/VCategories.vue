@@ -147,7 +147,7 @@ export default {
   name: "VCategories",
   components: { VCategoriesList },
   data: () => ({
-    categoriesVisible: true,
+    categoriesVisible: false,
     categoryDetail: null,
     tabNesting: null,
   }),
