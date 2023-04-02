@@ -5,7 +5,9 @@
 
       <p>{{ pageText }}</p>
 
-      <ul class="d-flex justify-space-between g-2 mt-10">
+      <ul
+        class="d-flex flex-column flex-md-row justify-space-between g-2 mt-10 pl-3 pr-3"
+      >
         <a
           class="contacts__contact fill-width d-flex flex-column g-1 align-center text-center"
           :href="`tel:${phone_sales}`"
@@ -29,7 +31,9 @@
         </a>
       </ul>
 
-      <div class="contacts__card-wrapper fill-width d-flex justify-center">
+      <div
+        class="contacts__card-wrapper fill-width d-flex justify-center pl-3 pr-3"
+      >
         <ul class="contacts__card fill-width d-flex flex-column mt-15 pd-4 g-4">
           <li class="contacts__card__elem d-flex align-center g-2">
             <svg width="32" height="32">
@@ -129,7 +133,12 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/assets/mixins.scss";
+
 .contacts {
+  ul {
+    padding: 0;
+  }
   max-width: 1024px;
   &__contact {
     color: $black !important;
@@ -137,7 +146,6 @@ export default {
     list-style: none;
     padding: 35px;
     box-shadow: 0 4px 16px rgb(0 0 0 / 4%), 0 1px 4px rgb(0 0 0 / 14%);
-    max-width: 470px;
     &-name {
       color: $dark-grey;
     }
@@ -155,6 +163,12 @@ export default {
     }
     & svg {
       color: #000;
+    }
+  }
+
+  @include laptop {
+    &__contact {
+      max-width: 470px;
     }
   }
 }

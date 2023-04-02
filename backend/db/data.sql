@@ -1,11 +1,11 @@
 INSERT INTO categories (id, name, url, description, image, parent_id, is_contains)
 VALUES
-(1, 'Запчасти для краскораспылителей', 'zapasnyechasti', '', '', null, true),
-(2, 'Компрессоры', 'kompressory', '', '', null, true),
-(3, 'Краскораспылители', 'kraskoraspyliteli', '', '', null, true),
-(4, 'Пневмоинструмент', 'pnevmoinstrument', '', '', null, true),
+(1, 'Запчасти для краскораспылителей', 'zapasnyechasti', '', 'http://194.67.78.19/images/im13.png', null, true),
+(2, 'Компрессоры', 'kompressory', '', 'http://194.67.78.19/images/im38.png', null, true),
+(3, 'Краскораспылители', 'kraskoraspyliteli', '', 'http://194.67.78.19/images/im80.png', null, true),
+(4, 'Пневмоинструмент', 'pnevmoinstrument', '', 'http://194.67.78.19/images/im112.png', null, true),
 (5, 'Соеденительные элементы Aignep', 'soedinitelnyeelementy', '', '', null, true),
-(6, 'Шланги и трубки', 'trubki_shlangi_rvd', '', '', null, false),
+(6, 'Шланги и трубки', 'trubki_shlangi_rvd', '', 'http://194.67.78.19/images/im125.png', null, false),
 (7, 'Бачки', 'bachki', '', 'http://194.67.78.19/images/im2.png', 1, false),
 (8, 'Регуляторы давления', 'reg_dav', '', 'http://194.67.78.19/images/im8.png', 1, false),
 (9, 'Серия Carbonio', 'test1', '', 'http://194.67.78.19/images/im11.png', 1, false),

@@ -57,7 +57,9 @@ export default {
     ...mapActions("app", ["sendFeedback"]),
     submit() {
       const { name, phone, company, email, comment, submitDisabled } = this;
-      if (!submitDisabled) return;
+      if (submitDisabled) return;
+
+      this.name = this.phone = this.company = this.email = this.comment = "";
 
       this.sendFeedback({
         name,
@@ -68,6 +70,7 @@ export default {
         submitDisabled,
       }).then(({ status }) => {
         if (status) {
+          console.log(status);
         }
       });
     },

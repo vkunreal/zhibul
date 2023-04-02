@@ -94,7 +94,7 @@
           class="v-categories__link-list d-flex flex-column mt-2"
         >
           <div
-            class="d-flex flex-column g-2"
+            class="v-categories__link-list-link d-flex flex-column g-2"
             v-for="{ title, url } in tabs"
             :key="url"
           >
@@ -224,8 +224,13 @@ export default {
       top: 40px;
       background: $colorGrey;
       a {
+        width: max-content;
         color: $white !important;
         padding: 14px;
+      }
+      &-link {
+        width: 100%;
+        color: $white !important;
         &:hover {
           background: $colorPrimary;
         }
