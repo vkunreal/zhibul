@@ -12,7 +12,7 @@
 
         <div class="d-flex flex-column g-2">
           <div class="v-app__header__block d-flex align-center g-2">
-            <svg class="shrink" width="35" height="35">
+            <svg class="shrink" width="30" height="30">
               <use xlink:href="@/static/icons.svg#phone" />
             </svg>
 
