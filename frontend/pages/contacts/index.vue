@@ -35,29 +35,35 @@
         class="contacts__card-wrapper fill-width d-flex justify-center pl-3 pr-3"
       >
         <ul class="contacts__card fill-width d-flex flex-column mt-15 pd-4 g-4">
-          <li class="contacts__card__elem d-flex align-center g-2">
-            <svg width="32" height="32">
-              <use xlink:href="@/static/icons.svg#phone" />
-            </svg>
-            <span>Телефон продаж</span>
+          <li class="contacts__card__elem d-flex flex-wrap align-center g-2">
+            <span class="d-flex align-center g-2">
+              <svg width="32" height="32">
+                <use xlink:href="@/static/icons.svg#phone" />
+              </svg>
+              <span>Телефон продаж</span>
+            </span>
             <div class="spacer"></div>
-            <span>{{ variable("phone_sales") }}</span>
+            <nobr>{{ variable("phone_sales") }}</nobr>
           </li>
 
-          <li class="contacts__card__elem d-flex align-center g-2">
-            <svg width="32" height="32">
-              <use xlink:href="@/static/icons.svg#phone" />
-            </svg>
-            <span>Телефон услуг</span>
+          <li class="contacts__card__elem d-flex flex-wrap align-center g-2">
+            <span class="d-flex align-center g-2">
+              <svg width="32" height="32">
+                <use xlink:href="@/static/icons.svg#phone" />
+              </svg>
+              <span>Телефон услуг</span>
+            </span>
             <div class="spacer"></div>
-            <span>{{ variable("phone_services") }}</span>
+            <nobr>{{ variable("phone_services") }}</nobr>
           </li>
 
-          <li class="contacts__card__elem d-flex align-center g-2">
-            <svg width="32" height="32">
-              <use xlink:href="@/static/icons.svg#geopin" />
-            </svg>
-            <span>Адрес</span>
+          <li class="contacts__card__elem d-flex flex-wrap align-center g-2">
+            <span class="d-flex align-center g-2">
+              <svg width="32" height="32">
+                <use xlink:href="@/static/icons.svg#geopin" />
+              </svg>
+              <span>Адрес</span>
+            </span>
             <div class="spacer"></div>
             <span>{{ variable("address") }}</span>
           </li>

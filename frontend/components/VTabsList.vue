@@ -6,8 +6,8 @@
           class="v-tabs-list__item d-flex justify-space-between align-center pd-1"
           :class="{ 'v-tabs-list__item--active': url === selectedTab }"
         >
-          <div class="d-flex align-center g-1">
-            <svg width="12" height="12">
+          <div class="d-flex align-center g-1 mr-4">
+            <svg class="v-tabs-list__item-arrow" width="12" height="12">
               <use xlink:href="@/static/icons.svg#slider-arrow" />
             </svg>
 
@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import EventBus from "@/plugins/EventBus.js";
+
 const tabs = [
   { title: "О компании", url: "/" },
   {
@@ -81,6 +83,12 @@ export default {
   data: () => ({
     selectedTab: null,
   }),
+  mounted() {
+    EventBus.$on("category-selected", this.categorySelected);
+  },
+  destroyed() {
+    EventBus.$off("category-selected");
+  },
   computed: {
     tabs() {
       return tabs;
@@ -95,13 +103,19 @@ export default {
         this.selectedTab = null;
       } else {
         this.selectedTab = url;
+        EventBus.$emit("selected-tab");
       }
+    },
+    categorySelected() {
+      this.selectedTab = null;
     },
   },
 };
 </script>
 
 <style lang="scss">
+@import "@/assets/mixins.scss";
+
 .v-tabs-list {
   a {
     color: $white;
@@ -122,14 +136,30 @@ export default {
 
   &__item {
     &--active {
-      background: $colorGrey;
-      border-radius: 10px;
+      .v-tabs-list__item {
+        background: $colorGrey;
+        border-radius: 10px;
+
+        &-arrow {
+          transform: rotate(90deg);
+        }
+      }
+    }
+    &-arrow {
+      transition: 0.3s ease;
     }
   }
 
   &__more {
     cursor: pointer;
     user-select: none;
+    font-size: 12px;
+  }
+
+  @include tablet {
+    &__more {
+      font-size: 14px;
+    }
   }
 }
 </style>

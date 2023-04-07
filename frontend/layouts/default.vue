@@ -295,7 +295,7 @@ export default {
     &-wrapper {
       background: $primaryGrey;
       color: $white;
-      z-index: 1001;
+      z-index: 101;
       width: 100%;
     }
     &__block {
@@ -330,7 +330,7 @@ export default {
     width: 100%;
     background: $white;
     position: fixed;
-    z-index: 1001;
+    z-index: 101;
   }
 
   &__footer {

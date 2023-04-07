@@ -11,8 +11,8 @@
             }"
           >
             <!-- link title -->
-            <div class="d-flex align-center g-1">
-              <svg width="12" height="12">
+            <div class="d-flex align-center g-1 mr-4">
+              <svg class="v-categories-list__item-arrow" width="12" height="12">
                 <use xlink:href="@/static/icons.svg#slider-arrow" />
               </svg>
 
@@ -95,6 +95,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import EventBus from "@/plugins/EventBus.js";
 
 export default {
   name: "VCategoriesList",
@@ -104,6 +105,12 @@ export default {
   data: () => ({
     categoryDetail: null,
   }),
+  mounted() {
+    EventBus.$on("selected-tab", this.tabSelected);
+  },
+  destroyed() {
+    EventBus.$off("selected-tab");
+  },
   computed: {
     ...mapGetters("app", ["categories"]),
     categoriesList() {
@@ -120,13 +127,19 @@ export default {
         this.categoryDetail = null;
       } else {
         this.categoryDetail = id;
+        EventBus.$emit("category-selected");
       }
+    },
+    tabSelected() {
+      this.categoryDetail = null;
     },
   },
 };
 </script>
 
 <style lang="scss">
+@import "@/assets/mixins.scss";
+
 .v-categories-list {
   a {
     color: $white;
@@ -147,14 +160,30 @@ export default {
 
   &__item {
     &--active {
-      background: $colorGrey;
-      border-radius: 10px;
+      .v-categories-list__item {
+        background: $colorGrey;
+        border-radius: 10px;
+
+        &-arrow {
+          transform: rotate(90deg);
+        }
+      }
+    }
+    &-arrow {
+      transition: 0.3s ease;
     }
   }
 
   &__more {
     cursor: pointer;
     user-select: none;
+    font-size: 12px;
+  }
+
+  @include tablet {
+    &__more {
+      font-size: 14px;
+    }
   }
 }
 </style>

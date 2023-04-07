@@ -28,7 +28,10 @@
                     Каталог
                   </button>
                 </nuxt-link>
-                <button class="category__undercategories-button request">
+                <button
+                  class="category__undercategories-button request"
+                  @click="$orderModal()"
+                >
                   Запрос
                 </button>
               </div>

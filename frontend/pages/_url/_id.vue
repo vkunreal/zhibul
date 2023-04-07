@@ -28,7 +28,9 @@
     <div class="product-wrapper fill-width">
       <template v-if="itemDetails">
         <!-- title -->
-        <h1 class="text-center text-uppercase mt-8 ml-2 ml-md-0 mb-8">
+        <h1
+          class="text-center text-uppercase mt-8 ml-2 ml-md-0 mr-2 mr-md-0 mb-8"
+        >
           {{ itemDetails.name }}
         </h1>
         <!-- title -->
@@ -38,11 +40,7 @@
         >
           <!-- main image -->
           <div class="product__images d-flex flex-column align-center mr-10">
-            <img
-              width="450"
-              :src="image ? image : images[0]"
-              :alt="itemDetails.name"
-            />
+            <img :src="image ? image : images[0]" :alt="itemDetails.name" />
             <div
               class="product__images-footer d-flex g-1"
               v-if="images.length > 1"
@@ -120,7 +118,7 @@
       </template>
 
       <!-- description -->
-      <div class="pd-3 pd-md-0" v-if="itemDetails?.description">
+      <div class="pl-6 pl-md-0 pr-6 pr-md-0" v-if="itemDetails?.description">
         <h2>Описание товара:</h2>
 
         <div v-html="itemDetails?.description" />
@@ -128,9 +126,9 @@
       <!-- description -->
 
       <!-- product not found -->
-      <template v-else>
+      <div class="pl-6 pl-md-0" v-else>
         <h3>Нет данных о товаре</h3>
-      </template>
+      </div>
       <!-- product not found -->
     </div>
   </section>
@@ -230,6 +228,8 @@ export default {
     width: 100%;
     & img {
       user-select: none;
+      width: 100%;
+      max-width: 450px;
     }
     &-footer {
       width: 100%;

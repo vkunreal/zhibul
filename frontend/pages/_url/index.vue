@@ -35,10 +35,12 @@
         >
           <div
             v-for="{ name, description, image, url } in undercategories"
-            class="d-flex justify-space-between"
+            class="category__catalog-item d-flex flex-md-row justify-space-between g-2"
             :title="name"
           >
-            <div class="d-flex flex-column justify-space-between">
+            <div
+              class="d-flex flex-column align-center align-md-start justify-space-between"
+            >
               <h2 class="category__undercategories-title">{{ name }}</h2>
               <p>{{ description }}</p>
 
@@ -48,13 +50,16 @@
                     Каталог
                   </button>
                 </nuxt-link>
-                <button class="category__undercategories-button request">
+                <button
+                  class="category__undercategories-button request"
+                  @click="$orderModal()"
+                >
                   Запрос
                 </button>
               </div>
             </div>
 
-            <img width="400" :src="image" :alt="name" />
+            <img class="category__catalog-item-img" :src="image" :alt="name" />
           </div>
         </div>
         <div
@@ -156,6 +161,23 @@ export default {
       }
       &.request {
         border: 1px solid $primaryGrey;
+      }
+    }
+  }
+
+  &__catalog-item {
+    flex-direction: column-reverse;
+    &-img {
+      width: 100%;
+      max-width: 400px !important;
+      margin: 0 auto;
+    }
+  }
+
+  @include laptop {
+    &__catalog-item {
+      &-img {
+        margin: unset !important;
       }
     }
   }
