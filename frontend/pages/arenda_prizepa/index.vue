@@ -11,10 +11,47 @@
       </div>
     </div>
 
-    <h1 class="mb-4">Аренда прицепа</h1>
+    <div class="trailers__wrapper d-flex justify-center">
+      <div class="trailers__content">
+        <div class="mt-10" v-for="{ id, title, text } in trailers" :key="id">
+          <h2>{{ title }}</h2>
+
+          <div class="home__devider mt-4 mb-8" />
+
+          <p>{{ text }}</p>
+        </div>
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
-export default {};
+import { mapActions, mapGetters } from "vuex";
+
+export default {
+  async mounted() {
+    await this.fetchTrailers();
+  },
+  computed: {
+    ...mapGetters("trailers", ["trailers"]),
+  },
+  methods: {
+    ...mapActions("trailers", ["fetchTrailers"]),
+  },
+};
 </script>
+
+<style lang="scss">
+.trailers {
+  &__wrapper {
+    width: 100%;
+  }
+  &__content {
+    max-width: 1024px;
+    h2 {
+      font-size: 34px;
+      text-transform: uppercase;
+    }
+  }
+}
+</style>
