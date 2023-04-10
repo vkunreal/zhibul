@@ -17,6 +17,7 @@ const VariablesRouter = require('./routers/VariablesRouter')
 const PagesRouter = require('./routers/PagesRouter')
 const SliderRouter = require('./routers/SliderRouter')
 const FilesRouter = require('./routers/FilesRouter')
+const TrailersRouter = require('./routers/TrailersRouter')
 
 app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(express.static(path.resolve(__dirname, 'build')))
@@ -33,6 +34,7 @@ app.use('/api', VariablesRouter)
 app.use('/api', PagesRouter)
 app.use('/api', SliderRouter)
 app.use('/api', FilesRouter)
+app.use('/api', TrailersRouter)
 
 app.get('/images/:image', (req, res) => {
   const imagePath = path.resolve(

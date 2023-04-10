@@ -157,6 +157,7 @@ CREATE TABLE trailer_rent (
 -- trailer options
 DROP TABLE IF EXISTS trailer_options;
 CREATE TABLE trailer_options (
+  `id` SERIAL PRIMARY KEY,
   `trailer_id` BIGINT UNSIGNED NOT NULL,
   `icon` VARCHAR(120) NOT NULL,
   `name` VARCHAR(120) NOT NULL,
