@@ -145,3 +145,31 @@ CREATE TABLE slider_images (
 
   FOREIGN KEY (slide_id) REFERENCES slides(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+-- trailer rent
+DROP TABLE IF EXISTS trailer_rent;
+CREATE TABLE trailer_rent (
+  `id` SERIAL PRIMARY KEY,
+  `title` VARCHAR(250) NOT NULL,
+  `text` text NOT NULL
+);
+
+-- trailer options
+DROP TABLE IF EXISTS trailer_options;
+CREATE TABLE trailer_options (
+  `trailer_id` BIGINT UNSIGNED NOT NULL,
+  `icon` VARCHAR(120) NOT NULL,
+  `name` VARCHAR(120) NOT NULL,
+  `text` VARCHAR(250) NOT NULL,
+
+  FOREIGN KEY (trailer_id) REFERENCES trailer_rent(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- trailer images
+DROP TABLE IF EXISTS trailer_images;
+CREATE TABLE trailer_images (
+  `trailer_id` BIGINT UNSIGNED NOT NULL,
+  `src` VARCHAR(200) NOT NULL,
+
+  FOREIGN KEY (trailer_id) REFERENCES trailer_rent(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
