@@ -64,6 +64,20 @@ app.get('/slider/:image', (req, res) => {
   }
 })
 
+app.get('/trailer/:image', (req, res) => {
+  const imagePath = path.resolve(
+    __dirname,
+    'public',
+    'trailers',
+    req.params.image
+  )
+  if (existsSync(imagePath)) {
+    res.sendFile(imagePath)
+  } else {
+    res.status(400).json({ status: false })
+  }
+})
+
 app.get('/files/:file', (req, res) => {
   const filePath = path.resolve(__dirname, 'public', 'files', req.params.file)
   if (existsSync(filePath)) {
@@ -71,11 +85,6 @@ app.get('/files/:file', (req, res) => {
   } else {
     res.status(400).json({ status: false })
   }
-})
-
-app.get('*', (req, res) => {
-  const client = path.resolve(__dirname, 'build', 'index.html')
-  res.sendFile(client)
 })
 
 app.listen(PORT, () => {

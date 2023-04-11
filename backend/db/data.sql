@@ -666,3 +666,12 @@ VALUES
 (2, 'info', 'Шасси', 'Тип подвески - рессорно-амортизаторная<br/>Размер колес - R13 4х98'),
 (2, 'options', 'Грузоподъемность', 'По документам - 500 кг<br/>По факту - до 740 кг'),
 (2, 'exclamation-mark', 'Общая информация', 'Минимальный срок аренды - 3 часа<br/>Цена за сутки - 25 рублей');
+
+INSERT INTO trailer_images (trailer_id, src)
+VALUES
+(1, 'http://194.67.78.19/trailer/tent1.jpg'),
+(1, 'http://194.67.78.19/trailer/tent2.png'),
+(1, 'http://194.67.78.19/trailer/tent3.jpg'),
+(2, 'http://194.67.78.19/trailer/without_tent1.jpg'),
+(2, 'http://194.67.78.19/trailer/without_tent2.jpg'),
+(2, 'http://194.67.78.19/trailer/without_tent3.jpg');
