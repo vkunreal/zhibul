@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="trailer-rents d-flex flex-column align-center">
     <div class="breadcrumbs">
       <div class="breadcrumbs-wrapper">
         <p class="breadcrumbs__link">
@@ -10,48 +10,25 @@
         </p>
       </div>
     </div>
+    <div
+      class="trailer-rents__wrapper fill-width d-flex flex-column g-4 mt-4 mb-4 pd-2 pd-md-4"
+    >
+      <div
+        class="trailer-rents__rent fill-width d-flex flex-column justify-center align-center g-5"
+        v-for="{ id, title, url } in trailersRent"
+        :key="id"
+      >
+        <h2>{{ title }}</h2>
 
-    <div class="trailers__wrapper d-flex justify-center mb-20">
-      <div class="trailers__content pd-4">
-        <div
-          class="trailers__trailer mt-10"
-          v-for="{ id, title, text, images, options } in trailers"
-          :key="id"
-        >
-          <h2>{{ title }}</h2>
-
-          <div class="home__devider mt-4 mb-8" />
-
-          <p>{{ text }}</p>
-
-          <div
-            v-if="images"
-            class="trailers__trailer-images d-flex flex-column flex-md-row g-2"
+        <div class="d-flex g-2">
+          <nuxt-link
+            class.native="trailer-rents__rent-button"
+            :to="`/arenda_pricepa/${url}`"
+            >Подробнее</nuxt-link
           >
-            <a v-for="({ src }, i) in images" :href="src" :key="i">
-              <img :src="src" :alt="'trailer-' + i" />
-            </a>
-          </div>
-
-          <template v-if="options">
-            <h2 class="text-center mt-15 mb-10">Характеристики</h2>
-
-            <div
-              class="d-flex flex-wrap justify-center justify-md-space-between g-4"
-            >
-              <div
-                class="trailers__trailer-option d-flex align-center g-3 g-sm-6"
-                v-for="{ id, icon, name, text } in options"
-                :key="id"
-              >
-                <v-arenda-icon :icon="icon" />
-                <span>
-                  <h5 class="text-uppercase mb-1">{{ name }}</h5>
-                  <p v-html="text" />
-                </span>
-              </div>
-            </div>
-          </template>
+          <button class="trailer-rents__rent-button call-btn">
+            Заказать звонок
+          </button>
         </div>
       </div>
     </div>
@@ -60,78 +37,47 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-import VArendaIcon from "@/components/VArendaIcon";
 
 export default {
-  components: { VArendaIcon },
   async mounted() {
-    await this.fetchTrailers();
+    await this.fetchTrailersRent();
   },
   computed: {
-    ...mapGetters("trailers", ["trailers"]),
+    ...mapGetters("trailers", ["trailersRent"]),
   },
   methods: {
-    ...mapActions("trailers", ["fetchTrailers"]),
+    ...mapActions("trailers", ["fetchTrailersRent"]),
   },
 };
 </script>
 
 <style lang="scss">
-@import "@/assets/mixins.scss";
-
-.trailers {
+.trailer-rents {
   &__wrapper {
-    width: 100%;
-  }
-  &__content {
     max-width: 1024px;
   }
-  &__trailer {
-    h2 {
-      font-size: 22px;
-      text-transform: uppercase;
-    }
-    &-images {
-      a {
-        img {
-          width: 100%;
-        }
-        transition: 0.3s;
-        cursor: pointer;
-        &:hover {
-          transform: scale(1.12);
-        }
-      }
-    }
-    &-option {
-      max-width: 300px;
-      width: 100%;
-      h5 {
-        font-size: 14px;
-        line-height: 1.4;
-        font-weight: 800;
-      }
-      p {
-        font-size: 14px;
-      }
-    }
-  }
 
-  @include laptop {
-    &__trailer {
-      h2 {
-        font-size: 30px;
-        text-transform: uppercase;
+  &__rent {
+    width: 100%;
+    height: 400px;
+    background: $colorGrey;
+    color: $white;
+    &-button,
+    a {
+      min-width: 160px;
+      padding: 12px;
+      background: $primaryGrey;
+      font-weight: 500;
+      text-transform: uppercase;
+      text-align: center;
+      &.call-btn {
+        background: $colorThird;
+        color: $primaryGrey;
       }
-      &-option {
-        max-width: 380px;
-        h5 {
-          font-size: 17px;
-        }
-        p {
-          font-size: 15px;
-        }
-      }
+    }
+    a {
+      text-decoration: none;
+      color: $white;
     }
   }
 }

@@ -150,8 +150,20 @@ CREATE TABLE slider_images (
 DROP TABLE IF EXISTS trailer_rent;
 CREATE TABLE trailer_rent (
   `id` SERIAL PRIMARY KEY,
+  `title` TEXT NOT NULL,
+  `url` VARCHAR(150) NOT NULL,
+  `image_src` TEXT
+);
+
+-- trailers
+DROP TABLE IF EXISTS trailers;
+CREATE TABLE trailers (
+  `id` SERIAL PRIMARY KEY,
+  `trailer_rent_id` BIGINT UNSIGNED NOT NULL,
   `title` VARCHAR(250) NOT NULL,
-  `text` text NOT NULL
+  `text` text NOT NULL,
+
+  FOREIGN KEY (trailer_rent_id) REFERENCES trailer_rent(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 -- trailer options

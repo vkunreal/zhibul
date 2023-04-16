@@ -1,12 +1,16 @@
 const { request } = require('../db/database')
 
 class TrailerServices {
-  async getTrailers() {
+  async getTrailerRents() {
     return await request('SELECT * FROM trailer_rent')
   }
 
+  async getTrailers () {
+    return await request('SELECT * FROM trailers')
+  }
+
   async getTrailer(trailer_id) {
-    return await request(`SELECT * FROM trailer WHERE id = "${trailer_id}"`)
+    return await request(`SELECT * FROM trailers WHERE id = "${trailer_id}"`)
   }
 
   async getTrailerOptions(trailer_id) {
@@ -21,17 +25,17 @@ class TrailerServices {
     )
   }
 
-  async addTrailer(title, text) {
+  async addTrailer(rent_id, title, text) {
     return await request(`
-      INSERT INTO trailer_rent (title, text)
+      INSERT INTO trailers (trailer_rent_id, title, text)
       VALUES
-      ("${title}", "${text}")
+      ("${rent_id}", "${title}", "${text}")
     `)
   }
 
   async addOption(trailer_id, icon, name, text) {
     return await request(`
-      INSERT INTO (trailer_id, icon, name, text)
+      INSERT INTO trailer_options (trailer_id, icon, name, text)
       VALUES
       ("${trailer_id}", "${icon}", "${name}", "${text}")
     `)
@@ -45,10 +49,11 @@ class TrailerServices {
     `)
   }
 
-  async changeTrailer(id, title, text) {
+  async changeTrailer(id, rent_id, title, text) {
     return await request(`
-      UPDATE trailer_rent SET title = "${title}" WHERE id = "${id}";
-      UPDATE trailer_rent SET text = "${text}" WHERE id = "${id}";
+      UPDATE trailers SET trailer_rent_id = "${rent_id}" WHERE id = "${id}"
+      UPDATE trailers SET title = "${title}" WHERE id = "${id}";
+      UPDATE trailers SET text = "${text}" WHERE id = "${id}";
     `)
   }
 
@@ -61,7 +66,7 @@ class TrailerServices {
   }
 
   async deleteTrailer(trailer_id) {
-    return await request(`DELETE FROM trailer_rent WHERE id = "${trailer_id}"`)
+    return await request(`DELETE FROM trailers WHERE id = "${trailer_id}"`)
   }
 
   async deleteOption(option_id) {

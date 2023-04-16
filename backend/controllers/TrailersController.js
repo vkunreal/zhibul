@@ -2,6 +2,17 @@ const TrailerServices = require('../services/TrailerServices')
 const { writeLog } = require('../writeLog')
 
 class TrailersController {
+  async getTrailersRent (req, res) {
+    try {
+      const trailers_rents = await TrailerServices.getTrailerRents()
+
+      res.status(200).json(trailers_rents)
+    } catch (e) {
+      writeLog('getTrailersRent ERROR: ' + e)
+      res.status(500).json({ status: false })
+    }
+  }
+
   async getTrailersUnion(req, res) {
     try {
       const trailers = Array.from(await TrailerServices.getTrailers())
@@ -58,8 +69,8 @@ class TrailersController {
 
   async addTrailer(req, res) {
     try {
-      const { title, text } = req.body
-      await TrailerServices.addTrailer(title, text)
+      const { rent_id, title, text } = req.body
+      await TrailerServices.addTrailer(rent_id, title, text)
 
       res.status(201).json({ status: true })
     } catch (e) {
@@ -94,8 +105,8 @@ class TrailersController {
 
   async changeTrailer(req, res) {
     try {
-      const { id, title, text } = req.body
-      await TrailerServices.changeTrailer(id, title, text)
+      const { id, rent_id, title, text } = req.body
+      await TrailerServices.changeTrailer(id, rent_id, title, text)
 
       const trailer = await TrailerServices.getTrailer(id)
 
