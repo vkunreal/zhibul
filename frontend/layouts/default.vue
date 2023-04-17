@@ -289,8 +289,8 @@ export default {
 @import "@/assets/bundle.scss";
 
 .v-app {
+  position: relative;
   &__header {
-    margin-top: 62px;
     max-width: 1024px;
     &-wrapper {
       background: $primaryGrey;
@@ -328,8 +328,9 @@ export default {
 
   &__top {
     width: 100%;
+    position: sticky;
+    top: 0;
     background: $white;
-    position: fixed;
     z-index: 101;
   }
 
@@ -417,10 +418,6 @@ export default {
       &-spacer {
         display: block;
       }
-    }
-
-    &__content {
-      margin-top: 143px;
     }
 
     &__contacts {
