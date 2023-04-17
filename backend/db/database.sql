@@ -151,7 +151,7 @@ DROP TABLE IF EXISTS trailer_rent;
 CREATE TABLE trailer_rent (
   `id` SERIAL PRIMARY KEY,
   `title` TEXT NOT NULL,
-  `url` VARCHAR(150) NOT NULL,
+  `url` VARCHAR(150) UNIQUE NOT NULL,
   `image_src` TEXT
 );
 

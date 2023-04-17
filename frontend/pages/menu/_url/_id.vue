@@ -39,7 +39,10 @@
           class="fill-width d-flex flex-column flex-md-row pd-2 mb-8 pd-md-0"
         >
           <!-- main image -->
-          <div class="product__images d-flex flex-column align-center mr-10">
+          <div
+            v-if="images?.length"
+            class="product__images d-flex flex-column align-center mr-10"
+          >
             <img :src="image ? image : images[0]" :alt="itemDetails.name" />
             <div
               class="product__images-footer d-flex g-1"
@@ -175,7 +178,7 @@ export default {
     ...mapGetters("app", ["categories"]),
     ...mapGetters("items", ["itemDetails", "itemOptions"]),
     images() {
-      return this.itemDetails?.images.split(",") || [];
+      return this.itemDetails?.images?.split(",") || [];
     },
     breadCategories() {
       let tempCategory = this.categories.filter(

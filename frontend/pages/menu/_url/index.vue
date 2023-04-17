@@ -45,7 +45,7 @@
               <p>{{ description }}</p>
 
               <div class="d-flex g-2">
-                <nuxt-link :to="url">
+                <nuxt-link :to="'/menu/' + url">
                   <button class="category__undercategories-button catalog">
                     Каталог
                   </button>

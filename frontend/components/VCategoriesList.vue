@@ -16,7 +16,7 @@
                 <use xlink:href="@/static/icons.svg#slider-arrow" />
               </svg>
 
-              <nuxt-link :to="'/' + url" @click.native="linkClick">
+              <nuxt-link :to="'/menu/' + url" @click.native="linkClick">
                 {{ name }}
               </nuxt-link>
             </div>
@@ -48,7 +48,7 @@
                 <use xlink:href="@/static/icons.svg#slider-arrow" />
               </svg>
 
-              <nuxt-link :to="'/' + url" @click.native="linkClick">
+              <nuxt-link :to="'/menu/' + url" @click.native="linkClick">
                 {{ name }}
               </nuxt-link>
             </li>
@@ -63,7 +63,7 @@
             </svg>
 
             <nuxt-link
-              :to="'/' + url"
+              :to="'/menu/' + url"
               @click.native="linkClick"
               @mouseover.native="categoryDetail = id"
             >
@@ -85,7 +85,7 @@
           <use xlink:href="@/static/icons.svg#slider-arrow" />
         </svg>
 
-        <nuxt-link :to="'/' + url" @click.native="linkClick">
+        <nuxt-link :to="'/menu/' + url" @click.native="linkClick">
           {{ name }}
         </nuxt-link>
       </li>

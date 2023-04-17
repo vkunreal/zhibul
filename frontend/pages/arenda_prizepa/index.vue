@@ -14,18 +14,22 @@
       class="trailer-rents__wrapper fill-width d-flex flex-column g-4 mt-4 mb-4 pd-2 pd-md-4"
     >
       <div
-        class="trailer-rents__rent fill-width d-flex flex-column justify-center align-center g-5"
+        class="trailer-rents__rent fill-width d-flex flex-column justify-center align-center g-5 pd-2"
         v-for="{ id, title, url } in trailersRent"
         :key="id"
       >
         <h2>{{ title }}</h2>
 
-        <div class="d-flex g-2">
+        <div class="d-flex flex-column flex-sm-row g-2">
           <nuxt-link
-            class.native="trailer-rents__rent-button"
-            :to="`/arenda_pricepa/${url}`"
-            >Подробнее</nuxt-link
+            class="trailer-rents__rent-button"
+            :to="'/arenda_prizepa/' + url"
           >
+            Подробнее
+            <svg class="ml-4" width="12" height="12">
+              <use xlink:href="@/static/icons.svg#slider-arrow" />
+            </svg>
+          </nuxt-link>
           <button class="trailer-rents__rent-button call-btn">
             Заказать звонок
           </button>
@@ -36,17 +40,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
-  async mounted() {
-    await this.fetchTrailersRent();
-  },
   computed: {
     ...mapGetters("trailers", ["trailersRent"]),
   },
-  methods: {
-    ...mapActions("trailers", ["fetchTrailersRent"]),
+  async fetch({ store }) {
+    await store.dispatch("trailers/fetchTrailersRent");
   },
 };
 </script>
@@ -62,6 +63,9 @@ export default {
     height: 400px;
     background: $colorGrey;
     color: $white;
+    h2 {
+      text-align: center;
+    }
     &-button,
     a {
       min-width: 160px;

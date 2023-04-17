@@ -2,7 +2,7 @@ const TrailerServices = require('../services/TrailerServices')
 const { writeLog } = require('../writeLog')
 
 class TrailersController {
-  async getTrailersRent (req, res) {
+  async getTrailersRent(req, res) {
     try {
       const trailers_rents = await TrailerServices.getTrailerRents()
 
@@ -28,6 +28,26 @@ class TrailersController {
       res.status(200).json(trailers)
     } catch (e) {
       writeLog('getTrailersUnion ERROR: ' + e)
+      res.status(500).json({ status: false })
+    }
+  }
+
+  async getTrailersByUrl(req, res) {
+    try {
+      const { url } = req.params
+      const trailers = Array.from(await TrailerServices.getTrailersByUrl(url))
+
+      for (let i = 0; i < trailers.length; i++) {
+        const options = await TrailerServices.getTrailerOptions(trailers[i].id)
+        const images = await TrailerServices.getTrailerImages(trailers[i].id)
+
+        trailers[i].options = options
+        trailers[i].images = images
+      }
+
+      res.status(200).json(trailers)
+    } catch (e) {
+      writeLog('getTrailersByUrl ERROR: ' + e)
       res.status(500).json({ status: false })
     }
   }

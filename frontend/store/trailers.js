@@ -17,8 +17,8 @@ export const actions = {
     const trailers_rent = await this.$axios.$get("/trailers-rent");
     commit("setTrailersRent", trailers_rent);
   },
-  async fetchTrailers({ commit }) {
-    const trailers = await this.$axios.$get("/trailers-union");
+  async fetchTrailers({ commit }, url) {
+    const trailers = await this.$axios.$get("/trailers-rent/" + url);
     commit("setTrailers", trailers);
   },
 };

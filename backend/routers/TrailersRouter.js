@@ -4,6 +4,7 @@ const TrailersController = require('../controllers/TrailersController')
 const TrailersRouter = new Router()
 
 TrailersRouter.get('/trailers-rent', TrailersController.getTrailersRent)
+TrailersRouter.get('/trailers-rent/:url', TrailersController.getTrailersByUrl)
 TrailersRouter.get('/trailers-union', TrailersController.getTrailersUnion)
 TrailersRouter.get('/trailers', TrailersController.getTrailers)
 TrailersRouter.get(

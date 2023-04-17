@@ -5,8 +5,22 @@ class TrailerServices {
     return await request('SELECT * FROM trailer_rent')
   }
 
-  async getTrailers () {
+  async getTrailers() {
     return await request('SELECT * FROM trailers')
+  }
+
+  async getTrailersByUrl(url) {
+    return await request(`
+      SELECT
+        t.id,
+        t.trailer_rent_id,
+        t.title,
+        t.text,
+        tr.url
+      FROM trailers t
+      JOIN trailer_rent tr ON t.trailer_rent_id = tr.id AND tr.url = "${url}"
+      GROUP BY t.id
+    `)
   }
 
   async getTrailer(trailer_id) {
