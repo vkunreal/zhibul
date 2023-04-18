@@ -54,14 +54,8 @@ import EventBus from "@/plugins/EventBus.js";
 const tabs = [
   { title: "О компании", url: "/" },
   {
-    title: "Покупателю",
-    url: "/pokupatelu",
-    tabs: [
-      { title: "Доставка", url: "/delivery" },
-      //      { title: "Гарантия", url: "/garanty" },
-      //      { title: "Оплата", url: "/payment" },
-      //      { title: "Акции", url: "/actions" },
-    ],
+    title: "Доставка",
+    url: "/delivery",
   },
   {
     title: "Услуги",

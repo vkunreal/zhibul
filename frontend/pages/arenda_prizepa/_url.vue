@@ -79,6 +79,7 @@ export default {
 
 <style lang="scss">
 @import "@/assets/mixins.scss";
+
 .trailers {
   &__wrapper {
     max-width: 1024px;

@@ -20,6 +20,18 @@
     <svg v-if="icon === 'size'" style="fill: black" width="48" height="48">
       <use xlink:href="@/static/icons.svg#size" />
     </svg>
+    <svg v-if="icon === 'truck'" style="fill: black" width="48" height="48">
+      <use xlink:href="@/static/icons.svg#truck" />
+    </svg>
+    <svg v-if="icon === 'warehouse'" style="fill: black" width="48" height="48">
+      <use xlink:href="@/static/icons.svg#warehouse" />
+    </svg>
+    <svg v-if="icon === 'message'" style="fill: black" width="48" height="48">
+      <use xlink:href="@/static/icons.svg#message" />
+    </svg>
+    <svg v-if="icon === 'repair'" style="fill: black" width="48" height="48">
+      <use xlink:href="@/static/icons.svg#repair" />
+    </svg>
   </span>
 </template>
 
