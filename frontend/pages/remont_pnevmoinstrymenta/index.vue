@@ -75,6 +75,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 const options = [
   {
     icon: "repair",
@@ -99,10 +100,31 @@ const options = [
 ];
 
 export default {
+  head() {
+    return {
+      title: this.page?.seo_title || "Ремонт пневмоинструмента",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.page?.seo_description || "",
+        },
+        {
+          hid: "keywords",
+          name: "keywords",
+          content: this.page?.seo_keywords || "",
+        },
+      ],
+    };
+  },
   computed: {
+    ...mapGetters("app", ["page"]),
     options() {
       return options;
     },
+  },
+  async fetch({ store }) {
+    await store.dispatch("app/fetchPage", "remont_pnevmoinstrymenta");
   },
 };
 </script>

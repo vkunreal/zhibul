@@ -141,6 +141,32 @@
 import { mapGetters } from "vuex";
 
 export default {
+  head() {
+    const {
+      itemDetails: {
+        name,
+        description,
+        seo_title,
+        seo_description,
+        seo_keywords,
+      },
+    } = this;
+    return {
+      title: seo_title || name || "",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: seo_description || description || "",
+        },
+        {
+          hid: "keywords",
+          name: "keywords",
+          content: seo_keywords || "",
+        },
+      ],
+    };
+  },
   data: () => ({
     image: null,
   }),

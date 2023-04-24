@@ -649,7 +649,8 @@ VALUES
 
 INSERT INTO pages (url, name, text, seo_title, seo_description, seo_keywords)
 VALUES
-('contacts', 'КОНТАКТНАЯ ИНФОРМАЦИЯ', '', 'Контакты', '', '');
+('contacts', 'КОНТАКТНАЯ ИНФОРМАЦИЯ', '', 'Контакты', '', ''),
+('delivery', 'Доставка и оплата', 'Это страница доставки и оплаты', 'Доставка и оплата', 'Страница доставки и оплаты', 'доставка,оплата');
 
 INSERT INTO trailer_rent (title, url, image_src)
 VALUES

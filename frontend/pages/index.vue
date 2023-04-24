@@ -126,11 +126,25 @@ import VFeedBack from "../components/VFeedBack.vue";
 export default {
   name: "IndexPage",
   components: { VFeedBack },
-  head: () => ({
-    title: "Главная",
-  }),
+  head() {
+    return {
+      title: this.page?.seo_title || "Главная",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.page?.seo_description || "",
+        },
+        {
+          hid: "keywords",
+          name: "keywords",
+          content: this.page?.seo_keywords || "",
+        },
+      ],
+    };
+  },
   computed: {
-    ...mapGetters("app", ["appVariables", "slider"]),
+    ...mapGetters("app", ["page", "appVariables", "slider"]),
     variable() {
       return (variableName) =>
         this.appVariables?.find(({ name }) => name === variableName)?.value ||
@@ -146,6 +160,7 @@ export default {
     if (!slider) {
       await store.dispatch("app/fetchSlider");
     }
+    await store.dispatch("app/fetchPage", "index");
   },
 };
 </script>

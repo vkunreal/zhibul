@@ -43,11 +43,30 @@
 import { mapGetters } from "vuex";
 
 export default {
+  head() {
+    return {
+      title: this.page?.seo_title || "Аренда автоприцепов",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.page?.seo_description || "",
+        },
+        {
+          hid: "keywords",
+          name: "keywords",
+          content: this.page?.seo_keywords || "",
+        },
+      ],
+    };
+  },
   computed: {
+    ...mapGetters("app", ["page"]),
     ...mapGetters("trailers", ["trailersRent"]),
   },
   async fetch({ store }) {
     await store.dispatch("trailers/fetchTrailersRent");
+    await store.dispatch("app/fetchPage", "arenda_prizepa");
   },
 };
 </script>

@@ -6,12 +6,12 @@
   color: $white;
   display: none;
   justify-content: center;
-  margin-top: -4px;
+  padding: 6px 0 !important;
 
   &-wrapper {
     max-width: 1024px;
     width: 100%;
-    padding: 6px 0 !important;
+
     display: flex;
     gap: 8px;
   }

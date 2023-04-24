@@ -84,6 +84,23 @@ import VProduct from "@/components/VProduct";
 
 export default {
   components: { VProduct },
+  head() {
+    return {
+      title: this.category?.seo_title || this.category?.name || "",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.category?.seo_description || "",
+        },
+        {
+          hid: "keywords",
+          name: "keywords",
+          content: this.category?.seo_keywords || "",
+        },
+      ],
+    };
+  },
   computed: {
     ...mapGetters("app", ["categories"]),
     ...mapGetters("items", ["items"]),
@@ -94,9 +111,6 @@ export default {
       return this.categories.filter((c) => c.url === this.url)[0] || null;
     },
     undercategories() {
-      console.log(
-        this.categories.filter((c) => c?.parent_id === this?.category.id) || []
-      );
       return (
         this.categories.filter((c) => c?.parent_id === this?.category.id) || []
       );

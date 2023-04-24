@@ -1,5 +1,15 @@
 <template>
   <section class="fill-width d-flex flex-column align-center">
+    <div class="breadcrumbs">
+      <div class="breadcrumbs-wrapper">
+        <p class="breadcrumbs__link">
+          <nuxt-link class="mr-1" to="/">Главная</nuxt-link> /
+        </p>
+        <p class="breadcrumbs__link">
+          <span class="mr-1" to="">Контакты</span>
+        </p>
+      </div>
+    </div>
     <div class="contacts fill-width">
       <h1 class="text-center mt-4 mb-4">{{ pageTitle }}</h1>
 
@@ -103,6 +113,23 @@ import { mapGetters } from "vuex";
 import VFeedBack from "@/components/VFeedBack.vue";
 
 export default {
+  head() {
+    return {
+      title: this.page?.seo_title || "Доставка",
+      meta: [
+        {
+          hid: "description",
+          name: "description",
+          content: this.page?.seo_description || "",
+        },
+        {
+          hid: "keywords",
+          name: "keywords",
+          content: this.page?.seo_keywords || "",
+        },
+      ],
+    };
+  },
   components: { VFeedBack },
   computed: {
     ...mapGetters("app", ["page", "appVariables"]),
@@ -116,7 +143,7 @@ export default {
         this.appVariables?.filter(({ name }) => name === variableName);
     },
     pageTitle() {
-      return this.page?.name || "Доставка";
+      return this.page?.name || "Контакты";
     },
     pageText() {
       return this.page?.text || "";

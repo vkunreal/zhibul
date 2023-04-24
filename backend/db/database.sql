@@ -119,7 +119,7 @@ CREATE TABLE options (
 -- pages
 DROP TABLE IF EXISTS pages;
 CREATE TABLE pages (
-  `url` VARCHAR(70) NOT NULL PRIMARY KEY,
+  `url` VARCHAR(70) UNIQUE NOT NULL PRIMARY KEY,
   `name` VARCHAR(70) NOT NULL,
   `text` VARCHAR(3000),
   `seo_title` VARCHAR(70),

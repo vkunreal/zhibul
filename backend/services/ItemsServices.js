@@ -14,7 +14,10 @@ const queryItems = `
     it.description,
     ct.name as manufacturer,
     it.brand,
-    it.price
+    it.price,
+    it.seo_title,
+    it.seo_description,
+    it.seo_keywords
   FROM items it
   JOIN categories c ON it.category_id = c.id
   JOIN images im ON im.item_id = it.id
@@ -35,7 +38,10 @@ const queryItemsByCategoryUrl = (category_url) => `
     it.description,
     ct.name as manufacturer,
     it.brand,
-    it.price
+    it.price,
+    it.seo_title,
+    it.seo_description,
+    it.seo_keywords
   FROM items it
   JOIN categories c ON it.category_id = c.id AND c.url = "${category_url}"
   JOIN images im ON im.item_id = it.id
@@ -56,7 +62,10 @@ const queryItemByUrl = (item_url) => `
     it.description,
     ct.name as manufacturer,
     it.brand,
-    it.price
+    it.price,
+    it.seo_title,
+    it.seo_description,
+    it.seo_keywords
   FROM items it
   JOIN categories c ON it.category_id = c.id
   JOIN images im ON im.item_id = it.id
