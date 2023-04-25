@@ -4,20 +4,20 @@
       <div class="breadcrumbs-wrapper justify-space-between">
         <div class="d-flex g-1">
           <p class="breadcrumbs__link">
-            <nuxt-link class="mr-1" to="/">Каталог</nuxt-link> /
+            <nuxt-link class="mr-1" to="/catalog">Каталог</nuxt-link> /
           </p>
           <p
             class="breadcrumbs__link"
             v-for="category in breadCategories"
             :key="category?.id"
           >
-            <nuxt-link class="mr-1" :to="`/${category?.url}`">{{
+            <nuxt-link class="mr-1" :to="`/menu/${category?.url}`">{{
               category?.name
             }}</nuxt-link>
             /
           </p>
           <p class="breadcrumbs__link">
-            <nuxt-link class="mr-1" to="">{{ itemDetails.name }}</nuxt-link>
+            <span class="mr-1">{{ itemDetails.name }}</span>
           </p>
         </div>
 

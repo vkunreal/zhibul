@@ -2,35 +2,35 @@ INSERT INTO categories (id, name, url, description, image, parent_id, is_contain
 VALUES
 (1, 'Запчасти для краскораспылителей', 'zapasnyechasti', '', 'http://194.67.78.19/images/im13.png', null, true),
 (2, 'Компрессоры', 'kompressory', '', 'http://194.67.78.19/images/im38.png', null, true),
-(3, 'Краскораспылители', 'kraskoraspyliteli', '', 'http://194.67.78.19/images/im80.png', null, true),
+(3, 'Краскораспылители', 'kraskoraspyliteli', 'Бренды краскораспылителей: Walcom.', 'http://194.67.78.19/images/im80.png', null, true),
 (4, 'Пневмоинструмент', 'pnevmoinstrument', '', 'http://194.67.78.19/images/im112.png', null, true),
 (5, 'Соеденительные элементы Aignep', 'soedinitelnyeelementy', '', '', null, true),
 (6, 'Шланги и трубки', 'trubki_shlangi_rvd', '', 'http://194.67.78.19/images/im125.png', null, false),
-(7, 'Бачки', 'bachki', '', 'http://194.67.78.19/images/im2.png', 1, false),
-(8, 'Регуляторы давления', 'reg_dav', '', 'http://194.67.78.19/images/im8.png', 1, false),
+(7, 'Бачки', 'bachki', 'Оригинальные бачки для краскораспылителей Walcom.', 'http://194.67.78.19/images/im2.png', 1, false),
+(8, 'Регуляторы давления', 'reg_dav', 'Оригинальные регуляторы давления для краскораспылителей Walcom.', 'http://194.67.78.19/images/im8.png', 1, false),
 (9, 'Серия Carbonio', 'test1', '', 'http://194.67.78.19/images/im11.png', 1, false),
 (10, 'Серия Ego', 'test2', '', 'http://194.67.78.19/images/im17.png', 1, false),
 (11, 'Серия Genesi', 'test4', '', 'http://194.67.78.19/images/im19.png', 1, false),
 (12, 'Серия Kombat', 'test5', '', 'http://194.67.78.19/images/im22.png', 1, false),
 (13, 'Серия Slim', 'test6', '', 'http://194.67.78.19/images/im24.png', 1, false),
 (14, 'Серия Xlight', 'test7', '', 'http://194.67.78.19/images/im26.png', 1, false),
-(15, 'Компрессоры с прямым приводом', 'kompressoryspryamymprivodom', '', 'http://194.67.78.19/images/im31.png', 2, false),
-(16, 'Компрессоры с ременным приводом', 'kompressoryporshnevye', '', 'http://194.67.78.19/images/im38.png', 2, false),
+(15, 'Компрессоры с прямым приводом', 'kompressoryspryamymprivodom', 'Компрессоры поршневые полупрофессиональные с прямым приводом. Хорошо подходит для личных целей, где требуется компактность, была возможность взять его с собой, а самое главное - невысокая цена.', 'http://194.67.78.19/images/im31.png', 2, false),
+(16, 'Компрессоры с ременным приводом', 'kompressoryporshnevye', 'Поршневые компрессоры с ременным приводом до 10 атмосфер. Используются в основном для промышленных нужд, где не требуется высокая производительность.', 'http://194.67.78.19/images/im38.png', 2, false),
 (17, 'Серия Carbonio', 'test8', '', 'http://194.67.78.19/images/im54.png', 3, false),
 (18, 'Серия Ego', 'test9', '', 'http://194.67.78.19/images/im64.png', 3, false),
 (19, 'Серия Genesi', 'test10', '', 'http://194.67.78.19/images/im67.png', 3, false),
 (20, 'Серия Kombat', 'test11', '', 'http://194.67.78.19/images/im76.png', 3, false),
 (21, 'Серия Slim', 'test12', '', 'http://194.67.78.19/images/im83.png', 3, false),
 (22, 'Серия Xlight', 'test13', '', 'http://194.67.78.19/images/im92.png', 3, false),
-(23, 'Гвоздезабивные пистолеты', 'gvozdezabivnyepistolety', '', 'http://194.67.78.19/images/im99.png', 4, false),
-(24, 'Скобозабивные пистолеты', 'skobozabivnie_pistoleti', '', 'http://194.67.78.19/images/im103.png', 4, false),
-(25, 'Шпилько-штифтозабивной пистолет', 'shtiftozabivnyepistolety', '', 'http://194.67.78.19/images/im112.png', 4, false),
-(26, 'Быстросъемные соединения', 'test14', '', '', 5, false),
+(23, 'Гвоздезабивные пистолеты', 'gvozdezabivnyepistolety', 'Гвоздезабивные пистолеты представлены брендом: Fasco.', 'http://194.67.78.19/images/im99.png', 4, false),
+(24, 'Скобозабивные пистолеты', 'skobozabivnie_pistoleti', 'Бренды скобозабивных пистолетов: Fasco, EZ-Fasten.', 'http://194.67.78.19/images/im103.png', 4, false),
+(25, 'Шпилько-штифтозабивной пистолет', 'shtiftozabivnyepistolety', 'Бренды штифто-шпилькозабивных пистолетов: Fasco, EZ-Fasten.', 'http://194.67.78.19/images/im112.png', 4, false),
+(26, 'Быстросъемные соединения', 'test14', 'Быстросъемные соединения представлены брендом Aignep.', '', 5, false),
 (27, 'Глушители', 'test15', '', '', 5, false),
 (28, 'Клапаны', 'klapany', '', '', 5, false),
-(29, 'Краны', 'test17', '', '', 5, false),
-(30, 'Резьбовые переходники', 'test18', '', '', 5, false),
-(31, 'Цанговые соединения', 'test19', '', '', 5, false);
+(29, 'Краны', 'test17', 'Краны шаровые, комбинированные и цанговые представлены брендом Aignep.', '', 5, false),
+(30, 'Резьбовые переходники', 'test18', 'Резьбовые переходники представлены брендом Aignep.', '', 5, false),
+(31, 'Цанговые соединения', 'test19', 'Цанговые соединения представлены брендом Aignep.', '', 5, false);
 
 -- variables
 INSERT INTO app_variables (name, value)
@@ -63,8 +63,8 @@ VALUES
 INSERT INTO slides (url, title, brand)
 VALUES
 ('kraskoraspyliteli', 'Краскораспылители', 'WALCOM'),
-('krepezh', 'Крепежные изделия', 'EMES'),
-('kompressory', 'Компрессоры', 'REMEZA');
+('kompressory', 'Компрессоры', 'REMEZA'),
+('krepezh', 'Крепежные изделия', 'EMES');
 
 -- slider images
 INSERT INTO slider_images (slide_id, display, src)

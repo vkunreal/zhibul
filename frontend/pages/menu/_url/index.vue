@@ -3,35 +3,33 @@
     <div class="breadcrumbs">
       <div class="breadcrumbs-wrapper">
         <p class="breadcrumbs__link">
-          <nuxt-link class="mr-1" to="/">Каталог</nuxt-link> /
+          <nuxt-link class="mr-1" to="/catalog">Каталог</nuxt-link> /
         </p>
         <p
           class="breadcrumbs__link"
           v-for="category in breadCategories.slice(0, -1)"
           :key="category?.id"
         >
-          <nuxt-link class="mr-1" :to="`/${category?.url}`">{{
+          <nuxt-link class="mr-1" :to="`/menu/${category?.url}`">{{
             category?.name
           }}</nuxt-link>
           /
         </p>
         <p class="breadcrumbs__link">
-          <nuxt-link class="mr-1" :to="`/${category?.url}`">{{
-            category?.name
-          }}</nuxt-link>
+          <span class="mr-1">{{ category?.name }}</span>
         </p>
       </div>
     </div>
 
     <div class="category-wrapper fill-width pl-2 pr-2">
-      <h1 class="mt-8 mb-8 text-center text-uppercase">{{ categoryName }}</h1>
+      <!-- <h1 class="mt-8 mb-8 text-center text-uppercase">{{ categoryName }}</h1> -->
 
       <div class="mt-4">
         <div
           v-if="
             !category?.parent_id && !items?.length && undercategories.length
           "
-          class="d-flex flex-column g-8"
+          class="d-flex flex-column align-center g-8"
         >
           <div
             v-for="{ name, description, image, url } in undercategories"
@@ -41,8 +39,10 @@
             <div
               class="d-flex flex-column align-center align-md-start justify-space-between"
             >
-              <h2 class="category__undercategories-title">{{ name }}</h2>
-              <p>{{ description }}</p>
+              <div>
+                <h2 class="category__undercategories-title">{{ name }}</h2>
+                <p class="mt-10">{{ description }}</p>
+              </div>
 
               <div class="d-flex g-2">
                 <nuxt-link :to="'/menu/' + url">
@@ -67,9 +67,9 @@
           class="category__list d-flex flex-column"
         >
           <template v-for="item in items">
-            <nuxt-link :to="category?.url + '/' + item.url" :key="item.id">
-              <v-product class="category__item" :product="item" />
-            </nuxt-link>
+            <!-- <nuxt-link :to="category?.url + '/' + item.url" :key="item.id"> -->
+            <v-product class="category__item" :product="item" />
+            <!-- </nuxt-link> -->
           </template>
         </div>
         <h3 v-else>Товаров пока нет</h3>
@@ -144,8 +144,11 @@ export default {
 @import "@/assets/mixins.scss";
 
 .category {
+  h1 {
+    font-size: 25px;
+  }
   & a {
-    color: #000;
+    color: $black;
     text-decoration: none;
   }
   &-wrapper {
@@ -162,7 +165,7 @@ export default {
 
   &__undercategories {
     &-title {
-      font-size: 29px;
+      font-size: 32px;
       font-weight: 400;
     }
     &-button {
@@ -181,6 +184,8 @@ export default {
 
   &__catalog-item {
     flex-direction: column-reverse;
+    max-width: 400px;
+    text-align: center;
     &-img {
       width: 100%;
       max-width: 400px !important;
@@ -190,6 +195,9 @@ export default {
 
   @include laptop {
     &__catalog-item {
+      max-width: unset;
+      text-align: unset;
+      width: 100%;
       &-img {
         margin: unset !important;
       }

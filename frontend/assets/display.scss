@@ -45,6 +45,10 @@
   cursor: pointer;
 }
 
+.cursor-default {
+  cursor: default;
+}
+
 $display: inline-block, inline, inline-flex, flex, block, none;
 @each $d in $display {
   .d-#{$d} {

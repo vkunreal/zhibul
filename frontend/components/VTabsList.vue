@@ -11,9 +11,10 @@
               <use xlink:href="@/static/icons.svg#slider-arrow" />
             </svg>
 
-            <nuxt-link :to="url" @click.native="linkClick">
+            <nuxt-link v-if="url" :to="url" @click.native="linkClick">
               {{ title }}
             </nuxt-link>
+            <span v-else class="text--white cursor-default">{{ title }}</span>
           </div>
 
           <p
@@ -59,7 +60,7 @@ const tabs = [
   },
   {
     title: "Услуги",
-    url: "/uslugi",
+    url: "",
     tabs: [
       { title: "Ремонт пневмоинструмента", url: "/remont_pnevmoinstrymenta" },
       { title: "Аренда автоприцепов", url: "/arenda_prizepa" },

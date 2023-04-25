@@ -41,13 +41,6 @@ export const actions = {
     {},
     { name = "", phone = "", company = "", email = "", comment = "" } = {}
   ) {
-    console.log({
-      name,
-      phone,
-      company,
-      email,
-      comment,
-    });
     if (!name.trim() || !phone.trim()) {
       console.error("App store sendFeedback: not found name or phone");
       return;

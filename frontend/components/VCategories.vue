@@ -86,9 +86,12 @@
         @mouseover="tabNesting = url"
         @mouseleave="tabNesting = null"
       >
-        <nuxt-link class="text-uppercase" :to="url">
+        <nuxt-link v-if="url" class="text-uppercase" :to="url">
           {{ title }}
         </nuxt-link>
+        <span v-else class="text-uppercase cursor-default">
+          {{ title }}
+        </span>
         <div
           v-if="tabs && tabNesting === url"
           class="v-categories__link-list d-flex flex-column mt-2"
@@ -133,7 +136,7 @@ const tabs = [
   },
   {
     title: "Услуги",
-    url: "/uslugi",
+    url: "",
     tabs: [
       { title: "Ремонт пневмоинструмента", url: "/remont_pnevmoinstrymenta" },
       { title: "Аренда автоприцепов", url: "/arenda_prizepa" },
