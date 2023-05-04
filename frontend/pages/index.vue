@@ -1,9 +1,35 @@
 <template>
   <section class="home d-flex flex-column align-center">
-    <!-- :vertical="true"
-    :vertical-delimiters="true" -->
     <v-carousel
-      class="home__slider"
+      class="home__slider home__slider--mobile"
+      v-if="slider"
+      :show-arrows="false"
+      :interval="5000"
+      :cycle="true"
+      delimiter-icon="mdi-minus"
+      height="600"
+    >
+      <v-carousel-item
+        v-for="{ id, title, brand, url, images: { mobile } } in slider"
+        :key="id"
+        :src="mobile"
+      >
+        <div class="d-flex fill-height flex-column justify-center align-center">
+          <p class="home__slider-title text--white text-uppercase text-center">
+            {{ title }} <br />
+            {{ brand }}
+          </p>
+          <v-btn
+            class="home__slider-button"
+            @click="$router.push('/menu/' + url)"
+            >Подробнее</v-btn
+          >
+        </div>
+      </v-carousel-item>
+    </v-carousel>
+
+    <v-carousel
+      class="home__slider home__slider--desktop"
       v-if="slider"
       :show-arrows="false"
       :interval="5000"
@@ -21,7 +47,9 @@
             {{ title }} <br />
             {{ brand }}
           </p>
-          <v-btn class="home__slider-button" @click="$router.push('/menu/' + url)"
+          <v-btn
+            class="home__slider-button"
+            @click="$router.push('/menu/' + url)"
             >Подробнее</v-btn
           >
         </div>
@@ -66,7 +94,9 @@
       <div
         class="home__promotion-wrapper fill-width d-flex flex-column flex-md-row g-4 justify-space-beetwen justify-md-space-around"
       >
-        <div class="home__promotion-item d-flex flex-column align-center g-1">
+        <div
+          class="home__promotion-item fill-width d-flex flex-column align-center g-1"
+        >
           <svg width="36" height="36">
             <use xlink:href="@/static/icons.svg#medal" />
           </svg>
@@ -78,7 +108,9 @@
           </p>
         </div>
 
-        <div class="home__promotion-item d-flex flex-column align-center g-1">
+        <div
+          class="home__promotion-item fill-width d-flex flex-column align-center g-1"
+        >
           <svg width="36" height="36">
             <use xlink:href="@/static/icons.svg#people" />
           </svg>
@@ -90,7 +122,9 @@
           </p>
         </div>
 
-        <div class="home__promotion-item d-flex flex-column align-center g-1">
+        <div
+          class="home__promotion-item fill-width d-flex flex-column align-center g-1"
+        >
           <svg width="36" height="36">
             <use xlink:href="@/static/icons.svg#warehouse" />
           </svg>
@@ -102,7 +136,9 @@
           </p>
         </div>
 
-        <div class="home__promotion-item d-flex flex-column align-center g-1">
+        <div
+          class="home__promotion-item fill-width d-flex flex-column align-center g-1"
+        >
           <svg width="36" height="36">
             <use xlink:href="@/static/icons.svg#repair_done" />
           </svg>
@@ -178,6 +214,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/assets/mixins.scss";
+
 .home {
   &__slider {
     &-title {
@@ -192,6 +230,9 @@ export default {
     }
     .v-btn::before {
       content: unset;
+    }
+    &--desktop {
+      display: none;
     }
   }
   &-wrapper {
@@ -242,6 +283,16 @@ export default {
   }
   &__feedback {
     background: $colorPrimary;
+  }
+  @include slider {
+    &__slider {
+      &--mobile {
+        display: none;
+      }
+      &--desktop {
+        display: block;
+      }
+    }
   }
 }
 </style>

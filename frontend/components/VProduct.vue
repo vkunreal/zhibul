@@ -7,7 +7,6 @@
     <div class="v-product__info d-flex flex-column justify-space-between">
       <div class="d-flex flex-column g-2">
         <h2 class="v-product__info-title">{{ product.name }}</h2>
-        <p v-if="product.description">{{ product.description }}</p>
         <p v-if="product.brand" class="v-product__info-field">
           Бренд: {{ product.brand }}
         </p>
@@ -22,10 +21,10 @@
           :to="product.category_url + '/' + product.url"
           class="v-product__button v-product__button--price text-uppercase"
         >
-          {{ product.price }} руб/шт
+          Подробнее
         </nuxt-link>
         <button class="v-product__button text-uppercase" @click="$orderModal()">
-          Запрос
+          {{ product.price }} руб / шт
         </button>
       </div>
     </div>

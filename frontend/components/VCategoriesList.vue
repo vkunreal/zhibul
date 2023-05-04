@@ -28,7 +28,8 @@
               class="v-categories-list__more text--white text-uppercase"
               @click="selectCategory(id)"
             >
-              Развернуть
+              <template v-if="id === categoryDetail">Свернуть</template>
+              <template v-else>Развернуть</template>
             </p>
             <!-- more -->
           </div>
@@ -131,6 +132,7 @@ export default {
       }
     },
     tabSelected() {
+      console.log("selected tab");
       this.categoryDetail = null;
     },
   },

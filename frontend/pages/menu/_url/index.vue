@@ -29,16 +29,14 @@
           v-if="
             !category?.parent_id && !items?.length && undercategories.length
           "
-          class="d-flex flex-column align-center g-8"
+          class="category__catalog-list"
         >
           <div
             v-for="{ name, description, image, url } in undercategories"
-            class="category__catalog-item d-flex flex-md-row justify-space-between g-2"
+            class="category__catalog-item d-flex g-2"
             :title="name"
           >
-            <div
-              class="d-flex flex-column align-center align-md-start justify-space-between"
-            >
+            <div class="d-flex flex-column align-center justify-space-between">
               <div>
                 <h2 class="category__undercategories-title">{{ name }}</h2>
                 <p class="mt-10">{{ description }}</p>
@@ -182,10 +180,17 @@ export default {
     }
   }
 
+  &__catalog-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 50px;
+  }
+
   &__catalog-item {
     flex-direction: column-reverse;
     max-width: 400px;
-    text-align: center;
+    align-self: center;
+    justify-self: center;
     &-img {
       width: 100%;
       max-width: 400px !important;
@@ -193,14 +198,10 @@ export default {
     }
   }
 
-  @include laptop {
-    &__catalog-item {
-      max-width: unset;
-      text-align: unset;
-      width: 100%;
-      &-img {
-        margin: unset !important;
-      }
+  @include tablet {
+    &__catalog-list {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 20px;
     }
   }
 }

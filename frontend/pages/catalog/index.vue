@@ -9,16 +9,14 @@
     </div>
 
     <div class="catalog-wrapper fill-width pl-2 pr-2">
-      <h1 class="mt-8 mb-8 text-center text-uppercase">Каталог</h1>
-
       <div class="mt-4">
-        <div v-if="filteredCategories" class="d-flex flex-column g-8">
+        <div v-if="filteredCategories" class="catalog__list">
           <div
             v-for="{ name, description, image, url } in filteredCategories"
-            class="catalog__item d-flex flex-column-reverse flex-md-row justify-space-between"
+            class="catalog__item d-flex flex-column-reverse justify-space-between"
             :title="name"
           >
-            <div class="d-flex flex-column justify-space-between">
+            <div class="d-flex flex-column align-center justify-space-between">
               <div>
                 <h2>{{ name }}</h2>
                 <p class="mt-10">{{ description }}</p>
@@ -92,11 +90,11 @@ export default {
 
 .catalog {
   h2 {
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 400;
   }
   & a {
-    color: #000;
+    color: $black;
     text-decoration: none;
   }
   &-wrapper {
@@ -105,9 +103,20 @@ export default {
 
   &__item {
     width: 100%;
+    text-align: center;
     &-image {
       width: 100%;
       max-width: 400px;
+      margin: 0 auto;
+    }
+  }
+
+  @include tablet {
+    &__list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      row-gap: 50px;
+      column-gap: 20px;
     }
   }
 }

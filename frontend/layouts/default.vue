@@ -123,9 +123,7 @@
               <use xlink:href="@/static/icons.svg#phone" />
             </svg>
             <div>
-              <h4 class="v-app__footer__contacts__block-title">
-                Звонок по Беларуси
-              </h4>
+              <h4 class="v-app__footer__contacts__block-title">Звонок</h4>
               <p class="v-app__footer__contacts__block-text">
                 {{ phone_sales }}
               </p>
@@ -290,6 +288,11 @@ export default {
 
 .v-app {
   position: relative;
+
+  html {
+    overflow-x: hidden;
+  }
+
   &__header {
     max-width: 1024px;
     &-wrapper {

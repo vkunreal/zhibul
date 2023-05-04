@@ -7,13 +7,15 @@
       >&#10006;</span
     >
 
-    <div class="fill-height d-flex flex-column justify-space-between">
+    <div
+      class="v-categories-modal__scrollbar fill-height d-flex flex-column justify-space-between"
+    >
       <div>
         <v-categories-list expanded-links @link-click="close" />
         <v-tabs-list class="mt-1" expanded-links @link-click="close" />
       </div>
 
-      <div class="d-flex flex-column align-center g-2 mb-4">
+      <div class="d-flex flex-column align-center g-2 pb-4">
         <img width="140" src="@/static/logo.png" alt="logo" />
       </div>
     </div>
@@ -33,9 +35,11 @@ export default {
   methods: {
     open() {
       this.active = true;
+      document.querySelector("html").style.overflow = "hidden";
     },
     close() {
       this.active = false;
+      document.querySelector("html").style.overflow = "unset";
       EventBus.$emit("categories-modal-close");
     },
   },
@@ -53,6 +57,20 @@ export default {
   display: none !important;
   z-index: 10000;
   overflow-y: none;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: $white;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $colorGrey;
+    border-radius: 20px;
+    border-top: 1px solid $white;
+    border-bottom: 1px solid $white;
+  }
 
   &--active {
     display: block !important;

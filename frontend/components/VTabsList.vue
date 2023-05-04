@@ -22,7 +22,8 @@
             class="v-tabs-list__more text--white text-uppercase"
             @click="selectTab(url)"
           >
-            Развернуть
+            <template v-if="selectedTab === url">Свернуть</template>
+            <template v-else>Развернуть</template>
           </p>
         </div>
 

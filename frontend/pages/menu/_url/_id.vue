@@ -25,7 +25,7 @@
       </div>
     </div>
 
-    <div class="product-wrapper fill-width">
+    <div class="product-wrapper fill-width pd-2">
       <template v-if="itemDetails">
         <!-- title -->
         <h1
@@ -63,7 +63,9 @@
           <!-- main image -->
 
           <!-- details -->
-          <div class="d-flex flex-column fill-width mt-2 mt-md-0 g-2 pd-1">
+          <div
+            class="product__details d-flex flex-column mt-2 mt-md-0 g-2 pd-1"
+          >
             <h2>Характеристики товара:</h2>
 
             <!-- dropdown -->
@@ -240,7 +242,10 @@ export default {
     margin: 0;
   }
   &-wrapper {
-    max-width: 1024px;
+    max-width: 1200px;
+  }
+  &__details {
+    width: 55%;
   }
   &__dotted-spacer {
     border-bottom: 2px dotted #333;

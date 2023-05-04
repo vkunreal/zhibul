@@ -18,6 +18,12 @@
   }
 }
 
+@mixin slider {
+  @media screen and (min-width: #{$point-display-slider - 1px}) {
+    @content;
+  }
+}
+
 @mixin tablet {
   @media screen and (min-width: #{$point-display-sm}) {
     @content;
