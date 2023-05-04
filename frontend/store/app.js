@@ -16,7 +16,6 @@ export const mutations = {
     state.page = page;
   },
   setSlider(state, slider) {
-    console.log("SLIDER", slider);
     state.slider = slider;
   },
 };
