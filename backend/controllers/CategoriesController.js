@@ -49,7 +49,6 @@ class CategoriesController {
   // delete category (body = { id })
   async deleteCategory(req, res) {
     const categoryId = req.params.id
-    console.log(categoryId, !!categoryId)
 
     if (categoryId === undefined || !String(categoryId).trim()) {
       writeLog('Category id is not found')
