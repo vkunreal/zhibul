@@ -21,7 +21,7 @@
             {{ title }} <br />
             {{ brand }}
           </p>
-          <v-btn class="home__slider-button" @click="$router.push('/' + url)"
+          <v-btn class="home__slider-button" @click="$router.push('/menu/' + url)"
             >Подробнее</v-btn
           >
         </div>
@@ -66,7 +66,10 @@
       <div
         class="home__promotion-wrapper fill-width d-flex flex-column flex-md-row g-4 justify-space-beetwen justify-md-space-around"
       >
-        <div>
+        <div class="home__promotion-item d-flex flex-column align-center g-1">
+          <svg width="36" height="36">
+            <use xlink:href="@/static/icons.svg#medal" />
+          </svg>
           <h3 class="home__promotion-title text-center">
             {{ variable("years") }}
           </h3>
@@ -75,7 +78,10 @@
           </p>
         </div>
 
-        <div>
+        <div class="home__promotion-item d-flex flex-column align-center g-1">
+          <svg width="36" height="36">
+            <use xlink:href="@/static/icons.svg#people" />
+          </svg>
           <h3 class="home__promotion-title text-center">
             {{ variable("clients") }}
           </h3>
@@ -84,7 +90,10 @@
           </p>
         </div>
 
-        <div>
+        <div class="home__promotion-item d-flex flex-column align-center g-1">
+          <svg width="36" height="36">
+            <use xlink:href="@/static/icons.svg#warehouse" />
+          </svg>
           <h3 class="home__promotion-title text-center">
             {{ variable("partners") }}
           </h3>
@@ -93,7 +102,10 @@
           </p>
         </div>
 
-        <div>
+        <div class="home__promotion-item d-flex flex-column align-center g-1">
+          <svg width="36" height="36">
+            <use xlink:href="@/static/icons.svg#repair_done" />
+          </svg>
           <h3 class="home__promotion-title text-center">
             {{ variable("repair_done") }}
           </h3>
@@ -205,6 +217,12 @@ export default {
     }
     &-text {
       font-size: 12px;
+    }
+    &-item {
+      svg {
+        fill: $white;
+        opacity: 0.6;
+      }
     }
   }
   &__contacts {
