@@ -12,12 +12,17 @@
           >
             <!-- link title -->
             <div class="d-flex align-center g-1 mr-4">
-              <svg class="v-categories-list__item-arrow" width="12" height="12">
-                <use xlink:href="@/static/icons.svg#slider-arrow" />
-              </svg>
-
               <nuxt-link :to="'/menu/' + url" @click.native="linkClick">
-                {{ name }}
+                <span
+                  ><svg
+                    class="v-categories-list__item-arrow"
+                    width="12"
+                    height="12"
+                  >
+                    <use xlink:href="@/static/icons.svg#slider-arrow" />
+                  </svg>
+                  {{ name }}
+                </span>
               </nuxt-link>
             </div>
             <!-- link title -->
@@ -45,12 +50,13 @@
               v-for="{ id, name, url } in categoriesList(categoryDetail)"
               :key="id"
             >
-              <svg width="12" height="12">
-                <use xlink:href="@/static/icons.svg#slider-arrow" />
-              </svg>
-
               <nuxt-link :to="'/menu/' + url" @click.native="linkClick">
-                {{ name }}
+                <span
+                  ><svg width="12" height="12">
+                    <use xlink:href="@/static/icons.svg#slider-arrow" />
+                  </svg>
+                  {{ name }}
+                </span>
               </nuxt-link>
             </li>
           </ul>
@@ -59,16 +65,17 @@
 
         <template v-else>
           <div class="d-flex align-center g-1">
-            <svg width="12" height="12">
-              <use xlink:href="@/static/icons.svg#slider-arrow" />
-            </svg>
-
             <nuxt-link
               :to="'/menu/' + url"
               @click.native="linkClick"
               @mouseover.native="categoryDetail = id"
             >
-              {{ name }}
+              <span>
+                <svg width="12" height="12">
+                  <use xlink:href="@/static/icons.svg#slider-arrow" />
+                </svg>
+                {{ name }}
+              </span>
             </nuxt-link>
           </div>
         </template>
@@ -82,12 +89,13 @@
         v-for="{ id, name, url } in categoriesList(categoryDetail)"
         :key="id"
       >
-        <svg width="12" height="12">
-          <use xlink:href="@/static/icons.svg#slider-arrow" />
-        </svg>
-
         <nuxt-link :to="'/menu/' + url" @click.native="linkClick">
-          {{ name }}
+          <span>
+            <svg width="12" height="12">
+              <use xlink:href="@/static/icons.svg#slider-arrow" />
+            </svg>
+            {{ name }}
+          </span>
         </nuxt-link>
       </li>
     </ul>
@@ -146,6 +154,10 @@ export default {
   a {
     color: $white;
     text-decoration: none;
+    &.nuxt-link-exact-active,
+    &.nuxt-link-exact-active svg {
+      color: $colorPrimary;
+    }
   }
   p {
     margin-bottom: 0;

@@ -1,27 +1,29 @@
 <template>
   <section class="product fill-width d-flex flex-column align-center mb-10">
     <div class="breadcrumbs">
-      <div class="breadcrumbs-wrapper justify-space-between">
-        <div class="d-flex g-1">
-          <p class="breadcrumbs__link">
-            <nuxt-link class="mr-1" to="/catalog">Каталог</nuxt-link> /
-          </p>
-          <p
-            class="breadcrumbs__link"
-            v-for="category in breadCategories"
-            :key="category?.id"
-          >
-            <nuxt-link class="mr-1" :to="`/menu/${category?.url}`">{{
-              category?.name
-            }}</nuxt-link>
-            /
-          </p>
-          <p class="breadcrumbs__link">
-            <span class="mr-1">{{ itemDetails.name }}</span>
-          </p>
+      <div class="breadcrumbs-wrapper flex-column justify-space-between">
+        <div class="d-flex flex-column g-1">
+          <div class="d-flex g-1">
+            <nobr class="breadcrumbs__link">
+              <nuxt-link class="mr-1" to="/catalog">Каталог</nuxt-link> /
+            </nobr>
+            <nobr
+              class="breadcrumbs__link"
+              v-for="category in breadCategories"
+              :key="category?.id"
+            >
+              <nuxt-link class="mr-1" :to="`/menu/${category?.url}`">{{
+                category?.name
+              }}</nuxt-link>
+              /
+            </nobr>
+          </div>
         </div>
+        <div class="breadcrumbs__link fill-width d-flex justify-space-between">
+          <span class="mr-1">{{ itemDetails.name }}</span>
 
-        <p v-if="itemDetails">{{ itemDetails?.code }}</p>
+          <p v-if="itemDetails">{{ itemDetails?.code }}</p>
+        </div>
       </div>
     </div>
 
@@ -113,7 +115,7 @@
             <!-- options -->
 
             <!-- price -->
-            <div class="product__price d-flex justify-center pd-1">
+            <div class="product__price d-flex justify-center pd-1 mt-2">
               <p>Стоимость: {{ itemDetails.price }} руб / шт</p>
             </div>
             <!-- price -->
@@ -126,15 +128,9 @@
       <div class="pl-6 pl-md-0 pr-6 pr-md-0" v-if="itemDetails?.description">
         <h2>Описание товара:</h2>
 
-        <div v-html="itemDetails?.description" />
+        <div class="mt-1" v-html="itemDetails?.description" />
       </div>
       <!-- description -->
-
-      <!-- product not found -->
-      <div class="pl-6 pl-md-0" v-else>
-        <h3>Нет данных о товаре</h3>
-      </div>
-      <!-- product not found -->
     </div>
   </section>
 </template>
@@ -245,7 +241,7 @@ export default {
     max-width: 1200px;
   }
   &__details {
-    width: 55%;
+    width: 100%;
   }
   &__dotted-spacer {
     border-bottom: 2px dotted #333;
@@ -286,6 +282,9 @@ export default {
       &-footer {
         width: 450px;
       }
+    }
+    &__details {
+      width: 55%;
     }
   }
 }

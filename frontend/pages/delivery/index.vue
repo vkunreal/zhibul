@@ -11,10 +11,10 @@
       </div>
     </div>
 
-    <div class="delivery fill-width">
+    <div class="delivery fill-width mt-2">
       <h1 class="text-center mt-4 mb-4">{{ pageTitle }}</h1>
 
-      <p v-html="pageText" />
+      <div v-html="pageText" />
     </div>
 
     <script

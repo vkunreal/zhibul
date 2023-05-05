@@ -234,9 +234,6 @@ export default {
       &-link {
         width: 100%;
         color: $white !important;
-        &:hover {
-          background: $colorPrimary;
-        }
       }
     }
   }

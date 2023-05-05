@@ -126,7 +126,7 @@
           class="home__promotion-item fill-width d-flex flex-column align-center g-1"
         >
           <svg width="36" height="36">
-            <use xlink:href="@/static/icons.svg#warehouse" />
+            <use xlink:href="@/static/icons.svg#structure" />
           </svg>
           <h3 class="home__promotion-title text-center">
             {{ variable("partners") }}

@@ -7,11 +7,11 @@
         </p>
         <p class="breadcrumbs__link">
           <nuxt-link class="mr-1" to="/arenda_prizepa"
-            >Аренда прицепа</nuxt-link
+            >Аренда автоприцепов</nuxt-link
           >
           /
         </p>
-        <p class="breadcrumbs__link">Аренда прицепа</p>
+        <p class="breadcrumbs__link"></p>
       </div>
     </div>
 
@@ -31,7 +31,7 @@
           v-if="images"
           class="trailers__trailer-images d-flex flex-column flex-md-row g-2"
         >
-          <a v-for="({ src }, i) in images" :href="src" :key="i">
+          <a v-for="({ src }, i) in images" :key="i">
             <img :src="src" :alt="'trailer-' + i" />
           </a>
         </div>
@@ -82,7 +82,7 @@ export default {
 
 .trailers {
   &__wrapper {
-    max-width: 1024px;
+    max-width: 1200px;
   }
   &__trailer {
     h2 {

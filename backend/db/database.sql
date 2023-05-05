@@ -121,7 +121,7 @@ DROP TABLE IF EXISTS pages;
 CREATE TABLE pages (
   `url` VARCHAR(70) UNIQUE NOT NULL PRIMARY KEY,
   `name` VARCHAR(70) NOT NULL,
-  `text` VARCHAR(3000),
+  `text` TEXT,
   `seo_title` VARCHAR(70),
   `seo_description` VARCHAR(250),
   `seo_keywords` VARCHAR(150)

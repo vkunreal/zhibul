@@ -7,14 +7,20 @@
           :class="{ 'v-tabs-list__item--active': url === selectedTab }"
         >
           <div class="d-flex align-center g-1 mr-4">
-            <svg class="v-tabs-list__item-arrow" width="12" height="12">
-              <use xlink:href="@/static/icons.svg#slider-arrow" />
-            </svg>
-
             <nuxt-link v-if="url" :to="url" @click.native="linkClick">
-              {{ title }}
+              <span>
+                <svg class="v-tabs-list__item-arrow" width="12" height="12">
+                  <use xlink:href="@/static/icons.svg#slider-arrow" />
+                </svg>
+                {{ title }}
+              </span>
             </nuxt-link>
-            <span v-else class="text--white cursor-default">{{ title }}</span>
+            <span v-else class="text--white cursor-default">
+              <svg class="v-tabs-list__item-arrow" width="12" height="12">
+                <use xlink:href="@/static/icons.svg#slider-arrow" />
+              </svg>
+              {{ title }}
+            </span>
           </div>
 
           <p
@@ -36,12 +42,13 @@
             v-for="{ title, url } in tabs"
             :key="url"
           >
-            <svg width="12" height="12">
-              <use xlink:href="@/static/icons.svg#slider-arrow" />
-            </svg>
-
             <nuxt-link :to="url" @click.native="linkClick">
-              {{ title }}
+              <span>
+                <svg width="12" height="12">
+                  <use xlink:href="@/static/icons.svg#slider-arrow" />
+                </svg>
+                {{ title }}
+              </span>
             </nuxt-link>
           </li>
         </ul>
@@ -116,6 +123,10 @@ export default {
   a {
     color: $white;
     text-decoration: none;
+    &.nuxt-link-exact-active,
+    &.nuxt-link-exact-active svg {
+      color: $colorPrimary;
+    }
   }
   p {
     margin-bottom: 0;

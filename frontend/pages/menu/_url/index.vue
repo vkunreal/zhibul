@@ -42,7 +42,7 @@
                 <p class="mt-10">{{ description }}</p>
               </div>
 
-              <div class="d-flex g-2">
+              <div class="fill-width d-flex justify-start mt-6 g-4">
                 <nuxt-link :to="'/menu/' + url">
                   <button class="category__undercategories-button catalog">
                     Каталог

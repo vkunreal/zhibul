@@ -17,9 +17,8 @@
             :title="name"
           >
             <div class="d-flex flex-column align-center justify-space-between">
-              <div>
+              <div class="mb-10">
                 <h2>{{ name }}</h2>
-                <p class="mt-10">{{ description }}</p>
               </div>
 
               <div class="d-flex g-2">
@@ -106,7 +105,7 @@ export default {
     text-align: center;
     &-image {
       width: 100%;
-      max-width: 400px;
+      // max-width: 400px;
       margin: 0 auto;
     }
   }
