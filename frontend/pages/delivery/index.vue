@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="delivery fill-width mt-2">
+    <div class="delivery fill-width mt-2 pd-2">
       <h1 class="text-center mt-4 mb-4">{{ pageTitle }}</h1>
 
       <div v-html="pageText" />

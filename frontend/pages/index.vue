@@ -14,7 +14,9 @@
         :key="id"
         :src="mobile"
       >
-        <div class="d-flex fill-height flex-column justify-center align-center">
+        <div
+          class="d-flex fill-height flex-column justify-space-between align-space-between"
+        >
           <p class="home__slider-title text--white text-uppercase text-center">
             {{ title }} <br />
             {{ brand }}
