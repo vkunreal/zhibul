@@ -202,7 +202,7 @@
 
 <script>
 import Vue from "vue";
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import VCategories from "~/components/VCategories.vue";
 import VOrderModal from "../components/VOrderModal.vue";
 
@@ -227,9 +227,6 @@ export default {
           return false;
         })
     );
-
-    await this.fetchVariables();
-    await this.fetchCategories();
   },
   computed: {
     ...mapGetters("app", ["appVariables", "categories"]),
@@ -252,7 +249,6 @@ export default {
     // },
   },
   methods: {
-    ...mapActions("app", ["fetchVariables", "fetchCategories"]),
     logoClick() {
       this.$router.push("/");
     },

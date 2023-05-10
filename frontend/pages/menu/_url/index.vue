@@ -33,16 +33,21 @@
         >
           <div
             v-for="{ name, description, image, url } in undercategories"
-            class="category__catalog-item d-flex g-2"
+            class="category__catalog-item fill-height d-flex g-2"
             :title="name"
           >
-            <div class="d-flex flex-column align-center justify-space-between">
+            <div
+              class="fill-height d-flex flex-column align-center justify-space-between"
+            >
               <div>
                 <h2 class="category__undercategories-title">{{ name }}</h2>
                 <p class="mt-10">{{ description }}</p>
               </div>
 
-              <div class="fill-width d-flex justify-start mt-6 g-4">
+              <div
+                class="fill-width d-flex justify-start mt-6 g-4"
+                :class="{ 'justify-center': !description.length }"
+              >
                 <nuxt-link :to="'/menu/' + url">
                   <button class="category__undercategories-button catalog">
                     Каталог
@@ -70,7 +75,6 @@
             <!-- </nuxt-link> -->
           </template>
         </div>
-        <h3 v-else>Товаров пока нет</h3>
       </div>
     </div>
   </section>
@@ -131,6 +135,14 @@ export default {
   },
   // { store, req, redirect }
   async fetch({ store, params }) {
+    const appVariables = store.getters.appVariables;
+    const categories = store.getters.categories;
+    if (!appVariables || !appVariables.length) {
+      await store.dispatch("app/fetchVariables");
+    }
+    if (!categories || !categories.length) {
+      await store.dispatch("app/fetchCategories");
+    }
     if (params?.url) {
       await store.dispatch("items/fetchItems", { url: params.url });
     }
@@ -189,7 +201,7 @@ export default {
   &__catalog-item {
     flex-direction: column-reverse;
     max-width: 400px;
-    align-self: center;
+    align-self: start;
     justify-self: center;
     &-img {
       width: 100%;

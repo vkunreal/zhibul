@@ -73,6 +73,14 @@ export default {
     ...mapGetters("trailers", ["trailersRent"]),
   },
   async fetch({ store }) {
+    const appVariables = store.getters.appVariables;
+    const categories = store.getters.categories;
+    if (!appVariables || !appVariables.length) {
+      await store.dispatch("app/fetchVariables");
+    }
+    if (!categories || !categories.length) {
+      await store.dispatch("app/fetchCategories");
+    }
     await store.dispatch("trailers/fetchTrailersRent");
     await store.dispatch("app/fetchPage", "arenda_prizepa");
   },

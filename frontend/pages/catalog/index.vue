@@ -79,6 +79,14 @@ export default {
   },
   // { store, req, redirect }
   async fetch({ store, params }) {
+    const appVariables = store.getters.appVariables;
+    const categories = store.getters.categories;
+    if (!appVariables || !appVariables.length) {
+      await store.dispatch("app/fetchVariables");
+    }
+    if (!categories || !categories.length) {
+      await store.dispatch("app/fetchCategories");
+    }
     await store.dispatch("app/fetchPage", "catalog");
   },
 };

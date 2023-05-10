@@ -156,11 +156,15 @@ export default {
     },
   },
   async fetch({ store }) {
-    await store.dispatch("app/fetchPage", "contacts");
     const appVariables = store.getters.appVariables;
-    if (!appVariables || appVariables.length === 0) {
+    const categories = store.getters.categories;
+    if (!appVariables || !appVariables.length) {
       await store.dispatch("app/fetchVariables");
     }
+    if (!categories || !categories.length) {
+      await store.dispatch("app/fetchCategories");
+    }
+    await store.dispatch("app/fetchPage", "contacts");
   },
 };
 </script>

@@ -201,9 +201,13 @@ export default {
   },
   async fetch({ store }) {
     const appVariables = store.getters.appVariables;
+    const categories = store.getters.categories;
     const slider = store.getters.slider;
-    if (!appVariables || appVariables.length === 0) {
+    if (!appVariables || !appVariables.length) {
       await store.dispatch("app/fetchVariables");
+    }
+    if (!categories || !categories.length) {
+      await store.dispatch("app/fetchCategories");
     }
     if (!slider) {
       await store.dispatch("app/fetchSlider");
