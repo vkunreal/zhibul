@@ -6,7 +6,7 @@
 
     <div class="v-product__info d-flex flex-column justify-space-between">
       <div class="d-flex flex-column g-2">
-        <h2 class="v-product__info-title">{{ product.name }}</h2>
+        <h2 class="v-product__info-title" v-html="product.name" />
         <p v-if="product.brand" class="v-product__info-field">
           Бренд: {{ product.brand }}
         </p>
@@ -16,7 +16,7 @@
       </div>
       <!-- <p class="v-product__info-field">Цена: {{ product.price }} руб.</p> -->
 
-      <div class="d-flex g-3 mt-4 mt-sm-0">
+      <div class="d-flex flex-wrap g-2 mt-4">
         <nuxt-link
           :to="product.category_url + '/' + product.url"
           class="v-product__button v-product__button--price text-uppercase"

@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="breadcrumbs__link fill-width d-flex justify-space-between">
-          <span class="mr-1">{{ itemDetails.name }}</span>
+          <span class="mr-1">{{ productName }}</span>
 
           <p v-if="itemDetails">{{ itemDetails?.code }}</p>
         </div>
@@ -33,7 +33,7 @@
         <h1
           class="text-center text-uppercase mt-8 ml-2 ml-md-0 mr-2 mr-md-0 mb-8"
         >
-          {{ itemDetails.name }}
+          {{ productName }}
         </h1>
         <!-- title -->
 
@@ -203,6 +203,9 @@ export default {
     ...mapGetters("items", ["itemDetails", "itemOptions"]),
     images() {
       return this.itemDetails?.images?.split(",") || [];
+    },
+    productName () {
+      return this.itemDetails?.name.split('<br/>').join('')
     },
     breadCategories() {
       let tempCategory = this.categories.filter(

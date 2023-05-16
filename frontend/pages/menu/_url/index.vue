@@ -26,9 +26,7 @@
 
       <div class="mt-4">
         <div
-          v-if="
-            !category?.parent_id && !items?.length && undercategories.length
-          "
+          v-if="!items?.length && undercategories.length"
           class="category__catalog-list"
         >
           <div
