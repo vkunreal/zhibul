@@ -2,6 +2,7 @@ const ItemsServices = require('../services/ItemsServices')
 const { writeLog } = require('../writeLog')
 const path = require('path')
 const fs = require('fs')
+const OptionsServices = require('../services/OptionsServices')
 
 const testItem = (item) => {
   if (!item.category_id || !String(item.category_id).trim()) {
@@ -44,6 +45,13 @@ class ItemsController {
     const items = await ItemsServices.getItemsFromCategoryUrl(
       req.params.category_url
     )
+
+    for (let i = 0; i < items.length; i++) {
+      const itemId = items[i].id
+      const itemOptions = await OptionsServices.getOptionsByItemId(itemId)
+
+      items[i].menuOptions = itemOptions.filter((op) => !!op.show_menu)
+    }
 
     res.status(200).json(items)
   }

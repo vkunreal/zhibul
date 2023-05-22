@@ -112,6 +112,7 @@ CREATE TABLE options (
   `name` VARCHAR(50) NOT NULL,
   `value` VARCHAR(150) NOT NULL,
   `is_dropdown` INT default 0,
+  `show_menu` INT default 0,
   
   FOREIGN KEY (item_id) REFERENCES items(id) ON UPDATE CASCADE ON DELETE CASCADE
 );

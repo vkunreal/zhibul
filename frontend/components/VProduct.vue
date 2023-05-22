@@ -13,6 +13,12 @@
         <p v-if="product.manufacturer" class="v-product__info-field">
           Страна производитель: {{ product.manufacturer }}
         </p>
+
+        <template v-if="product.menuOptions">
+          <p v-for="{ id, name, value } in product.menuOptions" :key="id">
+            {{ name }}: {{ value }}
+          </p>
+        </template>
       </div>
       <!-- <p class="v-product__info-field">Цена: {{ product.price }} руб.</p> -->
 

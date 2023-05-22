@@ -11,7 +11,7 @@
           >
           /
         </p>
-        <p class="breadcrumbs__link"></p>
+        <p class="breadcrumbs__link">{{ breadName }}</p>
       </div>
     </div>
 
@@ -68,7 +68,12 @@ export default {
     const { url } = this.$route?.params;
   },
   computed: {
-    ...mapGetters("trailers", ["trailers"]),
+    ...mapGetters("trailers", ["trailersRent", "trailers"]),
+    breadName() {
+      const { url } = this.$route?.params;
+      const rent = this.trailersRent.find((t) => t.url === url);
+      return rent?.title || "";
+    },
   },
   async fetch({ store, params }) {
     const appVariables = store.getters.appVariables;
