@@ -86,7 +86,7 @@ export default {
   components: { VProduct },
   head() {
     return {
-      title: this.category?.seo_title || this.category?.name || "",
+      title: this.category?.seo_title || this.categoryName,
       meta: [
         {
           hid: "description",

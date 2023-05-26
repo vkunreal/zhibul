@@ -78,8 +78,8 @@
               )"
               :key="id"
               :label="name"
-              :items="value.split('-')"
-              :value="value.split('-')[0]"
+              :items="value?.split('-')"
+              :value="value?.split('-')[0]"
               variant="default"
             />
             <!-- dropdown -->
@@ -141,16 +141,11 @@ import { mapGetters } from "vuex";
 export default {
   head() {
     const {
-      itemDetails: {
-        name,
-        description,
-        seo_title,
-        seo_description,
-        seo_keywords,
-      },
+      productName,
+      itemDetails: { description, seo_title, seo_description, seo_keywords },
     } = this;
     return {
-      title: seo_title || name || "",
+      title: seo_title || productName || "",
       meta: [
         {
           hid: "description",
@@ -204,8 +199,8 @@ export default {
     images() {
       return this.itemDetails?.images?.split(",") || [];
     },
-    productName () {
-      return this.itemDetails?.name.split('<br/>').join('')
+    productName() {
+      return this.itemDetails?.name?.split("<br/>").join("");
     },
     breadCategories() {
       let tempCategory = this.categories.filter(

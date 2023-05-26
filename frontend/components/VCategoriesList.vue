@@ -46,51 +46,65 @@
             class="d-flex flex-column g-1 ml-4 mt-2 mb-2"
           >
             <li
-              class="d-flex align-center justify-space-between mr-2 g-1"
+              class="d-flex flex-column g-1"
               v-for="{ id, name, url, is_contains } in categoriesList(
                 categoryDetail
               )"
               :key="id"
             >
-              <nuxt-link :to="'/menu/' + url" @click.native="linkClick">
-                <span
-                  ><svg width="12" height="12">
-                    <use xlink:href="@/static/icons.svg#slider-arrow" />
-                  </svg>
-                  {{ name }}
-                </span>
-              </nuxt-link>
-              <span
-                v-if="is_contains"
-                class="v-categories-list__more text--white text-uppercase"
-                @click="selectDetailCategory(id)"
-              >
-                <template v-if="id === categoryDetailSecond">Свернуть</template>
-                <template v-else>Развернуть</template>
-              </span>
-            </li>
-
-            <ul
-              class="d-flex flex-column g-1 ml-4 mt-2 mb-2"
-              v-if="categoryDetailSecond"
-            >
-              <li
-                class="d-flex align-center g-1"
-                v-for="{ id, name, url } in categoriesList(
-                  categoryDetailSecond
-                )"
-                :key="id"
+              <div
+                class="fill-width d-flex align-center justify-space-between mr-2 g-1"
               >
                 <nuxt-link :to="'/menu/' + url" @click.native="linkClick">
                   <span
-                    ><svg width="12" height="12">
+                    ><svg
+                      class="v-categories-list__arrow"
+                      :class="{
+                        'v-categories-list__arrow--active':
+                          id === categoryDetailSecond,
+                      }"
+                      width="12"
+                      height="12"
+                    >
                       <use xlink:href="@/static/icons.svg#slider-arrow" />
                     </svg>
                     {{ name }}
                   </span>
                 </nuxt-link>
-              </li>
-            </ul>
+                <span
+                  v-if="is_contains"
+                  class="v-categories-list__more text--white text-uppercase"
+                  @click="selectDetailCategory(id)"
+                >
+                  <template v-if="id === categoryDetailSecond"
+                    >Свернуть</template
+                  >
+                  <template v-else>Развернуть</template>
+                </span>
+              </div>
+
+              <ul
+                class="d-flex flex-column g-1 ml-4 mt-2 mb-2"
+                v-if="categoryDetailSecond && categoryDetailSecond === id"
+              >
+                <li
+                  class="d-flex align-center g-1"
+                  v-for="{ id, name, url } in categoriesList(
+                    categoryDetailSecond
+                  )"
+                  :key="id"
+                >
+                  <nuxt-link :to="'/menu/' + url" @click.native="linkClick">
+                    <span
+                      ><svg width="12" height="12">
+                        <use xlink:href="@/static/icons.svg#slider-arrow" />
+                      </svg>
+                      {{ name }}
+                    </span>
+                  </nuxt-link>
+                </li>
+              </ul>
+            </li>
           </ul>
           <!-- link details -->
         </template>
@@ -114,7 +128,10 @@
       </li>
     </ul>
 
-    <ul v-if="!expandedLinks && categoryDetail" class="d-flex flex-column g-1">
+    <ul
+      v-if="!expandedLinks && categoryDetail"
+      class="d-flex flex-column pl-4 g-1"
+    >
       <li
         class="d-flex align-center g-1"
         style="width: max-content"
@@ -138,7 +155,7 @@
 
     <ul
       v-if="!expandedLinks && categoryDetailSecond"
-      class="d-flex flex-column g-1"
+      class="d-flex flex-column pl-4 g-1"
     >
       <li
         class="d-flex align-center g-1"
@@ -263,6 +280,13 @@ export default {
     cursor: pointer;
     user-select: none;
     font-size: 12px;
+  }
+
+  &__arrow {
+    transition: 0.3s ease;
+    &--active {
+      transform: rotate(90deg);
+    }
   }
 
   @include tablet {
