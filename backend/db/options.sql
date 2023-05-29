@@ -2626,6 +2626,6 @@ VALUES
 (189, 4, 'Диаметр сопла', '1.3-1.4-1.5-1.7-1.9-2.2', 1),
 (190, 4, 'Диаметр сопла', '1.3-1.4-1.5-1.7-1.9-2.2', 1);
 
-INSERT INTO options (item_id, position, name, value, show_menu)
-VALUES
-(121, 1, 'Test name', 'test value', 1);
+-- INSERT INTO options (item_id, position, name, value, show_menu)
+-- VALUES
+-- (121, 1, 'Test name', 'test value', 1);

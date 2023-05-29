@@ -52,6 +52,7 @@ CREATE TABLE candidates (
 DROP TABLE IF EXISTS categories;
 CREATE TABLE categories (
   `id` SERIAL PRIMARY KEY,
+  `position` INT default 0,
   `name` VARCHAR(50) NOT NULL,
   `description` text,
   `image` VARCHAR(150),

@@ -1,7 +1,9 @@
 <template>
   <section class="product fill-width d-flex flex-column align-center mb-10">
     <div class="breadcrumbs">
-      <div class="breadcrumbs-wrapper flex-column justify-space-between">
+      <div
+        class="breadcrumbs-wrapper d-flex align-center flex-wrapper justify-space-between"
+      >
         <div class="d-flex flex-column g-1">
           <div class="d-flex g-1">
             <nobr class="breadcrumbs__link">

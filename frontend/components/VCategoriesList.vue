@@ -1,6 +1,6 @@
 <template>
   <section class="v-categories-list d-flex g-2 pd-1">
-    <ul class="d-flex fill-width flex-column g-1">
+    <ul class="d-flex fill-width flex-column g-1 pr-md-8">
       <li v-for="{ id, name, url, is_contains } in categoriesList()" :key="id">
         <template v-if="expandedLinks">
           <!-- link -->
@@ -129,8 +129,12 @@
     </ul>
 
     <ul
-      v-if="!expandedLinks && categoryDetail"
-      class="d-flex flex-column pl-4 g-1"
+      v-if="
+        !expandedLinks &&
+        categoryDetail &&
+        categoriesList(categoryDetail).length
+      "
+      class="v-categories-list__nesting d-flex flex-column g-1 pr-md-8"
     >
       <li
         class="d-flex align-center g-1"
@@ -154,8 +158,12 @@
     </ul>
 
     <ul
-      v-if="!expandedLinks && categoryDetailSecond"
-      class="d-flex flex-column pl-4 g-1"
+      v-if="
+        !expandedLinks &&
+        categoryDetailSecond &&
+        categoriesList(categoryDetailSecond).length
+      "
+      class="v-categories-list__nesting d-flex flex-column g-1"
     >
       <li
         class="d-flex align-center g-1"
@@ -204,7 +212,9 @@ export default {
     ...mapGetters("app", ["categories"]),
     categoriesList() {
       return (parentId = null) =>
-        this.categories.filter((c) => c.parent_id === parentId) || {};
+        this.categories
+          .filter((c) => c.parent_id === parentId)
+          .sort((a, b) => (a.position < b.position ? -1 : 1)) || {};
     },
   },
   methods: {
@@ -292,6 +302,12 @@ export default {
   @include tablet {
     &__more {
       font-size: 14px;
+    }
+  }
+
+  @include laptop {
+    &__nesting {
+      min-width: 150px;
     }
   }
 }
