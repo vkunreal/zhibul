@@ -134,10 +134,10 @@
         categoryDetail &&
         categoriesList(categoryDetail).length
       "
-      class="v-categories-list__nesting d-flex flex-column g-1 pr-md-8"
+      class="d-flex flex-column g-1 pr-md-8"
     >
       <li
-        class="d-flex align-center g-1"
+        class="v-categories-list__nesting d-flex align-center g-1"
         style="width: max-content"
         v-for="{ id, name, url } in categoriesList(categoryDetail)"
         :key="id"
@@ -163,10 +163,10 @@
         categoryDetailSecond &&
         categoriesList(categoryDetailSecond).length
       "
-      class="v-categories-list__nesting d-flex flex-column g-1"
+      class="d-flex flex-column g-1"
     >
       <li
-        class="d-flex align-center g-1"
+        class="v-categories-list__nesting d-flex align-center g-1"
         style="width: max-content"
         v-for="{ id, name, url } in categoriesList(categoryDetailSecond)"
         :key="id"
@@ -308,6 +308,7 @@ export default {
   @include laptop {
     &__nesting {
       min-width: 150px;
+      width: 100%;
     }
   }
 }

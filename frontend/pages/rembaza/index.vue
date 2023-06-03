@@ -14,7 +14,7 @@
     <div
       class="remont__wrapper fill-width d-flex flex-column align-center mt-4 pd-2 pd-md-4"
     >
-      <h1>Обслуживание и ремонт пневмоинструмента</h1>
+      <h1 v-html="page?.name" />
 
       <div class="home__devider mt-4 mb-8" />
 
@@ -37,16 +37,7 @@
 
           <hr class="mt-4 mb-4" />
 
-          <p class="remont__text">
-            Наша компания ZHBL располагает собственной ремонтно-технической
-            базой. <br />
-            <br />
-            Мы предлагаем оригинальные запасные части для пневматических
-            скобозабивных, штифтозабивных и гвоздезабивных пистолетов, следующих
-            брендов: Fasco, EZ-Fasten, BeA, Senco, Sumake и BOSTITCH, а так же
-            имеем возможность ремонта и обслуживания других брендов и иного
-            пневматического оборудования: гайковерты (1/2' и 1'), шлифмашинки.
-          </p>
+          <p class="remont__text" v-html="page?.text" />
         </div>
       </div>
 
@@ -132,7 +123,7 @@ export default {
     if (!categories || !categories.length) {
       await store.dispatch("app/fetchCategories");
     }
-    await store.dispatch("app/fetchPage", "remont_pnevmoinstrymenta");
+    await store.dispatch("app/fetchPage", "rembaza");
   },
 };
 </script>

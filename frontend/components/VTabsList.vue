@@ -70,7 +70,7 @@ const tabs = [
     title: "Услуги",
     url: "",
     tabs: [
-      { title: "Ремонт пневмоинструмента", url: "/remont_pnevmoinstrymenta" },
+      { title: "Ремонт пневмоинструмента", url: "/rembaza" },
       { title: "Аренда автоприцепов", url: "/arenda_prizepa" },
     ],
   },

@@ -2,7 +2,7 @@
   <section class="product fill-width d-flex flex-column align-center mb-10">
     <div class="breadcrumbs">
       <div
-        class="breadcrumbs-wrapper d-flex align-center flex-wrapper justify-space-between"
+        class="breadcrumbs-wrapper d-flex align-center flex-wrap justify-space-between"
       >
         <div class="d-flex flex-column g-1">
           <div class="d-flex g-1">
@@ -21,7 +21,7 @@
             </nobr>
           </div>
         </div>
-        <div class="breadcrumbs__link fill-width d-flex justify-space-between">
+        <div class="breadcrumbs__link d-flex fill-width justify-space-between">
           <span class="mr-1">{{ productName }}</span>
 
           <p v-if="itemDetails">{{ itemDetails?.code }}</p>
@@ -54,6 +54,7 @@
               @mouseover="($event) => $event.target.focus()"
             >
               <img
+                width="150"
                 height="150"
                 style="cursor: pointer"
                 v-for="src in images"
@@ -245,6 +246,9 @@ export default {
   h1 {
     margin: 0;
   }
+  .v-input {
+    flex: none !important;
+  }
   &-wrapper {
     max-width: 1200px;
   }
@@ -266,7 +270,7 @@ export default {
     width: 100%;
     & img {
       user-select: none;
-      width: 100%;
+      // width: 100%;
       max-width: 450px;
     }
     &-footer {
