@@ -199,7 +199,7 @@ VALUES
 (146, '1.0146', 18, 'test146', 'Краскораспылитель<br/> WALCOM EGO CARBONIO HTE 7030**', '', 'WALCOM', 3, '735'),
 (147, '1.0147', 18, 'test147', 'Краскораспылитель<br/> WALCOM EGO CARBONIO HVLP 7130**', '', 'WALCOM', 3, '740'),
 (148, '1.0148', 18, 'test148', 'Краскораспылитель<br/> WALCOM GENESI CARBONIO 360 HTE CLEAR 9620**', '', 'WALCOM', 3, '1230'),
-(149, '1.0149', 18, 'test149', 'Краскораспылитель<br/> WALCOM GENESI CARBONIO 360 HTE BASE 9720**', '', 'WALCOM', 3, '1230'),
+(149, '1.0149', 18, 'test149', 'Краскораспылитель<br/> WALCOM GENESI CARBONIO 360 HTE BASE 9730**', '', 'WALCOM', 3, '1230'),
 (150, '1.0150', 18, 'test150', 'Краскораспылитель<br/> WALCOM GENESI CARBONIO 360 HVLP 9820**', '', 'WALCOM', 3, '1280'),
 (151, '1.0151', 18, 'test151', 'Краскораспылитель<br/> WALCOM GENESI CARBONIO 360 HTE CLEAR 9630**', '', 'WALCOM', 3, '1455'),
 (152, '1.0152', 18, 'test152', 'Краскораспылитель<br/> WALCOM GENESI CARBONIO 360 HTE BASE 9730**', '', 'WALCOM', 3, '1455'),
