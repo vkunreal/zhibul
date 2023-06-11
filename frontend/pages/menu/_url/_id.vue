@@ -39,9 +39,7 @@
         </h1>
         <!-- title -->
 
-        <div
-          class="fill-width d-flex flex-column flex-md-row pd-2 mb-8 pd-md-0"
-        >
+        <div class="fill-width d-flex flex-column flex-md-row mb-8">
           <!-- main image -->
           <div
             v-if="images?.length"
@@ -69,7 +67,7 @@
 
           <!-- details -->
           <div
-            class="product__details d-flex flex-column mt-2 mt-md-0 g-2 pd-1"
+            class="product__details d-flex flex-column mt-2 mt-md-0 g-2 pd-md-1"
           >
             <h2>Характеристики товара:</h2>
 
@@ -128,10 +126,10 @@
       </template>
 
       <!-- description -->
-      <div class="pl-6 pl-md-0 pr-6 pr-md-0" v-if="itemDetails?.description">
+      <div class="" v-if="itemDetails?.description">
         <h2>Описание товара:</h2>
 
-        <div class="mt-1" v-html="itemDetails?.description" />
+        <div class="mt-4" v-html="itemDetails?.description" />
       </div>
       <!-- description -->
     </div>
@@ -270,7 +268,7 @@ export default {
     width: 100%;
     & img {
       user-select: none;
-      // width: 100%;
+      width: 100%;
       max-width: 450px;
     }
     &-footer {

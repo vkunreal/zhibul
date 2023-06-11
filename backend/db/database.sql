@@ -72,7 +72,7 @@ CREATE TABLE items (
   `category_id` BIGINT UNSIGNED NOT NULL,
   `url` VARCHAR(120) NOT NULL UNIQUE,
   `name` VARCHAR(120) NOT NULL,
-  `description` VARCHAR(500),
+  `description` TEXT,
   `brand` VARCHAR(50),
   `manufacturer_id` BIGINT UNSIGNED NOT NULL,
   `price` VARCHAR(20) NOT NULL,

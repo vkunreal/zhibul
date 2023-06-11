@@ -265,6 +265,11 @@ export default {
   @include laptop {
     &__menu {
       position: relative;
+      &-catalog {
+        &-treug {
+          margin-left: -1px;
+        }
+      }
     }
   }
 }
