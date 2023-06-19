@@ -15,14 +15,14 @@
         :src="mobile"
       >
         <div
-          class="d-flex fill-height flex-column justify-space-between align-space-between"
+          class="d-flex fill-height flex-column justify-center align-space-between g-6"
         >
           <p class="home__slider-title text--white text-uppercase text-center">
             {{ title }} <br />
             {{ brand }}
           </p>
           <v-btn
-            class="home__slider-button"
+            class="home__slider-button ml-8 mr-8"
             @click="$router.push('/menu/' + url)"
             >Подробнее</v-btn
           >

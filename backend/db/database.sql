@@ -75,7 +75,7 @@ CREATE TABLE items (
   `description` TEXT,
   `brand` VARCHAR(50),
   `manufacturer_id` BIGINT UNSIGNED NOT NULL,
-  `price` VARCHAR(20) NOT NULL,
+  `price` VARCHAR(50) NOT NULL,
   `seo_title` VARCHAR(70),
   `seo_description` VARCHAR(250),
   `seo_keywords` VARCHAR(150),

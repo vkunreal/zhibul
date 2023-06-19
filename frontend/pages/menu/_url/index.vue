@@ -112,7 +112,9 @@ export default {
     },
     undercategories() {
       return (
-        this.categories.filter((c) => c?.parent_id === this?.category.id) || []
+        this.categories
+          .filter((c) => c?.parent_id === this?.category.id)
+          ?.sort((a, b) => (a.position < b.position ? -1 : 1)) || []
       );
     },
     categoryName() {

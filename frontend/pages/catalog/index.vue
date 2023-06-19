@@ -74,7 +74,11 @@ export default {
       return this.$route.params.url || "";
     },
     filteredCategories() {
-      return this.categories.filter((c) => !c.parent_id) || [];
+      return (
+        this.categories
+          .filter((c) => !c.parent_id)
+          ?.sort((a, b) => (a.position < b.position ? -1 : 1)) || []
+      );
     },
   },
   // { store, req, redirect }
