@@ -200,7 +200,7 @@ export default {
 
   &__catalog-item {
     flex-direction: column-reverse;
-    max-width: 400px;
+    max-width: 420px;
     align-self: start;
     justify-self: center;
     &-img {

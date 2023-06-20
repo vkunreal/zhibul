@@ -126,7 +126,7 @@
       </template>
 
       <!-- description -->
-      <div class="" v-if="itemDetails?.description">
+      <div v-if="itemDetails?.description">
         <h2>Описание товара:</h2>
 
         <div class="mt-4" v-html="itemDetails?.description" />
