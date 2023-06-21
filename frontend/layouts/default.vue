@@ -33,7 +33,7 @@
           </div>
 
           <div class="v-app__header__block d-flex align-center g-2">
-            <svg width="30" height="30">
+            <svg class="shrink" width="30" height="30">
               <use xlink:href="@/static/icons.svg#email" />
             </svg>
             <a
@@ -298,8 +298,8 @@ export default {
       width: 100%;
     }
     &__block {
-      font-size: 12px;
-      max-width: 200px;
+      font-size: 14px;
+      max-width: 220px;
       &-text {
         font-weight: bold;
         text-decoration: none;
