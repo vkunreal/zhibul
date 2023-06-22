@@ -38,7 +38,9 @@
               class="fill-height d-flex flex-column align-center justify-space-between"
             >
               <div>
-                <h2 class="category__undercategories-title">{{ name }}</h2>
+                <nuxt-link :to="'/menu/' + url">
+                  <h2 class="category__undercategories-title">{{ name }}</h2>
+                </nuxt-link>
                 <p class="mt-10">{{ description }}</p>
               </div>
 
@@ -60,7 +62,13 @@
               </div>
             </div>
 
-            <img class="category__catalog-item-img" :src="image" :alt="name" />
+            <nuxt-link :to="'/menu/' + url">
+              <img
+                class="category__catalog-item-img"
+                :src="image"
+                :alt="name"
+              />
+            </nuxt-link>
           </div>
         </div>
         <div

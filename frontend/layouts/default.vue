@@ -174,13 +174,6 @@
                   </svg>
                 </a>
               </li>
-              <li class="v-app__footer__app">
-                <a :href="variable('viber') || ''">
-                  <svg width="30" height="30">
-                    <use xlink:href="@/static/icons.svg#viber" />
-                  </svg>
-                </a>
-              </li>
             </ul>
           </div>
 
