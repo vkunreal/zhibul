@@ -59,9 +59,9 @@ CREATE TABLE categories (
   `url` VARCHAR(70) NOT NULL,
   `parent_id` BIGINT,
   `is_contains` BOOLEAN NOT NULL,
-  `seo_title` VARCHAR(70),
-  `seo_description` VARCHAR(250),
-  `seo_keywords` VARCHAR(150)
+  `seo_title` TEXT,
+  `seo_description` TEXT,
+  `seo_keywords` TEXT
 );
 
 -- items

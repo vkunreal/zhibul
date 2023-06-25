@@ -188,6 +188,9 @@
       </footer>
     </div>
 
+    <transition name="slide-fade">
+      <v-top-btn />
+    </transition>
     <v-order-modal ref="order-modal" />
     <v-categories-modal ref="categories-modal" />
   </v-app>
