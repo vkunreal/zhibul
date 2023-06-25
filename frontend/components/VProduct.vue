@@ -6,7 +6,10 @@
 
     <div class="v-product__info d-flex flex-column justify-space-between">
       <div class="d-flex flex-column g-2">
-        <h2 class="v-product__info-title" v-html="product.name" />
+        <h2
+          class="v-product__info-title"
+          v-html="product.name + ' (ID: ' + product.id + ')'"
+        />
         <p v-if="product.brand" class="v-product__info-field">
           Бренд: {{ product.brand }}
         </p>

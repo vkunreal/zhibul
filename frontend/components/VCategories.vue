@@ -136,7 +136,7 @@ const tabs = [
   },
   {
     title: "Услуги",
-    url: "",
+    url: "/uslugi",
     tabs: [
       { title: "Ремонт пневмоинструмента", url: "/rembaza" },
       { title: "Аренда автоприцепов", url: "/arenda_prizepa" },

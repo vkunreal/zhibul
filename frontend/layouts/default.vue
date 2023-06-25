@@ -154,21 +154,21 @@
           <div class="fill-width">
             <ul class="d-flex justify-center justify-sm-start g-1">
               <li class="v-app__footer__app">
-                <a :href="variable('tg') || ''">
+                <a :href="variable('tg') || ''" target="_blank">
                   <svg width="30" height="30">
                     <use xlink:href="@/static/icons.svg#tg" />
                   </svg>
                 </a>
               </li>
               <li class="v-app__footer__app">
-                <a :href="variable('vk') || ''">
+                <a :href="variable('vk') || ''" target="_blank">
                   <svg width="30" height="30">
                     <use xlink:href="@/static/icons.svg#vk" />
                   </svg>
                 </a>
               </li>
               <li class="v-app__footer__app">
-                <a :href="variable('inst') || ''">
+                <a :href="variable('inst') || ''" target="_blank">
                   <svg width="30" height="30">
                     <use xlink:href="@/static/icons.svg#inst" />
                   </svg>

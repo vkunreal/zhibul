@@ -32,7 +32,6 @@
           <div
             v-for="{ name, description, image, url } in undercategories"
             class="category__catalog-item fill-height d-flex g-2"
-            :title="name"
           >
             <div
               class="fill-height d-flex flex-column align-center justify-space-between"
@@ -208,7 +207,7 @@ export default {
 
   &__catalog-item {
     flex-direction: column-reverse;
-    max-width: 420px;
+    max-width: 440px;
     align-self: start;
     justify-self: center;
     &-img {

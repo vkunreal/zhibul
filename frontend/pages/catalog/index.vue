@@ -14,12 +14,11 @@
           <div
             v-for="{ name, description, image, url } in filteredCategories"
             class="catalog__item d-flex flex-column-reverse justify-space-between"
-            :title="name"
           >
             <div class="d-flex flex-column align-center justify-space-between">
-              <div class="mb-10">
+              <nuxt-link :to="'/menu/' + url" class="mb-10">
                 <h2>{{ name }}</h2>
-              </div>
+              </nuxt-link>
 
               <div class="d-flex g-2">
                 <nuxt-link :to="'/menu/' + url">
@@ -36,7 +35,9 @@
               </div>
             </div>
 
-            <img class="catalog__item-image" :src="image" :alt="name" />
+            <nuxt-link :to="'/menu/' + url">
+              <img class="catalog__item-image" :src="image" :alt="name" />
+            </nuxt-link>
           </div>
         </div>
         <h3 v-else>Категорий пока нет</h3>
