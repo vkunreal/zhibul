@@ -68,6 +68,7 @@ CREATE TABLE categories (
 DROP TABLE IF EXISTS items;
 CREATE TABLE items (
   `id` SERIAL PRIMARY KEY,
+  `position` INT default 0,
   `code` VARCHAR(6) UNIQUE NOT  NULL,
   `category_id` BIGINT UNSIGNED NOT NULL,
   `url` VARCHAR(120) NOT NULL UNIQUE,

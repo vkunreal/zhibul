@@ -26,7 +26,7 @@
 
       <div class="mt-4">
         <div
-          v-if="!items?.length && undercategories.length"
+          v-if="!filteredItems?.length && undercategories.length"
           class="category__catalog-list"
         >
           <div
@@ -71,10 +71,10 @@
           </div>
         </div>
         <div
-          v-else-if="items?.length"
+          v-else-if="filteredItems?.length"
           class="category__list d-flex flex-column"
         >
-          <template v-for="item in items">
+          <template v-for="item in filteredItems">
             <!-- <nuxt-link :to="category?.url + '/' + item.url" :key="item.id"> -->
             <v-product class="category__item" :product="item" />
             <!-- </nuxt-link> -->
@@ -138,6 +138,12 @@ export default {
       }
       result.push(tempCategory);
       return result.reverse();
+    },
+    filteredItems() {
+      const filterItems = [...this.items];
+      return (
+        filterItems?.sort((a, b) => (a.position < b.position ? -1 : 1)) || []
+      );
     },
   },
   // { store, req, redirect }

@@ -70,14 +70,16 @@ import { mapGetters } from "vuex";
 const blocks = [
   {
     title: "Ремонт пневмоинструмента",
-    description: "Тестовое описание",
+    description:
+      "Занимаемся ремонтом пневмоинструментов следующих брендов: BeA, BOSTITCH, DYNABRADE, EZ-FASTEN, FASCO (BECK), HITACHI, MAX, PREBENA, SENCO, SUMAKE.",
     image: "http://194.67.78.19/images/remont-image.png",
     link: "rembaza",
     phone: "+375 (29) 741-52-26",
   },
   {
     title: "Аренда автоприцепов",
-    description: "Тестовое описание",
+    description:
+      "Предлагаем к сдаче в аренду автоприцепы с тентом (3 х 1.5 м / 2.6 х 1.5 м) и без тента (3 х 1.5 м), всего за 20 рублей в сутки, так же есть возможность почасовой аренды.",
     image: "http://194.67.78.19/trailers/preview-with-tent.png",
     link: "arenda_prizepa",
     phone: "+375 (29) 741-52-26",

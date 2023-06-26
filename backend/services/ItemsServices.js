@@ -5,6 +5,7 @@ const queryItems = `
   SELECT
     it.id,
     it.code,
+    it.position,
     c.url as category_url,
     c.name as category_name,
     GROUP_CONCAT(im.src SEPARATOR ',') as images,
@@ -29,6 +30,7 @@ const queryItemsByCategoryUrl = (category_url) => `
   SELECT
     it.id,
     it.code,
+    it.position,
     c.url as category_url,
     c.name as category_name,
     GROUP_CONCAT(im.src SEPARATOR ',') as images,
@@ -53,6 +55,7 @@ const queryItemByUrl = (item_url) => `
   SELECT
     it.id,
     it.code,
+    it.position,
     c.url as category_url,
     c.name as category_name,
     GROUP_CONCAT(im.src SEPARATOR ',') as images,
