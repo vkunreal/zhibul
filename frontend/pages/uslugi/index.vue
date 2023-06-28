@@ -72,7 +72,7 @@ const blocks = [
     title: "Ремонт пневмоинструмента",
     description:
       "Занимаемся ремонтом пневмоинструментов следующих брендов: BeA, BOSTITCH, DYNABRADE, EZ-FASTEN, FASCO (BECK), HITACHI, MAX, PREBENA, SENCO, SUMAKE.",
-    image: "http://194.67.78.19/images/remont-image.png",
+    image: "http://194.67.78.19/images/uslugi-1.png",
     link: "rembaza",
     phone: "+375 (29) 741-52-26",
   },
@@ -80,7 +80,7 @@ const blocks = [
     title: "Аренда автоприцепов",
     description:
       "Предлагаем к сдаче в аренду автоприцепы с тентом (3 х 1.5 м / 2.6 х 1.5 м) и без тента (3 х 1.5 м), всего за 20 рублей в сутки, так же есть возможность почасовой аренды.",
-    image: "http://194.67.78.19/trailers/preview-with-tent.png",
+    image: "http://194.67.78.19/images/uslugi-2.png",
     link: "arenda_prizepa",
     phone: "+375 (29) 741-52-26",
   },
@@ -109,6 +109,17 @@ export default {
     blocks() {
       return blocks;
     },
+  },
+  async fetch({ store }) {
+    const appVariables = store.getters.appVariables;
+    const categories = store.getters.categories;
+    if (!appVariables || !appVariables.length) {
+      await store.dispatch("app/fetchVariables");
+    }
+    if (!categories || !categories.length) {
+      await store.dispatch("app/fetchCategories");
+    }
+    await store.dispatch("app/fetchPage", "uslugi");
   },
 };
 </script>

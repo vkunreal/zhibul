@@ -7,7 +7,7 @@
         <div class="d-flex flex-column g-1">
           <div class="d-flex g-1">
             <nobr class="breadcrumbs__link">
-              <nuxt-link class="mr-1" to="/catalog">Каталог</nuxt-link> /
+              <nuxt-link class="mr-1" to="/katalog">Каталог</nuxt-link> /
             </nobr>
             <nobr
               class="breadcrumbs__link"

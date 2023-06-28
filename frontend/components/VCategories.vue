@@ -11,7 +11,7 @@
         "
       >
         <nuxt-link
-          to="/catalog"
+          to="/katalog"
           class="v-categories__menu-catalog d-flex align-center text--white pointer g-1 pt-3 pb-3 pl-2 pr-2"
         >
           <svg class="text--white" width="30" height="30">
@@ -126,9 +126,9 @@ const tabs = [
   { title: "О компании", url: "/" },
   {
     title: "Доставка",
-    url: "/delivery",
+    url: "/dostavka",
     // tabs: [
-    //   { title: "Доставка", url: "/delivery" },
+    //   { title: "Доставка", url: "/dostavka" },
     //   //      { title: "Гарантия", url: "/garanty" },
     //   //      { title: "Оплата", url: "/payment" },
     //   //      { title: "Акции", url: "/actions" },

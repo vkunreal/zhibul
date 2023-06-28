@@ -92,7 +92,7 @@ export default {
     if (!categories || !categories.length) {
       await store.dispatch("app/fetchCategories");
     }
-    await store.dispatch("app/fetchPage", "catalog");
+    await store.dispatch("app/fetchPage", "katalog");
   },
 };
 </script>

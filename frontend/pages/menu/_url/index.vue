@@ -3,7 +3,7 @@
     <div class="breadcrumbs">
       <div class="breadcrumbs-wrapper">
         <p class="breadcrumbs__link">
-          <nuxt-link class="mr-1" to="/catalog">Каталог</nuxt-link> /
+          <nuxt-link class="mr-1" to="/katalog">Каталог</nuxt-link> /
         </p>
         <p
           class="breadcrumbs__link"
