@@ -12,35 +12,40 @@
     </div>
 
     <div
-      class="trailer-rents__wrapper fill-width pt-2 pb-10 d-flex flex-column g-8"
+      class="trailer-rents__wrapper fill-width pt-2 pb-10 d-flex flex-column align-center g-8"
     >
       <!-- rent -->
       <div
-        class="trailer-rents__rent d-flex flex-column justify-space-between align-center pd-2"
-        v-for="{ id, title, url, image_src } in trailersRent"
-        :style="`background-image: url('${image_src}')`"
+        class="trailer-rents__rent d-flex flex-column flex-md-row justify-space-between align-center pd-1"
+        v-for="{ id, title, description, url, image_src } in trailersRent"
         :key="id"
       >
-        <h2>{{ title }}</h2>
+        <img class="trailer-rents__rent-image" :src="image_src" alt="pricep" />
 
-        <!-- actions -->
-        <div class="d-flex flex-wrap justify-center g-4">
-          <!-- more -->
-          <nuxt-link :to="'/arenda_prizepa/' + url">
-            Подробнее
-            <svg class="ml-4" width="12" height="12">
-              <use xlink:href="@/static/icons.svg#slider-arrow" />
-            </svg>
-          </nuxt-link>
-          <!-- more -->
+        <div class="pd-2">
+          <div>
+            <h2>{{ title }}</h2>
 
-          <!-- call -->
-          <button class="trailer-rents__rent-button call-btn">
-            Заказать звонок
-          </button>
-          <!-- call -->
+            <p class="mt-4 mt-sm-8">{{ description }}</p>
+          </div>
+
+          <!-- actions -->
+          <div class="d-flex flex-wrap g-2 mt-10">
+            <nuxt-link
+              class="trailer-rents__rent-button trailer-rents__rent-button--more text-uppercase"
+              :to="'/arenda_prizepa/' + url"
+            >
+              Подробнее
+            </nuxt-link>
+            <a
+              class="uslugi__block-button text-uppercase"
+              :href="`tel:${phone_services}`"
+            >
+              Позвонить
+            </a>
+          </div>
+          <!-- actions -->
         </div>
-        <!-- actions -->
       </div>
       <!-- rent -->
     </div>
@@ -69,8 +74,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("app", ["page"]),
+    ...mapGetters("app", ["appVariables", "page"]),
     ...mapGetters("trailers", ["trailersRent"]),
+    variable() {
+      return (variableName) =>
+        this.appVariables?.find(({ name }) => name === variableName)?.value ||
+        "";
+    },
+    phone_services() {
+      return this.variable("phone_services");
+    },
   },
   async fetch({ store }) {
     const appVariables = store.getters.appVariables;
@@ -91,47 +104,40 @@ export default {
 @import "@/assets/mixins.scss";
 
 .trailer-rents {
-  h2 {
-    text-align: center;
-  }
-
   &__wrapper {
     max-width: 1024px;
   }
 
   &__rent {
     width: 100%;
-    height: 640px;
-    background-position: center;
-    background-size: 100%;
+    max-width: 600px;
     transition: 0.3s;
-    &-button,
-    a {
-      width: 180px;
-      padding: 12px;
-      background: $primaryGrey;
-      color: $white;
-      font-weight: 500;
-      text-transform: uppercase;
-      text-align: center;
-      text-decoration: none;
 
-      &.call-btn {
-        background: $colorThird;
-        color: $primaryGrey;
+    &-image {
+      max-width: 400px;
+      width: 100%;
+    }
+
+    &-button,
+    &-button a {
+      color: $primaryGrey;
+      border: 1px solid $primaryGrey;
+      padding: 7px 20px;
+      font-weight: bold;
+      font-size: 14px;
+      text-decoration: none;
+      color: $primaryGrey !important;
+
+      &--more {
+        background: $primaryGrey;
+        color: $white !important;
       }
     }
   }
 
-  @include slider {
-    h2 {
-      font-size: 32px;
-    }
+  @include laptop {
     &__rent {
-      background-size: 65%;
-      &:hover {
-        background-size: 70%;
-      }
+      max-width: unset;
     }
   }
 }

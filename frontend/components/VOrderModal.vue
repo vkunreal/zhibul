@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "VOrderModal",
   data() {
@@ -47,11 +49,26 @@ export default {
     },
   },
   methods: {
+    ...mapActions("app", ["sendFeedback"]),
     open(callback = null) {
       this.visible = true;
       this.callback = callback;
     },
     submit() {
+      const { name, phone, submitDisabled } = this;
+      if (submitDisabled) return;
+
+      this.name = this.phone = "";
+
+      this.sendFeedback({
+        name,
+        phone,
+        submitDisabled,
+      }).then(({ status }) => {
+        if (status) {
+          console.log(status);
+        }
+      });
       this.visible = false;
     },
   },

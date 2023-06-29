@@ -189,7 +189,7 @@
     </div>
 
     <transition name="slide-fade">
-      <v-top-btn />
+      <v-top-btn class="d-none d-md-block" />
     </transition>
     <v-order-modal ref="order-modal" />
     <v-categories-modal ref="categories-modal" />

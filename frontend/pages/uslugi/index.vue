@@ -13,32 +13,34 @@
     </div>
     <!-- breadcrumbs -->
 
-    <div class="uslugi__wrapper fill-width d-flex flex-column g-2 mt-2">
+    <div
+      class="uslugi__wrapper fill-width d-flex flex-column align-center g-2 mt-2"
+    >
       <!-- block -->
       <div
-        class="uslugi__block d-flex flex-row-reverse g-4 pd-1"
+        class="uslugi__block pd-1 d-flex flex-column flex-md-row align-center"
         v-for="({ title, description, image, link, phone }, i) in blocks"
         :key="i"
       >
-        <!-- body -->
-        <div
-          class="fill-width fill-height d-flex flex-column justify-space-between pt-10 pb-10"
-        >
-          <div class="">
+        <img class="uslugi__block-image" :src="image" alt="uslugi-image" />
+
+        <div class="pd-2">
+          <!-- info -->
+          <div>
             <h2>{{ title }}</h2>
 
-            <p class="mt-4">{{ description }}</p>
+            <p class="mt-4 mt-md-8">{{ description }}</p>
           </div>
+          <!-- info -->
 
           <!-- actions -->
-          <div class="d-flex g-2">
+          <div class="d-flex g-2 mt-16">
             <nuxt-link
               class="uslugi__block-button uslugi__block-button--more text-uppercase"
               :to="'/' + link"
             >
               Подробнее
             </nuxt-link>
-
             <a
               class="uslugi__block-button text-uppercase"
               :href="`tel:${phone}`"
@@ -48,9 +50,6 @@
           </div>
           <!-- actions -->
         </div>
-        <!-- body -->
-
-        <img class="uslugi__block-image" :src="image" alt="uslugi_image" />
       </div>
       <!-- block -->
     </div>
@@ -133,7 +132,7 @@ export default {
   }
 
   &__block {
-    height: 400px;
+    max-width: 600px;
 
     &-button {
       color: $primaryGrey;
@@ -149,10 +148,16 @@ export default {
         color: $white !important;
       }
     }
+
+    &-image {
+      width: 100%;
+      max-width: 400px;
+    }
   }
 
   @include laptop {
     &__block {
+      max-width: unset;
     }
   }
 }

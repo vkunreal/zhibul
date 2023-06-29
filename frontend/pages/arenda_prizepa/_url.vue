@@ -23,7 +23,9 @@
       >
         <h2>{{ title }}</h2>
 
-        <div class="home__devider mt-4 mb-8" />
+        <div class="d-flex justify-center">
+          <div class="home__devider mt-4 mb-8" />
+        </div>
 
         <p>{{ text }}</p>
 
@@ -31,9 +33,9 @@
           v-if="images"
           class="trailers__trailer-images d-flex flex-column flex-md-row g-2"
         >
-          <a v-for="({ src }, i) in images" :key="i">
+          <div v-for="({ src }, i) in images" :key="i">
             <img :src="src" :alt="'trailer-' + i" />
-          </a>
+          </div>
         </div>
 
         <template v-if="options">
@@ -64,26 +66,40 @@
 import { mapGetters } from "vuex";
 
 export default {
-  async mounted() {
-    const { url } = this.$route?.params;
+  head() {
+    const { rent } = this;
+    return {
+      title: rent?.seo_title || "",
+      description: rent?.seo_description,
+      keywords: rent?.seo_keywords,
+    };
   },
   computed: {
     ...mapGetters("trailers", ["trailersRent", "trailers"]),
-    breadName() {
+    rent() {
       const { url } = this.$route?.params;
-      const rent = this.trailersRent.find((t) => t.url === url);
+      return this.trailersRent.find((t) => t.url === url);
+    },
+    breadName() {
+      const { rent } = this;
       return rent?.title || "";
     },
   },
   async fetch({ store, params }) {
     const appVariables = store.getters.appVariables;
     const categories = store.getters.categories;
+    const rents = store.getters.trailersRent;
+
     if (!appVariables || !appVariables.length) {
       await store.dispatch("app/fetchVariables");
     }
     if (!categories || !categories.length) {
       await store.dispatch("app/fetchCategories");
     }
+    if (!rents || !rents.length) {
+      await store.dispatch("trailers/fetchTrailersRent");
+    }
+
     const url = params?.url;
     await store.dispatch("trailers/fetchTrailers", url);
   },
@@ -108,15 +124,8 @@ export default {
       color: $primaryGrey;
     }
     &-images {
-      a {
-        img {
-          width: 100%;
-        }
-        transition: 0.3s;
-        cursor: pointer;
-        &:hover {
-          transform: scale(1.12);
-        }
+      img {
+        width: 100%;
       }
     }
     &-option {

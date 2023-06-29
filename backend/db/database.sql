@@ -154,8 +154,12 @@ DROP TABLE IF EXISTS trailer_rent;
 CREATE TABLE trailer_rent (
   `id` SERIAL PRIMARY KEY,
   `title` TEXT NOT NULL,
+  `description` TEXT NOT NULL,
   `url` VARCHAR(150) UNIQUE NOT NULL,
-  `image_src` TEXT
+  `image_src` TEXT,
+  `seo_title` TEXT,
+  `seo_description` TEXT,
+  `seo_keywords` TEXT
 );
 
 -- trailers

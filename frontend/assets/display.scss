@@ -101,7 +101,7 @@ $flex: (
   }
 }
 
-$steps: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 16, 20, 25, 30, 35;
+$steps: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 16, 18, 20, 25, 30, 35;
 $sides: (
   "t": "top",
   "r": "right",
@@ -140,6 +140,18 @@ $sides: (
 }
 
 @include smartphone {
+  .flex-xs-row {
+    flex-direction: row;
+  }
+
+  .flex-xs-row-reverse {
+    flex-direction: row-reverse;
+  }
+
+  .flex-xs-column {
+    flex-direction: column;
+  }
+
   @each $d in $display {
     .d-xs-#{$d} {
       display: #{$d} !important;
