@@ -77,9 +77,9 @@ CREATE TABLE items (
   `brand` VARCHAR(50),
   `manufacturer_id` BIGINT UNSIGNED NOT NULL,
   `price` VARCHAR(50) NOT NULL,
-  `seo_title` VARCHAR(70),
-  `seo_description` VARCHAR(250),
-  `seo_keywords` VARCHAR(150),
+  `seo_title` TEXT,
+  `seo_description` TEXT,
+  `seo_keywords` TEXT,
 
   FOREIGN KEY (category_id) REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE,
   FOREIGN KEY (manufacturer_id) REFERENCES countries(id) ON UPDATE CASCADE ON DELETE CASCADE
