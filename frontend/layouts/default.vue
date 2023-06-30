@@ -278,6 +278,10 @@ export default {
 @import "@/assets/colors.scss";
 @import "@/assets/bundle.scss";
 
+* {
+  font-family: $roboto;
+}
+
 .v-app {
   position: relative;
 

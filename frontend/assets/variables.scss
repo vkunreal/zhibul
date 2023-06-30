@@ -1,3 +1,16 @@
+@import url("https://fonts.google.com/specimen/Roboto");
+
+@font-face {
+  font-family: "Noto serif";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Noto serif"),
+    url("/static/fonts/notoserif/NotoSerif-VariableFont_wdth,wght.ttf")
+      format("tff"),
+    url("/static/fonts/notoserif/NotoSerif-VariableFont_wdth,wght.ttf")
+      format("tff");
+}
+
 $white: #fff;
 $black: #000;
 
@@ -11,6 +24,9 @@ $colorGrey: #404040;
 
 $light-grey: #eee;
 $dark-grey: #999;
+
+$serif: "Noto serif";
+$roboto: "Roboto";
 
 $point-display-xs: 375px !default;
 $point-display-sm: 600px !default;

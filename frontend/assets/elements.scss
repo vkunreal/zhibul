@@ -32,3 +32,10 @@
     display: flex;
   }
 }
+
+.v-menu__content {
+  * {
+    font-family: $serif !important;
+    font-size: 18px;
+  }
+}

@@ -240,6 +240,12 @@ export default {
 @import "@/assets/mixins.scss";
 
 .product {
+  .v-input {
+    * {
+      font-size: 18px;
+    }
+  }
+
   & p,
   h1 {
     margin: 0;
@@ -252,6 +258,13 @@ export default {
   }
   &__details {
     width: 100%;
+    font-size: 18px;
+    * {
+      font-family: $serif;
+    }
+    h2 {
+      font-size: 24px;
+    }
   }
   &__dotted-spacer {
     border-bottom: 2px dotted #333;
@@ -262,7 +275,7 @@ export default {
   &__price {
     background: $primaryGrey;
     color: $white;
-    font-size: 20px;
+    font-size: 22px;
   }
   &__images {
     width: 100%;
