@@ -282,6 +282,19 @@ export default {
   font-family: $roboto;
 }
 
+html::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #eee;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: $colorGrey;
+  border-radius: 20px;
+  border-top: 2px solid $white;
+  border-bottom: 2px solid $white;
+}
+
 .v-app {
   position: relative;
 
