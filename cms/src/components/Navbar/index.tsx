@@ -4,8 +4,8 @@ import './styles.scss'
 const routes = [
   { name: 'Переменные', url: '/variables' },
   { name: 'Пользователи', url: '/users' },
-  { name: 'Кандидаты', url: '/candidates' },
-  { name: 'Товары', url: '/items' },
+  // { name: 'Кандидаты', url: '/candidates' },
+  { name: 'Категории/Товары', url: '/items' },
   { name: 'Страницы', url: '/pages' },
 ]
 

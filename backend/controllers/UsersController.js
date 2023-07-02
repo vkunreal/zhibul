@@ -20,33 +20,41 @@ class UsersController {
 
   // add a new user (body = { phone (required), name (required), company, email, comment })
   async addUser(req, res) {
-    const user = req.body
+    try {
+      const user = req.body
 
-    if (!user.phone || !user.phone.trim()) {
-      writeLog('Phone is not defined')
-      return res.status(400).json({ status: false })
-    } else if (!user.name || !user.name.trim()) {
-      writeLog('Name is not defined')
-      return res.status(400).json({ status: false })
+      if (!user.phone || !user.phone.trim()) {
+        writeLog('Phone is not defined')
+        return res.status(400).json({ status: false })
+      } else if (!user.name || !user.name.trim()) {
+        writeLog('Name is not defined')
+        return res.status(400).json({ status: false })
+      }
+
+      const result = await UsersServices.addUser(user)
+
+      res.status(201).json(result)
+    } catch (e) {
+      console.error(e)
     }
-
-    const result = await UsersServices.addUser(user)
-
-    res.status(201).json(result)
   }
 
   // delete user by id (body = { id })
   async deleteUser(req, res) {
-    const id = req.body.id
+    try {
+      const id = req.body.id
 
-    if (!id) {
-      writeLog('Id is not defined')
-      return res.status(400).json({ status: false })
+      if (!id) {
+        writeLog('Id is not defined')
+        return res.status(400).json({ status: false })
+      }
+
+      const result = await UsersServices.deleteUser(id)
+
+      res.status(200).json(result)
+    } catch (e) {
+      console.error(e)
     }
-
-    const result = await UsersServices.deleteUser(id)
-
-    res.status(200).json(result)
   }
 
   // get all candidates
@@ -66,24 +74,32 @@ class UsersController {
 
   // add a new candidate (body = { phone (required), name, company, email, comment })
   async addCandidate(req, res) {
-    const candidate = req.body
+    try {
+      const candidate = req.body
 
-    if (!candidate.phone || !candidate.phone.trim()) {
-      writeLog('Phone is not defined')
-      return res.status(400).json({ status: false })
+      if (!candidate.phone || !candidate.phone.trim()) {
+        writeLog('Phone is not defined')
+        return res.status(400).json({ status: false })
+      }
+
+      const result = await UsersServices.addCandidate(candidate)
+
+      res.status(201).json(result)
+    } catch (e) {
+      console.error(e)
     }
-
-    const result = await UsersServices.addCandidate(candidate)
-
-    res.status(201).json(result)
   }
 
   // delete candidate by id
   async deleteCandidate(req, res) {
-    const id = req.body.id
-    const result = await UsersServices.deleteCandidate(id)
+    try {
+      const id = req.body.id
+      const result = await UsersServices.deleteCandidate(id)
 
-    res.status(200).json(result)
+      res.status(200).json(result)
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
 

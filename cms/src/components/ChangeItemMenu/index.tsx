@@ -14,6 +14,8 @@ import { useEffect, useState } from 'react'
 import { IItem } from '../../interfaces/Items'
 import { IItemCategory } from '../ItemsView'
 import { SelectItemCategory } from '../SelectItemCategory'
+import { useSelector } from 'react-redux'
+import { selectCountries } from '../../store/items/selectors'
 
 interface IChangeItemMenu {
   item: IItem
@@ -37,16 +39,27 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
   const [manufacturer, setManufacturer] = useState('')
   const [price, setPrice] = useState('')
 
+  const countries = useSelector(selectCountries)
+
   useEffect(() => {
     setName(item?.name || '')
     setDescription(item?.description || '')
     setBrand(item?.brand || '')
-    setManufacturer(item?.manufacturer || '')
     setPrice(item?.price || '')
+
+    const manufacturer = countries.filter(
+      (c) => c.name === item?.manufacturer
+    )[0]
+
+    setManufacturer(String(manufacturer?.name) || '')
   }, [item])
 
   const handleCategorySelect = (category: IItemCategory) => {
     setCategoryId(category?.id || 0)
+  }
+
+  const handleManufacrurerChange = (e: SelectChangeEvent) => {
+    setManufacturer(e.target.value)
   }
 
   return (
@@ -55,13 +68,14 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
 
       <DialogContent className="d-flex flex-column g-3">
         <SelectItemCategory
-          value={item?.category}
+          value={item?.category_name}
           categories={categories}
           onSelect={handleCategorySelect}
         />
 
         <TextField
-          placeholder="Название"
+          label="Название"
+          autoComplete="off"
           value={name}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setName(e.target.value)
@@ -69,7 +83,9 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
         />
 
         <TextField
-          placeholder="Описание"
+          label="Описание"
+          autoComplete="off"
+          multiline
           value={description}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setDescription(e.target.value)
@@ -77,23 +93,41 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
         />
 
         <TextField
-          placeholder="Бренд"
+          label="Бренд"
+          autoComplete="off"
           value={brand}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setBrand(e.target.value)
           }
         />
 
-        <TextField
+        {/* <TextField
           placeholder="Производитель"
           value={manufacturer}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setManufacturer(e.target.value)
           }
-        />
+        /> */}
+
+        <FormControl>
+          <InputLabel id="change-item-menu__label">Производитель</InputLabel>
+
+          <Select
+            labelId="change-item-menu__label"
+            value={manufacturer}
+            onChange={handleManufacrurerChange}
+          >
+            {countries.map(({ name, id }) => (
+              <MenuItem key={id} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
         <TextField
-          placeholder="Цена"
+          label="Цена"
+          autoComplete="off"
           value={price}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPrice(e.target.value)
@@ -105,6 +139,9 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
             variant="outlined"
             color="success"
             onClick={() => {
+              const manufacturerId = countries.filter(
+                (c) => c.name === manufacturer
+              )[0].id
               const newItem = {
                 ...item,
                 item_id: item.id,
@@ -112,7 +149,7 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
                 name,
                 description,
                 brand,
-                manufacturer,
+                manufacturer: manufacturerId,
                 price,
               }
               saveItem(newItem)

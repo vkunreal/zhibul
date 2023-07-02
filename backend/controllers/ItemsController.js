@@ -5,26 +5,26 @@ const fs = require('fs')
 const OptionsServices = require('../services/OptionsServices')
 
 const testItem = (item) => {
-  if (!item.category_id || !String(item.category_id).trim()) {
+  if (!item?.category_id || !String(item?.category_id).trim()) {
     // test category_id
     writeLog('Category id is not found')
 
     return { status: false }
-  } else if (!item.name || !item.name.trim()) {
+  } else if (!item?.name || !item.name?.trim()) {
     // test name
     writeLog('Name id is not found')
 
     return { status: false }
-  } else if (!item.brand || !item.brand.trim()) {
+  } else if (!item?.brand || !item?.brand?.trim()) {
     // test brand
     writeLog('Brand id is not found')
     return { status: false }
-  } else if (!item.manufacturer || !item.manufacturer.trim()) {
+  } else if (!item?.manufacturer) {
     // test manufacturer
     writeLog('Manufacturer id is not found')
 
     return { status: false }
-  } else if (!item.price || !String(item.price).trim()) {
+  } else if (!item?.price || !String(item?.price).trim()) {
     // test price
     writeLog('Price id is not found')
 
@@ -41,9 +41,37 @@ class ItemsController {
     res.status(200).json(items)
   }
 
+  async getAllItemsWithoutImages(req, res) {
+    const items = await ItemsServices.getAllItems(false)
+
+    res.status(200).json(items)
+  }
+
+  async getCountries(req, res) {
+    const countries = await ItemsServices.getCountries()
+
+    res.status(200).json(countries)
+  }
+
   async getItemsFromUrl(req, res) {
     const items = await ItemsServices.getItemsFromCategoryUrl(
       req.params.category_url
+    )
+
+    for (let i = 0; i < items.length; i++) {
+      const itemId = items[i].id
+      const itemOptions = await OptionsServices.getOptionsByItemId(itemId)
+
+      items[i].menuOptions = itemOptions.filter((op) => !!op.show_menu)
+    }
+
+    res.status(200).json(items)
+  }
+
+  async getItemsWithoutImages(req, res) {
+    const items = await ItemsServices.getItemsFromCategoryUrl(
+      req.params.category_url,
+      false
     )
 
     for (let i = 0; i < items.length; i++) {

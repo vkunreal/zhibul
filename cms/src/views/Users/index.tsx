@@ -9,6 +9,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Button } from '@mui/material'
 import { Confirm } from '../../components/Confirm'
+import { getDate } from '../../utils/date'
 
 interface IUser {
   id: string
@@ -17,6 +18,7 @@ interface IUser {
   company?: string
   email?: string
   comment?: string
+  time?: string
 }
 
 export const Users: React.FC = () => {
@@ -72,6 +74,7 @@ export const Users: React.FC = () => {
           <Table>
             <TableHead>
               <TableRow>
+                <TableCell align="center">Дата</TableCell>
                 <TableCell align="center">Телефон</TableCell>
                 <TableCell align="center">Имя</TableCell>
                 <TableCell align="center">Компания</TableCell>
@@ -80,28 +83,33 @@ export const Users: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {users.map(({ id, phone, name, company, email, comment }) => (
-                <TableRow
-                  key={id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell align="center">{phone}</TableCell>
-                  <TableCell align="center">{name}</TableCell>
-                  <TableCell align="center">{company || '-'}</TableCell>
-                  <TableCell align="center">{email || '-'}</TableCell>
-                  <TableCell align="center">{comment || '-'}</TableCell>
-                  <TableCell align="center">
-                    <Button
-                      color="error"
-                      variant="outlined"
-                      id={`user-${id}`}
-                      onClick={deleteUser}
-                    >
-                      Удалить
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
+              {users.map(
+                ({ id, phone, name, company, email, comment, time }) => (
+                  <TableRow
+                    key={id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                  >
+                    <TableCell align="center">
+                      {time ? getDate(Number(time)) : '-'}
+                    </TableCell>
+                    <TableCell align="center">{phone}</TableCell>
+                    <TableCell align="center">{name}</TableCell>
+                    <TableCell align="center">{company || '-'}</TableCell>
+                    <TableCell align="center">{email || '-'}</TableCell>
+                    <TableCell align="center">{comment || '-'}</TableCell>
+                    <TableCell align="center">
+                      <Button
+                        color="error"
+                        variant="outlined"
+                        id={`user-${id}`}
+                        onClick={deleteUser}
+                      >
+                        Удалить
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
             </TableBody>
           </Table>
         </TableContainer>

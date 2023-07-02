@@ -38,7 +38,9 @@
             >
               <div>
                 <nuxt-link :to="'/menu/' + url">
-                  <h2 class="category__undercategories-title">{{ name }}</h2>
+                  <h2 class="category__undercategories-title text-center">
+                    {{ name }}
+                  </h2>
                 </nuxt-link>
                 <p class="mt-10">{{ description }}</p>
               </div>
@@ -188,7 +190,7 @@ export default {
 
   &__undercategories {
     &-title {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 400;
     }
     &-button {

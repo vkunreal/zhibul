@@ -33,8 +33,9 @@ CREATE TABLE users (
   `phone` VARCHAR(20) NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   `company` VARCHAR(100),
-  `email` VARCHAR(50),
-  `comment` VARCHAR(500)
+  `email` VARCHAR(70),
+  `comment` TEXT,
+  `time` VARCHAR(120)
 );
 
 -- candidates
@@ -69,7 +70,7 @@ DROP TABLE IF EXISTS items;
 CREATE TABLE items (
   `id` SERIAL PRIMARY KEY,
   `position` INT default 0,
-  `code` VARCHAR(6) UNIQUE NOT  NULL,
+  `code` VARCHAR(6) UNIQUE NOT NULL,
   `category_id` BIGINT UNSIGNED NOT NULL,
   `url` VARCHAR(120) NOT NULL UNIQUE,
   `name` VARCHAR(120) NOT NULL,

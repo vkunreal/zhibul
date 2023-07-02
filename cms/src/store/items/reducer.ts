@@ -1,15 +1,17 @@
-import { ICategory, IItem } from './../../interfaces/Items'
+import { ICategory, ICountry, IItem } from './../../interfaces/Items'
 import { ItemsActions } from './actions'
 import { IItemsAction } from './interfaces'
 
 export interface IItemsState {
   categories: ICategory[]
   items: IItem[]
+  countries: ICountry[]
 }
 
 const initState: IItemsState = {
   categories: [],
   items: [],
+  countries: [],
 }
 
 export const itemsReducer = (
@@ -27,6 +29,12 @@ export const itemsReducer = (
       return {
         ...state,
         items: payload,
+      }
+
+    case ItemsActions.SET_COUNTRIES:
+      return {
+        ...state,
+        countries: payload,
       }
 
     default:

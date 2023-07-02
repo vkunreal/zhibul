@@ -281,7 +281,7 @@ export default {
     width: 100%;
     & img {
       user-select: none;
-      width: 100%;
+      // width: 100%;
       max-width: 450px;
     }
     &-footer {

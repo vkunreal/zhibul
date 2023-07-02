@@ -115,7 +115,7 @@ import VFeedBack from "@/components/VFeedBack.vue";
 export default {
   head() {
     return {
-      title: this.page?.seo_title || "Доставка",
+      title: this.page?.seo_title || "Контакты",
       meta: [
         {
           hid: "description",

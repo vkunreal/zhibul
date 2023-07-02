@@ -61,6 +61,8 @@ export default {
 
       this.name = this.phone = this.company = this.email = this.comment = "";
 
+      const time = new Date().getTime();
+
       this.sendFeedback({
         name,
         phone,
@@ -68,6 +70,7 @@ export default {
         email,
         comment,
         submitDisabled,
+        time,
       }).then(({ status }) => {
         if (status) {
           console.log(status);

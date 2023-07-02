@@ -4,7 +4,17 @@ const ItemsController = require('../controllers/ItemsController')
 const ItemsRouter = new Router()
 
 ItemsRouter.get('/items/', ItemsController.getAllItems)
+ItemsRouter.get(
+  '/items/without-images',
+  ItemsController.getAllItemsWithoutImages
+)
 ItemsRouter.get('/items/:category_url', ItemsController.getItemsFromUrl)
+
+ItemsRouter.get(
+  '/items/without-images/:category_url',
+  ItemsController.getItemsWithoutImages
+)
+ItemsRouter.get('/countries', ItemsController.getCountries)
 
 // ItemsRouter.get('/item/:id', ItemsController.getItem)
 ItemsRouter.get('/item/:item_url', ItemsController.getItemFromUrl)

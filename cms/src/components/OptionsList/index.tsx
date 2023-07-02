@@ -102,6 +102,11 @@ export const OptionsList: React.FC<IOptionsListProps> = ({ item_id }) => {
       <div>
         <h2 className="mb-2">Опции:</h2>
 
+        <p className="mb-2">
+          Для использования выпадающего меню нужно поставить соответствующую
+          галочку и значение опции по примеру: 1.1-1.2-1.3.
+        </p>
+
         <div className="options-list d-flex flex-column g-2 mb-4">
           {items.sort(sortOptions).map((option, i) => (
             <OptionElem

@@ -44,7 +44,7 @@ export const ItemsView: React.FC<IItemsViewProps> = ({ items }) => {
 
   useEffect(() => {
     const itemCategories = getCategories()
-    itemCategories.unshift({ name: '-' })
+    itemCategories.unshift({ id: 0, name: '-' })
     setCategories(itemCategories)
     setCategory(itemCategories[0].name)
     dispatch(getCategoriesDB())
@@ -62,23 +62,24 @@ export const ItemsView: React.FC<IItemsViewProps> = ({ items }) => {
     itemCategories.unshift({ name: '-' })
     setCategories(itemCategories)
     setCategory(itemCategories[0].name)
+    console.log(items.filter((i: any) => i.url.toLowerCase() === 'test'))
   }, [items])
 
   useEffect(() => {
-    if (category === '-') {
+    if (category === '-' || !category) {
       setFilteredItems(items)
     } else {
-      setFilteredItems(items.filter((item) => item.category === category))
+      setFilteredItems(items.filter((item) => item.category_name === category))
     }
   }, [category, items])
 
   const getCategories = () => {
     const allCategories: IItemCategory[] = []
 
-    items.forEach(({ category, category_id }) => {
+    items.forEach(({ category_name, category_id }) => {
       const idArr = allCategories.map((category) => category.id)
       if (!idArr.includes(category_id)) {
-        allCategories.push({ id: category_id, name: category })
+        allCategories.push({ id: category_id, name: category_name })
       }
     })
 
@@ -118,18 +119,19 @@ export const ItemsView: React.FC<IItemsViewProps> = ({ items }) => {
     <div>
       <SelectItemCategory
         categories={categories}
+        category={category}
         onSelect={handleSelectCategory}
       />
+
+      <AddItemButton className="mt-2" onClick={() => setAddDialog(true)}>
+        Добавить товар
+      </AddItemButton>
 
       <ItemsTable
         items={filteredItems}
         setDeleteItem={setDeleteItem}
         setChangeItem={setChangeItem}
       />
-
-      <AddItemButton className="mt-2" onClick={() => setAddDialog(true)}>
-        Добавить товар
-      </AddItemButton>
 
       <Confirm
         isOpen={deleteDialog}

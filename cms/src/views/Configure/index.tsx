@@ -144,7 +144,7 @@ export const Configure: React.FC = () => {
 
       <h2>{item.name}</h2>
       <p>
-        <b>Категория:</b> {item.category}
+        <b>Категория:</b> {item.category_name}
       </p>
       <p>
         <b>Бренд:</b> {item.brand}

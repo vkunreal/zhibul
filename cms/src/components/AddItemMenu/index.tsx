@@ -1,14 +1,21 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   Button,
   Dialog,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   TextField,
 } from '@mui/material'
 import { IItem } from '../../interfaces/Items'
 import { IItemCategory } from '../ItemsView'
 import { SelectItemCategory } from '../SelectItemCategory'
+import { useSelector } from 'react-redux'
+import { selectCountries } from '../../store/items/selectors'
 
 interface IAddItemMenu {
   categories: IItemCategory[]
@@ -24,18 +31,32 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
   addItem,
 }) => {
   const [category, setCategory] = useState<IItemCategory | null>(null)
+  const [url, setUrl] = useState('')
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [brand, setBrand] = useState('')
   const [manufacturer, setManufacturer] = useState('')
   const [price, setPrice] = useState('')
 
+  const countries = useSelector(selectCountries)
+
   const handleCategorySelect = (category: IItemCategory) => {
     setCategory(category)
   }
 
   const submitDisabled = () => {
-    return !category?.id || !name.trim() || !description.trim() || !brand.trim() || !manufacturer.trim() || !price.trim()
+    return (
+      !category?.id ||
+      !name.trim() ||
+      !description.trim() ||
+      !brand.trim() ||
+      !manufacturer.trim() ||
+      !price.trim()
+    )
+  }
+
+  const handleManufacrurerChange = (e: SelectChangeEvent) => {
+    setManufacturer(e.target.value)
   }
 
   return (
@@ -49,7 +70,17 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
         />
 
         <TextField
-          placeholder="Название"
+          label="URL"
+          autoComplete="off"
+          value={url}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setUrl(e.target.value)
+          }
+        />
+
+        <TextField
+          label="Название"
+          autoComplete="off"
           value={name}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setName(e.target.value)
@@ -57,7 +88,8 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
         />
 
         <TextField
-          placeholder="Описание"
+          label="Описание"
+          autoComplete="off"
           value={description}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setDescription(e.target.value)
@@ -65,23 +97,33 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
         />
 
         <TextField
-          placeholder="Бренд"
+          label="Бренд"
+          autoComplete="off"
           value={brand}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setBrand(e.target.value)
           }
         />
 
-        <TextField
-          placeholder="Производитель"
-          value={manufacturer}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setManufacturer(e.target.value)
-          }
-        />
+        <FormControl>
+          <InputLabel id="change-item-menu__label">Производитель</InputLabel>
+
+          <Select
+            labelId="change-item-menu__label"
+            value={manufacturer}
+            onChange={handleManufacrurerChange}
+          >
+            {countries.map(({ name, id }) => (
+              <MenuItem key={id} value={name}>
+                {name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
         <TextField
-          placeholder="Цена"
+          label="Цена"
+          autoComplete="off"
           value={price}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPrice(e.target.value)
@@ -93,13 +135,17 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
             variant="outlined"
             color="success"
             onClick={() => {
+              const manufacturerId = countries.filter(
+                (c) => c.name === manufacturer
+              )[0].id
               const newItem = {
                 category_id: category?.id || 0,
-                category: category?.name || '',
+                category_name: category?.name || '',
+                url,
                 name,
                 description,
                 brand,
-                manufacturer,
+                manufacturer: manufacturerId,
                 price,
               }
               addItem(newItem)

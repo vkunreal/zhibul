@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
-import { ICategory, IItem } from './../../interfaces/Items'
+import { ICategory, IItem, ICountry } from './../../interfaces/Items'
 
 export enum ItemsActions {
   SET_CATEGORIES = 'ITEMS::SET_CATEGORIES',
   SET_ITEMS = 'ITEMS::SET_ITEMS',
+  SET_COUNTRIES = 'ITEMS::SET_COUNTRIES',
 }
 
 const setCategories = (categories: ICategory) => ({
@@ -15,6 +16,11 @@ const setCategories = (categories: ICategory) => ({
 const setItems = (items: IItem) => ({
   type: ItemsActions.SET_ITEMS,
   payload: items,
+})
+
+const setCountries = (countries: ICountry) => ({
+  type: ItemsActions.SET_COUNTRIES,
+  payload: countries,
 })
 
 export const getCategoriesDB: any = () => async (dispatch: Dispatch) => {
@@ -46,8 +52,19 @@ export const deleteCategoryDB: any =
   }
 
 export const getItemsDB: any = () => async (dispatch: Dispatch) => {
-  await axios.get('/api/items').then(({ data }) => {
-    dispatch(setItems(data))
+  // await axios.get('/api/items').then(({ data }) => {
+  //   dispatch(setItems(data))
+  // })
+  Promise.all([
+    axios.get('/api/items/without-images'),
+    axios.get('/api/countries'),
+  ]).then((res) => {
+    const [itemsData, countriesData] = res
+
+    dispatch(setItems(itemsData.data))
+    dispatch(setCountries(countriesData.data))
+
+    console.log(itemsData)
   })
 }
 

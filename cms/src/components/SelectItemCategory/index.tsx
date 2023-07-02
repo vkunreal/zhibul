@@ -11,12 +11,14 @@ import { IItemCategory } from '../ItemsView'
 interface ISelectItemCategory {
   value?: string
   categories: IItemCategory[]
+  category?: string
   onSelect: (category: IItemCategory) => void
 }
 
 export const SelectItemCategory: React.FC<ISelectItemCategory> = ({
   value,
   categories,
+  category,
   onSelect,
 }) => {
   const [changeCategory, setChangeCategory] = useState(value || '')
@@ -32,6 +34,13 @@ export const SelectItemCategory: React.FC<ISelectItemCategory> = ({
     onSelect(category)
   }, [changeCategory])
 
+  useEffect(() => {
+    const category = categories.filter(
+      (category) => category.name === changeCategory
+    )[0]
+    onSelect(category)
+  }, [category])
+
   return (
     <FormControl fullWidth>
       <InputLabel id="items-view__label">Категория</InputLabel>
@@ -41,8 +50,8 @@ export const SelectItemCategory: React.FC<ISelectItemCategory> = ({
         value={changeCategory}
         onChange={handleCategoryChange}
       >
-        {categories.map(({ name }) => (
-          <MenuItem key={name} value={name}>
+        {categories.map(({ name, id }) => (
+          <MenuItem key={id} value={name}>
             {name}
           </MenuItem>
         ))}

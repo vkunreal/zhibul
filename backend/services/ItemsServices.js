@@ -1,14 +1,14 @@
 const { request } = require('../db/database')
 const { writeLog } = require('../writeLog')
 
-const queryItems = `
+const queryItems = (withImage = true) => `
   SELECT
     it.id,
     it.code,
     it.position,
     c.url as category_url,
     c.name as category_name,
-    GROUP_CONCAT(im.src SEPARATOR ',') as images,
+    ${withImage ? `GROUP_CONCAT(im.src SEPARATOR ',') as images,` : ''}
     it.category_id,
     it.url,
     it.name,
@@ -21,19 +21,19 @@ const queryItems = `
     it.seo_keywords
   FROM items it
   JOIN categories c ON it.category_id = c.id
-  JOIN images im ON im.item_id = it.id
-  JOIN countries ct ct.id = it.manufacturer_id
+  ${withImage ? `JOIN images im ON im.item_id = it.id` : ''}
+  JOIN countries ct ON ct.id = it.manufacturer_id
   GROUP BY it.id
 `
 
-const queryItemsByCategoryUrl = (category_url) => `
+const queryItemsByCategoryUrl = (category_url, withImage = true) => `
   SELECT
     it.id,
     it.code,
     it.position,
     c.url as category_url,
     c.name as category_name,
-    GROUP_CONCAT(im.src SEPARATOR ',') as images,
+    ${withImage ? `GROUP_CONCAT(im.src SEPARATOR ',') as images,` : ''}
     it.category_id,
     it.url,
     it.name,
@@ -46,7 +46,7 @@ const queryItemsByCategoryUrl = (category_url) => `
     it.seo_keywords
   FROM items it
   JOIN categories c ON it.category_id = c.id AND c.url = "${category_url}"
-  JOIN images im ON im.item_id = it.id
+  ${withImage ? `JOIN images im ON im.item_id = it.id` : ''}
   JOIN countries ct ON ct.id = it.manufacturer_id
   GROUP BY it.id
 `
@@ -79,12 +79,24 @@ const queryItemByUrl = (item_url) => `
 
 class ItemsServices {
   // get all items from db
-  async getAllItems() {
-    return await request('SELECT * FROM items')
+  async getAllItems(withImages = true) {
+    try {
+      return await request(queryItems(withImages))
+    } catch (e) {
+      console.error(e)
+    }
   }
 
-  async getItemsFromCategoryUrl(category_url) {
-    return await request(queryItemsByCategoryUrl(category_url))
+  async getCountries() {
+    return await request('SELECT * FROM countries')
+  }
+
+  async getItemsFromCategoryUrl(category_url, withImages = true) {
+    try {
+      return await request(queryItemsByCategoryUrl(category_url, withImages))
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   async getItemImages(item_id) {
@@ -93,14 +105,22 @@ class ItemsServices {
 
   // get item from db by id
   async getItemFromId(item_id) {
-    return await request(
-      `${queryItems} WHERE id = "${item_id}"`,
-      (res) => res[0][0]
-    )
+    try {
+      return await request(
+        `${queryItems} WHERE id = "${item_id}"`,
+        (res) => res[0][0]
+      )
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   async getItemFromUrl(item_url) {
-    return await request(queryItemByUrl(item_url), (it) => it[0][0])
+    try {
+      return await request(queryItemByUrl(item_url), (it) => it[0][0])
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   async changeItemById({
@@ -109,49 +129,85 @@ class ItemsServices {
     name,
     brand,
     manufacturer,
+    description,
     price,
   }) {
-    const updateItemField = async (field, value) =>
-      await request(
-        `UPDATE items SET ${field} = "${value}" WHERE id = "${item_id}"`
-      )
+    try {
+      const updateItemField = async (field, value) =>
+        await request(
+          `UPDATE items SET ${field} = "${value}" WHERE id = "${item_id}"`
+        )
 
-    updateItemField('category_id', category_id)
-    updateItemField('name', name)
-    updateItemField('brand', brand)
-    updateItemField('manufacturer', manufacturer)
-    updateItemField('price', price)
+      updateItemField('category_id', category_id)
+      updateItemField('name', name)
+      updateItemField('description', description)
+      updateItemField('brand', brand)
+      updateItemField('manufacturer_id', manufacturer)
+      updateItemField('price', price)
 
-    writeLog('Item was changed')
-    return { status: true }
+      writeLog('Item was changed')
+      return { status: true }
+    } catch (e) {
+      console.error(e)
+    }
   }
 
-  async addItem({ category_id, name, brand, manufacturer, price }) {
-    await request(`
-      INSERT INTO items(category_id, name, brand, manufacturer, price)
-      VALUES ("${category_id}", "${name}", "${brand}", "${manufacturer}", "${price}")
-    `)
+  async addItem({
+    category_id,
+    url,
+    name,
+    description,
+    brand,
+    manufacturer,
+    price,
+  }) {
+    try {
+      const lastId = await request(
+        'SELECT MAX(id) as id FROM items',
+        (d) => d[0][0]
+      )
+      const code = '1.' + String(lastId.id + 1).padStart(4, '0')
 
-    writeLog('Item was added')
-    return { status: true }
+      await request(`
+        INSERT INTO items(code, url, category_id, name, description, brand, manufacturer_id, price)
+        VALUES ("${code}", "${url}", "${category_id}", "${name}", "${description}", "${brand}", "${manufacturer}", "${price}")
+      `)
+
+      writeLog('Item was added')
+      return { status: true }
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   // delete item from db by id
   async deleteItemFromId(item_id) {
-    await request(`DELETE FROM items WHERE id = "${item_id}"`)
+    try {
+      await request(`DELETE FROM items WHERE id = "${item_id}"`)
 
-    writeLog('Item was delete')
-    return { status: true }
+      writeLog('Item was delete')
+      return { status: true }
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   async addImageToDB(item_id, imageName) {
-    await request(`INSERT INTO images (item_id, src)
-      VALUES
-      ("${item_id}", "${imageName}")`)
+    try {
+      await request(`INSERT INTO images (item_id, src)
+        VALUES
+        ("${item_id}", "${imageName}")`)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   async deleteImageInDB(imageSrc) {
-    await request(`DELETE FROM images WHERE src = "${imageSrc}"`)
+    try {
+      await request(`DELETE FROM images WHERE src = "${imageSrc}"`)
+    } catch (e) {
+      console.error(e)
+    }
   }
 }
 

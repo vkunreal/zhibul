@@ -40,7 +40,7 @@ export const ItemsTable: React.FC<IItemsTableProps> = ({
         <TableBody>
           {items.map((item) => (
             <TableRow key={item.id}>
-              <TableCell align="center">{item.category}</TableCell>
+              <TableCell align="center">{item.category_name}</TableCell>
               <TableCell align="center">{item.name}</TableCell>
               <TableCell align="center">{item.price}</TableCell>
               <TableCell className="d-flex flex-column" align="center">

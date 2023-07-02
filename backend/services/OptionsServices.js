@@ -8,7 +8,7 @@ class OptionsServices {
   }
 
   // change option by id
-  async changeOptionById({ option_id, name, value }) {
+  async changeOptionById({ option_id, name, value, is_dropdown, show_menu }) {
     let response
 
     await request(
@@ -22,6 +22,24 @@ class OptionsServices {
       `UPDATE options SET value = "${value}" WHERE id = "${option_id}"`
     ).catch(() => {
       writeLog('Changing value was failed')
+      response = { status: false }
+    })
+
+    await request(
+      `UPDATE options SET is_dropdown = "${
+        is_dropdown ? 1 : 0
+      }" WHERE id = "${option_id}"`
+    ).catch(() => {
+      writeLog('Changing is_dropdown was failed')
+      response = { status: false }
+    })
+
+    await request(
+      `UPDATE options SET show_menu = "${
+        show_menu ? 1 : 0
+      }" WHERE id = "${option_id}"`
+    ).catch(() => {
+      writeLog('Changing show_menu was failed')
       response = { status: false }
     })
 

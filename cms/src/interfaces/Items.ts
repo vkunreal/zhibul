@@ -13,12 +13,17 @@ export interface ICategoryCandidate {
 export interface IItem {
   id?: number
   category_id: number
-  category: string
+  category_name: string
   name: string
   description: string
   brand: string
-  manufacturer: string
+  manufacturer: string | number
   price: string
+}
+
+export interface ICountry {
+  id: number
+  name: string
 }
 
 export interface IOption {
@@ -27,6 +32,8 @@ export interface IOption {
   position: number
   name: string
   value: string
+  is_dropdown: boolean
+  show_menu: boolean
 }
 
 export interface IOptionPosition {
