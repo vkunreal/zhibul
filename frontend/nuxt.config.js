@@ -40,7 +40,7 @@ export default {
     [
       "@nuxtjs/yandex-metrika",
       {
-        id: "54863989",
+        id: "94179348",
         webvisor: true,
       },
     ],
