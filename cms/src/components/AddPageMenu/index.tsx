@@ -25,6 +25,10 @@ interface IAddPageMenuProps {
 const urlList = [
   { url: 'delivery', name: 'Доставка' },
   { url: 'contacts', name: 'Контакты' },
+  { url: 'rembaza', name: 'Ремонт пневмоинструмента' },
+  { url: 'index', name: 'Главная' },
+  { url: 'uslugi', name: 'Услуги' },
+  { url: 'katalog', name: 'Каталог' },
   { url: 'arenda_prizepa', name: 'Аренда автоприцепа' },
 ]
 
@@ -84,7 +88,7 @@ export const AddPageMenu: React.FC<IAddPageMenuProps> = ({
         )}
 
         <TextField
-          placeholder="Название"
+          label="Название"
           inputProps={{ maxLength: 70 }}
           value={name}
           autoComplete="off"
@@ -93,7 +97,7 @@ export const AddPageMenu: React.FC<IAddPageMenuProps> = ({
           }
         />
         <TextField
-          placeholder="Текст"
+          label="Текст"
           inputProps={{ maxLength: 1500 }}
           value={text}
           autoComplete="off"
@@ -104,7 +108,7 @@ export const AddPageMenu: React.FC<IAddPageMenuProps> = ({
           }
         />
         <TextField
-          placeholder="SEO Title"
+          label="SEO Title"
           inputProps={{ maxLength: 70 }}
           value={seoTitle}
           autoComplete="off"
@@ -113,7 +117,7 @@ export const AddPageMenu: React.FC<IAddPageMenuProps> = ({
           }
         />
         <TextField
-          placeholder="SEO Description"
+          label="SEO Description"
           inputProps={{ maxLength: 250 }}
           value={seoDescription}
           autoComplete="off"
@@ -122,7 +126,7 @@ export const AddPageMenu: React.FC<IAddPageMenuProps> = ({
           }
         />
         <TextField
-          placeholder="SEO Keywords"
+          label="SEO Keywords"
           inputProps={{ maxLength: 150 }}
           value={seoKeywords}
           autoComplete="off"

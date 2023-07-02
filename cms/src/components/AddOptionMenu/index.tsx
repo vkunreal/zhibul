@@ -28,7 +28,7 @@ export const AddOptionMenu: React.FC<IAddOptionMenuProps> = ({
 
       <DialogContent className="d-flex flex-column g-3">
         <TextField
-          placeholder="Название"
+          label="Название"
           value={name}
           autoComplete="off"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -37,7 +37,7 @@ export const AddOptionMenu: React.FC<IAddOptionMenuProps> = ({
         />
 
         <TextField
-          placeholder="Значение"
+          label="Значение"
           value={value}
           autoComplete="off"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>

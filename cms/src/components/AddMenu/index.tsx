@@ -29,7 +29,7 @@ export const AddMenu: React.FC<IAddMenuProps> = ({
 
       <DialogContent className="d-flex flex-column g-3">
         <TextField
-          placeholder="Название"
+          label="Название"
           value={name}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setName(e.target.value)
