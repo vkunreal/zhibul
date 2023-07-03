@@ -105,7 +105,7 @@
             <div
               class="d-flex justify-space-between"
               v-for="{ id, name, value } in itemOptions.filter(
-                (op) => !op.is_dropdown
+                (op) => !op?.is_dropdown && op?.show_item
               )"
               :key="id"
             >

@@ -95,16 +95,17 @@
       </div>
     </div>
 
-    <div class="bg--primary fill-width d-flex justify-center mt-10">
-      <v-feed-back />
-    </div>
-
     <iframe
+      class="mt-10"
       src="https://yandex.ru/map-widget/v1/?z=12&ol=biz&oid=196054484550"
       width="100%"
       height="520"
       frameborder="0"
     />
+
+    <div class="bg--primary fill-width d-flex justify-center">
+      <v-feed-back />
+    </div>
   </section>
 </template>
 

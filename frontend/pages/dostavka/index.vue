@@ -24,10 +24,8 @@
       src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A62086dc6fbca1605ca60b02af6b538607abf5eb2f723be2e1d0fb60e2da0b89b&amp;width=100%25&amp;height=720&amp;lang=ru_RU&amp;scroll=true"
     ></script>
 
-    <div class="delivery fill-width">
-      <div class="bg--primary fill-width d-flex justify-center mt-10 mb-10">
-        <v-feed-back />
-      </div>
+    <div class="bg--primary fill-width d-flex justify-center">
+      <v-feed-back />
     </div>
   </section>
 </template>

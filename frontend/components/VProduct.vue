@@ -18,8 +18,24 @@
         </p>
 
         <template v-if="product.menuOptions">
-          <p v-for="{ id, name, value } in product.menuOptions" :key="id">
+          <p
+            v-for="{ id, name, value } in product.menuOptions.filter(
+              (op) => !op.is_dropdown
+            )"
+            :key="id"
+          >
             {{ name }}: {{ value }}
+          </p>
+        </template>
+
+        <template v-if="product.menuOptions">
+          <p
+            v-for="{ id, name, value } in product.menuOptions.filter(
+              (op) => op.is_dropdown
+            )"
+            :key="id"
+          >
+            {{ name }}: {{ value.split("-").join(" - ") }}
           </p>
         </template>
       </div>
