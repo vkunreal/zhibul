@@ -205,15 +205,7 @@ import VOrderModal from "../components/VOrderModal.vue";
 export default {
   name: "DefaultLayout",
   components: { VCategories, VOrderModal },
-  data() {
-    return {
-      isPassword: true,
-      password: "cF3|9#RSy}f?7VG@s~4Y0pVtn~q?ZV@u",
-    };
-  },
   async mounted() {
-    this.checkPassword();
-
     Vue.prototype.$orderModal = this.$refs["order-modal"].open;
     Vue.prototype.$categoriesModal = this.$refs["categories-modal"].open;
 
@@ -247,26 +239,6 @@ export default {
   methods: {
     logoClick() {
       this.$router.push("/");
-    },
-    checkPassword() {
-      const app = document.getElementById("v-app");
-      const lsPassword = localStorage.getItem("wnps");
-
-      if (!this.isPassword || !!Number(lsPassword)) {
-        return true;
-      }
-
-      app.style.display = "none";
-      const password = prompt("Enter your password");
-
-      if (password === this.password) {
-        app.style.display = "";
-        localStorage.setItem("wnps", 1);
-        return true;
-      } else {
-        localStorage.setItem("wnps", 0);
-        return false;
-      }
     },
   },
 };
