@@ -16,16 +16,16 @@ class UsersServices {
   }
 
   // add a new user
-  async addUser({ phone, name, company, email, comment, time }) {
+  async addUser({ phone, name, company, email, comment }) {
     let response
 
+    const time = new Date().getTime()
+
     await request(`
-      INSERT INTO users (phone, name, company, email, comment${
-        time ? ', time' : ''
-      })
+      INSERT INTO users (phone, name, company, email, comment, time)
       VALUES ("${phone}", "${name}", ${company ? `"${company}"` : null}, ${
       email ? `"${email}"` : null
-    }, ${comment ? `"${comment}"` : null}${time ? `, ${time}` : ''})
+    }, ${comment ? `"${comment}"` : null}, "${time}")
     `).catch(() => {
       writeLog('Creating user was failed')
       response = { status: false }

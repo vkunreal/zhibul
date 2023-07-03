@@ -60,13 +60,10 @@ export default {
 
       this.name = this.phone = "";
 
-      const time = new Date().getTime();
-
       this.sendFeedback({
         name,
         phone,
         submitDisabled,
-        time,
       }).then(({ status }) => {
         if (status) {
           console.log(status);

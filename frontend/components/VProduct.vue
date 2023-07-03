@@ -1,15 +1,12 @@
 <template>
-  <section class="v-product d-flex" :title="product.name">
+  <section class="v-product d-flex">
     <div class="fill-width">
       <img class="v-product__image" :src="productImage" :alt="product.name" />
     </div>
 
     <div class="v-product__info d-flex flex-column justify-space-between">
-      <div class="d-flex flex-column g-2">
-        <h2
-          class="v-product__info-title"
-          v-html="product.name + ' (ID: ' + product.id + ')'"
-        />
+      <div class="d-flex flex-column g-1">
+        <h2 class="v-product__info-title" v-html="product.name" />
         <p v-if="product.brand" class="v-product__info-field">
           Бренд: {{ product.brand }}
         </p>
@@ -20,22 +17,22 @@
         <template v-if="product.menuOptions">
           <p
             v-for="{ id, name, value } in product.menuOptions.filter(
-              (op) => !op.is_dropdown
+              (op) => op.is_dropdown
             )"
             :key="id"
           >
-            {{ name }}: {{ value }}
+            {{ name }}: {{ value.split("-").join(" - ") }}
           </p>
         </template>
 
         <template v-if="product.menuOptions">
           <p
             v-for="{ id, name, value } in product.menuOptions.filter(
-              (op) => op.is_dropdown
+              (op) => !op.is_dropdown
             )"
             :key="id"
           >
-            {{ name }}: {{ value.split("-").join(" - ") }}
+            {{ name }}: {{ value }}
           </p>
         </template>
       </div>

@@ -39,14 +39,7 @@ export const actions = {
   },
   async sendFeedback(
     {},
-    {
-      name = "",
-      phone = "",
-      company = "",
-      email = "",
-      comment = "",
-      time = "",
-    } = {}
+    { name = "", phone = "", company = "", email = "", comment = "" } = {}
   ) {
     if (!name.trim() || !phone.trim()) {
       console.error("App store sendFeedback: not found name or phone");
@@ -59,7 +52,6 @@ export const actions = {
       company,
       email,
       comment,
-      time,
     });
   },
   async fetchSlider({ commit }) {

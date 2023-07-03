@@ -35,7 +35,7 @@
         <h1
           class="text-center text-uppercase mt-8 ml-2 ml-md-0 mr-2 mr-md-0 mb-8"
         >
-          {{ productName }} (id: {{ itemDetails?.id }})
+          {{ productName }}
         </h1>
         <!-- title -->
 
