@@ -27,11 +27,12 @@ CREATE TABLE `users` (
   `phone` varchar(20) NOT NULL,
   `name` varchar(50) NOT NULL,
   `company` varchar(100) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `comment` varchar(500) DEFAULT NULL,
+  `email` varchar(70) DEFAULT NULL,
+  `comment` text,
+  `time` varchar(120) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +41,6 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'+7 812 055-33-25','Виктор','ООО Прямые руки','pryam@ruki.ru','Прошу связаться со мной по поводу распылителя'),(2,'+7 892 885-53-52','Алексей','ИП Петров А. И.','fdsa@ruwerki.ru','Рассматривайте предложения о сотрудничестве?'),(3,'+7 911 100-89-43','Анна','ООО Эконом маркет','econom@market.ru','Здраствуйте, мне нужна информация по товару'),(4,'+7 874 535-88-30','Дмитрий','АО Рестор','restore@gmail.com','Готовы сделать заказ'),(5,'+7 534 832-78-15','Анастасия','ООО ДНС','anastasia.dns@yandex.ru','Можно ли забрать 2 распылителя 18 апреля?'),(6,'+7 973 453-22-48','Даниил','ИП Магаданов Д. А.','guru12@mail.ru','Возможно сделать заказ оптом?'),(7,'+7 354 877-35-45','Ольга','ООО АлЭкспромт','alXspromt@mail.ru','Нужна косультация по товару'),(8,'+7 783 453-978-35','Тимофей','ООО Пятерочка','5opka@yandex.ru','Позвоните по номеру +7 923 453 23 43'),(9,'+7 351 543-78-12','Екатерина','ООО Иностранные Товары','foreignitems@gmail.com','Нужно уточнить про доставку'),(10,'+7 678 456-15-67','Владимир','РУВД','gosorgan@mvd.ru','Есть ли еще цвета?');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-17 23:40:52
+-- Dump completed on 2023-07-03 23:20:33

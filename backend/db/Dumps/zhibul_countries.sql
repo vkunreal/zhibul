@@ -16,29 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `app_variables`
+-- Table structure for table `countries`
 --
 
-DROP TABLE IF EXISTS `app_variables`;
+DROP TABLE IF EXISTS `countries`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `app_variables` (
+CREATE TABLE `countries` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `value` varchar(100) NOT NULL,
+  `name` varchar(120) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `app_variables`
+-- Dumping data for table `countries`
 --
 
-LOCK TABLES `app_variables` WRITE;
-/*!40000 ALTER TABLE `app_variables` DISABLE KEYS */;
-INSERT INTO `app_variables` VALUES (1,'phone_sales','+375 (29) 741-52-26'),(2,'phone_services','+375 (44) 758-16-43'),(3,'email','zhibul.maksim@yandex.ru'),(4,'address','г. Минск, Селицкого 21К, 4 этаж, кабинет 1'),(5,'work_time','Пн-Чт: 09.00-17.00'),(6,'work_time','Пт: 09.00-16.00'),(7,'years','12'),(8,'clients','209'),(9,'partners','12'),(10,'repair_done','2974');
-/*!40000 ALTER TABLE `app_variables` ENABLE KEYS */;
+LOCK TABLES `countries` WRITE;
+/*!40000 ALTER TABLE `countries` DISABLE KEYS */;
+INSERT INTO `countries` VALUES (1,'Беларусь'),(2,'Германия'),(3,'Италия'),(4,'Китай'),(5,'Польша'),(6,'Россия'),(7,'Тайвань'),(8,'Хорватия'),(9,'США');
+/*!40000 ALTER TABLE `countries` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-17 23:40:52
+-- Dump completed on 2023-07-03 23:20:34

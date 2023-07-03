@@ -16,31 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `pages`
+-- Table structure for table `trailer_images`
 --
 
-DROP TABLE IF EXISTS `pages`;
+DROP TABLE IF EXISTS `trailer_images`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pages` (
-  `url` varchar(70) NOT NULL,
-  `name` varchar(70) NOT NULL,
-  `text` varchar(3000) DEFAULT NULL,
-  `seo_title` varchar(70) DEFAULT NULL,
-  `seo_description` varchar(250) DEFAULT NULL,
-  `seo_keywords` varchar(150) DEFAULT NULL,
-  PRIMARY KEY (`url`)
+CREATE TABLE `trailer_images` (
+  `trailer_id` bigint unsigned NOT NULL,
+  `src` varchar(200) NOT NULL,
+  KEY `trailer_id` (`trailer_id`),
+  CONSTRAINT `trailer_images_ibfk_1` FOREIGN KEY (`trailer_id`) REFERENCES `trailer_rent` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pages`
+-- Dumping data for table `trailer_images`
 --
 
-LOCK TABLES `pages` WRITE;
-/*!40000 ALTER TABLE `pages` DISABLE KEYS */;
-INSERT INTO `pages` VALUES ('contacts','КОНТАКТНАЯ ИНФОРМАЦИЯ','','Контакты','','');
-/*!40000 ALTER TABLE `pages` ENABLE KEYS */;
+LOCK TABLES `trailer_images` WRITE;
+/*!40000 ALTER TABLE `trailer_images` DISABLE KEYS */;
+INSERT INTO `trailer_images` VALUES (1,'http://194.67.78.19/trailer/tent1.jpg'),(1,'http://194.67.78.19/trailer/tent2.png'),(1,'http://194.67.78.19/trailer/tent3.jpg'),(2,'http://194.67.78.19/trailer/without_tent1.jpg'),(2,'http://194.67.78.19/trailer/without_tent2.jpg'),(2,'http://194.67.78.19/trailer/without_tent3.jpg');
+/*!40000 ALTER TABLE `trailer_images` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-17 23:40:52
+-- Dump completed on 2023-07-03 23:20:34

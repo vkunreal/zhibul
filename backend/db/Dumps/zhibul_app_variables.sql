@@ -16,29 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `slider_images`
+-- Table structure for table `app_variables`
 --
 
-DROP TABLE IF EXISTS `slider_images`;
+DROP TABLE IF EXISTS `app_variables`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `slider_images` (
-  `slide_id` bigint unsigned NOT NULL,
-  `display` varchar(50) NOT NULL,
-  `src` varchar(200) NOT NULL,
-  KEY `slide_id` (`slide_id`),
-  CONSTRAINT `slider_images_ibfk_1` FOREIGN KEY (`slide_id`) REFERENCES `slides` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `app_variables` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `value` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `slider_images`
+-- Dumping data for table `app_variables`
 --
 
-LOCK TABLES `slider_images` WRITE;
-/*!40000 ALTER TABLE `slider_images` DISABLE KEYS */;
-INSERT INTO `slider_images` VALUES (1,'desktop','http://194.67.78.19/slider/slide1.png'),(2,'desktop','http://194.67.78.19/slider/slide2.png'),(3,'desktop','http://194.67.78.19/slider/slide3.png'),(1,'mobile','http://194.67.78.19/slider/slide1.png'),(2,'mobile','http://194.67.78.19/slider/slide2.png'),(3,'mobile','http://194.67.78.19/slider/slide3.png');
-/*!40000 ALTER TABLE `slider_images` ENABLE KEYS */;
+LOCK TABLES `app_variables` WRITE;
+/*!40000 ALTER TABLE `app_variables` DISABLE KEYS */;
+INSERT INTO `app_variables` VALUES (1,'phone_sales','+375 (29) 741-52-26'),(2,'phone_services','+375 (44) 758-16-43'),(3,'inst','https://instagram.com/zhbl_company?igshid=MjEwN2IyYWYwYw=='),(4,'vk','https://vk.com/zhbl_ip'),(5,'tg','http://t.me/zhbl_company'),(6,'email','zhibul.maksim@yandex.ru'),(7,'address','г. Минск, Селицкого 21К, 4 этаж, кабинет 8'),(8,'work_time','Пн - Чт: 09.00 - 17.00'),(9,'work_time','Пт: 09.00 - 16.30'),(10,'years','12'),(11,'clients','209'),(12,'partners','12'),(13,'repair_done','2974');
+/*!40000 ALTER TABLE `app_variables` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-17 23:40:53
+-- Dump completed on 2023-07-03 23:20:34

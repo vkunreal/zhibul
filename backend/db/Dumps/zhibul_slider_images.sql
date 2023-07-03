@@ -16,30 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `slides`
+-- Table structure for table `slider_images`
 --
 
-DROP TABLE IF EXISTS `slides`;
+DROP TABLE IF EXISTS `slider_images`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `slides` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `url` varchar(70) NOT NULL,
-  `title` varchar(120) NOT NULL,
-  `brand` varchar(70) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `slider_images` (
+  `slide_id` bigint unsigned NOT NULL,
+  `display` varchar(50) NOT NULL,
+  `src` varchar(200) NOT NULL,
+  KEY `slide_id` (`slide_id`),
+  CONSTRAINT `slider_images_ibfk_1` FOREIGN KEY (`slide_id`) REFERENCES `slides` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `slides`
+-- Dumping data for table `slider_images`
 --
 
-LOCK TABLES `slides` WRITE;
-/*!40000 ALTER TABLE `slides` DISABLE KEYS */;
-INSERT INTO `slides` VALUES (1,'kraskoraspyliteli','Краскораспылители','WALCOM'),(2,'krepezh','Крепежные изделия','EMES'),(3,'kompressory','Компрессоры','REMEZA');
-/*!40000 ALTER TABLE `slides` ENABLE KEYS */;
+LOCK TABLES `slider_images` WRITE;
+/*!40000 ALTER TABLE `slider_images` DISABLE KEYS */;
+INSERT INTO `slider_images` VALUES (1,'desktop','http://194.67.78.19/slider/slide1.png'),(2,'desktop','http://194.67.78.19/slider/slide2.png'),(3,'desktop','http://194.67.78.19/slider/slide3.png'),(1,'mobile','http://194.67.78.19/slider/mob-slide1.png'),(2,'mobile','http://194.67.78.19/slider/mob-slide2.png'),(3,'mobile','http://194.67.78.19/slider/mob-slide3.png');
+/*!40000 ALTER TABLE `slider_images` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-17 23:40:52
+-- Dump completed on 2023-07-03 23:20:33

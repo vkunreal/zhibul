@@ -16,32 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `candidates`
+-- Table structure for table `files`
 --
 
-DROP TABLE IF EXISTS `candidates`;
+DROP TABLE IF EXISTS `files`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `candidates` (
-  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `phone` varchar(20) DEFAULT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `company` varchar(100) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `comment` varchar(500) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `files` (
+  `item_id` bigint unsigned NOT NULL,
+  `src` varchar(200) NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `icon` varchar(70) NOT NULL,
+  KEY `item_id` (`item_id`),
+  CONSTRAINT `files_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `candidates`
+-- Dumping data for table `files`
 --
 
-LOCK TABLES `candidates` WRITE;
-/*!40000 ALTER TABLE `candidates` DISABLE KEYS */;
-INSERT INTO `candidates` VALUES (1,'Алгормат','+918 44 125-22-84',NULL,NULL,NULL),(2,'Дед мороз','+111 111-11-11',NULL,NULL,NULL),(3,'Виталий','+7 981 865-45-38',NULL,NULL,NULL),(4,'Валентин','+33 25 354-87-78',NULL,NULL,NULL),(5,'Картонуз','+375 29 545-21-87',NULL,NULL,NULL);
-/*!40000 ALTER TABLE `candidates` ENABLE KEYS */;
+LOCK TABLES `files` WRITE;
+/*!40000 ALTER TABLE `files` DISABLE KEYS */;
+/*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -53,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-17 23:40:52
+-- Dump completed on 2023-07-03 23:20:33

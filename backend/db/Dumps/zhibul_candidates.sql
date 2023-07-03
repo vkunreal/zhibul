@@ -16,28 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `countries`
+-- Table structure for table `candidates`
 --
 
-DROP TABLE IF EXISTS `countries`;
+DROP TABLE IF EXISTS `candidates`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `countries` (
+CREATE TABLE `candidates` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(120) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `company` varchar(100) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `comment` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `countries`
+-- Dumping data for table `candidates`
 --
 
-LOCK TABLES `countries` WRITE;
-/*!40000 ALTER TABLE `countries` DISABLE KEYS */;
-INSERT INTO `countries` VALUES (1,'Беларусь'),(2,'Германия'),(3,'Италия'),(4,'Китай'),(5,'Польша'),(6,'Россия'),(7,'Тайвань'),(8,'Хорватия'),(9,'США');
-/*!40000 ALTER TABLE `countries` ENABLE KEYS */;
+LOCK TABLES `candidates` WRITE;
+/*!40000 ALTER TABLE `candidates` DISABLE KEYS */;
+/*!40000 ALTER TABLE `candidates` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-17 23:40:52
+-- Dump completed on 2023-07-03 23:20:34
