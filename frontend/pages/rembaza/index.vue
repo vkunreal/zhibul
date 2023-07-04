@@ -76,7 +76,7 @@ const options = [
   {
     icon: "warehouse",
     name: "СКЛАД ЗАПЧАСТЕЙ",
-    text: "Наша сервисная служба всегда располагает большим складом запчастей для пневмоинструмента и оборудования марок: <b>BeA, BOSTITCH, DYNABRADE, EZ-Fasten, FASCO (BECK), HITACHI, PREBENA, SENCO и SUMAKE.</b>",
+    text: "Наша сервисная служба всегда располагает большим складом запчастей для пневмоинструмента и оборудования марок: <b>BeA, BOSTITCH, DYNABRADE, EZ-FASTEN, FASCO (BECK), HITACHI, MAX, PREBENA, SENCO, SUMAKE.</b>",
   },
   {
     icon: "message",

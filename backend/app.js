@@ -22,7 +22,16 @@ const TrailersRouter = require('./routers/TrailersRouter')
 app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(express.static(path.resolve(__dirname, 'build')))
 app.use(express.json())
-app.use(cors({ origin: [ 'http://zhbl.by', 'http://localhost:3000', 'http://localhost:3001'] }))
+
+app.use(
+  cors({
+    origin: [
+      'http://zhbl.by',
+      'http://localhost:3000',
+      'http://localhost:3001',
+    ],
+  })
+)
 app.use(fileUpload({}))
 
 app.use('/api', AuthRouter)

@@ -64,11 +64,11 @@ const tabs = [
   { title: "О компании", url: "/" },
   {
     title: "Доставка",
-    url: "/delivery",
+    url: "/dostavka",
   },
   {
     title: "Услуги",
-    url: "",
+    url: "/uslugi",
     tabs: [
       { title: "Ремонт пневмоинструмента", url: "/rembaza" },
       { title: "Аренда автоприцепов", url: "/arenda_prizepa" },

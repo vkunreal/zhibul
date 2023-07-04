@@ -34,9 +34,8 @@
         <!-- title -->
         <h1
           class="text-center text-uppercase mt-8 ml-2 ml-md-0 mr-2 mr-md-0 mb-8"
-        >
-          {{ productName }}
-        </h1>
+          v-html="productName"
+        />
         <!-- title -->
 
         <div class="fill-width d-flex flex-column flex-md-row mb-8">
@@ -45,7 +44,11 @@
             v-if="images?.length"
             class="product__images d-flex flex-column align-center mr-10"
           >
-            <img :src="image ? image : images[0]" :alt="itemDetails.name" />
+            <img
+              class="product__preview"
+              :src="image ? image : images[0]"
+              :alt="itemDetails.name"
+            />
             <div
               class="product__images-footer d-flex g-1"
               v-if="images.length > 1"
@@ -95,7 +98,7 @@
 
             <!-- manufacrurer -->
             <div class="d-flex justify-space-between">
-              <nobr>Производитель</nobr>
+              <nobr>Страна производитель</nobr>
               <div class="product__dotted-spacer fill-width" />
               <nobr>{{ itemDetails.manufacturer }}</nobr>
             </div>
@@ -201,7 +204,7 @@ export default {
       return this.itemDetails?.images?.split(",") || [];
     },
     productName() {
-      return this.itemDetails?.name?.split("<br/>").join("");
+      return this.itemDetails?.name;
     },
     breadCategories() {
       let tempCategory = this.categories.filter(
@@ -276,6 +279,10 @@ export default {
     background: $primaryGrey;
     color: $white;
     font-size: 22px;
+  }
+  &__preview {
+    max-width: 450px;
+    width: 100%;
   }
   &__images {
     width: 100%;

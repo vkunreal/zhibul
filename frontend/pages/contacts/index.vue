@@ -53,7 +53,9 @@
               <span>Телефон продаж</span>
             </span>
             <div class="spacer"></div>
-            <nobr>{{ variable("phone_sales") }}</nobr>
+            <a :href="`tel:` + variable('phone_sales')">{{
+              variable("phone_sales")
+            }}</a>
           </li>
 
           <li class="contacts__card__elem d-flex flex-wrap align-center g-2">
@@ -64,7 +66,9 @@
               <span>Телефон услуг</span>
             </span>
             <div class="spacer"></div>
-            <nobr>{{ variable("phone_services") }}</nobr>
+            <a :href="`tel:` + variable('phone_services')">{{
+              variable("phone_services")
+            }}</a>
           </li>
 
           <li class="contacts__card__elem d-flex flex-wrap align-center g-2">
@@ -196,6 +200,10 @@ export default {
     background: $light-grey;
     border-radius: 16px;
     list-style: none;
+    & a {
+      color: $primaryGrey;
+      text-decoration: none;
+    }
     & hr {
       border-top: 1px solid $dark-grey;
     }

@@ -39,7 +39,7 @@ export default {
       visible: false,
       callback: null,
       name: "",
-      phone: "",
+      phone: "+375",
       phoneMask: "+375 (##) ###-##-##",
     };
   },
