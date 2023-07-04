@@ -22,6 +22,7 @@ const TrailersRouter = require('./routers/TrailersRouter')
 app.use(express.static(path.resolve(__dirname, 'public')))
 app.use(express.static(path.resolve(__dirname, 'build')))
 app.use(express.json())
+
 app.use(
   cors({
     origin: [
