@@ -42,7 +42,7 @@ export default {
   name: "VFeedBack",
   data: () => ({
     name: "",
-    phone: "",
+    phone: "+375",
     company: "",
     email: "",
     comment: "",
