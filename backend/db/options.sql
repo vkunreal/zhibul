@@ -1367,61 +1367,61 @@ VALUES
 
 UPDATE items
 SET description = '
-  Данный бачок подходит для краскопультов: серия GENESI CARBONIO, серия GENESI TOP LINE, серия SLIM KOMBAT.
+  Данный бачок подходит для краскопультов WALCOM следующих серий: GENESI CARBONIO, GENESI TOP LINE, SLIM KOMBAT.
 '
 WHERE id = 1;
 
 UPDATE items
 SET description = '
-  Данный бачок защищен от ультрафиолета. Подходит для краскопультов: серия EGO CARBONIO, серия EGO, серия SLIM XLIGHT, серия SLIM.
+  Данный бачок защищен от ультрафиолета, подходит для краскопультов WALCOM следующих серий: EGO CARBONIO, EGO, SLIM XLIGHT, SLIM.
 '
 WHERE id = 2;
 
 UPDATE items
 SET description = '
-  Данный бачок защищен от ультрафиолета. Подходит для краскопультов: серия EGO CARBONIO, серия EGO, серия SLIM XLIGHT, серия SLIM.
+  Данный бачок защищен от ультрафиолета, подходит для краскопультов WALCOM следующих серий: EGO CARBONIO, EGO, SLIM XLIGHT, SLIM.
 '
 WHERE id = 3;
 
 UPDATE items
 SET description = '
-  Данный бачок подходит для краскопультов: серия EGO CARBONIO, серия EGO, серия SLIM XLIGHT, серия SLIM.
+  Данный бачок подходит для краскопультов WALCOM следующих серий: EGO CARBONIO, EGO, SLIM XLIGHT, SLIM.
 '
 WHERE id = 4;
 
 UPDATE items
 SET description = '
-  Данный бачок подходит для краскопультов: серия EGO CARBONIO, серия EGO, серия SLIM XLIGHT, серия SLIM.
+  Данный бачок подходит для краскопультов WALCOM следующих серий: EGO CARBONIO, EGO, SLIM XLIGHT, SLIM.
 '
 WHERE id = 5;
 
 UPDATE items
 SET description = '
-  Данный бачок подходит для краскопультов: серия GENESI CARBONIO, серия GENESI TOP LINE, серия SLIM KOMBAT.
+  Данный бачок подходит для краскопультов WALCOM следующих серий: GENESI CARBONIO, GENESI TOP LINE, SLIM KOMBAT.
 '
 WHERE id = 6;
 
 UPDATE items
 SET description = '
-  Данный бачок защищен от ультрафиолета. Подходит для краскопультов: серия GENESI CARBONIO, серия GENESI TOP LINE, серия SLIM KOMBAT.
+  Данный бачок защищен от ультрафиолета, подходит для краскопультов WALCOM следующих серий: GENESI CARBONIO, GENESI TOP LINE, SLIM KOMBAT.
 '
 WHERE id = 7;
 
 UPDATE items
 SET description = '
-  Данный бачок подходит для краскопультов: серия EGO CARBONIO, серия EGO, серия SLIM XLIGHT, серия SLIM.
+  Данный бачок подходит для краскопультов WALCOM следующих серий: EGO CARBONIO, EGO, SLIM XLIGHT, SLIM.
 '
 WHERE id = 283;
 
 UPDATE items
 SET description = '
-  Данный бачок подходит для краскопультов: серия EGO CARBONIO, серия EGO, серия SLIM XLIGHT, серия SLIM.
+  Данный бачок подходит для краскопультов WALCOM следующих серий: EGO CARBONIO, EGO,  SLIM XLIGHT, SLIM.
 '
 WHERE id = 284;
 
 UPDATE items
 SET description = '
-  Данный бачок подходит для краскопультов: серия EGO CARBONIO, серия EGO, серия SLIM XLIGHT, серия SLIM.
+  Данный бачок подходит для краскопультов WALCOM следующих серий: EGO CARBONIO, EGO, SLIM XLIGHT, SLIM.
 '
 WHERE id = 285;
 
@@ -2289,43 +2289,43 @@ WHERE id = 242;
 
 UPDATE items
 SET description = '
-  Аналог: BeA 80 (380), Prebena A, Bostitch 86/AZ33, Senco AT
+  Аналог: BeA 80, 115, Prebena A, Bostitch 86/AZ33, Senco AT
 '
 WHERE id = 243;
 
 UPDATE items
 SET description = '
-  Аналог: BeA 80 (380), Prebena A, Bostitch 86/AZ33, Senco AT
+  Аналог: BeA 80, 115, Prebena A, Bostitch 86/AZ33, Senco AT
 '
 WHERE id = 244;
 
 UPDATE items
 SET description = '
-  Аналог: BeA 80 (380), Prebena A, Bostitch 86/AZ33, Senco AT
+  Аналог: BeA 80, 115, Prebena A, Bostitch 86/AZ33, Senco AT
 '
 WHERE id = 245;
 
 UPDATE items
 SET description = '
-  Аналог: BeA 80 (380), Prebena A, Bostitch 86/AZ33, Senco AT
+  Аналог: BeA 80, 115, Prebena A, Bostitch 86/AZ33, Senco AT
 '
 WHERE id = 246;
 
 UPDATE items
 SET description = '
-  Аналог: BeA 80 (380), Prebena A, Bostitch 86/AZ33, Senco AT
+  Аналог: BeA 80, 115, Prebena A, Bostitch 86/AZ33, Senco AT
 '
 WHERE id = 247;
 
 UPDATE items
 SET description = '
-  Аналог: BeA 80 (380), Prebena A, Bostitch 86/AZ33, Senco AT
+  Аналог: BeA 80, 115, Prebena A, Bostitch 86/AZ33, Senco AT
 '
 WHERE id = 248;
 
 UPDATE items
 SET description = '
-  Аналог: BeA 80 (380), Prebena A, Bostitch 86/AZ33, Senco AT
+  Аналог: BeA 80, 115, Prebena A, Bostitch 86/AZ33, Senco AT
 '
 WHERE id = 249;
 

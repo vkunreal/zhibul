@@ -12,6 +12,7 @@ export default {
       { hid: "description", name: "description", content: "" },
       { name: "format-detection", content: "telephone=no" },
       { "http-equiv": "imagetoolbar", content: "no" },
+      { name: "yandex-verification", content: "823b06907b245fa7" },
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
@@ -53,8 +54,8 @@ export default {
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     // baseURL: "http://194.67.110.169/api",
-    baseURL: "http://194.67.78.19/api",
-    // baseURL: "http://localhost:5000/api",
+    // baseURL: "http://194.67.78.19/api",
+    baseURL: "http://localhost:5000/api",
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
