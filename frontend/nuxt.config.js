@@ -57,7 +57,7 @@ export default {
     // baseURL: "http://194.67.78.19/api",
     // baseURL: "http://localhost:5000/api",
     baseURL: "https://api.zhbl.by/api",
-    // https: true,
+    https: true,
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
