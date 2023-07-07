@@ -21,7 +21,7 @@
       <div class="d-flex flex-column-reverse flex-md-row align-center">
         <img
           class="remont__image"
-          src="http://194.67.78.19/images/remont-image.png"
+          src="https://api.zhbl.by/images/remont-image.png"
           alt="Remont image"
         />
 

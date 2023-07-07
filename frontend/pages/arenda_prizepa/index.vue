@@ -43,20 +43,6 @@
             >
               Позвонить
             </a>
-
-            <!-- <nuxt-link
-              class="trailer-rents__rent-button trailer-rents__rent-button--more"
-              :to="'/arenda_pricepa/arenda-s-tentom'"
-            >
-              Подробнее
-            </nuxt-link>
-
-            <a
-              class="trailer-rents__rent-button trailer-rents__rent-button--call"
-              :href="`tel:${phone_services}`"
-            >
-              Позвонить
-            </a> -->
           </div>
           <!-- actions -->
         </div>

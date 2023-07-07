@@ -38,6 +38,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
+    "nuxt-simple-sitemap",
     [
       "@nuxtjs/yandex-metrika",
       {
@@ -49,6 +50,18 @@ export default {
       },
     ],
   ],
+
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+      routes: ["/", "sitemap.xml"],
+      ignore: ["/tak", "/konfiguration", "/checkout"],
+    },
+  },
+
+  site: {
+    url: "https://zhbl.by",
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
