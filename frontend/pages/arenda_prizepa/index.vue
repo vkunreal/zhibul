@@ -38,11 +38,25 @@
               Подробнее
             </nuxt-link>
             <a
-              class="uslugi__block-button text-uppercase"
+              class="trailer-rents__rent-button trailer-rents__rent-button--call text-uppercase"
               :href="`tel:${phone_services}`"
             >
               Позвонить
             </a>
+
+            <!-- <nuxt-link
+              class="trailer-rents__rent-button trailer-rents__rent-button--more"
+              :to="'/arenda_pricepa/arenda-s-tentom'"
+            >
+              Подробнее
+            </nuxt-link>
+
+            <a
+              class="trailer-rents__rent-button trailer-rents__rent-button--call"
+              :href="`tel:${phone_services}`"
+            >
+              Позвонить
+            </a> -->
           </div>
           <!-- actions -->
         </div>
@@ -118,19 +132,36 @@ export default {
       width: 100%;
     }
 
-    &-button,
-    &-button a {
-      color: $primaryGrey;
-      border: 1px solid $primaryGrey;
+    //&-button,
+    //&-button a {
+    //  color: $primaryGrey;
+    //  border: 1px solid $primaryGrey;
+    //  padding: 7px 20px;
+    //  font-weight: bold;
+    //  font-size: 14px;
+    //  text-decoration: none;
+    //  color: $primaryGrey !important;
+    //
+    //  &--more {
+    //    background: $primaryGrey;
+    //    color: $white !important;
+    //  }
+    //}
+
+    &-button {
       padding: 7px 20px;
       font-weight: bold;
       font-size: 14px;
+      border: 1px solid $primaryGrey;
       text-decoration: none;
-      color: $primaryGrey !important;
 
       &--more {
         background: $primaryGrey;
         color: $white !important;
+      }
+
+      &--call {
+        color: $primaryGrey !important;
       }
     }
   }

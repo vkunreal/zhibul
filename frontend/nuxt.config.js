@@ -21,7 +21,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["@plugins/v-mask.js", '~/plugins/axios'],
+  plugins: ["@plugins/v-mask.js", "~/plugins/axios"],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -56,8 +56,8 @@ export default {
     // baseURL: "http://194.67.110.169/api",
     // baseURL: "http://194.67.78.19/api",
     // baseURL: "http://localhost:5000/api",
-    baseURL: 'https://api.zhbl.by/api',
-    https: true
+    baseURL: "https://api.zhbl.by/api",
+    // https: true,
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
