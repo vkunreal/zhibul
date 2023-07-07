@@ -1,3 +1,5 @@
+import sitemapRequests from "./plugins/sitemapRequests";
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -38,7 +40,6 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
-    "nuxt-simple-sitemap",
     [
       "@nuxtjs/yandex-metrika",
       {
@@ -49,18 +50,12 @@ export default {
         trackLinks: true,
       },
     ],
+    "@nuxtjs/sitemap",
   ],
 
-  nitro: {
-    prerender: {
-      crawlLinks: true,
-      routes: ["/", "sitemap.xml"],
-      ignore: ["/tak", "/konfiguration", "/checkout"],
-    },
-  },
-
-  site: {
-    url: "https://zhbl.by",
+  sitemap: {
+    hostname: "https://zhbl.by",
+    routes: sitemapRequests,
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
