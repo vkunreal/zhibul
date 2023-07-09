@@ -51,6 +51,12 @@ export default {
         trackLinks: true,
       },
     ],
+    [
+      "@nuxtjs/google-analytics",
+      {
+        id: "G-76SPGWQP62",
+      },
+    ],
   ],
 
   sitemap: {
