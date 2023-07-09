@@ -136,6 +136,13 @@ export default {
     };
   },
   components: { VFeedBack },
+  mounted() {
+    this.$ga.page({
+      page: "/contacts",
+      title: "Contacts",
+      location: window.location.href,
+    });
+  },
   computed: {
     ...mapGetters("app", ["page", "appVariables"]),
     variable() {
