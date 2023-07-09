@@ -194,6 +194,13 @@ export default {
       ],
     };
   },
+  mounted() {
+    this.$ga.page({
+      page: "/",
+      title: "Main",
+      location: window.location.href,
+    });
+  },
   computed: {
     ...mapGetters("app", ["page", "appVariables", "slider"]),
     variable() {
