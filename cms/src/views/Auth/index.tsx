@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, TextField } from '@mui/material'
-import { getToken } from '../../store/variables/actions'
+import { getTokenDB } from '../../store/variables/actions'
 import { useNavigate } from 'react-router-dom'
 import { selectToken } from '../../store/variables/selectors'
 
@@ -21,7 +21,7 @@ export const AuthPage = () => {
   }, [])
 
   const login = () => {
-    dispatch(getToken(name, password))
+    dispatch(getTokenDB(name, password))
     navigate('/')
   }
 

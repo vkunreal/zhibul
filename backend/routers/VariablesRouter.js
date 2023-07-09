@@ -1,14 +1,27 @@
 const Router = require('express')
 const VariablesController = require('../controllers/VariablesController')
+const authenticateToken = require('../middlewares/authenticateToken')
 
 const VariablesRouter = new Router()
 
 VariablesRouter.get('/variables', VariablesController.getVariables)
 
-VariablesRouter.put('/variable', VariablesController.changeVariable)
+VariablesRouter.put(
+  '/variable',
+  authenticateToken,
+  VariablesController.changeVariable
+)
 
-VariablesRouter.post('/variable', VariablesController.addVariable)
+VariablesRouter.post(
+  '/variable',
+  authenticateToken,
+  VariablesController.addVariable
+)
 
-VariablesRouter.delete('/variable', VariablesController.deleteVariable)
+VariablesRouter.delete(
+  '/variable',
+  authenticateToken,
+  VariablesController.deleteVariable
+)
 
 module.exports = VariablesRouter

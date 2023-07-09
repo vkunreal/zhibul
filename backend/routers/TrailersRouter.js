@@ -1,5 +1,6 @@
 const { Router } = require('express')
 const TrailersController = require('../controllers/TrailersController')
+const authenticateToken = require('../middlewares/authenticateToken')
 
 const TrailersRouter = new Router()
 
@@ -13,15 +14,47 @@ TrailersRouter.get(
 )
 TrailersRouter.get('/trailer/:trailer_id/', TrailersController.getTrailerImages)
 
-TrailersRouter.post('/trailer', TrailersController.addTrailer)
-TrailersRouter.post('/trailer/option', TrailersController.addOption)
-TrailersRouter.post('/trailer/image', TrailersController.addImageDB)
+TrailersRouter.post(
+  '/trailer',
+  authenticateToken,
+  TrailersController.addTrailer
+)
+TrailersRouter.post(
+  '/trailer/option',
+  authenticateToken,
+  TrailersController.addOption
+)
+TrailersRouter.post(
+  '/trailer/image',
+  authenticateToken,
+  TrailersController.addImageDB
+)
 
-TrailersRouter.put('/trailer', TrailersController.changeTrailer)
-TrailersRouter.put('/trailer/option', TrailersController.changeOption)
+TrailersRouter.put(
+  '/trailer',
+  authenticateToken,
+  TrailersController.changeTrailer
+)
+TrailersRouter.put(
+  '/trailer/option',
+  authenticateToken,
+  TrailersController.changeOption
+)
 
-TrailersRouter.delete('/trailer', TrailersController.deleteTrailer)
-TrailersRouter.delete('/trailer/option', TrailersController.deleteTrailerOption)
-TrailersRouter.delete('/trailer/image', TrailersController.deleteTrailerImage)
+TrailersRouter.delete(
+  '/trailer',
+  authenticateToken,
+  TrailersController.deleteTrailer
+)
+TrailersRouter.delete(
+  '/trailer/option',
+  authenticateToken,
+  TrailersController.deleteTrailerOption
+)
+TrailersRouter.delete(
+  '/trailer/image',
+  authenticateToken,
+  TrailersController.deleteTrailerImage
+)
 
 module.exports = TrailersRouter

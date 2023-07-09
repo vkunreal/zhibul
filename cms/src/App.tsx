@@ -1,13 +1,15 @@
 import { RoutesComp } from './views/RoutesComp'
 import { Provider } from 'react-redux'
-import { rootStore } from './store'
-import { Navbar } from './components/Navbar'
+import { persistor, rootStore } from './store'
+import { PersistGate } from 'redux-persist/integration/react'
 import './App.scss'
 
 const App: React.FC = () => {
   return (
     <Provider store={rootStore}>
-      <RoutesComp />
+      <PersistGate persistor={persistor}>
+        <RoutesComp />
+      </PersistGate>
     </Provider>
   )
 }

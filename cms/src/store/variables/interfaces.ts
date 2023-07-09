@@ -12,4 +12,9 @@ interface ISetVariables {
   payload: IVariable[]
 }
 
-export type IVariablesAction = ISetVariables
+interface ISetToken {
+  type: VariablesActions.SET_TOKEN
+  payload: string
+}
+
+export type IVariablesAction = ISetVariables | ISetToken

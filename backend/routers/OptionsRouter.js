@@ -1,15 +1,24 @@
 const Router = require('express')
 const OptionsController = require('../controllers/OptionsController')
+const authenticateToken = require('../middlewares/authenticateToken')
 
 const OptionsRouter = new Router()
 
 OptionsRouter.get('/options/:item_id', OptionsController.getOptions)
 
-OptionsRouter.put('/option', OptionsController.changeOption)
-OptionsRouter.put('/option/positions', OptionsController.changeOptionsPosition)
+OptionsRouter.put('/option', authenticateToken, OptionsController.changeOption)
+OptionsRouter.put(
+  '/option/positions',
+  authenticateToken,
+  OptionsController.changeOptionsPosition
+)
 
-OptionsRouter.post('/option', OptionsController.addOption)
+OptionsRouter.post('/option', authenticateToken, OptionsController.addOption)
 
-OptionsRouter.delete('/option', OptionsController.deleteOption)
+OptionsRouter.delete(
+  '/option',
+  authenticateToken,
+  OptionsController.deleteOption
+)
 
 module.exports = OptionsRouter

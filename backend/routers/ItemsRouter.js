@@ -1,5 +1,6 @@
 const Router = require('express')
 const ItemsController = require('../controllers/ItemsController')
+const authenticateToken = require('../middlewares/authenticateToken')
 
 const ItemsRouter = new Router()
 
@@ -20,11 +21,23 @@ ItemsRouter.get('/countries', ItemsController.getCountries)
 ItemsRouter.get('/item/:item_url', ItemsController.getItemFromUrl)
 ItemsRouter.get('/item/images/:item_id', ItemsController.getItemImages)
 
-ItemsRouter.post('/item/images/:item_id', ItemsController.loadImages)
-ItemsRouter.post('/item/', ItemsController.addItem)
-ItemsRouter.put('/item/', ItemsController.changeItem)
+ItemsRouter.post(
+  '/item/images/:item_id',
+  authenticateToken,
+  ItemsController.loadImages
+)
+ItemsRouter.post('/item/', authenticateToken, ItemsController.addItem)
+ItemsRouter.put('/item/', authenticateToken, ItemsController.changeItem)
 
-ItemsRouter.delete('/item/:id', ItemsController.deleteItemById)
-ItemsRouter.delete('/item/delete/image', ItemsController.deleteImage)
+ItemsRouter.delete(
+  '/item/:id',
+  authenticateToken,
+  ItemsController.deleteItemById
+)
+ItemsRouter.delete(
+  '/item/delete/image',
+  authenticateToken,
+  ItemsController.deleteImage
+)
 
 module.exports = ItemsRouter

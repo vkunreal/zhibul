@@ -4,10 +4,12 @@ import { IVariablesAction } from './interfaces'
 
 export interface IVariablesState {
   variables: IVariable[]
+  token: string
 }
 
 const initState: IVariablesState = {
   variables: [],
+  token: '',
 }
 
 export const variablesReducer = (
@@ -19,6 +21,11 @@ export const variablesReducer = (
       return {
         ...state,
         variables: payload,
+      }
+    case VariablesActions.SET_TOKEN:
+      return {
+        ...state,
+        token: payload,
       }
     default:
       return state

@@ -3,6 +3,8 @@ import { IVariablesState, variablesReducer } from './variables/reducer'
 import { IOptionsState, optionsReducer } from './options/reducer'
 import { IItemsState, itemsReducer } from './items/reducer'
 import { IPagesState, pagesReducer } from './pages/reducer'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import thunk from 'redux-thunk'
 
 export interface IStore {
@@ -14,6 +16,12 @@ export interface IStore {
 
 const middlewares = [thunk]
 
+const persistConfig = {
+  key: 'root',
+  blacklist: ['items', 'options', 'pages'],
+  storage,
+}
+
 const rootReducer = combineReducers({
   variables: variablesReducer,
   items: itemsReducer,
@@ -21,7 +29,11 @@ const rootReducer = combineReducers({
   pages: pagesReducer,
 })
 
+const persistedReducer = persistReducer(persistConfig, rootReducer)
+
 export const rootStore = createStore(
-  rootReducer,
+  persistedReducer,
   applyMiddleware(...middlewares)
 )
+
+export const persistor = persistStore(rootStore)

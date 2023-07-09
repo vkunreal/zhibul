@@ -159,7 +159,7 @@ class ItemsController {
         'images',
         imageName
       )
-      const imageUrl = 'http://localhost:5000/images/' + imageName
+      const imageUrl = 'https://api.zhbl.by/images/' + imageName
       urls.push(imageUrl)
       await file.mv(imagePath, async (err) => {
         if (err) {
@@ -188,7 +188,7 @@ class ItemsController {
         console.log(err)
       }
       await ItemsServices.deleteImageInDB(
-        'http://localhost:5000/images/' + imageName
+        'https://api.zhbl.by/images/' + imageName
       )
       res.status(200).json({ status: true })
     })

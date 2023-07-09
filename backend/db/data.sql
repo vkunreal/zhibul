@@ -89,6 +89,11 @@ VALUES
 ('Хорватия'),
 ('США');
 
+-- admins
+INSERT INTO admins (name, password_hash)
+VALUES
+('test', '$2a$07$ehU8KFm5OZX/TRSxeW1dg.0owwKYeu3KUdQ1Eyz8uoX0EFaHo1kRC');
+
 -- slider
 INSERT INTO slides (url, title, brand)
 VALUES

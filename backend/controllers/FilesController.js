@@ -32,7 +32,7 @@ class FilesController {
         fileName
       )
 
-      const fileUrl = 'http://localhost:5000/files/' + fileName
+      const fileUrl = 'https://api.zhbl.by/files/' + fileName
 
       await file.mv(filePath, async (err) => {
         if (err) {
@@ -66,7 +66,7 @@ class FilesController {
           console.log(err)
         }
         await FilesServices.deleteFileBySrc(
-          'http://localhost:5000/files/' + fileName
+          'https://api.zhbl.by/files/' + fileName
         )
         res.status(200).json({ status: true })
       })
