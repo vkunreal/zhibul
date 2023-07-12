@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="breadcrumbs__link d-flex fill-width justify-space-between">
-          <span class="mr-1">{{ productName }}</span>
+          <span class="mr-1">{{ productNameBread }}</span>
 
           <p v-if="itemDetails">{{ itemDetails?.code }}</p>
         </div>
@@ -205,6 +205,9 @@ export default {
     },
     productName() {
       return this.itemDetails?.name;
+    },
+    productNameBread () {
+      return this.productName.split('<br/>').join(' ')
     },
     breadCategories() {
       let tempCategory = this.categories.filter(
