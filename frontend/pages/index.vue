@@ -195,11 +195,7 @@ export default {
     };
   },
   mounted() {
-    this.$ga.page({
-      page: "/",
-      title: "Main",
-      location: window.location.href,
-    });
+    this.trackEvent();
   },
   computed: {
     ...mapGetters("app", ["page", "appVariables", "slider"]),
@@ -207,6 +203,13 @@ export default {
       return (variableName) =>
         this.appVariables?.find(({ name }) => name === variableName)?.value ||
         0;
+    },
+  },
+  methods: {
+    trackEvent() {
+      this.$gtm.push({
+        event: "Main page",
+      });
     },
   },
   async fetch({ store }) {

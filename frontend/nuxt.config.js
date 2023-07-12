@@ -23,7 +23,7 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["@plugins/v-mask.js", "~/plugins/axios"],
+  plugins: ["@plugins/v-mask", "~/plugins/axios", "~/plugins/gtm"],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -41,6 +41,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/axios",
     "@nuxtjs/sitemap",
+    "@nuxtjs/gtm",
     [
       "@nuxtjs/yandex-metrika",
       {
@@ -51,17 +52,22 @@ export default {
         trackLinks: true,
       },
     ],
-    [
-      "@nuxtjs/google-analytics",
-      {
-        id: "UA-131929000-1",
-      },
-    ],
   ],
 
   sitemap: {
     hostname: "https://zhbl.by",
     routes: sitemapRequests,
+  },
+
+  gtm: {
+    id: "GTM-THSSBC2",
+    enabled: true,
+  },
+
+  publicRuntimeConfig: {
+    gtm: {
+      id: "GTM-THSSBC2",
+    },
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
