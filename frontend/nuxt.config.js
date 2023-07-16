@@ -15,6 +15,7 @@ export default {
       { name: "format-detection", content: "telephone=no" },
       { "http-equiv": "imagetoolbar", content: "no" },
       { name: "yandex-verification", content: "823b06907b245fa7" },
+      { name: 'zen-verification', content: 'EMk8tFTOGZD90EWhMY0H4hQkSHwo0lbBXO9SNy0KldP5j9aIGfIEMaQaRuPsESwi' }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
