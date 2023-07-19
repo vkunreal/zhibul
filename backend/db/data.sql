@@ -64,9 +64,10 @@ INSERT INTO app_variables (name, value)
 VALUES
 ('phone_sales', '+375 (29) 741-52-26'),
 ('phone_services', '+375 (44) 758-16-43'),
-('inst', 'https://instagram.com/zhbl_company?igshid=MjEwN2IyYWYwYw=='),
+('inst', 'https://www.instagram.com/_zhbl_'),
 ('vk', 'https://vk.com/zhbl_ip'),
 ('tg', 'http://t.me/zhbl_company'),
+('dzen', 'https://dzen.ru/zhbl'),
 ('email', 'zhibul.maksim@yandex.ru'),
 ('address', 'г. Минск, Селицкого 21К, 4 этаж, кабинет 8'),
 ('work_time', 'Пн - Чт: 09.00 - 17.00'),
