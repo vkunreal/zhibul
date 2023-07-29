@@ -206,8 +206,8 @@ export default {
     productName() {
       return this.itemDetails?.name;
     },
-    productNameBread () {
-      return this.productName.split('<br/>').join(' ')
+    productNameBread() {
+      return this.productName?.split("<br/>").join(" ");
     },
     breadCategories() {
       let tempCategory = this.categories.filter(

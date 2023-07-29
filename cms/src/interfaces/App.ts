@@ -20,6 +20,7 @@ export const variablesList = [
   { type: 'vk', name: 'Вк' },
   { type: 'inst', name: 'Инстаграм' },
   { type: 'viber', name: 'Вайбер' },
+  { type: 'dzen', name: 'Дзен' },
   { type: 'email', name: 'Эл. почта' },
   { type: 'address', name: 'Адрес' },
   { type: 'work_time', name: 'Время работы' },

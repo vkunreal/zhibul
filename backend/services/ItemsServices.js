@@ -131,6 +131,9 @@ class ItemsServices {
     manufacturer,
     description,
     price,
+    seo_title,
+    seo_description,
+    seo_keywords,
   }) {
     try {
       const updateItemField = async (field, value) =>
@@ -144,6 +147,9 @@ class ItemsServices {
       updateItemField('brand', brand)
       updateItemField('manufacturer_id', manufacturer)
       updateItemField('price', price)
+      updateItemField('seo_title', seo_title)
+      updateItemField('seo_description', seo_description)
+      updateItemField('seo_keywords', seo_keywords)
 
       writeLog('Item was changed')
       return { status: true }
@@ -160,6 +166,9 @@ class ItemsServices {
     brand,
     manufacturer,
     price,
+    seo_title,
+    seo_description,
+    seo_keywords,
   }) {
     try {
       const lastId = await request(
@@ -169,8 +178,8 @@ class ItemsServices {
       const code = '1.' + String(lastId.id + 1).padStart(4, '0')
 
       await request(`
-        INSERT INTO items(code, url, category_id, name, description, brand, manufacturer_id, price)
-        VALUES ("${code}", "${url}", "${category_id}", "${name}", "${description}", "${brand}", "${manufacturer}", "${price}")
+        INSERT INTO items(code, url, category_id, name, description, brand, manufacturer_id, price, seo_title, seo_description, seo_keywords)
+        VALUES ("${code}", "${url}", "${category_id}", "${name}", "${description}", "${brand}", "${manufacturer}", "${price}", "${seo_title}", "${seo_description}", "${seo_keywords}")
       `)
 
       writeLog('Item was added')

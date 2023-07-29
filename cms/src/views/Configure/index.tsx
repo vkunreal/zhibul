@@ -5,6 +5,9 @@ import { OptionsList } from '../../components/OptionsList'
 import { IItem } from '../../interfaces/Items'
 import { deleteImageDB, getItemImages } from '../../store/items/requests'
 import './styles.scss'
+import { useSelector } from 'react-redux'
+import { selectToken } from '../../store/variables/selectors'
+import API from '../../utils/api'
 
 interface ILocationItem {
   item: IItem
@@ -17,6 +20,8 @@ export const Configure: React.FC = () => {
   const [loadedImages, setLoadedImages] = useState<any[]>([])
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [change, setChange] = useState(false)
+
+  const token = useSelector(selectToken)
 
   useEffect(() => {
     getItemImages(item?.id || 0).then((imagesDB) => setImages(imagesDB))
@@ -60,9 +65,12 @@ export const Configure: React.FC = () => {
     for (let i = 0; i < selectedFiles.length; i++) {
       formData.append(selectedFiles[i].name, selectedFiles[i])
     }
-    const res = await fetch('/api/item/images/' + (item?.id || 0), {
+    const res = await fetch(API + '/api/item/images/' + (item?.id || 0), {
       method: 'POST',
       body: formData,
+      headers: {
+        authorization: token,
+      },
     })
     const { status, response } = await res.json()
     if (status) {

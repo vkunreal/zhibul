@@ -37,6 +37,9 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
   const [brand, setBrand] = useState('')
   const [manufacturer, setManufacturer] = useState('')
   const [price, setPrice] = useState('')
+  const [seoTitle, setSeoTitle] = useState('')
+  const [seoDescription, setSeoDescription] = useState('')
+  const [seoKeywords, setSeoKeywords] = useState('')
 
   const countries = useSelector(selectCountries)
 
@@ -130,6 +133,33 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
           }
         />
 
+        <TextField
+          label="SEO Title"
+          autoComplete="off"
+          value={seoTitle}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSeoTitle(e.target.value)
+          }
+        />
+
+        <TextField
+          label="SEO Description"
+          autoComplete="off"
+          value={seoDescription}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSeoDescription(e.target.value)
+          }
+        />
+
+        <TextField
+          label="SEO Keywords"
+          autoComplete="off"
+          value={seoKeywords}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSeoKeywords(e.target.value)
+          }
+        />
+
         <div className="d-flex g-2 justify-end">
           <Button
             variant="outlined"
@@ -147,6 +177,9 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
                 brand,
                 manufacturer: manufacturerId,
                 price,
+                seo_title: seoTitle,
+                seo_description: seoDescription,
+                seo_keywords: seoKeywords,
               }
               addItem(newItem)
             }}

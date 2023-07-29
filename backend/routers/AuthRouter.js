@@ -28,4 +28,6 @@ AuthRouter.post(
   AuthController.singup
 )
 
+AuthRouter.post('/protect', AuthController.protect)
+
 module.exports = AuthRouter

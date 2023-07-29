@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { Dispatch } from 'redux'
 import { ICategory, IItem, ICountry } from './../../interfaces/Items'
+import { IStore } from '..'
+import API from '../../utils/api'
 
 export enum ItemsActions {
   SET_CATEGORIES = 'ITEMS::SET_CATEGORIES',
@@ -24,31 +26,54 @@ const setCountries = (countries: ICountry) => ({
 })
 
 export const getCategoriesDB: any = () => async (dispatch: Dispatch) => {
-  await axios.get('/api/categories').then(({ data }) => {
+  await axios.get(API + '/api/categories').then(({ data }) => {
     dispatch(setCategories(data))
   })
 }
 
 export const addCategoryDB: any =
-  (category: any) => async (dispatch: Dispatch) => {
-    await axios.post('/api/category', category).then(() => {
-      dispatch(getCategoriesDB())
-    })
+  (category: any) => async (dispatch: Dispatch, getState: () => IStore) => {
+    await axios
+      .post(API + '/api/category', category, {
+        headers: {
+          authorization: getState().variables.token,
+        },
+      })
+      .then(() => {
+        dispatch(getCategoriesDB())
+      })
     console.log(category)
   }
 
 export const changeCategoryDB: any =
-  (id: number, name: string) => async (dispatch: Dispatch) => {
-    await axios.put('/api/category', { id, name }).then(() => {
-      dispatch(getCategoriesDB())
-    })
+  (id: number, name: string) =>
+  async (dispatch: Dispatch, getState: () => IStore) => {
+    await axios
+      .put(
+        API + '/api/category',
+        { id, name },
+        {
+          headers: {
+            authorization: getState().variables.token,
+          },
+        }
+      )
+      .then(() => {
+        dispatch(getCategoriesDB())
+      })
   }
 
 export const deleteCategoryDB: any =
-  (id: number) => async (dispatch: Dispatch) => {
-    await axios.delete('/api/category/' + id).then(() => {
-      dispatch(getCategoriesDB())
-    })
+  (id: number) => async (dispatch: Dispatch, getState: () => IStore) => {
+    await axios
+      .delete(API + '/api/category/' + id, {
+        headers: {
+          authorization: getState().variables.token,
+        },
+      })
+      .then(() => {
+        dispatch(getCategoriesDB())
+      })
   }
 
 export const getItemsDB: any = () => async (dispatch: Dispatch) => {
@@ -56,8 +81,8 @@ export const getItemsDB: any = () => async (dispatch: Dispatch) => {
   //   dispatch(setItems(data))
   // })
   Promise.all([
-    axios.get('/api/items/without-images'),
-    axios.get('/api/countries'),
+    axios.get(API + '/api/items/without-images'),
+    axios.get(API + '/api/countries'),
   ]).then((res) => {
     const [itemsData, countriesData] = res
 
@@ -68,21 +93,41 @@ export const getItemsDB: any = () => async (dispatch: Dispatch) => {
   })
 }
 
-export const addItemDB: any = (item: IItem) => async (dispatch: Dispatch) => {
-  await axios.post('/api/item', item).then(() => {
-    dispatch(getItemsDB())
-  })
-}
-
-export const changeItemDB: any =
-  (item: IItem) => async (dispatch: Dispatch) => {
-    await axios.put('/api/item/', item).then(() => {
-      dispatch(getItemsDB())
-    })
+export const addItemDB: any =
+  (item: IItem) => async (dispatch: Dispatch, getState: () => IStore) => {
+    await axios
+      .post(API + '/api/item', item, {
+        headers: {
+          authorization: getState().variables.token,
+        },
+      })
+      .then(() => {
+        dispatch(getItemsDB())
+      })
   }
 
-export const deleteItemDB: any = (id: number) => async (dispatch: Dispatch) => {
-  await axios.delete(`/api/item/${id}`).then(() => {
-    dispatch(getItemsDB())
-  })
-}
+export const changeItemDB: any =
+  (item: IItem) => async (dispatch: Dispatch, getState: () => IStore) => {
+    await axios
+      .put(API + '/api/item/', item, {
+        headers: {
+          authorization: getState().variables.token,
+        },
+      })
+      .then(() => {
+        dispatch(getItemsDB())
+      })
+  }
+
+export const deleteItemDB: any =
+  (id: number) => async (dispatch: Dispatch, getState: () => IStore) => {
+    await axios
+      .delete(`${API}/api/item/${id}`, {
+        headers: {
+          authorization: getState().variables.token,
+        },
+      })
+      .then(() => {
+        dispatch(getItemsDB())
+      })
+  }

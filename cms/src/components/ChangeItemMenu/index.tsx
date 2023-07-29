@@ -38,6 +38,9 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
   const [brand, setBrand] = useState('')
   const [manufacturer, setManufacturer] = useState('')
   const [price, setPrice] = useState('')
+  const [seoTitle, setSeoTitle] = useState('')
+  const [seoDescription, setSeoDescription] = useState('')
+  const [seoKeywords, setSeoKeywords] = useState('')
 
   const countries = useSelector(selectCountries)
 
@@ -46,6 +49,9 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
     setDescription(item?.description || '')
     setBrand(item?.brand || '')
     setPrice(item?.price || '')
+    setSeoTitle(item?.seo_title || '')
+    setSeoDescription(item?.seo_description || '')
+    setSeoKeywords(item?.seo_keywords || '')
 
     const manufacturer = countries.filter(
       (c) => c.name === item?.manufacturer
@@ -101,14 +107,6 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
           }
         />
 
-        {/* <TextField
-          placeholder="Производитель"
-          value={manufacturer}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setManufacturer(e.target.value)
-          }
-        /> */}
-
         <FormControl>
           <InputLabel id="change-item-menu__label">Производитель</InputLabel>
 
@@ -134,6 +132,33 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
           }
         />
 
+        <TextField
+          label="SEO Title"
+          autoComplete="off"
+          value={seoTitle}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSeoTitle(e.target.value)
+          }
+        />
+
+        <TextField
+          label="SEO Description"
+          autoComplete="off"
+          value={seoDescription}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSeoDescription(e.target.value)
+          }
+        />
+
+        <TextField
+          label="SEO Keywords"
+          autoComplete="off"
+          value={seoKeywords}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setSeoKeywords(e.target.value)
+          }
+        />
+
         <div className="d-flex g-2 justify-end">
           <Button
             variant="outlined"
@@ -151,6 +176,9 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
                 brand,
                 manufacturer: manufacturerId,
                 price,
+                seo_title: seoTitle,
+                seo_description: seoDescription,
+                seo_keywords: seoKeywords,
               }
               saveItem(newItem)
             }}

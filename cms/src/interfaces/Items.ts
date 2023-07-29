@@ -19,6 +19,9 @@ export interface IItem {
   brand: string
   manufacturer: string | number
   price: string
+  seo_title: string
+  seo_description: string
+  seo_keywords: string
 }
 
 export interface ICountry {

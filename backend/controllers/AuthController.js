@@ -5,7 +5,7 @@ const authServices = require('../services/AuthServices')
 
 const generateAccessToken = (id) => {
   const payload = { id }
-  return jwt.sign(payload, process.env.secret_key, { expiresIn: '24h' })
+  return jwt.sign(payload, process.env.secret_key, { expiresIn: '72h' })
 }
 
 class AuthController {
@@ -75,6 +75,16 @@ class AuthController {
       console.error(e)
       res.status(500).json({ status: false, message: 'Server error' })
     }
+  }
+
+  async protect(req, res) {
+    const { token } = req.body
+
+    jwt.verify(token, process.env.secret_key, (err) => {
+      if (err) return res.status(403).json({ status: false })
+
+      res.status(200).json({ status: true })
+    })
   }
 }
 
