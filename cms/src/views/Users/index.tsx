@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '@mui/material'
 import { Confirm } from '../../components/Confirm'
 import { getDate } from '../../utils/date'
+import API from '../../utils/api'
 
 interface IUser {
   id: string
@@ -36,7 +37,7 @@ export const Users: React.FC = () => {
   const updateUsers = (withLoading: boolean = false) => {
     if (withLoading) setLoading(true)
 
-    axios.get('/api/users').then((res) => {
+    axios.get(API + '/api/users').then((res) => {
       setUsers(res.data)
       setLoading(false)
     })
