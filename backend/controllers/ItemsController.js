@@ -5,31 +5,31 @@ const fs = require('fs')
 const OptionsServices = require('../services/OptionsServices')
 
 const testItem = (item) => {
-  // if (!item?.category_id || !String(item?.category_id).trim()) {
-  //   // test category_id
-  //   writeLog('Category id is not found')
+  if (!item?.category_id || !String(item?.category_id).trim()) {
+    // test category_id
+    writeLog('Category id is not found')
 
-  //   return { status: false }
-  // } else if (!item?.name || !item.name?.trim()) {
-  //   // test name
-  //   writeLog('Name id is not found')
+    return { status: false }
+  } else if (!item?.name || !item.name?.trim()) {
+    // test name
+    writeLog('Name id is not found')
 
-  //   return { status: false }
-  // } else if (!item?.brand || !item?.brand?.trim()) {
-  //   // test brand
-  //   writeLog('Brand id is not found')
-  //   return { status: false }
-  // } else if (!item?.manufacturer) {
-  //   // test manufacturer
-  //   writeLog('Manufacturer id is not found')
+    return { status: false }
+  } else if (!item?.brand || !item?.brand?.trim()) {
+    // test brand
+    writeLog('Brand id is not found')
+    return { status: false }
+  } else if (!item?.manufacturer) {
+    // test manufacturer
+    writeLog('Manufacturer id is not found')
 
-  //   return { status: false }
-  // } else if (!item?.price || !String(item?.price).trim()) {
-  //   // test price
-  //   writeLog('Price id is not found')
+    return { status: false }
+  } else if (!item?.price || !String(item?.price).trim()) {
+    // test price
+    writeLog('Price id is not found')
 
-  //   return { status: false }
-  // }
+    return { status: false }
+  }
 
   return null
 }

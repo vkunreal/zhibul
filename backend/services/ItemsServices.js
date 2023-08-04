@@ -1,5 +1,6 @@
 const { request } = require('../db/database')
 const { writeLog } = require('../writeLog')
+const { replaceQuotes } = require('../utils/quotes')
 
 const queryItems = (withImage = true) => `
   SELECT
@@ -143,13 +144,13 @@ class ItemsServices {
 
       updateItemField('category_id', category_id)
       updateItemField('name', name)
-      updateItemField('description', description)
+      updateItemField('description', replaceQuotes(description))
       updateItemField('brand', brand)
       updateItemField('manufacturer_id', manufacturer)
       updateItemField('price', price)
-      updateItemField('seo_title', seo_title)
-      updateItemField('seo_description', seo_description)
-      updateItemField('seo_keywords', seo_keywords)
+      updateItemField('seo_title', replaceQuotes(seo_title))
+      updateItemField('seo_description', replaceQuotes(seo_description))
+      updateItemField('seo_keywords', replaceQuotes(seo_keywords))
 
       writeLog('Item was changed')
       return { status: true }
@@ -179,7 +180,13 @@ class ItemsServices {
 
       await request(`
         INSERT INTO items(code, url, category_id, name, description, brand, manufacturer_id, price, seo_title, seo_description, seo_keywords)
-        VALUES ("${code}", "${url}", "${category_id}", "${name}", "${description}", "${brand}", "${manufacturer}", "${price}", "${seo_title}", "${seo_description}", "${seo_keywords}")
+        VALUES ("${code}", "${url}", "${category_id}", "${name}", "${replaceQuotes(
+        description
+      )}", "${brand}", "${manufacturer}", "${price}", "${replaceQuotes(
+        seo_title
+      )}", "${replaceQuotes(seo_description)}", "${replaceQuotes(
+        seo_keywords
+      )}")
       `)
 
       writeLog('Item was added')
