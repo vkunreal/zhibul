@@ -41,9 +41,7 @@ export const CategoryList: React.FC = () => {
 
   // save category in database
   const saveCategory = (category: ICategory) => {
-    const { id, name } = category
-
-    dispatch(changeCategoryDB(id, name))
+    dispatch(changeCategoryDB(category))
     setChangeDialog(false)
   }
 
@@ -56,7 +54,7 @@ export const CategoryList: React.FC = () => {
 
   // add category in database
   const addCategory = (category: ICategoryCandidate) => {
-    dispatch(addCategoryDB(category))
+    dispatch(addCategoryDB({ ...category, parent_id: parentId }))
     setAddDialog(false)
   }
 
@@ -76,13 +74,22 @@ export const CategoryList: React.FC = () => {
   const handleSetParentId = (id: number) => {
     setParentId(id)
     setAddDialog(true)
-    console.log(id)
   }
 
   return (
     <div className="items pd-2">
       {/* categories list */}
-      <ul className="items__list mt-3">
+      <ul className="items__list">
+        <AddCategoryButton
+          className="items__category-button mb-2"
+          onClick={() => {
+            setAddDialog(true)
+            setParentId(null)
+          }}
+        >
+          Добавить категорию
+        </AddCategoryButton>
+
         {categories
           .filter((el) => el.parent_id === null)
           .map((category) => (
@@ -99,15 +106,6 @@ export const CategoryList: React.FC = () => {
           ))}
 
         {/* add new category button */}
-        <AddCategoryButton
-          className="items__category-button"
-          onClick={() => {
-            setAddDialog(true)
-            setParentId(null)
-          }}
-        >
-          Добавить категорию
-        </AddCategoryButton>
       </ul>
 
       {/* delete category confirm */}

@@ -21,14 +21,17 @@ class CategoriesController {
   // add new category (body = { name, parent_id })
   async addCategory(req, res) {
     try {
-      const { name, parent_id } = req.body
+      const category = req.body
 
-      if (name.length < 2) {
+      if (category.name.length < 2) {
         writeLog('Uncorrected category name')
-        res.status(400).json({ status: false })
+        return res.status(400).json({ status: false })
+      } else if (!category.url) {
+        writeLog('Uncorrected category url')
+        return res.status(400).json({ status: false })
       }
 
-      const result = await CategoriesServices.addCategory(name, parent_id)
+      const result = await CategoriesServices.addCategory(category)
 
       writeLog('Category was created')
       res.status(201).json(result)
@@ -40,14 +43,20 @@ class CategoriesController {
   // change category (body = { id, name })
   async changeCategory(req, res) {
     try {
-      const { id, name } = req.body
+      const category = req.body
 
-      if (name.length < 2) {
+      if (category.name.length < 2) {
         writeLog('Uncorrected category name')
-        res.status(400).json({ status: false })
+        return res.status(400).json({ status: false })
+      } else if (!category.id) {
+        writeLog('Uncorrected category id')
+        return res.status(400).json({ status: false })
+      } else if (!category.url) {
+        writeLog('Uncorrected category url')
+        return res.status(400).json({ status: false })
       }
 
-      const result = await CategoriesServices.changeCategoryById(id, name)
+      const result = await CategoriesServices.changeCategoryById(category)
       res.status(200).json(result)
     } catch (e) {
       console.error(e)

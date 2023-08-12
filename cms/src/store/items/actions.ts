@@ -42,22 +42,17 @@ export const addCategoryDB: any =
       .then(() => {
         dispatch(getCategoriesDB())
       })
-    console.log(category)
   }
 
 export const changeCategoryDB: any =
-  (id: number, name: string) =>
+  (category: ICategory) =>
   async (dispatch: Dispatch, getState: () => IStore) => {
     await axios
-      .put(
-        API + '/api/category',
-        { id, name },
-        {
-          headers: {
-            authorization: getState().variables.token,
-          },
-        }
-      )
+      .put(API + '/api/category', category, {
+        headers: {
+          authorization: getState().variables.token,
+        },
+      })
       .then(() => {
         dispatch(getCategoriesDB())
       })

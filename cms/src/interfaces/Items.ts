@@ -1,13 +1,26 @@
 export interface ICategory {
   id: number
   name: string
+  description: string
+  url: string
   parent_id: number | null
+  position: number
   is_contains: number
+  seo_title: string
+  seo_description: string
+  seo_keywords: string
 }
 
 export interface ICategoryCandidate {
   name: string
-  parent_id: number | null
+  description: string
+  url: string
+  parent_id?: number | null
+  position: number
+  is_contains?: number
+  seo_title: string
+  seo_description: string
+  seo_keywords: string
 }
 
 export interface IItem {

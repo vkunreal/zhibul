@@ -17,19 +17,19 @@ class CategoriesServices {
   }
 
   // add new category
-  async addCategory(name, parent_id) {
-    if (parent_id !== null) {
+  async addCategory(category) {
+    if (category.parent_id !== null) {
       await request(
-        `UPDATE categories SET is_contains = "1" WHERE id = "${parent_id}"`
+        `UPDATE categories SET is_contains = "1" WHERE id = "${category.parent_id}"`
       )
       await request(`
-        INSERT INTO categories (name, parent_id, is_contains)
-        VALUES ("${name}", "${parent_id}", 0)
+        INSERT INTO categories (name, parent_id, is_contains, position, description, url, seo_title, seo_description, seo_keywords)
+        VALUES ("${category.name}", "${category.parent_id}", 0, "${category.position}", "${category.description}", "${category.url}", "${category.seo_title}", "${category.seo_description}", "${category.seo_keywords}")
       `)
     } else {
       await request(`
-        INSERT INTO categories (name, parent_id, is_contains)
-        VALUES ("${name}", ${parent_id}, 0)
+        INSERT INTO categories (name, parent_id, is_contains, position, description, url, seo_title, seo_description, seo_keywords)
+        VALUES ("${category.name}", ${category.parent_id}, 0, "${category.position}", "${category.description}", "${category.url}", "${category.seo_title}", "${category.seo_description}", "${category.seo_keywords}")
       `)
     }
 
@@ -38,18 +38,23 @@ class CategoriesServices {
   }
 
   // change category by id
-  async changeCategoryById(id, name) {
-    await request(`
-      UPDATE categories SET name = "${name}" WHERE id = "${id}"
-    `)
-      .then(() => {
-        writeLog('Category was changed')
-        return { status: true }
-      })
-      .catch(() => {
-        writeLog('Changing category was failed')
-        return { status: false }
-      })
+  async changeCategoryById(category) {
+    try {
+      const updateCategoryField = async (field, value) =>
+        await request(
+          `UPDATE categories SET ${field} = "${value}" WHERE id = "${category.id}"`
+        )
+
+      updateCategoryField('position', category.position)
+      updateCategoryField('url', category.url)
+      updateCategoryField('name', category.name)
+      updateCategoryField('description', category.description)
+      updateCategoryField('seo_title', category.seo_title)
+      updateCategoryField('seo_description', category.seo_description)
+      updateCategoryField('seo_keywords', category.seo_keywords)
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   // delete category by id
