@@ -23,13 +23,13 @@ class CategoriesServices {
         `UPDATE categories SET is_contains = "1" WHERE id = "${category.parent_id}"`
       )
       await request(`
-        INSERT INTO categories (name, parent_id, is_contains, position, description, url, seo_title, seo_description, seo_keywords)
-        VALUES ("${category.name}", "${category.parent_id}", 0, "${category.position}", "${category.description}", "${category.url}", "${category.seo_title}", "${category.seo_description}", "${category.seo_keywords}")
+        INSERT INTO categories (active, name, parent_id, is_contains, position, description, url, seo_title, seo_description, seo_keywords)
+        VALUES ("0", "${category.name}", "${category.parent_id}", 0, "${category.position}", "${category.description}", "${category.url}", "${category.seo_title}", "${category.seo_description}", "${category.seo_keywords}")
       `)
     } else {
       await request(`
-        INSERT INTO categories (name, parent_id, is_contains, position, description, url, seo_title, seo_description, seo_keywords)
-        VALUES ("${category.name}", ${category.parent_id}, 0, "${category.position}", "${category.description}", "${category.url}", "${category.seo_title}", "${category.seo_description}", "${category.seo_keywords}")
+        INSERT INTO categories (active, name, parent_id, is_contains, position, description, url, seo_title, seo_description, seo_keywords)
+        VALUES ("0", "${category.name}", ${category.parent_id}, 0, "${category.position}", "${category.description}", "${category.url}", "${category.seo_title}", "${category.seo_description}", "${category.seo_keywords}")
       `)
     }
 
@@ -52,6 +52,16 @@ class CategoriesServices {
       updateCategoryField('seo_title', category.seo_title)
       updateCategoryField('seo_description', category.seo_description)
       updateCategoryField('seo_keywords', category.seo_keywords)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async changeCategoryActiveById(active, id) {
+    try {
+      await request(
+        `UPDATE categories SET active = "${active ? 1 : 0}" WHERE id = "${id}"`
+      )
     } catch (e) {
       console.error(e)
     }

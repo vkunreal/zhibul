@@ -22,6 +22,12 @@ categoriesRouter.put(
   CategoriesController.changeCategory
 )
 
+categoriesRouter.put(
+  '/category/active',
+  authenticateToken,
+  CategoriesController.changeCategoryActive
+)
+
 categoriesRouter.delete(
   '/category/:id',
   authenticateToken,

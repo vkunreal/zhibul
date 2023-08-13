@@ -4,6 +4,7 @@ export interface ICategory {
   description: string
   url: string
   parent_id: number | null
+  active: boolean
   position: number
   is_contains: number
   seo_title: string
@@ -25,6 +26,7 @@ export interface ICategoryCandidate {
 
 export interface IItem {
   id?: number
+  url: string
   category_id: number
   category_name: string
   name: string

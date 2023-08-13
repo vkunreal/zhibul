@@ -127,6 +127,7 @@ class ItemsServices {
   async changeItemById({
     item_id,
     category_id,
+    url,
     name,
     brand,
     manufacturer,
@@ -144,6 +145,7 @@ class ItemsServices {
 
       updateItemField('category_id', category_id)
       updateItemField('name', name)
+      updateItemField('url', url)
       updateItemField('description', replaceQuotes(description))
       updateItemField('brand', brand)
       updateItemField('manufacturer_id', manufacturer)

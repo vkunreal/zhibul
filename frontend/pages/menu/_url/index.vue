@@ -110,6 +110,15 @@ export default {
       ],
     };
   },
+  mounted() {
+    if (
+      !this.categories.length ||
+      !this.category?.id ||
+      !this.category?.active
+    ) {
+      this.$router.push("/katalog");
+    }
+  },
   computed: {
     ...mapGetters("app", ["categories"]),
     ...mapGetters("items", ["items"]),
@@ -122,7 +131,7 @@ export default {
     undercategories() {
       return (
         this.categories
-          .filter((c) => c?.parent_id === this?.category.id)
+          ?.filter((c) => c?.parent_id === this?.category?.id)
           ?.sort((a, b) => (a.position < b.position ? -1 : 1)) || []
       );
     },
@@ -135,7 +144,7 @@ export default {
       while (tempCategory?.parent_id) {
         result.push(tempCategory);
         tempCategory =
-          this.categories.filter((c) => c.id === tempCategory.parent_id)[0] ||
+          this.categories.filter((c) => c?.id === tempCategory.parent_id)[0] ||
           null;
       }
       result.push(tempCategory);

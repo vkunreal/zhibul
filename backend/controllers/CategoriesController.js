@@ -63,6 +63,22 @@ class CategoriesController {
     }
   }
 
+  async changeCategoryActive(req, res) {
+    try {
+      const { active, id } = req.body
+
+      if (!id) {
+        return res.status(400).json({ status: false })
+      }
+
+      await CategoriesServices.changeCategoryActiveById(active, id)
+
+      res.status(200).json({ active })
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   // delete category (body = { id })
   async deleteCategory(req, res) {
     try {

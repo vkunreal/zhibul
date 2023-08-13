@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Button } from '@mui/material'
+import { Button, Checkbox } from '@mui/material'
 import { ICategory } from '../../interfaces/Items'
 import { Spacer } from '../Spacer'
 import AddCategoryButton from '../AddButton'
+import axios from 'axios'
+import API from '../../utils/api'
+import { useSelector } from 'react-redux'
+import { selectToken } from '../../store/variables/selectors'
 
 interface ICategoryDetailsProps {
   categories: ICategory[]
@@ -23,6 +27,8 @@ export const CategoryDetails: React.FC<ICategoryDetailsProps> = ({
 }) => {
   // data
   const [subcategories, setSubcategories] = useState<ICategory[]>([])
+  const [visible, setVisible] = useState(false)
+  const token = useSelector(selectToken)
 
   // visibles
   const [subVisible, setSubVisible] = useState(false)
@@ -30,6 +36,7 @@ export const CategoryDetails: React.FC<ICategoryDetailsProps> = ({
 
   useEffect(() => {
     setSubcategories(getCategories(category.id))
+    setVisible(!!category.active)
   }, [categories])
 
   const openDeleteDialog = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -42,6 +49,25 @@ export const CategoryDetails: React.FC<ICategoryDetailsProps> = ({
     setChangedCategory(category)
   }
 
+  const changeVisible = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    await axios
+      .put(
+        API + '/api/category/active',
+        {
+          id: category.id,
+          active: !!e.target.checked,
+        },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      )
+      .then(({ data }) => {
+        setVisible(data.active)
+      })
+  }
+
   return (
     <div className="items__category">
       <div
@@ -52,6 +78,10 @@ export const CategoryDetails: React.FC<ICategoryDetailsProps> = ({
         onMouseOver={() => setBtnsVisible(true)}
         onMouseLeave={() => setBtnsVisible(false)}
       >
+        <div onClick={(e) => e.stopPropagation()}>
+          <Checkbox checked={visible} onChange={changeVisible} />
+        </div>
+
         {category.name}
         <Spacer />
         {btnsVisible && (

@@ -69,6 +69,11 @@ export default {
     };
   },
   components: { VProduct },
+  mounted() {
+    if (!this.categories.length) {
+      this.$router.push("/katalog");
+    }
+  },
   computed: {
     ...mapGetters("app", ["page", "categories"]),
     url() {
@@ -77,7 +82,7 @@ export default {
     filteredCategories() {
       return (
         this.categories
-          .filter((c) => !c.parent_id)
+          .filter((c) => !c.parent_id && !!c.active)
           ?.sort((a, b) => (a.position < b.position ? -1 : 1)) || []
       );
     },

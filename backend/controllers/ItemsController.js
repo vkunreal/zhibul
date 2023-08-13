@@ -29,6 +29,10 @@ const testItem = (item) => {
     writeLog('Price id is not found')
 
     return { status: false }
+  } else if (!String(item.url).trim()) {
+    writeLog('Url is not found')
+
+    return { status: false }
   }
 
   return null

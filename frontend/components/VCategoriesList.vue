@@ -213,7 +213,7 @@ export default {
     categoriesList() {
       return (parentId = null) =>
         this.categories
-          .filter((c) => c.parent_id === parentId)
+          .filter((c) => c.parent_id === parentId && !!c.active)
           .sort((a, b) => (a.position < b.position ? -1 : 1)) || {};
     },
   },
