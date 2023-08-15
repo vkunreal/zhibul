@@ -23,7 +23,7 @@ ItemsRouter.get('/item/images/:item_id', ItemsController.getItemImages)
 
 ItemsRouter.post(
   '/item/images/:item_id',
-  authenticateToken,
+  // authenticateToken,
   ItemsController.loadImages
 )
 ItemsRouter.post('/item/', authenticateToken, ItemsController.addItem)

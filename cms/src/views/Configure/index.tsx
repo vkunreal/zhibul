@@ -8,7 +8,6 @@ import './styles.scss'
 import { useSelector } from 'react-redux'
 import { selectToken } from '../../store/variables/selectors'
 import API from '../../utils/api'
-import axios from 'axios'
 
 interface ILocationItem {
   item: IItem
@@ -66,25 +65,14 @@ export const Configure: React.FC = () => {
     for (let i = 0; i < selectedFiles.length; i++) {
       formData.append(selectedFiles[i].name, selectedFiles[i])
     }
-    // const res = await fetch(API + '/api/item/images/' + (item?.id || 0), {
-    //   method: 'POST',
-    //   body: formData,
-    //   mode: 'no-cors',
-    //   headers: {
-    //     authorization: token,
-    //   },
-    // })
-    const res = await axios
-      .post(API + '/api/item/images/' + (item?.id || 0), {
-        body: formData,
-        mode: 'no-cors',
-        headers: {
-          authorization: token,
-        },
-      })
-      .then((res) => res.data)
-    const { status, response } = res
-    console.log(status, response)
+    const res = await fetch(API + '/api/item/images/' + (item?.id || 0), {
+      method: 'POST',
+      body: formData,
+      headers: {
+        authorization: token,
+      },
+    })
+    const { status, response } = await res.json()
     if (status) {
       setImages((old) => [...old, ...response])
     }

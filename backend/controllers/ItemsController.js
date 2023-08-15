@@ -145,11 +145,9 @@ class ItemsController {
 
   async loadImages(req, res) {
     const { item_id } = req.params
-    console.log('load 1')
     if (!req.files) {
       return res.status(400).json({ status: '1' })
     }
-    console.log('load 2')
     const files = Object.values(req.files)
     const urls = []
     for (let i = 0; i < files.length; i++) {
