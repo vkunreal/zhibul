@@ -1,7 +1,11 @@
 <template>
   <section class="v-product d-flex">
     <div class="fill-width">
-      <img class="v-product__image" :src="productImage" :alt="product.name" />
+      <img
+        class="v-product__image"
+        :src="productImage.src"
+        :alt="product.name"
+      />
     </div>
 
     <div class="v-product__info d-flex flex-column justify-space-between">
@@ -36,7 +40,6 @@
           </p>
         </template>
       </div>
-      <!-- <p class="v-product__info-field">Цена: {{ product.price }} руб.</p> -->
 
       <div class="d-flex flex-wrap g-2 mt-4">
         <nuxt-link
@@ -64,7 +67,10 @@ export default {
   },
   computed: {
     productImage() {
-      return this.product.images.split(",")[0] || "";
+      return (
+        this.product.images.filter((im) => im.is_main)[0] ??
+        this.product.images[0]
+      );
     },
   },
 };

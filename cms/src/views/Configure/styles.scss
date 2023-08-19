@@ -1,8 +1,6 @@
 .configure {
   &-image {
     position: relative;
-    width: 300px;
-    height: 300px;
     & img {
       width: 300px;
       height: 300px;
@@ -30,8 +28,5 @@
   .scroll {
     overflow-x: scroll;
     overflow-y: hidden;
-    &::-webkit-scrollbar {
-      display: none;
-    }
   }
 }

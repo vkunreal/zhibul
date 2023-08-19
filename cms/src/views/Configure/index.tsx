@@ -3,7 +3,11 @@ import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router'
 import { OptionsList } from '../../components/OptionsList'
 import { IItem } from '../../interfaces/Items'
-import { deleteImageDB, getItemImages } from '../../store/items/requests'
+import {
+  deleteImageDB,
+  getItemImages,
+  putMainDB,
+} from '../../store/items/requests'
 import './styles.scss'
 import { useSelector } from 'react-redux'
 import { selectToken } from '../../store/variables/selectors'
@@ -13,10 +17,15 @@ interface ILocationItem {
   item: IItem
 }
 
+interface IImage {
+  src: string
+  is_main: number
+}
+
 export const Configure: React.FC = () => {
   const item = (useLocation().state as ILocationItem).item
   const fileRef = useRef<HTMLInputElement | null>(null)
-  const [images, setImages] = useState<string[]>([])
+  const [images, setImages] = useState<IImage[]>([])
   const [loadedImages, setLoadedImages] = useState<any[]>([])
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [change, setChange] = useState(false)
@@ -24,7 +33,9 @@ export const Configure: React.FC = () => {
   const token = useSelector(selectToken)
 
   useEffect(() => {
-    getItemImages(item?.id || 0).then((imagesDB) => setImages(imagesDB))
+    getItemImages(item?.id || 0).then((imagesDB: IImage[]) =>
+      setImages(imagesDB)
+    )
   }, [item])
 
   useEffect(() => {
@@ -72,9 +83,11 @@ export const Configure: React.FC = () => {
         authorization: token,
       },
     })
-    const { status, response } = await res.json()
+    const { status } = await res.json()
     if (status) {
-      setImages((old) => [...old, ...response])
+      getItemImages(item?.id || 0).then((imagesDB: IImage[]) =>
+        setImages(imagesDB)
+      )
     }
     setLoadedImages([])
     setSelectedFiles([])
@@ -86,24 +99,40 @@ export const Configure: React.FC = () => {
   }
 
   const deleteImage = async (src: string) => {
-    await deleteImageDB(src)
+    await deleteImageDB(src, token)
     await getItemImages(item?.id || 0).then((imagesDB) => setImages(imagesDB))
+  }
+
+  const putMain = async (src: string) => {
+    await putMainDB(src, token)
+    console.log(src)
+    getItemImages(item?.id || 0).then((imagesDB: IImage[]) =>
+      setImages(imagesDB)
+    )
   }
 
   return (
     <div className="configure d-flex flex-column g-2 mt-4">
       <div className="configure-images scroll d-flex g-2">
         {images.map((image, i) => (
-          <div className="configure-image" key={image + i}>
+          <div
+            className="configure-image d-flex flex-column"
+            key={image.src + i}
+          >
             {change && (
               <span
                 className="configure-image-close"
-                onClick={() => deleteImage(image)}
+                onClick={() => deleteImage(image.src)}
               >
                 &#10006;
               </span>
             )}
-            <img src={image} alt="item image" />
+            <img src={image.src} alt="item image" />
+            {!image.is_main && change && (
+              <Button className="mt-1 mb-1" onClick={() => putMain(image.src)}>
+                Сделать главной
+              </Button>
+            )}
           </div>
         ))}
         {loadedImages.map((image, i) => (

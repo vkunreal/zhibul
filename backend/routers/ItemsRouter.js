@@ -28,6 +28,7 @@ ItemsRouter.post(
 )
 ItemsRouter.post('/item/', authenticateToken, ItemsController.addItem)
 ItemsRouter.put('/item/', authenticateToken, ItemsController.changeItem)
+ItemsRouter.put('/item/image-main/', authenticateToken, ItemsController.putMain)
 
 ItemsRouter.delete(
   '/item/:id',

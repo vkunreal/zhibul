@@ -46,7 +46,7 @@ class ItemsController {
   }
 
   async getAllItemsWithoutImages(req, res) {
-    const items = await ItemsServices.getAllItems(false)
+    const items = await ItemsServices.getAllItems()
 
     res.status(200).json(items)
   }
@@ -64,8 +64,10 @@ class ItemsController {
 
     for (let i = 0; i < items.length; i++) {
       const itemId = items[i].id
+      const images = await ItemsServices.getItemImages(itemId)
       const itemOptions = await OptionsServices.getOptionsByItemId(itemId)
 
+      items[i].images = images
       items[i].menuOptions = itemOptions.filter((op) => !!op.show_menu)
     }
 
@@ -92,11 +94,21 @@ class ItemsController {
   async getItem(req, res) {
     const item = await ItemsServices.getItemFromId(req.params.id)
 
+    if (item) {
+      const images = await ItemsServices.getItemImages(item.id)
+      item.images = images
+    }
+
     res.status(200).json(item)
   }
 
   async getItemFromUrl(req, res) {
     const item = await ItemsServices.getItemFromUrl(req.params.item_url)
+
+    if (item) {
+      const images = await ItemsServices.getItemImages(item.id)
+      item.images = images
+    }
 
     res.status(200).json(item)
   }
@@ -155,7 +167,10 @@ class ItemsController {
       if (!file) {
         return res.status(500).json({ status: '2' })
       }
-      const imageName = `image-${item_id}-${Date.now() + file.name}`
+      const imageName = `image-${item_id}-${
+        Date.now() + Math.round(Math.random() * 100000)
+      }.${file.name.split('.').pop().toLowerCase()}`
+      console.log(imageName)
       const imagePath = path.resolve(
         __dirname,
         '..',
@@ -164,6 +179,7 @@ class ItemsController {
         imageName
       )
       const imageUrl = 'https://api.zhbl.by/images/' + imageName
+      // const imageUrl = 'http://localhost:5000/images/' + imageName
       urls.push(imageUrl)
       await file.mv(imagePath, async (err) => {
         if (err) {
@@ -174,28 +190,47 @@ class ItemsController {
       })
     }
 
-    res.status(200).json({ status: true, response: urls })
+    res.status(200).json({ status: true })
+  }
+
+  async putMain(req, res) {
+    try {
+      const { src } = req.body
+      await ItemsServices.putMainImage(src)
+      res.status(201).json({ status: true })
+    } catch (e) {
+      console.error(e)
+      res.status(500).json({ status: false })
+    }
   }
 
   async deleteImage(req, res) {
-    const imageName = req.body.src.split('/').pop()
-    const imagePath = path.resolve(
-      __dirname,
-      '..',
-      'public',
-      'images',
-      imageName
-    )
-    fs.unlink(imagePath, async (err) => {
-      if (err) {
-        res.status(500).json({ status: false })
-        console.log(err)
-      }
-      await ItemsServices.deleteImageInDB(
-        'https://api.zhbl.by/images/' + imageName
+    try {
+      const imageName = req.body.src.split('/').pop()
+      const imagePath = path.resolve(
+        __dirname,
+        '..',
+        'public',
+        'images',
+        imageName
       )
-      res.status(200).json({ status: true })
-    })
+      if (!fs.existsSync(imagePath)) {
+        return res.status(400).json({ status: false })
+      }
+      fs.unlink(imagePath, async (err) => {
+        if (err) {
+          res.status(500).json({ status: false })
+          console.log(err)
+        }
+        await ItemsServices.deleteImageInDB(
+          'https://api.zhbl.by/images/' + imageName
+          // 'http://localhost:5000/images/' + imageName
+        )
+        res.status(200).json({ status: true })
+      })
+    } catch (e) {
+      console.err(e)
+    }
   }
 }
 

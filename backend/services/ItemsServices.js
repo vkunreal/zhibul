@@ -2,14 +2,13 @@ const { request } = require('../db/database')
 const { writeLog } = require('../writeLog')
 const { replaceQuotes } = require('../utils/quotes')
 
-const queryItems = (withImage = true) => `
+const queryItems = `
   SELECT
     it.id,
     it.code,
     it.position,
     c.url as category_url,
     c.name as category_name,
-    ${withImage ? `GROUP_CONCAT(im.src SEPARATOR ',') as images,` : ''}
     it.category_id,
     it.url,
     it.name,
@@ -22,19 +21,17 @@ const queryItems = (withImage = true) => `
     it.seo_keywords
   FROM items it
   JOIN categories c ON it.category_id = c.id
-  ${withImage ? `JOIN images im ON im.item_id = it.id` : ''}
   JOIN countries ct ON ct.id = it.manufacturer_id
   GROUP BY it.id
 `
 
-const queryItemsByCategoryUrl = (category_url, withImage = true) => `
+const queryItemsByCategoryUrl = (category_url) => `
   SELECT
     it.id,
     it.code,
     it.position,
     c.url as category_url,
     c.name as category_name,
-    ${withImage ? `GROUP_CONCAT(im.src SEPARATOR ',') as images,` : ''}
     it.category_id,
     it.url,
     it.name,
@@ -47,7 +44,6 @@ const queryItemsByCategoryUrl = (category_url, withImage = true) => `
     it.seo_keywords
   FROM items it
   JOIN categories c ON it.category_id = c.id AND c.url = "${category_url}"
-  ${withImage ? `JOIN images im ON im.item_id = it.id` : ''}
   JOIN countries ct ON ct.id = it.manufacturer_id
   GROUP BY it.id
 `
@@ -59,7 +55,6 @@ const queryItemByUrl = (item_url) => `
     it.position,
     c.url as category_url,
     c.name as category_name,
-    GROUP_CONCAT(im.src SEPARATOR ',') as images,
     it.category_id,
     it.url,
     it.name,
@@ -72,7 +67,6 @@ const queryItemByUrl = (item_url) => `
     it.seo_keywords
   FROM items it
   JOIN categories c ON it.category_id = c.id
-  JOIN images im ON im.item_id = it.id
   JOIN countries ct ON ct.id = it.manufacturer_id
   WHERE it.url = "${item_url}"
   GROUP BY it.id
@@ -80,9 +74,9 @@ const queryItemByUrl = (item_url) => `
 
 class ItemsServices {
   // get all items from db
-  async getAllItems(withImages = true) {
+  async getAllItems() {
     try {
-      return await request(queryItems(withImages))
+      return await request(queryItems)
     } catch (e) {
       console.error(e)
     }
@@ -101,7 +95,7 @@ class ItemsServices {
   }
 
   async getItemImages(item_id) {
-    return await request(`SELECT src FROM images WHERE item_id = "${item_id}"`)
+    return await request(`SELECT * FROM images WHERE item_id = "${item_id}"`)
   }
 
   // get item from db by id
@@ -215,6 +209,21 @@ class ItemsServices {
       await request(`INSERT INTO images (item_id, src)
         VALUES
         ("${item_id}", "${imageName}")`)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async putMainImage(src) {
+    try {
+      const result = await request(
+        `SELECT item_id FROM images WHERE src = "${src}"`,
+        (res) => res[0][0]
+      )
+      await request(
+        `UPDATE images SET is_main = "0" WHERE item_id = "${result.item_id}"`
+      )
+      await request(`UPDATE images SET is_main = "1" WHERE src = "${src}"`)
     } catch (e) {
       console.error(e)
     }

@@ -46,7 +46,7 @@
           >
             <img
               class="product__preview"
-              :src="image ? image : images[0]"
+              :src="image ? image : productImage.src"
               :alt="itemDetails.name"
             />
             <div
@@ -58,11 +58,11 @@
                 width="150"
                 height="150"
                 style="cursor: pointer"
-                v-for="src in images"
-                :src="src"
-                :key="src"
+                v-for="im in images"
+                :src="im.src"
+                :key="im.src"
                 :alt="itemDetails.name"
-                @click="image = src"
+                @click="image = im.src"
               />
             </div>
           </div>
@@ -201,7 +201,10 @@ export default {
     ...mapGetters("app", ["categories"]),
     ...mapGetters("items", ["itemDetails", "itemOptions"]),
     images() {
-      return this.itemDetails?.images?.split(",") || [];
+      return this.itemDetails?.images;
+    },
+    productImage() {
+      return this.images.filter((im) => im.is_main)[0] ?? this.images[0];
     },
     productName() {
       return this.itemDetails?.name;
