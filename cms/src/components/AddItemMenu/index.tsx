@@ -32,6 +32,7 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
 }) => {
   const [category, setCategory] = useState<IItemCategory | null>(null)
   const [url, setUrl] = useState('')
+  const [position, setPosition] = useState(0)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [brand, setBrand] = useState('')
@@ -78,6 +79,15 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
           value={url}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setUrl(e.target.value)
+          }
+        />
+
+        <TextField
+          label="Позиция"
+          autoComplete="off"
+          value={position}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPosition(parseInt(e.target.value))
           }
         />
 
@@ -171,6 +181,7 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
               const newItem = {
                 category_id: category?.id || 0,
                 category_name: category?.name || '',
+                position,
                 url,
                 name,
                 description,

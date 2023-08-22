@@ -27,6 +27,7 @@ export interface ICategoryCandidate {
 export interface IItem {
   id?: number
   url: string
+  position?: number
   category_id: number
   category_name: string
   name: string

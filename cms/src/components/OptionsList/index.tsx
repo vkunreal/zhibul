@@ -78,7 +78,7 @@ export const OptionsList: React.FC<IOptionsListProps> = ({ item_id }) => {
     setItems(options)
   }
 
-  const saveOptionsPostition = () => {
+  const saveOptionsPositions = () => {
     dispatch(changePositionsDB(positions, item_id))
   }
 
@@ -131,7 +131,7 @@ export const OptionsList: React.FC<IOptionsListProps> = ({ item_id }) => {
             <Button
               variant="outlined"
               color="success"
-              onClick={saveOptionsPostition}
+              onClick={saveOptionsPositions}
             >
               Сохранить
             </Button>

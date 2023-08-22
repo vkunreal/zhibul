@@ -107,9 +107,9 @@
             <!-- options -->
             <div
               class="d-flex justify-space-between"
-              v-for="{ id, name, value } in itemOptions.filter(
-                (op) => !op?.is_dropdown && op?.show_item
-              )"
+              v-for="{ id, name, value } in itemOptions
+                .filter((op) => !op?.is_dropdown && op?.show_item)
+                .sort((a, b) => (a.position < b.position ? -1 : 1))"
               :key="id"
             >
               <nobr>{{ name }}</nobr>

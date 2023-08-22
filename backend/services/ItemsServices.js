@@ -122,6 +122,7 @@ class ItemsServices {
     item_id,
     category_id,
     url,
+    position,
     name,
     brand,
     manufacturer,
@@ -139,6 +140,7 @@ class ItemsServices {
 
       updateItemField('category_id', category_id)
       updateItemField('name', name)
+      updateItemField('position', position)
       updateItemField('url', url)
       updateItemField('description', replaceQuotes(description))
       updateItemField('brand', brand)
@@ -158,6 +160,7 @@ class ItemsServices {
   async addItem({
     category_id,
     url,
+    position,
     name,
     description,
     brand,
@@ -175,8 +178,8 @@ class ItemsServices {
       const code = '1.' + String(lastId.id + 1).padStart(4, '0')
 
       await request(`
-        INSERT INTO items(code, url, category_id, name, description, brand, manufacturer_id, price, seo_title, seo_description, seo_keywords)
-        VALUES ("${code}", "${url}", "${category_id}", "${name}", "${replaceQuotes(
+        INSERT INTO items(code, position, url, category_id, name, description, brand, manufacturer_id, price, seo_title, seo_description, seo_keywords)
+        VALUES ("${code}", "${position}", "${url}", "${category_id}", "${name}", "${replaceQuotes(
         description
       )}", "${brand}", "${manufacturer}", "${price}", "${replaceQuotes(
         seo_title

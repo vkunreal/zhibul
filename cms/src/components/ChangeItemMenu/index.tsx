@@ -33,6 +33,7 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
   saveItem,
 }) => {
   const [categoryId, setCategoryId] = useState(0)
+  const [position, setPosition] = useState(0)
   const [url, setUrl] = useState('')
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -47,6 +48,7 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
 
   useEffect(() => {
     setUrl(item?.url || '')
+    setPosition(item?.position || 0)
     setName(item?.name || '')
     setDescription(item?.description || '')
     setBrand(item?.brand || '')
@@ -87,6 +89,15 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
           value={url}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setUrl(e.target.value)
+          }
+        />
+
+        <TextField
+          label="Позиция"
+          autoComplete="off"
+          value={position}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPosition(parseInt(e.target.value))
           }
         />
 
@@ -181,6 +192,7 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
               const newItem = {
                 ...item,
                 item_id: item.id,
+                position,
                 url,
                 category_id: categoryId,
                 name,
