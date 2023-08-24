@@ -31,9 +31,9 @@
 
         <template v-if="product.menuOptions">
           <p
-            v-for="{ id, name, value } in product.menuOptions.filter(
-              (op) => !op.is_dropdown
-            )"
+            v-for="{ id, name, value } in product.menuOptions
+              .filter((op) => !op.is_dropdown)
+              .sort((a, b) => (a.position < b.position ? -1 : 1))"
             :key="id"
           >
             {{ name }}: {{ value }}
