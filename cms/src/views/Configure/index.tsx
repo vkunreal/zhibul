@@ -105,75 +105,74 @@ export const Configure: React.FC = () => {
 
   const putMain = async (src: string) => {
     await putMainDB(src, token)
-    console.log(src)
     getItemImages(item?.id || 0).then((imagesDB: IImage[]) =>
       setImages(imagesDB)
     )
   }
 
   return (
-    <div className="configure d-flex flex-column g-2 mt-4">
-      <div className="configure-images scroll d-flex g-2">
+    <div className='configure d-flex flex-column g-2 mt-4'>
+      <div className='configure-images scroll d-flex g-2'>
         {images.map((image, i) => (
           <div
-            className="configure-image d-flex flex-column"
+            className='configure-image d-flex flex-column'
             key={image.src + i}
           >
             {change && (
               <span
-                className="configure-image-close"
+                className='configure-image-close'
                 onClick={() => deleteImage(image.src)}
               >
                 &#10006;
               </span>
             )}
-            <img src={image.src} alt="item image" />
+            <img src={image.src} alt='item image' />
             {!image.is_main && change && (
-              <Button className="mt-1 mb-1" onClick={() => putMain(image.src)}>
+              <Button className='mt-1 mb-1' onClick={() => putMain(image.src)}>
                 Сделать главной
               </Button>
             )}
           </div>
         ))}
         {loadedImages.map((image, i) => (
-          <div className="configure-image loaded" key={image.name + i}>
+          <div className='configure-image loaded' key={image.name + i}>
             {change && (
               <span
-                className="configure-image-close"
+                className='configure-image-close'
                 onClick={() => deleteLoadImage(image.name)}
               >
                 &#10006;
               </span>
             )}
-            <img src={image.result} alt="item image" />
+            <img src={image.result} alt='item image' />
           </div>
         ))}
       </div>
 
       <div>
         <input
-          type="file"
-          className="d-none"
-          accept="image/jpeg,image/png"
+          type='file'
+          className='d-none'
+          accept='image/jpeg,image/png'
           ref={fileRef}
           onChange={handleChangeInput}
           multiple
         />
         {change ? (
-          <div className="d-flex g-1">
+          <div className='d-flex g-1'>
             <Button
-              variant="outlined"
-              color="success"
+              variant='outlined'
+              color='success'
               onClick={handleLoadImage}
             >
               Готово
             </Button>
-            <Button variant="outlined" color="warning" onClick={handleOpenFile}>
+            <Button variant='outlined' color='warning' onClick={handleOpenFile}>
               Загрузить
             </Button>
           </div>
         ) : (
-          <Button variant="outlined" onClick={() => setChange(true)}>
+          <Button variant='outlined' onClick={() => setChange(true)}>
             Добавить / удалить картинку
           </Button>
         )}

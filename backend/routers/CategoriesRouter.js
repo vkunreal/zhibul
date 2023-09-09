@@ -16,6 +16,12 @@ categoriesRouter.post(
   CategoriesController.addCategory
 )
 
+categoriesRouter.post(
+  '/category/image/:category_id',
+  authenticateToken,
+  CategoriesController.changeCategoryImage
+)
+
 categoriesRouter.put(
   '/category/',
   authenticateToken,

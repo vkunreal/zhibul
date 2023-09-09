@@ -1,4 +1,5 @@
 const CategoriesServices = require('../services/CategoriesServices')
+const path = require('path')
 const { writeLog } = require('../writeLog')
 
 class CategoriesController {
@@ -58,6 +59,42 @@ class CategoriesController {
 
       const result = await CategoriesServices.changeCategoryById(category)
       res.status(200).json(result)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  async changeCategoryImage(req, res) {
+    try {
+      const { category_id } = req.params
+      if (!req.files) {
+        return res.status(400), json({ status: false })
+      }
+      console.log('TEST', req.files)
+      const file = Object.values(req.files)[0]
+      const imageName = `image-${category_id}-${Date.now()}.${file.name
+        .split('.')
+        .pop()}`
+      const imagePath = path.resolve(
+        __dirname,
+        '..',
+        'public',
+        'images',
+        imageName
+      )
+      const imageUrl = 'http://localhost:5000/images/' + imageName
+      await file.mv(imagePath, async (err) => {
+        if (err) {
+          console.error(err)
+          return res.status(500).json({ status: false })
+        }
+        await CategoriesServices.changeCategoryImage({
+          id: category_id,
+          url: imageUrl,
+        })
+      })
+
+      res.status(201).json({ status: true, url: imageUrl })
     } catch (e) {
       console.error(e)
     }

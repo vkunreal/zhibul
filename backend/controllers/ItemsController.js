@@ -158,7 +158,7 @@ class ItemsController {
   async loadImages(req, res) {
     const { item_id } = req.params
     if (!req.files) {
-      return res.status(400).json({ status: '1' })
+      return res.status(400).json({ status: false })
     }
     const files = Object.values(req.files)
     const urls = []
@@ -170,7 +170,6 @@ class ItemsController {
       const imageName = `image-${item_id}-${
         Date.now() + Math.round(Math.random() * 100000)
       }.${file.name.split('.').pop().toLowerCase()}`
-      console.log(imageName)
       const imagePath = path.resolve(
         __dirname,
         '..',

@@ -2,6 +2,7 @@ export interface ICategory {
   id: number
   name: string
   description: string
+  image: string
   url: string
   parent_id: number | null
   active: boolean

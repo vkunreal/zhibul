@@ -211,9 +211,10 @@ export default {
   computed: {
     ...mapGetters("app", ["categories"]),
     categoriesList() {
+      console.log(this.categories);
       return (parentId = null) =>
         this.categories
-          .filter((c) => c.parent_id === parentId && !!c.active)
+          .filter((c) => c.parent_id === parentId)
           .sort((a, b) => (a.position < b.position ? -1 : 1)) || {};
     },
   },

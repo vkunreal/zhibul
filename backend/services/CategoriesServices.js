@@ -57,6 +57,14 @@ class CategoriesServices {
     }
   }
 
+  async changeCategoryImage({ id, url }) {
+    try {
+      await request(`UPDATE categories SET image = "${url}" WHERE id = "${id}"`)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   async changeCategoryActiveById(active, id) {
     try {
       await request(
