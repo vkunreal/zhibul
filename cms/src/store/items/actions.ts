@@ -32,16 +32,26 @@ export const getCategoriesDB: any = () => async (dispatch: Dispatch) => {
 }
 
 export const addCategoryDB: any =
-  (category: any) => async (dispatch: Dispatch, getState: () => IStore) => {
-    await axios
+  (category: any, imageData: any) =>
+  async (dispatch: Dispatch, getState: () => IStore) => {
+    const newCategory = await axios
       .post(API + '/api/category', category, {
         headers: {
           authorization: getState().variables.token,
         },
       })
-      .then(() => {
+      .then((res) => {
         dispatch(getCategoriesDB())
+        return res.data
       })
+
+    await fetch(API + '/api/category/image/' + newCategory.id, {
+      method: 'POST',
+      body: imageData,
+      headers: {
+        authorization: getState().variables.token,
+      },
+    })
   }
 
 export const changeCategoryDB: any =

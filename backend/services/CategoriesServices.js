@@ -33,8 +33,16 @@ class CategoriesServices {
       `)
     }
 
+    const lastId = await request(
+      'SELECT MAX(id) as id FROM items',
+      (d) => d[0][0]
+    )
+    const categoryData = await request(
+      `SELECT * FROM categories WHERE id = "${lastId}"`
+    )
+
     writeLog('Category was added')
-    return { status: true }
+    return { status: true, data: categoryData }
   }
 
   // change category by id
