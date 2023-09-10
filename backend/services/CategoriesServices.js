@@ -33,13 +33,16 @@ class CategoriesServices {
       `)
     }
 
-    const lastId = await request(
-      'SELECT MAX(id) as id FROM items',
+    const last = await request(
+      'SELECT MAX(id) as id FROM categories',
       (d) => d[0][0]
     )
     const categoryData = await request(
-      `SELECT * FROM categories WHERE id = "${lastId}"`
+      `SELECT * FROM categories WHERE id = "${last.id}"`,
+      (d) => d[0][0]
     )
+
+    console.log(last, categoryData)
 
     writeLog('Category was added')
     return { status: true, data: categoryData }

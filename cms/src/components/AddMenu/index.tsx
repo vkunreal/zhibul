@@ -54,23 +54,6 @@ export const AddMenu: React.FC<IAddMenuProps> = ({
     reader.readAsDataURL(file)
   }
 
-  const loadImage = async () => {
-    // if (!selectedImage) return
-    // const formData = new FormData()
-    // formData.append(selectedImage.name, selectedImage)
-    // // const res = await fetch(API + '/api/category/image/' + category.id, {
-    // //   method: 'POST',
-    // //   body: formData,
-    // //   headers: {
-    // //     authorization: token,
-    // //   },
-    // // })
-    // const data = await res.json()
-    // setImage(data.url)
-    // setLoadedImage(null)
-    // setSelectedImage(null)
-  }
-
   const handleAddCategory = () => {
     const newCategory: { [key: string]: any } = {
       name,
@@ -97,12 +80,12 @@ export const AddMenu: React.FC<IAddMenuProps> = ({
     <Dialog open={isOpen} onClose={onClose} fullWidth>
       <DialogTitle>Добавление категории</DialogTitle>
 
-      <DialogContent className='d-flex flex-column g-3'>
+      <DialogContent className="d-flex flex-column g-3">
         {image && !loadedImage && (
           <img
             src={image}
             style={{ height: 220, width: 220 }}
-            alt='Category image'
+            alt="Category image"
           />
         )}
         {loadedImage && (
@@ -114,24 +97,24 @@ export const AddMenu: React.FC<IAddMenuProps> = ({
               border: '3px solid rgb(0, 180, 0)',
               padding: 2,
             }}
-            alt='Loaded image'
+            alt="Loaded image"
           />
         )}
 
         <input
-          type='file'
-          className='d-none'
-          accept='image/jpeg,image/png'
+          type="file"
+          className="d-none"
+          accept="image/jpeg,image/png"
           ref={fileRef}
           onChange={handleChangeInput}
         />
 
-        <Button variant='outlined' color='warning' onClick={handleFileLoad}>
+        <Button variant="outlined" color="warning" onClick={handleFileLoad}>
           Загрузить картинку
         </Button>
 
         <TextField
-          label='Позиция'
+          label="Позиция"
           value={position}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPosition(parseInt(e.target.value))
@@ -139,7 +122,7 @@ export const AddMenu: React.FC<IAddMenuProps> = ({
         />
 
         <TextField
-          label='URL'
+          label="URL"
           value={url}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setUrl(e.target.value)
@@ -147,7 +130,7 @@ export const AddMenu: React.FC<IAddMenuProps> = ({
         />
 
         <TextField
-          label='Название'
+          label="Название"
           value={name}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setName(e.target.value)
@@ -155,7 +138,7 @@ export const AddMenu: React.FC<IAddMenuProps> = ({
         />
 
         <TextField
-          label='Описание'
+          label="Описание"
           value={description}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setDescription(e.target.value)
@@ -163,7 +146,7 @@ export const AddMenu: React.FC<IAddMenuProps> = ({
         />
 
         <TextField
-          label='SEO Title'
+          label="SEO Title"
           value={seo_title}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setSeoTitle(e.target.value)
@@ -171,7 +154,7 @@ export const AddMenu: React.FC<IAddMenuProps> = ({
         />
 
         <TextField
-          label='SEO Description'
+          label="SEO Description"
           value={seo_description}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setSeoDescription(e.target.value)
@@ -179,23 +162,23 @@ export const AddMenu: React.FC<IAddMenuProps> = ({
         />
 
         <TextField
-          label='SEO Keywords'
+          label="SEO Keywords"
           value={seo_keywords}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setSeoKeywords(e.target.value)
           }
         />
 
-        <div className='d-flex g-2 justify-end'>
+        <div className="d-flex g-2 justify-end">
           <Button
-            variant='outlined'
-            color='success'
+            variant="outlined"
+            color="success"
             onClick={handleAddCategory}
           >
             Добавить
           </Button>
 
-          <Button variant='outlined' color='error' onClick={onClose}>
+          <Button variant="outlined" color="error" onClick={onClose}>
             Отмена
           </Button>
         </div>

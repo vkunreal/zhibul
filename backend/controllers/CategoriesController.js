@@ -70,7 +70,6 @@ class CategoriesController {
       if (!req.files) {
         return res.status(400), json({ status: false })
       }
-      console.log('TEST', req.files)
       const file = Object.values(req.files)[0]
       const imageName = `image-${category_id}-${Date.now()}.${file.name
         .split('.')

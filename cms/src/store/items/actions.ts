@@ -34,7 +34,7 @@ export const getCategoriesDB: any = () => async (dispatch: Dispatch) => {
 export const addCategoryDB: any =
   (category: any, imageData: any) =>
   async (dispatch: Dispatch, getState: () => IStore) => {
-    const newCategory = await axios
+    const response = await axios
       .post(API + '/api/category', category, {
         headers: {
           authorization: getState().variables.token,
@@ -45,7 +45,7 @@ export const addCategoryDB: any =
         return res.data
       })
 
-    await fetch(API + '/api/category/image/' + newCategory.id, {
+    await fetch(API + '/api/category/image/' + response.data.id, {
       method: 'POST',
       body: imageData,
       headers: {
