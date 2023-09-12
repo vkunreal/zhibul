@@ -81,7 +81,7 @@ class CategoriesController {
         'images',
         imageName
       )
-      const imageUrl = 'http://localhost:5000/images/' + imageName
+      const imageUrl = 'https://api.zhbl.by/images/' + imageName
       await file.mv(imagePath, async (err) => {
         if (err) {
           console.error(err)
