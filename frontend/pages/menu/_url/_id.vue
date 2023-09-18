@@ -128,6 +128,27 @@
         </div>
       </template>
 
+      <!-- files -->
+      <div v-if="!!itemDetails.files.length">
+        <h2>Прикрепленные файлы:</h2>
+
+        <div class="d-flex flex-wrap g-2 mt-4 mb-4">
+          <a
+            v-for="(file, ind) in itemDetails.files"
+            :href="file.src"
+            :key="ind"
+            target="_blank"
+            class="product__file d-flex align-center g-2"
+          >
+            <svg width="32" height="32">
+              <use xlink:href="@/static/icons.svg#options" />
+            </svg>
+            <p>{{ file.title }}</p>
+          </a>
+        </div>
+      </div>
+      <!-- files -->
+
       <!-- description -->
       <div v-if="itemDetails?.description">
         <h2>Описание товара:</h2>
@@ -308,6 +329,26 @@ export default {
       &::-webkit-scrollbar-thumb {
         background-color: $primaryGrey;
         border-radius: 9em;
+      }
+    }
+  }
+  &__file {
+    min-width: 200px;
+    padding: 10px;
+    text-decoration: none;
+    transition: 0.4s;
+    & p {
+      color: $primaryGrey;
+    }
+    & svg {
+      fill: $primaryGrey;
+    }
+    &:hover {
+      & p {
+        color: orange;
+      }
+      & svg {
+        // fill: $white;
       }
     }
   }

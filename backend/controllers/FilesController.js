@@ -1,4 +1,6 @@
 const FilesServices = require('../services/FilesServices')
+const path = require('path')
+const fs = require('fs')
 
 class FilesController {
   async getFiles(req, res) {
@@ -33,6 +35,7 @@ class FilesController {
       )
 
       const fileUrl = 'https://api.zhbl.by/files/' + fileName
+      // const fileUrl = 'http://localhost:5000/files/' + fileName
 
       await file.mv(filePath, async (err) => {
         if (err) {
@@ -43,7 +46,7 @@ class FilesController {
       })
 
       res
-        .status(200)
+        .status(201)
         .json({ status: true, response: { item_id, fileUrl, title, icon } })
     } catch (e) {
       console.error(e)
@@ -67,6 +70,7 @@ class FilesController {
         }
         await FilesServices.deleteFileBySrc(
           'https://api.zhbl.by/files/' + fileName
+          // 'http://localhost:5000/files/' + fileName
         )
         res.status(200).json({ status: true })
       })

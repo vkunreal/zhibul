@@ -30,6 +30,7 @@ export interface IItem {
   url: string
   position?: number
   category_id: number
+  category_url?: string
   category_name: string
   name: string
   description: string

@@ -3,6 +3,7 @@ const { writeLog } = require('../writeLog')
 const path = require('path')
 const fs = require('fs')
 const OptionsServices = require('../services/OptionsServices')
+const FilesServices = require('../services/FilesServices')
 
 const testItem = (item) => {
   if (!item?.category_id || !String(item?.category_id).trim()) {
@@ -66,9 +67,11 @@ class ItemsController {
       const itemId = items[i].id
       const images = await ItemsServices.getItemImages(itemId)
       const itemOptions = await OptionsServices.getOptionsByItemId(itemId)
+      const itemFiles = await FilesServices.getFilesByItemId(itemId)
 
       items[i].images = images
       items[i].menuOptions = itemOptions.filter((op) => !!op.show_menu)
+      items[i].files = itemFiles
     }
 
     res.status(200).json(items)
@@ -96,7 +99,10 @@ class ItemsController {
 
     if (item) {
       const images = await ItemsServices.getItemImages(item.id)
+      const files = await FilesServices.getFilesByItemId(item.id)
+
       item.images = images
+      item.files = files
     }
 
     res.status(200).json(item)
@@ -107,7 +113,10 @@ class ItemsController {
 
     if (item) {
       const images = await ItemsServices.getItemImages(item.id)
+      const files = await FilesServices.getFilesByItemId(item.id)
+
       item.images = images
+      item.files = files
     }
 
     res.status(200).json(item)

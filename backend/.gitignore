@@ -9,5 +9,5 @@
 /public/slider/*.png
 /public/slider/*.svg
 /public/slider/*.gif
-/public/files
+/public/files/*.pdf
 /logs/*.log

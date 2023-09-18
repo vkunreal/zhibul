@@ -11,7 +11,8 @@ import {
 import './styles.scss'
 import { useSelector } from 'react-redux'
 import { selectToken } from '../../store/variables/selectors'
-import API from '../../utils/api'
+import API, { DOMAIN } from '../../utils/api'
+import { FileManager } from '../../components/FileManager'
 
 interface ILocationItem {
   item: IItem
@@ -111,68 +112,68 @@ export const Configure: React.FC = () => {
   }
 
   return (
-    <div className='configure d-flex flex-column g-2 mt-4'>
-      <div className='configure-images scroll d-flex g-2'>
+    <div className="configure d-flex flex-column g-2 mt-4">
+      <div className="configure-images scroll d-flex g-2">
         {images.map((image, i) => (
           <div
-            className='configure-image d-flex flex-column'
+            className="configure-image d-flex flex-column"
             key={image.src + i}
           >
             {change && (
               <span
-                className='configure-image-close'
+                className="configure-image-close"
                 onClick={() => deleteImage(image.src)}
               >
                 &#10006;
               </span>
             )}
-            <img src={image.src} alt='item image' />
+            <img src={image.src} alt="item image" />
             {!image.is_main && change && (
-              <Button className='mt-1 mb-1' onClick={() => putMain(image.src)}>
+              <Button className="mt-1 mb-1" onClick={() => putMain(image.src)}>
                 Сделать главной
               </Button>
             )}
           </div>
         ))}
         {loadedImages.map((image, i) => (
-          <div className='configure-image loaded' key={image.name + i}>
+          <div className="configure-image loaded" key={image.name + i}>
             {change && (
               <span
-                className='configure-image-close'
+                className="configure-image-close"
                 onClick={() => deleteLoadImage(image.name)}
               >
                 &#10006;
               </span>
             )}
-            <img src={image.result} alt='item image' />
+            <img src={image.result} alt="item image" />
           </div>
         ))}
       </div>
 
       <div>
         <input
-          type='file'
-          className='d-none'
-          accept='image/jpeg,image/png'
+          type="file"
+          className="d-none"
+          accept="image/jpeg,image/png"
           ref={fileRef}
           onChange={handleChangeInput}
           multiple
         />
         {change ? (
-          <div className='d-flex g-1'>
+          <div className="d-flex g-1">
             <Button
-              variant='outlined'
-              color='success'
+              variant="outlined"
+              color="success"
               onClick={handleLoadImage}
             >
               Готово
             </Button>
-            <Button variant='outlined' color='warning' onClick={handleOpenFile}>
+            <Button variant="outlined" color="warning" onClick={handleOpenFile}>
               Загрузить
             </Button>
           </div>
         ) : (
-          <Button variant='outlined' onClick={() => setChange(true)}>
+          <Button variant="outlined" onClick={() => setChange(true)}>
             Добавить / удалить картинку
           </Button>
         )}
@@ -194,6 +195,17 @@ export const Configure: React.FC = () => {
       <p>
         <b>Цена:</b> {item.price}
       </p>
+
+      <a
+        href={`${DOMAIN}/menu/${item.category_url}/${item.url}`}
+        target="_blank"
+      >
+        Открыть на сайте
+      </a>
+
+      <div className="mt-2 mb-2">
+        <FileManager item_id={item.id} />
+      </div>
 
       <OptionsList item_id={item.id || 0} />
     </div>
