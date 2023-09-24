@@ -63,17 +63,19 @@ class FilesController {
         'files',
         fileName
       )
-      fs.unlink(filePath, async (err) => {
-        if (err) {
-          res.status(500).json({ status: false })
-          console.log(err)
-        }
-        await FilesServices.deleteFileBySrc(
-          'https://api.zhbl.by/files/' + fileName
-          // 'http://localhost:5000/files/' + fileName
-        )
-        res.status(200).json({ status: true })
-      })
+      if (fs.existsSync(filePath)) {
+        fs.unlink(filePath, async (err) => {
+          if (err) {
+            res.status(500).json({ status: false })
+            console.log(err)
+          }
+          await FilesServices.deleteFileBySrc(
+            'https://api.zhbl.by/files/' + fileName
+            // 'http://localhost:5000/files/' + fileName
+          )
+          res.status(200).json({ status: true })
+        })
+      }
     } catch (e) {
       console.error(e)
     }

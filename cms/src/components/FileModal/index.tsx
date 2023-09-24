@@ -3,12 +3,22 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
 } from '@mui/material'
 import { useRef, useState } from 'react'
 import API from '../../utils/api'
 import { useSelector } from 'react-redux'
 import { selectToken } from '../../store/variables/selectors'
+
+const icons = [
+  { id: 1, value: 'options', title: 'Настройки' },
+  { id: 2, value: 'book', title: 'Книга' },
+  { id: 3, value: 'warning', title: 'Внимание' },
+]
 
 const defaultState = {
   title: '',
@@ -69,14 +79,23 @@ export const FileModal: React.FC<any> = ({ isOpen, onClose, item_id }) => {
       <DialogTitle>Добавление файла</DialogTitle>
 
       <DialogContent className="d-flex flex-column g-3 pt-1">
-        <TextField
-          label="Иконка"
-          autoComplete="off"
-          value={fileData.icon}
-          onChange={(e) =>
-            setFileData((prev: any) => ({ ...prev, icon: e.target.value }))
-          }
-        />
+        <FormControl fullWidth>
+          <InputLabel id="items-view__label">Иконка</InputLabel>
+
+          <Select
+            labelId="items-view__label"
+            value={fileData.icon}
+            onChange={(e) =>
+              setFileData((prev: any) => ({ ...prev, icon: e.target.value }))
+            }
+          >
+            {icons.map(({ title, value, id }) => (
+              <MenuItem key={id} value={value}>
+                {title}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
         <TextField
           label="Название"

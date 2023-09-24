@@ -74,7 +74,7 @@
         </div>
         <div
           v-else-if="filteredItems?.length"
-          class="category__list d-flex flex-column g-4"
+          class="category__list d-flex flex-column g-8 mt-10"
         >
           <template v-for="item in filteredItems">
             <!-- <nuxt-link :to="category?.url + '/' + item.url" :key="item.id"> -->

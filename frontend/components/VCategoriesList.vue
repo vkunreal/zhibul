@@ -211,10 +211,9 @@ export default {
   computed: {
     ...mapGetters("app", ["categories"]),
     categoriesList() {
-      console.log(this.categories);
       return (parentId = null) =>
         this.categories
-          .filter((c) => c.parent_id === parentId)
+          .filter((c) => c.parent_id === parentId && !!c.active)
           .sort((a, b) => (a.position < b.position ? -1 : 1)) || {};
     },
   },
@@ -238,9 +237,7 @@ export default {
       }
     },
     tabSelected() {
-      console.log("selected tab");
       this.categoryDetail = null;
-      console.log(this.categoryDetail);
     },
   },
 };

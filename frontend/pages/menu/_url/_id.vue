@@ -45,7 +45,7 @@
             class="product__images d-flex flex-column align-center mr-10"
           >
             <img
-              class="product__preview"
+              class="product__preview mb-10"
               :src="image ? image : productImage.src"
               :alt="itemDetails.name"
             />
@@ -140,9 +140,7 @@
             target="_blank"
             class="product__file d-flex align-center g-2"
           >
-            <svg width="32" height="32">
-              <use xlink:href="@/static/icons.svg#options" />
-            </svg>
+            <v-file-icon :icon="file.icon" />
             <p>{{ file.title }}</p>
           </a>
         </div>
@@ -162,6 +160,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import VFileIcon from "~/components/VFileIcon.vue";
 
 export default {
   head() {
@@ -185,6 +184,7 @@ export default {
       ],
     };
   },
+  components: { VFileIcon },
   data: () => ({
     image: null,
   }),

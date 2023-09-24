@@ -89,7 +89,6 @@ export const AddPageMenu: React.FC<IAddPageMenuProps> = ({
 
         <TextField
           label="Название"
-          inputProps={{ maxLength: 70 }}
           value={name}
           autoComplete="off"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -98,7 +97,6 @@ export const AddPageMenu: React.FC<IAddPageMenuProps> = ({
         />
         <TextField
           label="Текст"
-          inputProps={{ maxLength: 1500 }}
           value={text}
           autoComplete="off"
           multiline
@@ -109,7 +107,6 @@ export const AddPageMenu: React.FC<IAddPageMenuProps> = ({
         />
         <TextField
           label="SEO Title"
-          inputProps={{ maxLength: 70 }}
           value={seoTitle}
           autoComplete="off"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -118,18 +115,20 @@ export const AddPageMenu: React.FC<IAddPageMenuProps> = ({
         />
         <TextField
           label="SEO Description"
-          inputProps={{ maxLength: 250 }}
           value={seoDescription}
           autoComplete="off"
+          multiline
+          maxRows={8}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setSeoDescription(e.target.value)
           }
         />
         <TextField
           label="SEO Keywords"
-          inputProps={{ maxLength: 150 }}
           value={seoKeywords}
           autoComplete="off"
+          multiline
+          maxRows={8}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setSeoKeywords(e.target.value)
           }

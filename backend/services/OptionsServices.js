@@ -1,4 +1,5 @@
 const { request } = require('../db/database')
+const { replaceQuotes } = require('../utils/quotes')
 const { writeLog } = require('../writeLog')
 
 class OptionsServices {
@@ -12,14 +13,18 @@ class OptionsServices {
     let response
 
     await request(
-      `UPDATE options SET name = "${name}" WHERE id = "${option_id}"`
+      `UPDATE options SET name = "${replaceQuotes(
+        name
+      )}" WHERE id = "${option_id}"`
     ).catch(() => {
       writeLog('Changing name was failed')
       response = { status: false }
     })
 
     await request(
-      `UPDATE options SET value = "${value}" WHERE id = "${option_id}"`
+      `UPDATE options SET value = "${replaceQuotes(
+        value
+      )}" WHERE id = "${option_id}"`
     ).catch(() => {
       writeLog('Changing value was failed')
       response = { status: false }
@@ -71,7 +76,9 @@ class OptionsServices {
 
     await request(`
       INSERT INTO options (item_id, name, value, position)
-      VALUES ("${item_id}", "${name}", "${value}", "${position}")
+      VALUES ("${item_id}", "${replaceQuotes(name)}", "${replaceQuotes(
+      value
+    )}", "${position}")
     `).catch(() => {
       writeLog('Adding option was failed')
       response = { status: false }

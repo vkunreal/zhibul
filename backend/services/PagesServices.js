@@ -1,4 +1,5 @@
 const { request } = require('../db/database')
+const { replaceQuotes } = require('../utils/quotes')
 const { writeLog } = require('../writeLog')
 
 class PagesServices {
@@ -33,7 +34,11 @@ class PagesServices {
   ) {
     return await request(`
       INSERT INTO pages (url, name, text, seo_title, seo_description, seo_keywords)
-      VALUES ("${url}", "${name}", "${text}", "${seo_title}", "${seo_description}", "${seo_keywords}")
+      VALUES ("${url}", "${replaceQuotes(name)}", "${replaceQuotes(
+      text
+    )}", "${replaceQuotes(seo_title)}", "${replaceQuotes(
+      seo_description
+    )}", "${replaceQuotes(seo_keywords)}")
     `).then(() => {
       writeLog('Added new page')
       return { status: true }
@@ -54,11 +59,11 @@ class PagesServices {
         `UPDATE pages SET ${field} = "${value}" WHERE url = "${url}"`
       )
 
-    updatePageField('name', name)
-    updatePageField('text', text)
-    updatePageField('seo_title', seo_title)
-    updatePageField('seo_description', seo_description)
-    updatePageField('seo_keywords', seo_keywords)
+    updatePageField('name', replaceQuotes(name))
+    updatePageField('text', replaceQuotes(text))
+    updatePageField('seo_title', replaceQuotes(seo_title))
+    updatePageField('seo_description', replaceQuotes(seo_description))
+    updatePageField('seo_keywords', replaceQuotes(seo_keywords))
 
     writeLog('Page was changed')
     return { status: true }

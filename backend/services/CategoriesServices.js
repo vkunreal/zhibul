@@ -1,4 +1,5 @@
 const { request } = require('../db/database')
+const { replaceQuotes } = require('../utils/quotes')
 const { writeLog } = require('../writeLog')
 
 class CategoriesServices {
@@ -24,7 +25,13 @@ class CategoriesServices {
       )
       await request(`
         INSERT INTO categories (active, name, parent_id, is_contains, position, description, url, seo_title, seo_description, seo_keywords)
-        VALUES ("0", "${category.name}", "${category.parent_id}", 0, "${category.position}", "${category.description}", "${category.url}", "${category.seo_title}", "${category.seo_description}", "${category.seo_keywords}")
+        VALUES ("0", "${category.name}", "${category.parent_id}", 0, "${
+        category.position
+      }", "${replaceQuotes(category.description)}", "${
+        category.url
+      }", "${replaceQuotes(category.seo_title)}", "${replaceQuotes(
+        category.seo_description
+      )}", "${replaceQuotes(category.seo_keywords)}")
       `)
     } else {
       await request(`
@@ -42,8 +49,6 @@ class CategoriesServices {
       (d) => d[0][0]
     )
 
-    console.log(last, categoryData)
-
     writeLog('Category was added')
     return { status: true, data: categoryData }
   }
@@ -58,11 +63,14 @@ class CategoriesServices {
 
       updateCategoryField('position', category.position)
       updateCategoryField('url', category.url)
-      updateCategoryField('name', category.name)
-      updateCategoryField('description', category.description)
-      updateCategoryField('seo_title', category.seo_title)
-      updateCategoryField('seo_description', category.seo_description)
-      updateCategoryField('seo_keywords', category.seo_keywords)
+      updateCategoryField('name', replaceQuotes(category.name))
+      updateCategoryField('description', replaceQuotes(category.description))
+      updateCategoryField('seo_title', replaceQuotes(category.seo_title))
+      updateCategoryField(
+        'seo_description',
+        replaceQuotes(category.seo_description)
+      )
+      updateCategoryField('seo_keywords', replaceQuotes(category.seo_keywords))
     } catch (e) {
       console.error(e)
     }

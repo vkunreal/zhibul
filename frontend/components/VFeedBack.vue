@@ -70,7 +70,7 @@ export default {
         submitDisabled,
       }).then(({ status }) => {
         if (status) {
-          console.log(status);
+          // console.log(status);
         }
       });
     },
