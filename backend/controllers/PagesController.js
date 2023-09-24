@@ -63,9 +63,6 @@ class PagesController {
       if (!url.trim()) {
         writeLog('changePage: url is not defined')
         return res.status(400).json({ status: false })
-      } else if (!name.trim()) {
-        writeLog('changePage: name is not defined')
-        return res.status(400).json({ status: false })
       }
 
       await PagesServices.changePage(
