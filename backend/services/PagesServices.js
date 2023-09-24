@@ -48,7 +48,7 @@ class PagesServices {
   // changePage
   async changePage(
     url,
-    name,
+    name = '',
     text = '',
     seo_title = '',
     seo_description = '',
