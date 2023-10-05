@@ -53,6 +53,7 @@ export const RoutesComp: React.FC = () => {
               element={!token ? <AuthPage /> : <Candidates />}
             />
             <Route path="/items" element={!token ? <AuthPage /> : <Items />} />
+            <Route path="/items/:url" element={!token ? <AuthPage /> : <Items />} />
             <Route
               path="/configure"
               element={!token ? <AuthPage /> : <Configure />}
