@@ -58,26 +58,6 @@
     </div>
 
     <ul class="v-categories__tabs d-none d-md-flex g-6 align-center">
-      <!-- <li
-        class="v-categories__tabs-link"
-        v-for="{ title, url, tabs } in tabs"
-        :key="url"
-        @mouseover="tabNesting = url"
-        @mouseleave="tabNesting = null"
-      >
-        <div>
-          <nuxt-link :to="url">{{ title }}</nuxt-link>
-        </div>
-
-        <ul
-          class="v-categories__tabs-link-list d-flex flex-column"
-          v-if="tabNesting === url"
-        >
-          <li>1</li>
-          <li>2</li>
-          <li>3</li>
-        </ul>
-      </li> -->
       <li
         class="v-categories__link pt-4 pb-3 ml-2 mr-2"
         style="position: relative"
@@ -127,12 +107,6 @@ const tabs = [
   {
     title: "Доставка",
     url: "/dostavka",
-    // tabs: [
-    //   { title: "Доставка", url: "/dostavka" },
-    //   //      { title: "Гарантия", url: "/garanty" },
-    //   //      { title: "Оплата", url: "/payment" },
-    //   //      { title: "Акции", url: "/actions" },
-    // ],
   },
   {
     title: "Услуги",
@@ -142,7 +116,6 @@ const tabs = [
       { title: "Аренда автоприцепов", url: "/arenda_prizepa" },
     ],
   },
-  //  { title: "Новости", url: "/news" },
   { title: "Контакты", url: "/contacts" },
 ];
 
@@ -198,6 +171,7 @@ export default {
     &-catalog {
       background: $primaryGrey;
       color: $white;
+      font-weight: 500;
       &-treug {
         width: 54px;
         height: 54px;
@@ -245,8 +219,9 @@ export default {
     }
     a {
       color: $primaryGrey;
+      font-weight: 500;
       &.nuxt-link-exact-active {
-        color: $colorSecondary;
+        color: $colorFourth;
       }
     }
     &-link {

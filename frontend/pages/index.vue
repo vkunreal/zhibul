@@ -4,30 +4,27 @@
       class="home__slider home__slider--mobile"
       v-if="slider"
       :show-arrows="false"
-      :interval="5000"
+      :interval="500000"
       :cycle="true"
       delimiter-icon="mdi-minus"
       height="600"
     >
       <v-carousel-item
-        v-for="{ id, title, brand, url, images: { mobile } } in slider"
+        v-for="{ id, title, url, images: { mobile } } in slider"
         :key="id"
         :src="mobile"
       >
-        <div
-          class="d-flex fill-height flex-column align-center justify-center g-35"
+        <nuxt-link
+          class="d-flex fill-height flex-column align-space-between justify-center text-center g-48"
+          style="text-decoration: none; color: #fff"
+          :to="url"
         >
           <p class="home__slider-title text--white text-uppercase text-center">
-            {{ title }} <br />
-            {{ brand }}
+            {{ title }}
           </p>
-          <v-btn
-            class="home__slider-button ml-8 mr-8"
-            @click="$router.push('/menu/' + url)"
-          >
-            Подробнее
-          </v-btn>
-        </div>
+
+          <p class="text-uppercase">Уже в продаже</p>
+        </nuxt-link>
       </v-carousel-item>
     </v-carousel>
 
@@ -35,7 +32,7 @@
       class="home__slider home__slider--desktop"
       v-if="slider"
       :show-arrows="false"
-      :interval="5000"
+      :interval="500000"
       :cycle="true"
       delimiter-icon="mdi-minus"
       height="800"
@@ -45,17 +42,27 @@
         :key="id"
         :src="desktop"
       >
-        <div class="d-flex fill-height flex-column justify-center align-center">
+        <nuxt-link
+          class="d-flex fill-height flex-column justify-center align-center g-15"
+          :class="{ 'g-35': !brand.length }"
+          style="text-decoration: none; color: #fff"
+          :to="url"
+        >
           <p class="home__slider-title text--white text-uppercase text-center">
-            {{ title }} <br />
+            {{ title }}
+          </p>
+
+          <p class="text-center" style="max-width: 500px; font-size: 20px">
             {{ brand }}
           </p>
-          <v-btn
-            class="home__slider-button"
-            @click="$router.push('/menu/' + url)"
-            >Подробнее</v-btn
+
+          <p
+            class="home__slider-heading text-uppercase"
+            style="font-size: 28px; font-weight: bold"
           >
-        </div>
+            Уже в продаже
+          </p>
+        </nuxt-link>
       </v-carousel-item>
     </v-carousel>
 
@@ -64,33 +71,44 @@
 
       <div class="home__devider mt-4 mb-8" />
 
-      <p>
+      <div>
         Наша компания более 10 лет осуществляет продажу пневматического
-        инструмента и крепежа, которые известны на всей территории Европы.
-        <br /><br />
+        инструмента, крепежных изделий, краскораспылителей, сервисного
+        инструмента, соединительных элементов, компрессорного оборудования,
+        осушителей, шестеренных насосов известных брендов.<br /><br />
 
-        Пневматический инструмент представлен следующими брендами: FASCO (BECK),
-        EZ-FASTEN и SENCO. Данные компании являются лидерами по производству
-        скобозабивных, штифтозабивных, шпилькозабивных, гвоздезабивных,
-        специальных и упаковочных пистолетов. Эти компании не раз доказали всему
-        миру надежность, приемлемую цену и ремонтопригодность производимого ими
-        инструмента.
-        <br /><br />
+        Помимо реализации товаров мы осуществляем ремонт и обслуживание
+        пневматического инструмента и оборудования следующих брендов: BEA,
+        BOSTITCH, DYNABRADE, EZ-FASTEN, FASCO, HITACHI, MAX, PREBENA, SENCO,
+        SUMAKE.<br /><br />
 
-        Крепежные изделия представлены польской компанией EMES, которая
-        специализируется на производстве скоб, штифтов, шпилек и гвоздей для
-        пневматического инструмента. <br /><br />
+        Основная миссия нашей компании - показать и рассказать людям о новинках
+        и инновационных решениях в сфере сжатого воздуха, а так же дать понять,
+        что брендовое оборудование может быть доступно для каждого.<br /><br />
 
-        Также был расширен ассортимент товаров. Появились в продаже компрессоры
-        (REMEZA), краскораспылители (WALCOM), соединительные элементы (AIGNEP),
-        запасные части для краскораспылителей (WALCOM), а также трубки и шланги
-        (AIGNEP). <br /><br />
+        Мы начинали свой бизнес с продажи итальянского пневматического
+        инструмента FASCO и крепежных изделий польского бренда EMES и постепенно
+        расширяли наш ассортимент. <br /><br />
 
-        Помимо реализации товаров наша компания занимается ремонтом и
-        обслуживанием пневматического инструмента и оборудования следующих
-        брендов: BeA, BOSTITCH, DYNABRADE, EZ-FASTEN, FASCO (BECK), HITACHI,
-        MAX, PREBENA, SENCO, SUMAKE.
-      </p>
+        На сегодняшний день мы поставляем:<br /><br />
+
+        <ol>
+          <li>Пневматический инструмент - FASCO, EZ-FASTEN, SENCO</li>
+          <li>Крепежные изделия - EMES</li>
+          <li>
+            Компрессорное оборудования, осушители и запасные части - REMEZA
+          </li>
+          <li>Пневматику, трубопровод и соединительные элементы - AIGNEP</li>
+          <li>
+            Краскораспылители, принадлежности для окрасочных работ, сервисный
+            инструмент и запасные части - WALCOM, ASTUROMEC
+          </li>
+          <li>Шестеренные насосы - МОСГИДРОПРИВОД</li>
+        </ol>
+        <br />
+
+        Это делает нас одной из известных компаний на территории Беларуси.
+      </div>
     </div>
 
     <div class="home__promotion fill-width d-flex justify-center pt-12 pb-12">
@@ -236,7 +254,7 @@ export default {
 .home {
   &__slider {
     &-title {
-      font-size: 26px;
+      font-size: 30px;
       font-weight: 900;
     }
     &-button {
@@ -245,6 +263,9 @@ export default {
       border-radius: 0 !important;
       padding: 25px 30px !important;
       max-width: 220px;
+    }
+    &-heading {
+      color: $colorFourth;
     }
     .v-btn::before {
       content: unset;
