@@ -48,7 +48,7 @@
           style="text-decoration: none; color: #fff"
           :to="url"
         >
-          <!-- <p class="home__slider-title text--white text-uppercase text-center">
+          <p class="home__slider-title text--white text-uppercase text-center">
             {{ title }}
           </p>
 
@@ -61,7 +61,7 @@
             style="font-size: 28px; font-weight: bold"
           >
             Уже в продаже
-          </p> -->
+          </p>
         </nuxt-link>
       </v-carousel-item>
     </v-carousel>
