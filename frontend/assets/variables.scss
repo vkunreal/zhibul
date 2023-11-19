@@ -1,4 +1,5 @@
-@import url("https://fonts.google.com/specimen/Roboto");
+// @import url("https://fonts.google.com/specimen/Roboto");
+@import url("https://fonts.google.com/specimen/Play");
 
 @font-face {
   font-family: "Noto serif";
@@ -20,6 +21,7 @@ $colorPrimary: #ffd866;
 $colorSecondary: #0069b1;
 $colorThird: #ffeb3b;
 $colorFourth: #f07204;
+$colorFifth: #007646;
 
 $colorGrey: #404040;
 
@@ -28,6 +30,7 @@ $dark-grey: #999;
 
 $serif: "Noto serif";
 $roboto: "Roboto";
+$play: "Play";
 
 $point-display-xs: 375px !default;
 $point-display-sm: 600px !default;

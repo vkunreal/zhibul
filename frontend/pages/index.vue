@@ -19,11 +19,12 @@
           style="text-decoration: none; color: #fff"
           :to="url"
         >
-          <p class="home__slider-title text--white text-uppercase text-center">
+          <p
+            class="home__slider-title text--white text-uppercase text-center pr-2 pl-2"
+            style="font-size: 30px"
+          >
             {{ title }}
           </p>
-
-          <p class="text-uppercase">Уже в продаже</p>
         </nuxt-link>
       </v-carousel-item>
     </v-carousel>
@@ -43,24 +44,24 @@
         :src="desktop"
       >
         <nuxt-link
-          class="d-flex fill-height flex-column justify-center align-center g-15"
-          :class="{ 'g-35': !brand.length }"
+          class=""
           style="text-decoration: none; color: #fff"
           :to="url"
         >
-          <p class="home__slider-title text--white text-uppercase text-center">
-            {{ title }}
-          </p>
-
-          <p class="text-center" style="max-width: 500px; font-size: 20px">
-            {{ brand }}
+          <p class="home__slider-title text-center mt-14 mb-16">
+            <span
+              class="home__slider-title-color"
+              :class="{ 'green-title': id === 3 }"
+              >{{ title.split(" ")[0] }}</span
+            ><br />
+            <span>{{ title.split(" ").slice(1).join(" ") }}</span>
           </p>
 
           <p
-            class="home__slider-heading text-uppercase"
-            style="font-size: 28px; font-weight: bold"
+            class="text-center"
+            style="max-width: 700px; margin: 0 auto; font-size: 24px"
           >
-            Уже в продаже
+            {{ brand }}
           </p>
         </nuxt-link>
       </v-carousel-item>
@@ -254,8 +255,19 @@ export default {
 .home {
   &__slider {
     &-title {
-      font-size: 30px;
+      font-size: 42px;
       font-weight: 900;
+      &-color {
+        color: $colorFourth;
+        &.green-title {
+          color: $colorFifth;
+          background: unset;
+          text-decoration: unset;
+        }
+      }
+      & * {
+        font-family: $play;
+      }
     }
     &-button {
       background: $primaryGrey !important;

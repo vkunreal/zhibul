@@ -44,6 +44,14 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
+    [
+      "@nuxtjs/google-fonts",
+      {
+        families: {
+          Play: true,
+        },
+      },
+    ],
     "@nuxtjs/axios",
     "@nuxtjs/sitemap",
     "@nuxtjs/gtm",
