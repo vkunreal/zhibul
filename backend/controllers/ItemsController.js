@@ -174,7 +174,7 @@ class ItemsController {
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
       if (!file) {
-        return res.status(500).json({ status: '2' })
+        return res.status(500).json({ status: false })
       }
       const imageName = `image-${item_id}-${
         Date.now() + Math.round(Math.random() * 100000)
