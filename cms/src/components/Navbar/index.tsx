@@ -7,6 +7,7 @@ const routes = [
   // { name: 'Кандидаты', url: '/candidates' },
   { name: 'Категории / Товары', url: '/items' },
   { name: 'Страницы', url: '/pages' },
+  { name: 'Новости', url: '/news' },
 ]
 
 export const Navbar: React.FC = () => {

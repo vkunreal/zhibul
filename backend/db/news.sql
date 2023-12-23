@@ -32,10 +32,10 @@ CREATE TABLE news_files (
     FOREIGN KEY (news_id) REFERENCES news(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO news (url, title, text, date)
+INSERT INTO news (url, title, short_text, text, date, seo_title, seo_description, seo_keywords)
 VALUES
-('test1', 'TEST TITLE 1', 'TEST TEXT 1', '42342512432'),
-('test2', 'TEST TITLE 2', 'TEST TEXT 2', '42342523432');
+('test1', 'TEST TITLE 1', 'TEST SHORT 1', 'TEST TEXT 1', '42342512432', 'SEO TITLE', 'SEO Descipriotn', 'SEO keywords'),
+('test2', 'TEST TITLE 2', 'TEST SHORT 2', 'TEST TEXT 2', '42342523432', 'SEO TITLE', 'SEO Descipriotn', 'SEO keywords');
 
 INSERT INTO news_media (news_id, src, position)
 VALUES

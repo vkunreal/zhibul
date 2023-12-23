@@ -6,6 +6,7 @@ import { Candidates } from './Candidates'
 import { Items } from './Items'
 import { Configure } from './Configure'
 import { Pages } from './Pages'
+import { News } from './News'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectToken } from '../store/variables/selectors'
 import { AuthPage } from './Auth'
@@ -53,11 +54,15 @@ export const RoutesComp: React.FC = () => {
               element={!token ? <AuthPage /> : <Candidates />}
             />
             <Route path="/items" element={!token ? <AuthPage /> : <Items />} />
-            <Route path="/items/:url" element={!token ? <AuthPage /> : <Items />} />
+            <Route
+              path="/items/:url"
+              element={!token ? <AuthPage /> : <Items />}
+            />
             <Route
               path="/configure"
               element={!token ? <AuthPage /> : <Configure />}
             />
+            <Route path="/news" element={!token ? <AuthPage /> : <News />} />
             <Route path="/pages" element={!token ? <AuthPage /> : <Pages />} />
           </Routes>
         </div>
