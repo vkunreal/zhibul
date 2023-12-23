@@ -15,24 +15,25 @@ import axios from 'axios'
 import { setToken } from '../store/variables/actions'
 import API from '../utils/api'
 import './RoutesComp.scss'
+import { NewsConfigure } from './NewsConfigure'
 
 export const RoutesComp: React.FC = () => {
   const token = useSelector(selectToken)
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    async function fetch() {
-      const tokenStatus = await axios
-        .post(API + '/api/protect', { token })
-        .then((res) => res.data.status)
+  // useEffect(() => {
+  //   async function fetch() {
+  //     const tokenStatus = await axios
+  //       .post(API + '/api/protect', { token })
+  //       .then((res) => res.data.status)
 
-      if (!tokenStatus) {
-        dispatch(setToken(''))
-      }
-    }
-    fetch()
-    console.log(API)
-  }, [])
+  //     if (!tokenStatus) {
+  //       dispatch(setToken(''))
+  //     }
+  //   }
+  //   fetch()
+  //   console.log(API)
+  // }, [])
 
   return (
     <BrowserRouter>
@@ -63,6 +64,10 @@ export const RoutesComp: React.FC = () => {
               element={!token ? <AuthPage /> : <Configure />}
             />
             <Route path="/news" element={!token ? <AuthPage /> : <News />} />
+            <Route
+              path="/news/:news_id"
+              element={!token ? <AuthPage /> : <NewsConfigure />}
+            />
             <Route path="/pages" element={!token ? <AuthPage /> : <Pages />} />
           </Routes>
         </div>
