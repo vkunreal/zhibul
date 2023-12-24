@@ -39,5 +39,5 @@ VALUES
 
 INSERT INTO news_media (news_id, src, position)
 VALUES
-(1, 'test_image_url1', 1),
-(1, 'test_image_url2', 2);
+(1, 'https://api.zhbl.by/images/im1.png', 1),
+(1, 'https://api.zhbl.by/images/im2.png', 2);

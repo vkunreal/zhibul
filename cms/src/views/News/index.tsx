@@ -3,9 +3,12 @@ import { useEffect, useState } from 'react'
 import API from '../../utils/api'
 import { getDate } from '../../utils/date'
 import { Button } from '@mui/material'
+import { useNavigate } from 'react-router'
 
 export const News: React.FC = () => {
   const [news, setNews] = useState<any[]>([])
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     async function fetch() {
@@ -16,7 +19,7 @@ export const News: React.FC = () => {
   }, [])
 
   return (
-    <div className="pd-4">
+    <div className='pd-4'>
       <h1>Новости</h1>
 
       {!!news.length && (
@@ -67,8 +70,13 @@ export const News: React.FC = () => {
               </div>
 
               <div style={{ display: 'flex', gap: 10 }}>
-                <Button variant="outlined">Изменить</Button>
-                <Button variant="outlined" color="error">
+                <Button
+                  variant='outlined'
+                  onClick={() => navigate('/news/' + item.id)}
+                >
+                  Изменить
+                </Button>
+                <Button variant='outlined' color='error'>
                   Удалить
                 </Button>
               </div>
