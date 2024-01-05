@@ -151,7 +151,7 @@ class NewsController {
           'images',
           mediaName
         )
-        const mediaUrl = 'http://localhost:5000/images/' + mediaName
+        const mediaUrl = 'https://api.zhbl.by/images/' + mediaName
         urls.push(mediaUrl)
         await file.mv(mediaPath, async (err) => {
           if (err) {
@@ -190,7 +190,7 @@ class NewsController {
           console.log(err)
         }
         await NewsServices.deleteNewsMedia(
-          'http://localhost:5000/images/' + mediaName
+          'https://api.zhbl.by/images/' + mediaName
         )
       })
 
