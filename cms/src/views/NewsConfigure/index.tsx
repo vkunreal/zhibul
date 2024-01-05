@@ -39,6 +39,7 @@ export const NewsConfigure = () => {
     setUrl(newsData.data.url)
     setTitle(newsData.data.title)
     setText(newsData.data.text)
+    setShortText(newsData.data.short_text)
     setSeoTitle(newsData.data.seo_title)
     setSeoDescription(newsData.data.seo_description)
     setSeoKeywords(newsData.data.seo_keywords)
