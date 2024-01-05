@@ -4,23 +4,47 @@ import API from '../../utils/api'
 import { getDate } from '../../utils/date'
 import { Button } from '@mui/material'
 import { useNavigate } from 'react-router'
+import { AddNewsItem } from '../../components/AddNewsItem'
+import { useSelector } from 'react-redux'
+import { selectToken } from '../../store/variables/selectors'
 
 export const News: React.FC = () => {
   const [news, setNews] = useState<any[]>([])
+  const [isOpen, setIsOpen] = useState(false)
 
   const navigate = useNavigate()
 
+  const token = useSelector(selectToken)
+
+  const fetchData = async () => {
+    const newsData = await axios.get(API + '/api/news')
+    setNews(newsData.data)
+  }
+
   useEffect(() => {
-    async function fetch() {
-      const newsData = await axios.get(API + '/api/news')
-      setNews(newsData.data)
-    }
-    fetch()
+    fetchData()
   }, [])
 
   return (
-    <div className='pd-4'>
+    <div className="pd-4">
       <h1>Новости</h1>
+
+      <Button
+        variant="outlined"
+        color="success"
+        className="mt-2"
+        onClick={() => setIsOpen(true)}
+      >
+        Добавить новость
+      </Button>
+
+      <AddNewsItem
+        isOpen={isOpen}
+        onClose={() => {
+          setIsOpen(false)
+          fetchData()
+        }}
+      />
 
       {!!news.length && (
         <div
@@ -71,12 +95,25 @@ export const News: React.FC = () => {
 
               <div style={{ display: 'flex', gap: 10 }}>
                 <Button
-                  variant='outlined'
+                  variant="outlined"
                   onClick={() => navigate('/news/' + item.id)}
                 >
                   Изменить
                 </Button>
-                <Button variant='outlined' color='error'>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() =>
+                    axios
+                      .delete(`${API}/api/news`, {
+                        headers: {
+                          authorization: token,
+                        },
+                        data: { id: item.id },
+                      })
+                      .then(fetchData)
+                  }
+                >
                   Удалить
                 </Button>
               </div>

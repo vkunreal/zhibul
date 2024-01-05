@@ -74,7 +74,7 @@ const tabs = [
       { title: "Аренда автоприцепов", url: "/arenda_prizepa" },
     ],
   },
-  //  { title: "Новости", url: "/news" },
+  { title: "Новости", url: "/news" },
   { title: "Контакты", url: "/contacts" },
 ];
 

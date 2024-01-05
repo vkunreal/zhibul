@@ -37,35 +37,38 @@ export const RoutesComp: React.FC = () => {
 
   return (
     <BrowserRouter>
-      <div className='routes d-flex g-2'>
-        <div className='routes__navbar'>
+      <div className="routes d-flex g-2">
+        <div className="routes__navbar">
           <Navbar />
         </div>
 
-        <div className='routes__content'>
+        <div className="routes__content">
           <Routes>
-            <Route path='/' />
+            <Route path="/" />
             <Route
-              path='/variables'
+              path="/variables"
               element={!token ? <AuthPage /> : <Variables />}
             />
-            <Route path='/users' element={!token ? <AuthPage /> : <Users />} />
+            <Route path="/users" element={!token ? <AuthPage /> : <Users />} />
             <Route
-              path='/candidates'
+              path="/candidates"
               element={!token ? <AuthPage /> : <Candidates />}
             />
-            <Route path='/items' element={!token ? <AuthPage /> : <Items />} />
+            <Route path="/items" element={!token ? <AuthPage /> : <Items />} />
             <Route
-              path='/items/:url'
+              path="/items/:url"
               element={!token ? <AuthPage /> : <Items />}
             />
             <Route
-              path='/configure'
+              path="/configure"
               element={!token ? <AuthPage /> : <Configure />}
             />
-            <Route path='/news' element={<News />} />
-            <Route path='/news/:news_id' element={<NewsConfigure />} />
-            <Route path='/pages' element={!token ? <AuthPage /> : <Pages />} />
+            <Route path="/news" element={!token ? <AuthPage /> : <News />} />
+            <Route
+              path="/news/:news_id"
+              element={!token ? <AuthPage /> : <NewsConfigure />}
+            />
+            <Route path="/pages" element={!token ? <AuthPage /> : <Pages />} />
           </Routes>
         </div>
       </div>

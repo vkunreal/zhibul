@@ -1,5 +1,7 @@
 const NewsServices = require('../services/NewsServices')
 const { writeLog } = require('../writeLog')
+const path = require('path')
+const fs = require('fs')
 
 class NewsController {
   async getNews(req, res) {
@@ -9,6 +11,8 @@ class NewsController {
       const media = await NewsServices.getNewsMediaById(news[i].id)
       news[i].media = media.sort((a, b) => (a.position > b.position ? 1 : -1))
     }
+
+    news.sort((a, b) => (a.date > b.date ? -1 : 1))
 
     res.status(200).json(news)
   }
@@ -22,6 +26,30 @@ class NewsController {
     res.status(200).json(newsItem)
   }
 
+  async getNewsItemByUrl(req, res) {
+    const { url } = req.params
+    if (!url || !url.trim().length)
+      return res.status(400).json({ status: false })
+
+    const newsItem = await NewsServices.getNewsItemFromUrl(url)
+
+    if (!newsItem) {
+      return res.status(400).json({ status: false })
+    }
+
+    const media = await NewsServices.getNewsMediaById(newsItem.id)
+    newsItem.media = media.sort((a, b) => (a.position > b.position ? 1 : -1))
+
+    res.status(200).json(newsItem)
+  }
+
+  async getNewsItemMedia(req, res) {
+    const news_id = req.params.news_id
+    const newsImages = await NewsServices.getNewsMediaById(news_id)
+
+    res.status(200).json(newsImages)
+  }
+
   async addNewsItem(req, res) {
     try {
       const {
@@ -33,6 +61,12 @@ class NewsController {
         seo_description,
         seo_keywords,
       } = req.body
+
+      const item = await NewsServices.getNewsItemFromUrl(url)
+
+      if (item) {
+        return res.status(400).json({ status: false })
+      }
 
       await NewsServices.addNewsItem(
         url,
@@ -117,7 +151,7 @@ class NewsController {
           'images',
           mediaName
         )
-        const mediaUrl = 'https://api.zhbl.by/images/' + imageName
+        const mediaUrl = 'http://localhost:5000/images/' + mediaName
         urls.push(mediaUrl)
         await file.mv(mediaPath, async (err) => {
           if (err) {
@@ -156,7 +190,7 @@ class NewsController {
           console.log(err)
         }
         await NewsServices.deleteNewsMedia(
-          'https://api.zhbl.by/images/' + mediaName
+          'http://localhost:5000/images/' + mediaName
         )
       })
 

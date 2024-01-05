@@ -1,6 +1,5 @@
 const { request } = require('../db/database')
 const { replaceQuotes } = require('../utils/quotes')
-const { writeLog } = require('../writeLog')
 
 class NewsServices {
   async getAllNews() {
@@ -11,6 +10,13 @@ class NewsServices {
     return await request(
       `SELECT * FROM news WHERE id = "${id}"`,
       (res) => res[0][0]
+    )
+  }
+
+  async getNewsItemFromUrl(url) {
+    return await request(
+      `SELECT * FROM news WHERE url = "${url}"`,
+      (r) => r[0][0]
     )
   }
 
@@ -28,8 +34,9 @@ class NewsServices {
     seo_keywords
   ) {
     const date = new Date().getTime()
+
     await request(`
-      INSERT INT news (url, title, text, short_text, date, seo_title, seo_description, seo_keywords)
+      INSERT INTO news (url, title, text, short_text, date, seo_title, seo_description, seo_keywords)
       VALUES
       ("${url}", "${title}", "${text}", "${short_text}", "${date}", "${seo_title}", "${seo_description}", "${seo_keywords}");
     `)
@@ -46,7 +53,7 @@ class NewsServices {
   ) {
     const updateNewsField = async (field, value) =>
       await request(
-        `UPDATE pages SET ${field} = "${value}" WHERE url = "${url}"`
+        `UPDATE news SET ${field} = "${value}" WHERE url = "${url}"`
       )
 
     updateNewsField('title', replaceQuotes(title))
