@@ -22,6 +22,7 @@ interface IAddItemMenu {
   isOpen: boolean
   onClose: () => void
   addItem: (item: IItem) => void
+  valutes: any[]
 }
 
 export const AddItemMenu: React.FC<IAddItemMenu> = ({
@@ -29,6 +30,7 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
   isOpen,
   onClose,
   addItem,
+  valutes,
 }) => {
   const [category, setCategory] = useState<IItemCategory | null>(null)
   const [url, setUrl] = useState('')
@@ -41,6 +43,10 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
   const [seoTitle, setSeoTitle] = useState('')
   const [seoDescription, setSeoDescription] = useState('')
   const [seoKeywords, setSeoKeywords] = useState('')
+  const [valute, setValute] = useState('')
+  const [purchase, setPurchase] = useState<string | null>(null)
+  const [profitabilaty, setProfitabilaty] = useState<string | null>(null)
+  const [postfix, setPostfix] = useState<string | null>(null)
 
   const countries = useSelector(selectCountries)
 
@@ -51,11 +57,15 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
   const submitDisabled = () => {
     return (
       !category?.id ||
+      !url.trim() ||
       !name.trim() ||
       !description.trim() ||
       !brand.trim() ||
       !manufacturer.trim() ||
-      !price.trim()
+      !price.trim() ||
+      !seoTitle.trim() ||
+      !seoDescription.trim() ||
+      !seoKeywords.trim()
     )
   }
 
@@ -143,6 +153,49 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
           }
         />
 
+        <FormControl>
+          <InputLabel id="change-item-menu__label">Валюта</InputLabel>
+
+          <Select
+            labelId="change-item-menu__label"
+            value={valute}
+            onChange={(e) => setValute(e.target.value)}
+          >
+            {valutes.map(({ title, id }) => (
+              <MenuItem key={id} value={id}>
+                {title}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <TextField
+          label="Закупочная цена"
+          autoComplete="off"
+          value={purchase}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPurchase(e.target.value)
+          }
+        />
+
+        <TextField
+          label="Рентабельность"
+          autoComplete="off"
+          value={profitabilaty}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setProfitabilaty(e.target.value)
+          }
+        />
+
+        <TextField
+          label="Постфикс цены"
+          autoComplete="off"
+          value={postfix}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setPostfix(e.target.value)
+          }
+        />
+
         <TextField
           label="SEO Title"
           autoComplete="off"
@@ -188,6 +241,10 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
                 brand,
                 manufacturer: manufacturerId,
                 price,
+                valute_id: valute,
+                purchase_price: purchase,
+                profitabilaty,
+                price_postfix: postfix,
                 seo_title: seoTitle,
                 seo_description: seoDescription,
                 seo_keywords: seoKeywords,

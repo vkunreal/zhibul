@@ -16,6 +16,10 @@ const queryItems = `
     ct.name as manufacturer,
     it.brand,
     it.price,
+    it.valute_id,
+    it.purchase_price,
+    it.profitabilaty,
+    it.price_postfix,
     it.seo_title,
     it.seo_description,
     it.seo_keywords
@@ -39,6 +43,10 @@ const queryItemsByCategoryUrl = (category_url) => `
     ct.name as manufacturer,
     it.brand,
     it.price,
+    it.valute_id,
+    it.purchase_price,
+    it.profitabilaty,
+    it.price_postfix,
     it.seo_title,
     it.seo_description,
     it.seo_keywords
@@ -62,6 +70,10 @@ const queryItemByUrl = (item_url) => `
     ct.name as manufacturer,
     it.brand,
     it.price,
+    it.valute_id,
+    it.purchase_price,
+    it.profitabilaty,
+    it.price_postfix,
     it.seo_title,
     it.seo_description,
     it.seo_keywords
@@ -128,6 +140,10 @@ class ItemsServices {
     manufacturer,
     description,
     price,
+    valute_id,
+    purchase_price,
+    profitabilaty,
+    price_postfix,
     seo_title,
     seo_description,
     seo_keywords,
@@ -146,6 +162,10 @@ class ItemsServices {
       updateItemField('brand', replaceQuotes(brand))
       updateItemField('manufacturer_id', manufacturer)
       updateItemField('price', replaceQuotes(price))
+      updateItemField('valute_id', valute_id)
+      updateItemField('purchase_price', purchase_price)
+      updateItemField('profitabilaty', profitabilaty)
+      updateItemField('price_postfix', price_postfix)
       updateItemField('seo_title', replaceQuotes(seo_title))
       updateItemField('seo_description', replaceQuotes(seo_description))
       updateItemField('seo_keywords', replaceQuotes(seo_keywords))
@@ -166,6 +186,10 @@ class ItemsServices {
     brand,
     manufacturer,
     price,
+    valute_id,
+    purchase_price,
+    profitabilaty,
+    price_postfix,
     seo_title,
     seo_description,
     seo_keywords,
@@ -178,10 +202,10 @@ class ItemsServices {
       const code = '1.' + String(lastId.id + 1).padStart(4, '0')
 
       await request(`
-        INSERT INTO items(code, position, url, category_id, name, description, brand, manufacturer_id, price, seo_title, seo_description, seo_keywords)
+        INSERT INTO items(code, position, url, category_id, name, description, brand, manufacturer_id, price, valute_id, purchase_price, profitabilaty, price_postfix, seo_title, seo_description, seo_keywords)
         VALUES ("${code}", "${position}", "${url}", "${category_id}", "${name}", "${replaceQuotes(
         description
-      )}", "${brand}", "${manufacturer}", "${price}", "${replaceQuotes(
+      )}", "${brand}", "${manufacturer}", "${price}", "${valute_id}", "${purchase_price}", "${profitabilaty}", "${price_postfix}", "${replaceQuotes(
         seo_title
       )}", "${replaceQuotes(seo_description)}", "${replaceQuotes(
         seo_keywords

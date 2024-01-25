@@ -37,6 +37,10 @@ export interface IItem {
   brand: string
   manufacturer: string | number
   price: string
+  valute_id: string
+  purchase_price: string | null
+  profitabilaty: string | null
+  price_postfix: string | null
   seo_title: string
   seo_description: string
   seo_keywords: string

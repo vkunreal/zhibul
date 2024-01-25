@@ -16,6 +16,7 @@ import { setToken } from '../store/variables/actions'
 import API from '../utils/api'
 import './RoutesComp.scss'
 import { NewsConfigure } from './NewsConfigure'
+import { Valutes } from './Valutes'
 
 export const RoutesComp: React.FC = () => {
   const token = useSelector(selectToken)
@@ -45,6 +46,10 @@ export const RoutesComp: React.FC = () => {
         <div className="routes__content">
           <Routes>
             <Route path="/" />
+            <Route
+              path="/valutes"
+              element={!token ? <AuthPage /> : <Valutes />}
+            />
             <Route
               path="/variables"
               element={!token ? <AuthPage /> : <Variables />}

@@ -4,6 +4,7 @@ const path = require('path')
 const fs = require('fs')
 const OptionsServices = require('../services/OptionsServices')
 const FilesServices = require('../services/FilesServices')
+const ValutesServices = require('../services/ValutesServices')
 
 const testItem = (item) => {
   if (!item?.category_id || !String(item?.category_id).trim()) {
@@ -23,11 +24,6 @@ const testItem = (item) => {
   } else if (!item?.manufacturer) {
     // test manufacturer
     writeLog('Manufacturer id is not found')
-
-    return { status: false }
-  } else if (!item?.price || !String(item?.price).trim()) {
-    // test price
-    writeLog('Price id is not found')
 
     return { status: false }
   } else if (!String(item.url).trim()) {
@@ -62,16 +58,35 @@ class ItemsController {
     const items = await ItemsServices.getItemsFromCategoryUrl(
       req.params.category_url
     )
+    const valutes = await ValutesServices.getAllValutes()
 
     for (let i = 0; i < items.length; i++) {
       const itemId = items[i].id
       const images = await ItemsServices.getItemImages(itemId)
       const itemOptions = await OptionsServices.getOptionsByItemId(itemId)
       const itemFiles = await FilesServices.getFilesByItemId(itemId)
+      const itemElem = items[i]
+      const valute = valutes.find((v) => v.id === itemElem.valute_id).value
 
       items[i].images = images
       items[i].menuOptions = itemOptions.filter((op) => !!op.show_menu)
       items[i].files = itemFiles
+      if (itemElem.price) {
+        items[i].display_price = itemElem.price
+      } else if (
+        itemElem.purchase_price &&
+        itemElem.profitabilaty &&
+        valute &&
+        itemElem.price_postfix
+      ) {
+        items[i].display_price = `${(
+          (itemElem.purchase_price * itemElem.profitabilaty * valute).toFixed(
+            1
+          ) - 0.01
+        ).toFixed(2)} ${itemElem.price_postfix}`
+      } else {
+        items[i].display_price = ''
+      }
     }
 
     res.status(200).json(items)
@@ -110,13 +125,30 @@ class ItemsController {
 
   async getItemFromUrl(req, res) {
     const item = await ItemsServices.getItemFromUrl(req.params.item_url)
+    const valutes = await ValutesServices.getAllValutes()
 
     if (item) {
       const images = await ItemsServices.getItemImages(item.id)
       const files = await FilesServices.getFilesByItemId(item.id)
 
+      const valute = valutes.find((v) => v.id === item.valute_id).value
+
       item.images = images
       item.files = files
+      if (item.price) {
+        item.display_price = item.price
+      } else if (
+        item.purchase_price &&
+        item.profitabilaty &&
+        valute &&
+        item.price_postfix
+      ) {
+        item.display_price = `${(
+          (item.purchase_price * item.profitabilaty * valute).toFixed(1) - 0.01
+        ).toFixed(2)} ${item.price_postfix}`
+      } else {
+        item.display_price = ''
+      }
     }
 
     res.status(200).json(item)

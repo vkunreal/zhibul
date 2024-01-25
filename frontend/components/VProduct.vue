@@ -49,7 +49,7 @@
           Подробнее
         </nuxt-link>
         <button class="v-product__button text-uppercase" @click="$orderModal()">
-          {{ product.price }}
+          {{ product.display_price }}
         </button>
       </div>
     </div>

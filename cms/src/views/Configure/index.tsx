@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux'
 import { selectToken } from '../../store/variables/selectors'
 import API, { DOMAIN } from '../../utils/api'
 import { FileManager } from '../../components/FileManager'
+import axios from 'axios'
 
 interface ILocationItem {
   item: IItem
@@ -30,6 +31,7 @@ export const Configure: React.FC = () => {
   const [loadedImages, setLoadedImages] = useState<any[]>([])
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [change, setChange] = useState(false)
+  const [valutes, setValutes] = useState<any[]>([])
 
   const token = useSelector(selectToken)
 
@@ -43,6 +45,15 @@ export const Configure: React.FC = () => {
     setSelectedFiles([])
     setLoadedImages([])
   }, [change])
+
+  useEffect(() => {
+    async function fetch() {
+      const valutesData = await axios.get(`${API}/api/valutes`)
+
+      setValutes(valutesData.data)
+    }
+    fetch()
+  }, [])
 
   const handleOpenFile = () => fileRef?.current?.click()
 
@@ -194,6 +205,18 @@ export const Configure: React.FC = () => {
       </p>
       <p>
         <b>Цена:</b> {item.price}
+      </p>
+      <p>
+        <b>Валюта:</b> {valutes.find((v) => v.id === item.valute_id)?.title}
+      </p>
+      <p>
+        <b>Закупочная цена:</b> {item.purchase_price}
+      </p>
+      <p>
+        <b>Рентабельность:</b> {item.profitabilaty}
+      </p>
+      <p>
+        <b>Постфикс цены:</b> {item.price_postfix}
       </p>
 
       <a

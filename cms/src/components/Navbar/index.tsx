@@ -1,7 +1,9 @@
 import { NavLink } from 'react-router-dom'
 import './styles.scss'
+import { Button } from '@mui/material'
 
 const routes = [
+  { name: 'Валюты', url: '/valutes' },
   { name: 'Переменные', url: '/variables' },
   { name: 'Пользователи', url: '/users' },
   // { name: 'Кандидаты', url: '/candidates' },
@@ -24,6 +26,9 @@ export const Navbar: React.FC = () => {
           {route.name}
         </NavLink>
       ))}
+      <Button variant="outlined" onClick={() => localStorage.clear()}>
+        Очистить кэш
+      </Button>
     </div>
   )
 }

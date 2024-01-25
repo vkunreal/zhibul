@@ -120,7 +120,7 @@
 
             <!-- price -->
             <div class="product__price d-flex justify-center pd-1 mt-2">
-              <p>Стоимость: {{ itemDetails.price }}</p>
+              <p>Стоимость: {{ itemDetails.display_price }}</p>
             </div>
             <!-- price -->
           </div>
