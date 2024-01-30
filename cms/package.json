@@ -13,6 +13,8 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "axios": "^0.27.2",
+    "concurrently": "^8.2.2",
+    "local-cors-proxy": "^1.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
@@ -26,7 +28,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "proxy": "lcp --proxyUrl https://api.zhbl.by",
+    "serve": "concurrently \"npm run proxy\" \"npm run start\""
   },
   "eslintConfig": {
     "extends": [

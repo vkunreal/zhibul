@@ -6,7 +6,7 @@
     "backend:serve": "cd backend && npm run dev",
     "backend:start": "cd backend && npm start",
     "backend:forever": "cd backend && forever app.js",
-    "cms:serve": "cd cms && npm start",
+    "cms:serve": "cd cms && npm run serve",
     "cms:build": "cd cms && npm run build",
     "frontend:serve": "cd frontend && yarn dev",
     "frontend:build": "cd frontend && yarn build"
