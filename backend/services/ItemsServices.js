@@ -151,7 +151,9 @@ class ItemsServices {
     try {
       const updateItemField = async (field, value) =>
         await request(
-          `UPDATE items SET ${field} = "${value}" WHERE id = "${item_id}"`
+          `UPDATE items SET ${field} = ${
+            value ? `"${value}"` : 'null'
+          } WHERE id = "${item_id}"`
         )
 
       updateItemField('category_id', category_id)

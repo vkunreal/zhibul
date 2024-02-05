@@ -30,7 +30,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "proxy": "lcp --proxyUrl https://api.zhbl.by",
-    "serve": "concurrently \"npm run proxy\" \"npm run start\""
+    "serve": "npm run start"
   },
   "eslintConfig": {
     "extends": [
