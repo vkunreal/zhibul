@@ -33,9 +33,22 @@ app.use(
       'http://localhost:3001',
       'http://localhost:8010',
     ],
+    credentials: true,
   })
 )
 app.use(fileUpload({}))
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Credentials', 'true')
+  res.setHeader('Access-Control-Max-Age', '1800')
+  res.setHeader('Access-Control-Allow-Headers', 'content-type')
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'PUT, POST, GET, DELETE, PATCH, OPTIONS'
+  )
+  next()
+})
 
 app.use('/api', AuthRouter)
 app.use('/api', ItemsRouter)
