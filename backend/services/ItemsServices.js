@@ -207,11 +207,13 @@ class ItemsServices {
         INSERT INTO items(code, position, url, category_id, name, description, brand, manufacturer_id, price, valute_id, purchase_price, profitabilaty, price_postfix, seo_title, seo_description, seo_keywords)
         VALUES ("${code}", "${position}", "${url}", "${category_id}", "${name}", "${replaceQuotes(
         description
-      )}", "${brand}", "${manufacturer}", "${price}", "${valute_id}", "${purchase_price}", "${profitabilaty}", "${price_postfix}", "${replaceQuotes(
-        seo_title
-      )}", "${replaceQuotes(seo_description)}", "${replaceQuotes(
-        seo_keywords
-      )}")
+      )}", "${brand}", "${manufacturer}", "${price}", "${valute_id || 1}", ${
+        purchase_price ? `"${purchase_price}"` : 'null'
+      }, ${
+        profitabilaty ? `"${profitabilaty}"` : 'null'
+      }, "${price_postfix}", "${replaceQuotes(seo_title)}", "${replaceQuotes(
+        seo_description
+      )}", "${replaceQuotes(seo_keywords)}")
       `)
 
       writeLog('Item was added')

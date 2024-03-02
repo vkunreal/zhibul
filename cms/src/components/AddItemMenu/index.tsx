@@ -62,10 +62,7 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
       !description.trim() ||
       !brand.trim() ||
       !manufacturer.trim() ||
-      !price.trim() ||
-      !seoTitle.trim() ||
-      !seoDescription.trim() ||
-      !seoKeywords.trim()
+      !price.trim()
     )
   }
 
@@ -244,7 +241,7 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
                 valute_id: valute,
                 purchase_price: purchase,
                 profitabilaty,
-                price_postfix: postfix,
+                price_postfix: postfix || '',
                 seo_title: seoTitle,
                 seo_description: seoDescription,
                 seo_keywords: seoKeywords,
