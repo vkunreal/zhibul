@@ -25,7 +25,7 @@
 
               <time class="news__time">{{ getDate(date) }}</time>
 
-              <p class="news__short-text">{{ short_text }}</p>
+              <p class="news__short-text" v-html="short_text"></p>
             </div>
 
             <div>

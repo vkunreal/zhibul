@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="breadcrumbs__link d-flex fill-width justify-space-between">
-          <span class="mr-1">{{ productNameBread }}</span>
+          <span class="mr-1" v-html="productNameBread" />
 
           <p v-if="itemDetails">{{ itemDetails?.code }}</p>
         </div>

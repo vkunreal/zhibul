@@ -74,7 +74,7 @@ export const AddItemMenu: React.FC<IAddItemMenu> = ({
     <Dialog open={isOpen} onClose={onClose} fullWidth>
       <DialogTitle>Добавление товара</DialogTitle>
 
-      <DialogContent className="d-flex flex-column g-3">
+      <DialogContent className="change-item-menu d-flex flex-column g-3 pt-1">
         <SelectItemCategory
           categories={categories}
           onSelect={handleCategorySelect}

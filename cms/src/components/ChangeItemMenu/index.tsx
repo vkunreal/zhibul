@@ -10,12 +10,13 @@ import {
   SelectChangeEvent,
   TextField,
 } from '@mui/material'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IItem } from '../../interfaces/Items'
 import { IItemCategory } from '../ItemsView'
 import { SelectItemCategory } from '../SelectItemCategory'
 import { useSelector } from 'react-redux'
 import { selectCountries } from '../../store/items/selectors'
+import './styles.scss'
 
 interface IChangeItemMenu {
   item: IItem
@@ -86,7 +87,7 @@ export const ChangeItemMenu: React.FC<IChangeItemMenu> = ({
     <Dialog open={isOpen} onClose={onClose} fullWidth>
       <DialogTitle>Изменение товара</DialogTitle>
 
-      <DialogContent className="d-flex flex-column g-3">
+      <DialogContent className="change-item-menu d-flex flex-column g-3 pt-1">
         <SelectItemCategory
           value={item?.category_name}
           categories={categories}

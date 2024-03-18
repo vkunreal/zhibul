@@ -43,29 +43,31 @@ export const ItemsTable: React.FC<IItemsTableProps> = ({
               <TableCell align="center">{item.category_name}</TableCell>
               <TableCell align="center">{item.name}</TableCell>
               <TableCell align="center">{item.price}</TableCell>
-              <TableCell className="d-flex flex-column" align="center">
-                <Button
-                  variant="outlined"
-                  color="warning"
-                  onClick={() => configureItem(item)}
-                >
-                  Настроить
-                </Button>
-                <Button
-                  className="ml-2"
-                  variant="outlined"
-                  onClick={() => setChangeItem(item)}
-                >
-                  Изменить
-                </Button>
-                <Button
-                  className="ml-2"
-                  variant="outlined"
-                  color="error"
-                  onClick={() => setDeleteItem(item)}
-                >
-                  Удалить
-                </Button>
+              <TableCell>
+                <div className="d-flex">
+                  <Button
+                    variant="outlined"
+                    color="warning"
+                    onClick={() => configureItem(item)}
+                  >
+                    Настроить
+                  </Button>
+                  <Button
+                    className="ml-2"
+                    variant="outlined"
+                    onClick={() => setChangeItem(item)}
+                  >
+                    Изменить
+                  </Button>
+                  <Button
+                    className="ml-2"
+                    variant="outlined"
+                    color="error"
+                    onClick={() => setDeleteItem(item)}
+                  >
+                    Удалить
+                  </Button>
+                </div>
               </TableCell>
             </TableRow>
           ))}

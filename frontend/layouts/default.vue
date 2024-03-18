@@ -153,13 +153,13 @@
         >
           <div class="fill-width">
             <ul class="d-flex justify-center justify-sm-start align-center g-1">
-              <li class="v-app__footer__app">
+              <!-- <li class="v-app__footer__app">
                 <a :href="variable('tg') || ''" target="_blank">
                   <svg width="30" height="30">
                     <use xlink:href="@/static/icons.svg#tg" />
                   </svg>
                 </a>
-              </li>
+              </li> -->
               <li class="v-app__footer__app">
                 <a :href="variable('vk') || ''" target="_blank">
                   <svg width="30" height="30">
@@ -174,13 +174,13 @@
                   </svg>
                 </a>
               </li>
-              <li class="v-app__footer__app">
+              <!-- <li class="v-app__footer__app">
                 <a :href="variable('dzen') || ''" target="_blank">
                   <svg width="26" height="26">
                     <use xlink:href="@/static/icons.svg#dzen" />
                   </svg>
                 </a>
-              </li>
+              </li> -->
             </ul>
           </div>
 
