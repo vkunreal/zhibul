@@ -11,6 +11,8 @@ import { Button } from '@mui/material'
 import { Confirm } from '../../components/Confirm'
 import { getDate } from '../../utils/date'
 import API from '../../utils/api'
+import { useSelector } from 'react-redux'
+import { selectToken } from '../../store/variables/selectors'
 
 interface IUser {
   id: string
@@ -27,6 +29,8 @@ export const Users: React.FC = () => {
   const [open, setOpen] = useState(false)
   const [deletedUserId, setDeletedUserId] = useState('')
   const [loading, setLoading] = useState(false)
+
+  const token = useSelector(selectToken)
 
   const handleClose = () => setOpen(false)
 
@@ -52,7 +56,12 @@ export const Users: React.FC = () => {
 
   const handleDelete = () => {
     axios
-      .delete('/api/user', { data: { id: deletedUserId } })
+      .delete(`${API}/api/user`, {
+        headers: {
+          authorization: token,
+        },
+        data: { id: deletedUserId },
+      })
       .then((res) => {
         if (res.data.status) {
           console.log('User was deleted')

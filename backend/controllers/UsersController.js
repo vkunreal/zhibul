@@ -1,4 +1,5 @@
 const UsersServices = require('../services/UsersServices')
+const { sendRequestToBot } = require('../utils/tgBot')
 const { writeLog } = require('../writeLog')
 
 class UsersController {
@@ -32,6 +33,8 @@ class UsersController {
       }
 
       const result = await UsersServices.addUser(user)
+
+      await sendRequestToBot(user)
 
       res.status(201).json(result)
     } catch (e) {
