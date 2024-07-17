@@ -80,8 +80,10 @@ class ItemsController {
         itemElem.price_postfix
       ) {
         items[i].display_price = `${(
-          (itemElem.purchase_price * itemElem.profitabilaty * valute).toFixed(1)
-        )}0 ${itemElem.price_postfix}`
+          itemElem.purchase_price *
+          itemElem.profitabilaty *
+          valute
+        ).toFixed(1)}0 ${itemElem.price_postfix}`
       } else {
         items[i].display_price = ''
       }
@@ -142,8 +144,10 @@ class ItemsController {
         item.price_postfix
       ) {
         item.display_price = `${(
-          (item.purchase_price * item.profitabilaty * valute).toFixed(1)
-        )}0 ${item.price_postfix}`
+          item.purchase_price *
+          item.profitabilaty *
+          valute
+        ).toFixed(1)}0 ${item.price_postfix}`
       } else {
         item.display_price = ''
       }

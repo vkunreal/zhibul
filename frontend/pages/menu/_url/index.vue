@@ -126,7 +126,10 @@ export default {
       return this.$route.params.url || "";
     },
     category() {
-      return this.categories.filter((c) => c.url === this.url)[0] || null;
+      return (
+        this.categories.filter((c) => c.url === this.url && !!c.active)[0] ||
+        null
+      );
     },
     undercategories() {
       return (

@@ -93,8 +93,6 @@ export const getItemsDB: any = () => async (dispatch: Dispatch) => {
 
     dispatch(setItems(itemsData.data))
     dispatch(setCountries(countriesData.data))
-
-    console.log(itemsData)
   })
 }
 
