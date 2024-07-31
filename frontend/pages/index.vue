@@ -44,8 +44,8 @@
         :src="desktop"
       >
         <nuxt-link
-          class=""
-          style="text-decoration: none; color: #fff"
+          class="fill-width fill-height"
+          style="text-decoration: none; color: #fff; display: block"
           :to="url"
         >
           <p class="home__slider-title text-center mt-14 mb-16">
