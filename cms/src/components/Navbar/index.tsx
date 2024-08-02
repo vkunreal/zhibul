@@ -1,16 +1,16 @@
-import { NavLink } from 'react-router-dom'
-import './styles.scss'
-import { Button } from '@mui/material'
+import { NavLink } from "react-router-dom";
+import "./styles.scss";
+import { Button } from "@mui/material";
 
 const routes = [
-  { name: 'Валюты', url: '/valutes' },
-  { name: 'Переменные', url: '/variables' },
-  { name: 'Пользователи', url: '/users' },
+  { name: "Валюты", url: "/valutes" },
+  { name: "Переменные", url: "/variables" },
+  { name: "Пользователи", url: "/users" },
   // { name: 'Кандидаты', url: '/candidates' },
-  { name: 'Категории / Товары', url: '/items' },
-  { name: 'Страницы', url: '/pages' },
-  { name: 'Новости', url: '/news' },
-]
+  { name: "Категории / Товары", url: "/items" },
+  { name: "Страницы", url: "/pages" },
+  { name: "Новости", url: "/news" },
+];
 
 export const Navbar: React.FC = () => {
   return (
@@ -18,7 +18,7 @@ export const Navbar: React.FC = () => {
       {routes.map((route) => (
         <NavLink
           className={({ isActive }) =>
-            `navbar__link fill-width text-center ${isActive && 'active'}`
+            `navbar__link fill-width text-center ${isActive && "active"}`
           }
           key={route.url}
           to={route.url}
@@ -30,5 +30,5 @@ export const Navbar: React.FC = () => {
         Очистить кэш
       </Button>
     </div>
-  )
-}
+  );
+};

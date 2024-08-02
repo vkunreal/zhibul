@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    volumes:
+      - data-volume:/var/lib/mysql
+      - ./backend/db/dump/:/docker-entrypoint-initdb.d
+    networks:
+      - api
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - api
+
+  cms:
+    build:
+      context: ./cms
+    ports:
+      - "4000:3000"
+    volumes:
+      - ./cms:/app
+    networks:
+      - api
+
+networks:
+  api:
+
+volumes:
+  data-volume:
