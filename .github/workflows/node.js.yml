@@ -10,10 +10,6 @@ jobs:
   build-cms:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x]
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -27,7 +23,7 @@ jobs:
         run: cd cms
 
       - name: Install modules
-        run: npm ci
+        run: npm install
 
       - name: Build
         run: npm run build
