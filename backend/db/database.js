@@ -3,10 +3,10 @@ const mysql = require('mysql2')
 // connection to database
 const connection = mysql
   .createConnection({
-    host: 'localhost',
-    user: process.env.user,
-    database: process.env.database,
-    password: process.env.password,
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    database: process.env.MYSQL_DATABASE,
+    password: process.env.MYSQL_PASSWORD,
   })
   .promise()
 

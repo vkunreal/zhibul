@@ -4,7 +4,7 @@ services:
   mysql:
     image: mysql:8
     ports:
-      - "3306:3306"
+      - "3305:3306"
     environment:
       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
       MYSQL_DATABASE: "${MYSQL_DATABASE}"
@@ -16,6 +16,24 @@ services:
     networks:
       - api
 
+  backend:
+    build:
+      context: ./backend
+    command: npm run dev
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    environment:
+      MYSQL_HOST: "mysql"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    networks:
+      - api
+    depends_on:
+      - mysql
+
   frontend:
     build:
       context: ./frontend
@@ -23,6 +41,8 @@ services:
       - "3000:3000"
     networks:
       - api
+    depends_on:
+      - backend
 
   cms:
     build:
@@ -33,6 +53,21 @@ services:
       - ./cms:/app
     networks:
       - api
+    depends_on:
+      - backend
+
+  # nginx:
+  #   image: nginx:stable-alpine
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - "./nginx.conf.local:/etc/nginx/nginx.conf"
+  #   networks:
+  #     - api
+  #   depends_on:
+  #     - backend
+  #     - cms
+  #     - frontend
 
 networks:
   api:

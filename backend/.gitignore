@@ -20,3 +20,4 @@
 /public/files/*.pdf
 /public/files/*.PDF
 /logs/*.log
+.env
