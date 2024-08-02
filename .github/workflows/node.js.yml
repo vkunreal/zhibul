@@ -19,17 +19,8 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: Change directory
-        run: cd cms
-
-      - name: Install modules
-        run: npm install
-
-      - name: Change directory
-        run: cd cms
-
       - name: Build
-        run: npm run build
+        run: npm run cms:pipeline
 
   # build-frontend:
   #   runs-on: ubuntu-latest
