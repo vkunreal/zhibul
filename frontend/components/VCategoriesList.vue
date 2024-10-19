@@ -127,60 +127,6 @@
         </template>
       </li>
     </ul>
-
-    <ul
-      v-if="
-        !expandedLinks &&
-        categoryDetail &&
-        categoriesList(categoryDetail).length
-      "
-      class="d-flex flex-column g-1 pr-md-8"
-    >
-      <li
-        class="v-categories-list__nesting d-flex align-center g-1"
-        style="width: max-content"
-        v-for="{ id, name, url } in categoriesList(categoryDetail)"
-        :key="id"
-      >
-        <nuxt-link
-          :to="'/menu/' + url"
-          @click.native="linkClick"
-          @mouseover.native="categoryDetailSecond = id"
-        >
-          <span>
-            <svg width="12" height="12">
-              <use xlink:href="@/static/icons.svg#slider-arrow" />
-            </svg>
-            {{ name }}
-          </span>
-        </nuxt-link>
-      </li>
-    </ul>
-
-    <ul
-      v-if="
-        !expandedLinks &&
-        categoryDetailSecond &&
-        categoriesList(categoryDetailSecond).length
-      "
-      class="d-flex flex-column g-1"
-    >
-      <li
-        class="v-categories-list__nesting d-flex align-center g-1"
-        style="width: max-content"
-        v-for="{ id, name, url } in categoriesList(categoryDetailSecond)"
-        :key="id"
-      >
-        <nuxt-link :to="'/menu/' + url" @click.native="linkClick">
-          <span>
-            <svg width="12" height="12">
-              <use xlink:href="@/static/icons.svg#slider-arrow" />
-            </svg>
-            {{ name }}
-          </span>
-        </nuxt-link>
-      </li>
-    </ul>
   </section>
 </template>
 
@@ -294,19 +240,6 @@ export default {
     transition: 0.3s ease;
     &--active {
       transform: rotate(90deg);
-    }
-  }
-
-  @include tablet {
-    &__more {
-      font-size: 14px;
-    }
-  }
-
-  @include laptop {
-    &__nesting {
-      min-width: 150px;
-      width: 100%;
     }
   }
 }

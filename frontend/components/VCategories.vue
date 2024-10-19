@@ -2,39 +2,22 @@
   <section class="v-categories d-flex">
     <div class="v-categories__menu">
       <!-- desktop catalog -->
-      <div
-        class="d-none d-md-flex"
-        @mouseover="categoriesVisible = true"
-        @mouseleave="
-          categoriesVisible = false;
-          categoryDetail = null;
-        "
-      >
-        <nuxt-link
+      <div class="d-none d-md-flex">
+        <button
           to="/katalog"
           class="v-categories__menu-catalog d-flex align-center text--white pointer g-1 pt-3 pb-3 pl-2 pr-2"
+          @click="catalogClick"
         >
           <svg class="text--white" width="30" height="30">
             <use xlink:href="@/static/icons.svg#menu" />
           </svg>
 
           <p class="text-uppercase">Каталог</p>
-        </nuxt-link>
+        </button>
 
         <svg class="v-categories__menu-catalog-treug">
           <use xlink:href="@/static/icons.svg#treug" />
         </svg>
-
-        <!-- menu list -->
-        <transition name="fade">
-          <div
-            v-if="categoriesVisible"
-            class="v-categories__menu-list d-none d-sm-flex g-4 pd-1 mt-13"
-          >
-            <v-categories-list />
-          </div>
-        </transition>
-        <!-- menu list -->
       </div>
       <!-- desktop catalog -->
 
@@ -99,7 +82,6 @@
 
 <script>
 import { mapGetters } from "vuex";
-import VCategoriesList from "./VCategoriesList.vue";
 import EventBus from "@/plugins/EventBus.js";
 
 const tabs = [
@@ -122,7 +104,6 @@ const tabs = [
 
 export default {
   name: "VCategories",
-  components: { VCategoriesList },
   data: () => ({
     categoriesVisible: false,
     categoryDetail: null,
@@ -142,12 +123,12 @@ export default {
   },
   methods: {
     catalogClick() {
-      if (this.categoriesVisible) {
-        this.categoriesVisible = false;
-        this.categoryDetail = null;
+      console.log(this.$route.path, this.$route.path === "/catalog");
+
+      if (this.$route.path === "/katalog") {
+        this.$router.go(-1);
       } else {
-        this.categoriesVisible = true;
-        this.$categoriesModal();
+        this.$router.push("/katalog");
       }
     },
     modalClosed() {

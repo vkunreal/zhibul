@@ -24,11 +24,9 @@
 
 <script>
 import EventBus from "@/plugins/EventBus.js";
-import VCategoriesList from "./VCategoriesList";
 
 export default {
   name: "VCategoriesModal",
-  components: { VCategoriesList },
   data: () => ({
     active: false,
   }),
