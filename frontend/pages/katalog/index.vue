@@ -1,28 +1,34 @@
 <template>
-  <section class="v-categories-list">
-    <div
-      v-for="{ id: parent_id, name, url } in categoriesList()"
-      :key="parent_id"
-    >
-      <nuxt-link :to="`/menu/${url}`">
-        <span class="v-categories-list__elem-title">{{ name }}</span>
-      </nuxt-link>
+  <div>
+    <section class="v-categories-list">
+      <div
+        v-for="{ id: parent_id, name, url } in categoriesList()"
+        :key="parent_id"
+      >
+        <nuxt-link :to="`/menu/${url}`">
+          <span class="v-categories-list__elem-title">{{ name }}</span>
+        </nuxt-link>
 
-      <ul class="v-categories-list__details mt-4">
-        <li v-for="{ id, name, url } in categoriesList(parent_id)" :key="id">
-          <nuxt-link :to="`/menu/${url}`">
-            <span>{{ name }}</span>
-          </nuxt-link>
-        </li>
-      </ul>
-    </div>
-  </section>
+        <ul class="v-categories-list__details mt-4">
+          <li v-for="{ id, name, url } in categoriesList(parent_id)" :key="id">
+            <nuxt-link :to="`/menu/${url}`">
+              <span>{{ name }}</span>
+            </nuxt-link>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <v-tabs-list class="mt-1" expanded-links @link-click="close" />
+  </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import VTabsList from "~/components/VTabsList.vue";
 
 export default {
+  components: { VTabsList },
   head() {
     return {
       title: this.page?.seo_title || "Каталог",
@@ -74,7 +80,6 @@ export default {
   display: grid;
   grid-template-columns: 1fr;
   gap: 30px;
-  padding: 10px;
   font-size: 14px;
   padding: 20px 20px;
 
@@ -92,12 +97,8 @@ export default {
   }
 
   &__elem-title {
-    font-size: 22px;
+    font-size: 18px;
     color: $colorSecondary;
-
-    &:hover {
-      text-decoration: underline;
-    }
   }
 
   &__details {
@@ -107,8 +108,12 @@ export default {
     margin: 0 auto;
 
     & span {
+      transition: 0.3s;
+      color: $black;
       &:hover {
-        text-decoration: underline;
+        background: $colorSecondary;
+        color: $white;
+        padding: 0 2px;
       }
     }
   }
@@ -119,7 +124,7 @@ export default {
   }
 
   @include laptop {
-    max-width: 1200px;
+    max-width: 1300px;
     width: 100%;
     margin: 0 auto;
     grid-template-columns: 1fr 1fr 1fr;

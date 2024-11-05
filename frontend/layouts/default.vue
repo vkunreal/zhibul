@@ -174,6 +174,13 @@
                   </svg>
                 </a>
               </li>
+              <li class="v-app__footer__app">
+                <a :href="variable('youtube') || ''" target="_blank">
+                  <svg width="30" height="30">
+                    <use xlink:href="@/static/icons.svg#youtube" />
+                  </svg>
+                </a>
+              </li>
               <!-- <li class="v-app__footer__app">
                 <a :href="variable('dzen') || ''" target="_blank">
                   <svg width="26" height="26">

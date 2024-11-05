@@ -1,65 +1,31 @@
 <template>
-  <section class="v-tabs-list pd-1 pt-0">
-    <ul class="d-flex flex-column g-1">
-      <li v-for="{ title, url, tabs } in tabs" :key="url">
+  <section class="v-tabs-list d-flex flex-column g-2 mt-2 d-md-none">
+    <hr />
+    <div
+      v-for="tab in tabs"
+      :key="tab.url"
+      class="d-flex align-center flex-column"
+    >
+      <nuxt-link :to="tab.url" class="v-tabs-list__link">{{
+        tab.title
+      }}</nuxt-link>
+
+      <div v-if="tab?.tabs?.length" class="pd-1">
         <div
-          class="v-tabs-list__item d-flex justify-space-between align-center pd-1"
-          :class="{ 'v-tabs-list__item--active': url === selectedTab }"
+          v-for="tab in tab.tabs"
+          :key="tab.url"
+          class="pd-1 d-flex justify-center"
         >
-          <div class="d-flex align-center g-1 mr-4">
-            <nuxt-link v-if="url" :to="url" @click.native="linkClick">
-              <span>
-                <svg class="v-tabs-list__item-arrow" width="12" height="12">
-                  <use xlink:href="@/static/icons.svg#slider-arrow" />
-                </svg>
-                {{ title }}
-              </span>
-            </nuxt-link>
-            <span v-else class="text--white cursor-default">
-              <svg class="v-tabs-list__item-arrow" width="12" height="12">
-                <use xlink:href="@/static/icons.svg#slider-arrow" />
-              </svg>
-              {{ title }}
-            </span>
-          </div>
-
-          <p
-            v-if="expandedLinks && tabs?.length"
-            class="v-tabs-list__more text--white text-uppercase"
-            @click="selectTab(url)"
-          >
-            <template v-if="selectedTab === url">Свернуть</template>
-            <template v-else>Развернуть</template>
-          </p>
+          <nuxt-link :to="tab.url" class="v-tabs-list__link--under">{{
+            tab.title
+          }}</nuxt-link>
         </div>
-
-        <ul
-          v-if="tabs?.length && selectedTab === url"
-          class="d-flex flex-column g-1 ml-4 mt-2 mb-2"
-        >
-          <li
-            class="d-flex align-center g-1"
-            v-for="{ title, url } in tabs"
-            :key="url"
-          >
-            <nuxt-link :to="url" @click.native="linkClick">
-              <span>
-                <svg width="12" height="12">
-                  <use xlink:href="@/static/icons.svg#slider-arrow" />
-                </svg>
-                {{ title }}
-              </span>
-            </nuxt-link>
-          </li>
-        </ul>
-      </li>
-    </ul>
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
-import EventBus from "@/plugins/EventBus.js";
-
 const tabs = [
   { title: "О компании", url: "/" },
   {
@@ -80,37 +46,9 @@ const tabs = [
 
 export default {
   name: "VTabsList",
-  props: {
-    expandedLinks: Boolean,
-  },
-  data: () => ({
-    selectedTab: null,
-  }),
-  mounted() {
-    EventBus.$on("category-selected", this.categorySelected);
-  },
-  destroyed() {
-    EventBus.$off("category-selected");
-  },
   computed: {
     tabs() {
       return tabs;
-    },
-  },
-  methods: {
-    linkClick() {
-      this.$emit("link-click");
-    },
-    selectTab(url) {
-      if (this.selectedTab === url) {
-        this.selectedTab = null;
-      } else {
-        this.selectedTab = url;
-        EventBus.$emit("selected-tab");
-      }
-    },
-    categorySelected() {
-      this.selectedTab = null;
     },
   },
 };
@@ -120,53 +58,38 @@ export default {
 @import "@/assets/mixins.scss";
 
 .v-tabs-list {
+  padding-top: 40px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  hr {
+    border: 0;
+    border-top: 1px solid #999;
+  }
+
   a {
-    color: $white;
     text-decoration: none;
-    &.nuxt-link-exact-active,
-    &.nuxt-link-exact-active svg {
-      color: $colorPrimary;
-    }
-  }
-  p {
-    margin-bottom: 0;
-  }
-  svg {
-    color: $white;
-  }
-  ul {
-    padding-left: 0;
-    li {
-      list-style: none;
+    color: #000;
+    &:active {
+      text-decoration: underline;
     }
   }
 
-  &__item {
-    &--active {
-      .v-tabs-list__item {
-        background: $colorGrey;
-        border-radius: 10px;
+  &__link {
+    font-size: 22px;
+    color: $colorSecondary !important;
 
-        &-arrow {
-          transform: rotate(90deg);
-        }
-      }
+    &--under {
+      font-size: 14px;
     }
-    &-arrow {
-      transition: 0.3s ease;
-    }
-  }
-
-  &__more {
-    cursor: pointer;
-    user-select: none;
-    font-size: 12px;
   }
 
   @include tablet {
-    &__more {
-      font-size: 14px;
-    }
+    padding: 40px 60px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
   }
 }
 </style>

@@ -18,6 +18,7 @@ export const variablesList = [
   { type: 'phone_services', name: 'Телефон услуг' },
   { type: 'tg', name: 'Телеграм' },
   { type: 'vk', name: 'Вк' },
+  { type: 'youtube', name: 'YouTube' },
   { type: 'inst', name: 'Инстаграм' },
   { type: 'viber', name: 'Вайбер' },
   { type: 'dzen', name: 'Дзен' },
