@@ -20,7 +20,7 @@ CREATE TABLE slider_images (
 INSERT INTO slides (url, title, brand)
 VALUES
 ('/news/depur_new', '', ''),
-('/menu/painting_supplies/360_true_light_evo_meter', '', ''),
+('/menu/painting_supplies/360_true_light_evo_meter', '', '');
 
 -- slider images
 INSERT INTO slider_images (slide_id, display, src)
