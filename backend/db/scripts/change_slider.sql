@@ -19,9 +19,8 @@ CREATE TABLE slider_images (
 -- slider
 INSERT INTO slides (url, title, brand)
 VALUES
-('kraskoraspyliteli', '', ''),
-('kompressory', '', ''),
-('krepezh', '', '');
+('/news/depur_new', '', ''),
+('/menu/painting_supplies/360_true_light_evo_meter', '', ''),
 
 -- slider images
 INSERT INTO slider_images (slide_id, display, src)
