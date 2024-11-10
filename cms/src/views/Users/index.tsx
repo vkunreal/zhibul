@@ -41,7 +41,11 @@ export const Users: React.FC = () => {
   const updateUsers = (withLoading: boolean = false) => {
     if (withLoading) setLoading(true)
 
-    axios.get(API + '/api/users').then((res) => {
+    axios.get(API + '/api/users', {
+      headers: {
+        authorization: token
+      }
+    }).then((res) => {
       setUsers(res.data)
       setLoading(false)
     })
