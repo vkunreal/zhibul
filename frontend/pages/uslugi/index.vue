@@ -128,7 +128,7 @@ export default {
 
 .uslugi {
   &__wrapper {
-    max-width: 1024px;
+    max-width: 1200px;
   }
 
   &__block {

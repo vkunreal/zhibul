@@ -1,6 +1,6 @@
 <template>
-  <section class="v-product d-flex">
-    <div class="fill-width">
+  <section :class="`v-product d-flex ${isWide ? 'v-product--wide' : ''}`">
+    <div :class="`${isWide ? '' : 'fill-width'}`">
       <img
         class="v-product__image"
         :src="productImage.src"
@@ -64,6 +64,10 @@ export default {
       type: Object,
       required: true,
     },
+    isWide: {
+      type: Boolean,
+      required: true,
+    },
   },
   computed: {
     productImage() {
@@ -106,25 +110,26 @@ export default {
       color: $white !important;
     }
   }
+
   @include tablet {
-    flex-direction: row;
-    &__image {
-      max-width: 350px;
-    }
-    &__info {
-      width: 100%;
-      padding: 10px;
-      margin-left: 0;
-      &-title {
-        font-size: 24px;
+    &--wide {
+      flex-direction: row;
+      &__image {
+        max-width: 350px;
+      }
+      &__info {
+        width: 100%;
+        padding: 10px;
+        margin-left: 0;
+        &-title {
+          font-size: 24px;
+        }
+      }
+      &__button {
+        font-size: 16px;
       }
     }
-    &__button {
-      font-size: 16px;
-    }
-  }
 
-  @include laptop {
     &__image {
       max-width: 500px;
     }

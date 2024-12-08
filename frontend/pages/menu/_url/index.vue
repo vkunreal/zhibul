@@ -15,6 +15,7 @@
           }}</nuxt-link>
           /
         </p>
+        \
         <p class="breadcrumbs__link">
           <span class="mr-1">{{ category?.name }}</span>
         </p>
@@ -23,6 +24,10 @@
 
     <div class="category-wrapper fill-width pl-2 pr-2">
       <!-- <h1 class="mt-8 mb-8 text-center text-uppercase">{{ categoryName }}</h1> -->
+
+      <template v-if="filteredItems?.length">
+        <button @click="isWide = !isWide">Is Wide</button>
+      </template>
 
       <div class="mt-4">
         <div
@@ -74,11 +79,17 @@
         </div>
         <div
           v-else-if="filteredItems?.length"
-          class="category__list d-flex flex-column g-8 mt-10"
+          :class="`category__list mt-10 ${
+            isWide ? 'category__list--wide' : ''
+          }`"
         >
           <template v-for="item in filteredItems">
             <!-- <nuxt-link :to="category?.url + '/' + item.url" :key="item.id"> -->
-            <v-product class="category__item" :product="item" />
+            <v-product
+              class="category__item"
+              :product="item"
+              :isWide="isWide"
+            />
             <!-- </nuxt-link> -->
           </template>
         </div>
@@ -110,6 +121,9 @@ export default {
       ],
     };
   },
+  data: () => ({
+    isWide: false,
+  }),
   mounted() {
     if (
       !this.categories.length ||
@@ -189,11 +203,28 @@ export default {
     text-decoration: none;
   }
   &-wrapper {
-    max-width: 1024px;
+    max-width: 1200px;
   }
 
   &__list {
+    display: flex;
+    flex-direction: column;
     gap: 10px;
+
+    @include tablet {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+
+      &--wide {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    @include laptop {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   &__item {

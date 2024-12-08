@@ -181,7 +181,7 @@ export default {
   ul {
     padding: 0;
   }
-  max-width: 1024px;
+  max-width: 1200px;
   &__contact {
     color: $black !important;
     text-decoration: none;

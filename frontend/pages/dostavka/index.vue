@@ -78,6 +78,6 @@ export default {
 
 <style lang="scss">
 .delivery {
-  max-width: 1024px;
+  max-width: 1200px;
 }
 </style>

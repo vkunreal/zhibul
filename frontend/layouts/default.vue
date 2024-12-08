@@ -301,7 +301,7 @@ html::-webkit-scrollbar-thumb {
   }
 
   &__header {
-    max-width: 1024px;
+    max-width: 1200px;
     &-wrapper {
       background: $primaryGrey;
       color: $white;
@@ -345,7 +345,7 @@ html::-webkit-scrollbar-thumb {
   }
 
   &__footer {
-    max-width: 1024px;
+    max-width: 1200px;
     &-wrapper {
       background: $primaryGrey;
       color: $white;
@@ -423,7 +423,7 @@ html::-webkit-scrollbar-thumb {
 
     &__nav {
       &__categories {
-        min-width: 1024px;
+        min-width: 100vw;
       }
       &-spacer {
         display: block;
@@ -439,6 +439,14 @@ html::-webkit-scrollbar-thumb {
         &-text {
           font-size: 28px !important;
         }
+      }
+    }
+  }
+
+  @include desktop {
+    &__nav {
+      &__categories {
+        min-width: 1200px;
       }
     }
   }

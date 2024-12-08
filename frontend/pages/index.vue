@@ -287,7 +287,7 @@ export default {
     }
   }
   &-wrapper {
-    max-width: 1024px;
+    max-width: 1200px;
   }
   & h1 {
     font-size: 35px;
@@ -301,7 +301,7 @@ export default {
     background: $primaryGrey;
     color: $white;
     &-wrapper {
-      max-width: 1024px;
+      max-width: 1200px;
     }
     &-title {
       font-size: 35px;
@@ -319,7 +319,7 @@ export default {
   }
   &__contacts {
     &-wrapper {
-      max-width: 1024px;
+      max-width: 1200px;
     }
     &-block {
       min-width: 300px;
