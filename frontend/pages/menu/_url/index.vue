@@ -25,9 +25,30 @@
     <div class="category-wrapper fill-width pl-2 pr-2">
       <!-- <h1 class="mt-8 mb-8 text-center text-uppercase">{{ categoryName }}</h1> -->
 
-      <template v-if="filteredItems?.length">
-        <button @click="isWide = !isWide">Is Wide</button>
-      </template>
+      <div
+        v-if="filteredItems?.length"
+        class="d-none d-sm-flex justify-end g-1 mt-4 mb-2"
+      >
+        <button
+          @click="isWide = true"
+          class="category__wide-btn"
+          :class="{ active: isWide === true }"
+        >
+          <svg width="24" height="24">
+            <use xlink:href="@/static/icons.svg#one_block" />
+          </svg>
+        </button>
+
+        <button
+          @click="isWide = false"
+          class="category__wide-btn"
+          :class="{ active: isWide === false }"
+        >
+          <svg width="26" height="26">
+            <use xlink:href="@/static/icons.svg#many_blocks" />
+          </svg>
+        </button>
+      </div>
 
       <div class="mt-4">
         <div
@@ -79,9 +100,7 @@
         </div>
         <div
           v-else-if="filteredItems?.length"
-          :class="`category__list mt-10 ${
-            isWide ? 'category__list--wide' : ''
-          }`"
+          :class="`category__list mt-2 ${isWide ? 'category__list--wide' : ''}`"
         >
           <template v-for="item in filteredItems">
             <!-- <nuxt-link :to="category?.url + '/' + item.url" :key="item.id"> -->
@@ -206,6 +225,17 @@ export default {
     max-width: 1200px;
   }
 
+  &__wide-btn {
+    svg {
+      color: #ccc;
+      transition: 0.3s ease;
+    }
+
+    &.active svg {
+      color: #333 !important;
+    }
+  }
+
   &__list {
     display: flex;
     flex-direction: column;
@@ -223,7 +253,7 @@ export default {
     }
 
     @include laptop {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
     }
   }
 

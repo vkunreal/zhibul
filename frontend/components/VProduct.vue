@@ -8,14 +8,26 @@
       />
     </div>
 
-    <div class="v-product__info d-flex flex-column justify-space-between">
+    <div
+      class="v-product__info d-flex flex-column justify-space-between fill-height"
+    >
       <div class="d-flex flex-column g-1">
         <h2 class="v-product__info-title" v-html="product.name" />
         <p v-if="product.brand" class="v-product__info-field">
-          Бренд: {{ product.brand }}
+          <span class="v-product__info-field--category">Бренд:</span>
+
+          <span>
+            {{ product.brand }}
+          </span>
         </p>
         <p v-if="product.manufacturer" class="v-product__info-field">
-          Страна производитель: {{ product.manufacturer }}
+          <span class="v-product__info-field--category"
+            >Страна производитель:</span
+          >
+
+          <span>
+            {{ product.manufacturer }}
+          </span>
         </p>
 
         <template v-if="product.menuOptions">
@@ -24,8 +36,13 @@
               (op) => op.is_dropdown
             )"
             :key="id"
+            class="v-product__info-field"
           >
-            {{ name }}: {{ value.split("-").join(" - ") }}
+            <span class="v-product__info-field--category">{{ name }}:</span>
+
+            <span>
+              {{ value.split("-").join(" - ") }}
+            </span>
           </p>
         </template>
 
@@ -35,8 +52,13 @@
               .filter((op) => !op.is_dropdown)
               .sort((a, b) => (a.position < b.position ? -1 : 1))"
             :key="id"
+            class="v-product__info-field"
           >
-            {{ name }}: {{ value }}
+            <span class="v-product__info-field--category">{{ name }}:</span>
+
+            <span>
+              {{ value }}
+            </span>
           </p>
         </template>
       </div>
@@ -95,7 +117,7 @@ export default {
   &__info {
     margin-left: 10px;
     &-title {
-      font-size: 22px !important;
+      font-size: 22px;
       font-weight: bold !important;
     }
   }
@@ -112,11 +134,25 @@ export default {
   }
 
   @include tablet {
+    &__info {
+      margin-left: 10px;
+      &-title {
+        font-size: 18px;
+      }
+      &-field {
+        font-size: 14px;
+        &--category {
+          color: #888;
+        }
+      }
+    }
+
+    &__image {
+      max-width: 350px;
+    }
+
     &--wide {
       flex-direction: row;
-      &__image {
-        max-width: 350px;
-      }
       &__info {
         width: 100%;
         padding: 10px;
@@ -128,10 +164,6 @@ export default {
       &__button {
         font-size: 16px;
       }
-    }
-
-    &__image {
-      max-width: 500px;
     }
   }
 }
