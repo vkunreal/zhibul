@@ -1,5 +1,5 @@
 <template>
-  <section :class="`v-product d-flex ${isWide ? 'v-product--wide' : ''}`">
+  <section :class="`v-product d-flex ${isWide ? 'wide' : ''}`">
     <div :class="`${isWide ? '' : 'fill-width'}`">
       <img
         class="v-product__image"
@@ -126,9 +126,7 @@ export default {
     border: 1px solid $primaryGrey;
     font-weight: bold;
     font-size: 14px;
-    text-align: center;
-    padding: 7px 0px;
-    width: 100%;
+    padding: 7px 22px;
     &--price {
       background: $primaryGrey;
       color: $white !important;
@@ -149,22 +147,23 @@ export default {
       }
     }
 
+    &__button {
+      text-align: center;
+      padding: 7px 0px;
+      width: 100%;
+    }
+
     &__image {
       max-width: 350px;
     }
 
-    &--wide {
+    &.wide {
       flex-direction: row;
-      &__info {
-        width: 100%;
-        padding: 10px;
-        margin-left: 0;
-        &-title {
-          font-size: 24px;
+      .v-product {
+        &__button {
+          padding: 7px 22px;
+          width: unset;
         }
-      }
-      &__button {
-        font-size: 16px;
       }
     }
   }
