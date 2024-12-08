@@ -15,7 +15,6 @@
           }}</nuxt-link>
           /
         </p>
-        \
         <p class="breadcrumbs__link">
           <span class="mr-1">{{ category?.name }}</span>
         </p>
