@@ -63,7 +63,7 @@
         </template>
       </div>
 
-      <div class="d-flex flex-wrap g-2 mt-4">
+      <div class="d-flex g-1 mt-4">
         <nuxt-link
           :to="product.category_url + '/' + product.url"
           class="v-product__button v-product__button--price text-uppercase"
@@ -124,9 +124,11 @@ export default {
   &__button {
     color: $primaryGrey;
     border: 1px solid $primaryGrey;
-    padding: 7px 24px;
     font-weight: bold;
     font-size: 14px;
+    text-align: center;
+    padding: 7px 0px;
+    width: 100%;
     &--price {
       background: $primaryGrey;
       color: $white !important;
