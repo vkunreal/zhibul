@@ -222,7 +222,7 @@ export default {
     text-decoration: none;
   }
   &-wrapper {
-    max-width: 1200px;
+    max-width: 1250px;
   }
 
   &__wide-btn {
@@ -248,7 +248,7 @@ export default {
       &--wide {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 30px;
       }
     }
 
