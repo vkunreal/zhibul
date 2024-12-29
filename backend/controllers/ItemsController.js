@@ -1,33 +1,33 @@
-const ItemsServices = require("../services/ItemsServices")
-const { writeLog } = require("../writeLog")
-const path = require("path")
-const fs = require("fs")
-const OptionsServices = require("../services/OptionsServices")
-const FilesServices = require("../services/FilesServices")
-const ValutesServices = require("../services/ValutesServices")
+const ItemsServices = require('../services/ItemsServices')
+const { writeLog } = require('../writeLog')
+const path = require('path')
+const fs = require('fs')
+const OptionsServices = require('../services/OptionsServices')
+const FilesServices = require('../services/FilesServices')
+const ValutesServices = require('../services/ValutesServices')
 
 const testItem = (item) => {
   if (!item?.category_id || !String(item?.category_id).trim()) {
     // test category_id
-    writeLog("Category id is not found")
+    writeLog('Category id is not found')
 
     return { status: false }
   } else if (!item?.name || !item.name?.trim()) {
     // test name
-    writeLog("Name id is not found")
+    writeLog('Name id is not found')
 
     return { status: false }
   } else if (!item?.brand || !item?.brand?.trim()) {
     // test brand
-    writeLog("Brand id is not found")
+    writeLog('Brand id is not found')
     return { status: false }
   } else if (!item?.manufacturer) {
     // test manufacturer
-    writeLog("Manufacturer id is not found")
+    writeLog('Manufacturer id is not found')
 
     return { status: false }
   } else if (!String(item.url).trim()) {
-    writeLog("Url is not found")
+    writeLog('Url is not found')
 
     return { status: false }
   }
@@ -60,6 +60,12 @@ class ItemsController {
     )
     const valutes = await ValutesServices.getAllValutes()
 
+    writeLog(
+      `request GET /items/${req.params.category_url} DATA: ${JSON.stringify(
+        items
+      )}`
+    )
+
     for (let i = 0; i < items.length; i++) {
       const itemId = items[i].id
       const images = await ItemsServices.getItemImages(itemId)
@@ -67,12 +73,6 @@ class ItemsController {
       const itemFiles = await FilesServices.getFilesByItemId(itemId)
       const itemElem = items[i]
       const valute = valutes.find((v) => v.id === itemElem.valute_id).value
-
-      writeLog(
-        `request GET /items/${req.params.category_url} DATA: ${JSON.stringify(
-          items
-        )}`
-      )
 
       items[i].images = images
       items[i].menuOptions = itemOptions.filter((op) => !!op.show_menu)
@@ -91,7 +91,7 @@ class ItemsController {
           valute
         ).toFixed(1)}0 ${itemElem.price_postfix}`
       } else {
-        items[i].display_price = ""
+        items[i].display_price = ''
       }
     }
 
@@ -155,7 +155,7 @@ class ItemsController {
           valute
         ).toFixed(1)}0 ${item.price_postfix}`
       } else {
-        item.display_price = ""
+        item.display_price = ''
       }
     }
 
@@ -218,15 +218,15 @@ class ItemsController {
       }
       const imageName = `image-${item_id}-${
         Date.now() + Math.round(Math.random() * 100000)
-      }.${file.name.split(".").pop().toLowerCase()}`
+      }.${file.name.split('.').pop().toLowerCase()}`
       const imagePath = path.resolve(
         __dirname,
-        "..",
-        "public",
-        "images",
+        '..',
+        'public',
+        'images',
         imageName
       )
-      const imageUrl = "https://api.zhbl.by/images/" + imageName
+      const imageUrl = 'https://api.zhbl.by/images/' + imageName
       // const imageUrl = 'http://localhost:5000/images/' + imageName
       urls.push(imageUrl)
       await file.mv(imagePath, async (err) => {
@@ -254,16 +254,16 @@ class ItemsController {
 
   async deleteImage(req, res) {
     try {
-      const imageName = req.body.src.split("/").pop()
+      const imageName = req.body.src.split('/').pop()
       const imagePath = path.resolve(
         __dirname,
-        "..",
-        "public",
-        "images",
+        '..',
+        'public',
+        'images',
         imageName
       )
       await ItemsServices.deleteImageInDB(
-        "https://api.zhbl.by/images/" + imageName
+        'https://api.zhbl.by/images/' + imageName
         // 'http://localhost:5000/images/' + imageName
       )
       if (fs.existsSync(imagePath)) {
