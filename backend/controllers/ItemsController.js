@@ -68,6 +68,12 @@ class ItemsController {
       const itemElem = items[i]
       const valute = valutes.find((v) => v.id === itemElem.valute_id).value
 
+      writeLog(
+        `request GET /items/${req.params.category_url} DATA: ${JSON.stringify(
+          items
+        )}`
+      )
+
       items[i].images = images
       items[i].menuOptions = itemOptions.filter((op) => !!op.show_menu)
       items[i].files = itemFiles
