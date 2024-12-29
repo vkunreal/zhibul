@@ -55,6 +55,12 @@ class ItemsController {
   }
 
   async getItemsFromUrl(req, res) {
+    console.log('req')
+    console.log(
+      `request GET /items/${req.params.category_url} DATA: ${JSON.stringify(
+        items
+      )}`
+    )
     const items = await ItemsServices.getItemsFromCategoryUrl(
       req.params.category_url
     )
