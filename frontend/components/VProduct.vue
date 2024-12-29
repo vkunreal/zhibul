@@ -3,8 +3,8 @@
     <div :class="`${isWide ? '' : 'fill-width'}`">
       <img
         class="v-product__image"
-        :src="productImage.src"
-        :alt="product.name"
+        :src="productImage?.src"
+        :alt="product?.name"
       />
     </div>
 
