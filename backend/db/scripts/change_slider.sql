@@ -20,12 +20,15 @@ CREATE TABLE slider_images (
 INSERT INTO slides (url, title, brand)
 VALUES
 ('/news/depur_new', '', ''),
+('/menu/spray_guns/carbonio_evo_hte_clear', '', ''),
 ('/menu/painting_supplies/360_true_light_evo_meter', '', '');
 
 -- slider images
 INSERT INTO slider_images (slide_id, display, src)
 VALUES
 (1, 'desktop', 'https://api.zhbl.by/slider/desktop-1.png'),
-(2, 'desktop', 'https://api.zhbl.by/slider/desktop-2.png'),
+(2, 'desktop', 'https://api.zhbl.by/slider/desktop-2-new.png'),
+(3, 'desktop', 'https://api.zhbl.by/slider/desktop-2.png'),
 (1, 'mobile', 'https://api.zhbl.by/slider/mobile-1.png'),
-(2, 'mobile', 'https://api.zhbl.by/slider/mobile-2.png');
+(2, 'desktop', 'https://api.zhbl.by/slider/mobile-2-new.png'),
+(3, 'mobile', 'https://api.zhbl.by/slider/mobile-2.png');
