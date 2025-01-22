@@ -30,5 +30,5 @@ VALUES
 (2, 'desktop', 'https://api.zhbl.by/slider/desktop-2-new.png'),
 (3, 'desktop', 'https://api.zhbl.by/slider/desktop-2.png'),
 (1, 'mobile', 'https://api.zhbl.by/slider/mobile-1.png'),
-(2, 'desktop', 'https://api.zhbl.by/slider/mobile-2-new.png'),
+(2, 'mobile', 'https://api.zhbl.by/slider/mobile-2-new.png'),
 (3, 'mobile', 'https://api.zhbl.by/slider/mobile-2.png');
