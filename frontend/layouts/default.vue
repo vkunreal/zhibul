@@ -160,27 +160,35 @@
                   </svg>
                 </a>
               </li> -->
-              <li class="v-app__footer__app">
-                <a :href="variable('vk') || ''" target="_blank">
-                  <svg width="30" height="30">
-                    <use xlink:href="@/static/icons.svg#vk" />
-                  </svg>
-                </a>
-              </li>
-              <li class="v-app__footer__app">
-                <a :href="variable('inst') || ''" target="_blank">
-                  <svg width="30" height="30">
-                    <use xlink:href="@/static/icons.svg#inst" />
-                  </svg>
-                </a>
-              </li>
-              <li class="v-app__footer__app">
-                <a :href="variable('youtube') || ''" target="_blank">
-                  <svg width="30" height="30">
-                    <use xlink:href="@/static/icons.svg#youtube" />
-                  </svg>
-                </a>
-              </li>
+              <template v-if="variable('vk')">
+                <li class="v-app__footer__app">
+                  <a :href="variable('vk')" target="_blank">
+                    <svg width="30" height="30">
+                      <use xlink:href="@/static/icons.svg#vk" />
+                    </svg>
+                  </a>
+                </li>
+              </template>
+
+              <template v-if="variable('inst')">
+                <li class="v-app__footer__app">
+                  <a :href="variable('inst')" target="_blank">
+                    <svg width="30" height="30">
+                      <use xlink:href="@/static/icons.svg#inst" />
+                    </svg>
+                  </a>
+                </li>
+              </template>
+
+              <template v-if="variable('youtube')">
+                <li class="v-app__footer__app">
+                  <a :href="variable('youtube')" target="_blank">
+                    <svg width="30" height="30">
+                      <use xlink:href="@/static/icons.svg#youtube" />
+                    </svg>
+                  </a>
+                </li>
+              </template>
               <!-- <li class="v-app__footer__app">
                 <a :href="variable('dzen') || ''" target="_blank">
                   <svg width="26" height="26">
@@ -198,7 +206,7 @@
           </div>
         </div>
 
-        <p class="text-center mt-4">© 2024 ZHBL</p>
+        <p class="text-center mt-4">© 2025 ZHBL</p>
       </footer>
     </div>
 
