@@ -1,0 +1,27 @@
+@import "@/shared/styles/variables.scss";
+
+.wrapper {
+  display: flex;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  background: $primaryGrey;
+  font-weight: 500;
+  padding: 12px 8;
+  gap: 8px;
+  color: $white;
+  cursor: pointer;
+}
+
+.buttonTitle {
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.triangle {
+  width: 54px;
+  height: 54px;
+  color: $primaryGrey;
+}

@@ -94,6 +94,23 @@ class ItemsServices {
     }
   }
 
+  async getAllItemsSplitted(page, limit) {
+    if (page < 1 || limit < 1) {
+      throw new Error(`Invalid parametrs page: ${page}, limit: ${limit}`)
+    }
+
+    const data = await request(
+      `${queryItems} LIMIT ${limit} OFFSET ${(page - 1) * limit}`
+    )
+
+    const { count } = await request(
+      'SELECT COUNT(*) as count FROM items;',
+      (res) => res[0][0]
+    )
+
+    return [data, count]
+  }
+
   async getCountries() {
     return await request('SELECT * FROM countries')
   }

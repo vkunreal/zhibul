@@ -1,0 +1,61 @@
+@import "@/shared/styles/variables.scss";
+@import "@/shared/styles/media.scss";
+
+.tabs {
+  width: 100%;
+  display: none;
+  align-items: center;
+  list-style: none;
+  text-wrap: nowrap;
+  text-transform: uppercase;
+  margin-left: 24px;
+  a {
+    color: $primaryGrey;
+    text-decoration: none;
+    font-weight: 500;
+    &.nuxt-link-exact-active {
+      color: $colorFourth;
+    }
+  }
+}
+
+.parentTab {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin: 0 8px;
+}
+
+.childTabList {
+  position: absolute;
+  top: 45px;
+  background: $colorGrey;
+  display: flex;
+  flex-direction: column;
+  text-transform: none;
+  & a {
+    width: max-content;
+    color: $white !important;
+    padding: 16px;
+  }
+}
+
+.childTab {
+  width: 100%;
+  color: $white !important;
+  svg {
+    margin-left: 16px;
+  }
+}
+
+.activeLink {
+  color: $colorFourth !important;
+}
+
+@include laptop {
+  .tabs {
+    display: flex;
+    gap: 48px;
+  }
+}

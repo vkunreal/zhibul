@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { CategoryList } from '../../components/CategoryList'
-import { ItemsView } from '../../components/ItemsView'
-import { getItemsDB } from '../../store/items/actions'
-import { selectItems } from '../../store/items/selectors'
-import './styles.scss'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Pagination } from "@mui/material";
+import { CategoryList } from "../../components/CategoryList";
+import { ItemsView } from "../../components/ItemsView";
+import { getItemsDB } from "../../store/items/actions";
+import { selectItemPages, selectItems } from "../../store/items/selectors";
+import "./styles.scss";
 
-const viewTypes = ['По категориям', 'По товарам']
+const viewTypes = ["По категориям", "По товарам"];
 
 export const Items: React.FC = () => {
-  const [viewType, setViewType] = useState(viewTypes[1])
-  const items = useSelector(selectItems)
+  const [viewType, setViewType] = useState(viewTypes[1]);
+  const items = useSelector(selectItems);
+  const itemPages = useSelector(selectItemPages);
 
-  const dispatch = useDispatch()
+  const [page, setPage] = useState(1);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getItemsDB())
-  }, [])
+    console.log(page);
+    dispatch(getItemsDB(page));
+  }, [page]);
 
   return (
     <div className="items pd-4">
@@ -30,8 +34,8 @@ export const Items: React.FC = () => {
             <li
               className={
                 viewType === type
-                  ? 'items__sort__list--item active'
-                  : 'items__sort__list--item'
+                  ? "items__sort__list--item active"
+                  : "items__sort__list--item"
               }
               key={type}
               onClick={() => setViewType(type)}
@@ -45,8 +49,22 @@ export const Items: React.FC = () => {
       <div className="mt-2">
         {viewType === viewTypes[0] && <CategoryList />}
 
-        {viewType === viewTypes[1] && <ItemsView items={items} />}
+        {viewType === viewTypes[1] && (
+          <>
+            <ItemsView items={items} />
+
+            <div className="fill-width d-flex justify-center mt-2 mb-2">
+              <Pagination
+                count={itemPages}
+                page={page}
+                onChange={(_, value) => setPage(value)}
+                size="large"
+                color="primary"
+              />
+            </div>
+          </>
+        )}
       </div>
     </div>
-  )
-}
+  );
+};

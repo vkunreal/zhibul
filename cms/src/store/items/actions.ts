@@ -1,126 +1,128 @@
-import axios from 'axios'
-import { Dispatch } from 'redux'
-import { ICategory, IItem, ICountry } from './../../interfaces/Items'
-import { IStore } from '..'
-import API from '../../utils/api'
+import axios from "axios";
+import { Dispatch } from "redux";
+import { ICategory, IItem, ICountry } from "./../../interfaces/Items";
+import { IStore } from "..";
+import API from "../../utils/api";
 
 export enum ItemsActions {
-  SET_CATEGORIES = 'ITEMS::SET_CATEGORIES',
-  SET_ITEMS = 'ITEMS::SET_ITEMS',
-  SET_COUNTRIES = 'ITEMS::SET_COUNTRIES',
+  SET_CATEGORIES = "ITEMS::SET_CATEGORIES",
+  SET_ITEMS = "ITEMS::SET_ITEMS",
+  SET_COUNTRIES = "ITEMS::SET_COUNTRIES",
 }
 
 const setCategories = (categories: ICategory) => ({
   type: ItemsActions.SET_CATEGORIES,
   payload: categories,
-})
+});
 
-const setItems = (items: IItem) => ({
+const setItems = (items: IItem, itemPages: number) => ({
   type: ItemsActions.SET_ITEMS,
-  payload: items,
-})
+  payload: { items, itemPages },
+});
 
 const setCountries = (countries: ICountry) => ({
   type: ItemsActions.SET_COUNTRIES,
   payload: countries,
-})
+});
 
 export const getCategoriesDB: any = () => async (dispatch: Dispatch) => {
-  await axios.get(API + '/api/categories').then(({ data }) => {
-    dispatch(setCategories(data))
-  })
-}
+  await axios.get(API + "/api/categories").then(({ data }) => {
+    dispatch(setCategories(data));
+  });
+};
 
 export const addCategoryDB: any =
   (category: any, imageData: any) =>
   async (dispatch: Dispatch, getState: () => IStore) => {
     const response = await axios
-      .post(API + '/api/category', category, {
+      .post(API + "/api/category", category, {
         headers: {
           authorization: getState().variables.token,
         },
       })
       .then((res) => {
-        dispatch(getCategoriesDB())
-        return res.data
-      })
+        dispatch(getCategoriesDB());
+        return res.data;
+      });
 
-    await fetch(API + '/api/category/image/' + response.data.id, {
-      method: 'POST',
+    await fetch(API + "/api/category/image/" + response.data.id, {
+      method: "POST",
       body: imageData,
       headers: {
         authorization: getState().variables.token,
       },
-    })
-  }
+    });
+  };
 
 export const changeCategoryDB: any =
   (category: ICategory) =>
   async (dispatch: Dispatch, getState: () => IStore) => {
     await axios
-      .put(API + '/api/category', category, {
+      .put(API + "/api/category", category, {
         headers: {
           authorization: getState().variables.token,
         },
       })
       .then(() => {
-        dispatch(getCategoriesDB())
-      })
-  }
+        dispatch(getCategoriesDB());
+      });
+  };
 
 export const deleteCategoryDB: any =
   (id: number) => async (dispatch: Dispatch, getState: () => IStore) => {
     await axios
-      .delete(API + '/api/category/' + id, {
+      .delete(API + "/api/category/" + id, {
         headers: {
           authorization: getState().variables.token,
         },
       })
       .then(() => {
-        dispatch(getCategoriesDB())
-      })
-  }
+        dispatch(getCategoriesDB());
+      });
+  };
 
-export const getItemsDB: any = () => async (dispatch: Dispatch) => {
+export const getItemsDB: any = (page: number) => async (dispatch: Dispatch) => {
   // await axios.get('/api/items').then(({ data }) => {
   //   dispatch(setItems(data))
   // })
   Promise.all([
-    axios.get(API + '/api/items/without-images'),
-    axios.get(API + '/api/countries'),
+    axios.get(API + `/api/items-splitted?page=${page}&limit=20`),
+    axios.get(API + "/api/countries"),
   ]).then((res) => {
-    const [itemsData, countriesData] = res
+    const [itemsData, countriesData] = res;
 
-    dispatch(setItems(itemsData.data))
-    dispatch(setCountries(countriesData.data))
-  })
-}
+    const { data: items, count } = itemsData.data;
+
+    dispatch(setItems(items, Math.ceil(count / 20)));
+    dispatch(setCountries(countriesData.data));
+  });
+};
 
 export const addItemDB: any =
   (item: IItem) => async (dispatch: Dispatch, getState: () => IStore) => {
     await axios
-      .post(API + '/api/item', item, {
+      .post(API + "/api/item", item, {
         headers: {
           authorization: getState().variables.token,
         },
       })
       .then(() => {
-        dispatch(getItemsDB())
-      })
-  }
+        dispatch(getItemsDB());
+      });
+  };
 
 export const changeItemDB: any =
   (item: IItem) => async (dispatch: Dispatch, getState: () => IStore) => {
     await axios
-      .put(API + '/api/item/', item, {
+      .put(API + "/api/item/", item, {
         headers: {
           authorization: getState().variables.token,
         },
       })
       .then(() => {
-        dispatch(getItemsDB())
-      })
-  }
+        dispatch(getItemsDB());
+      });
+  };
 
 export const deleteItemDB: any =
   (id: number) => async (dispatch: Dispatch, getState: () => IStore) => {
@@ -131,6 +133,6 @@ export const deleteItemDB: any =
         },
       })
       .then(() => {
-        dispatch(getItemsDB())
-      })
-  }
+        dispatch(getItemsDB());
+      });
+  };

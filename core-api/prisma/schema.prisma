@@ -9,13 +9,16 @@ datasource db {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  name         String?
-  phoneNumber  String   @unique
-  passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  isActive     Boolean  @default(true)
+  id               String   @id @default(uuid())
+  name             String?
+  email            String?  @unique
+  phoneNumber      String   @unique
+  passwordHash     String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  isActive         Boolean  @default(true)
+  isEmailConfirmed Boolean  @default(false)
+  isPhoneConfirmed Boolean  @default(false)
 
   roles UserRole[]
 

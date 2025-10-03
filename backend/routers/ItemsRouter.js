@@ -5,6 +5,7 @@ const authenticateToken = require('../middlewares/authenticateToken')
 const ItemsRouter = new Router()
 
 ItemsRouter.get('/items/', ItemsController.getAllItems)
+ItemsRouter.get('/items-splitted', ItemsController.getAllItemsSplitted)
 ItemsRouter.get(
   '/items/without-images',
   ItemsController.getAllItemsWithoutImages

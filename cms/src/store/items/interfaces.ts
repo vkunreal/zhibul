@@ -1,19 +1,22 @@
-import { ICategory, ICountry, IItem } from './../../interfaces/Items'
-import { ItemsActions } from './actions'
+import { ICategory, ICountry, IItem } from "./../../interfaces/Items";
+import { ItemsActions } from "./actions";
 
 interface ISetCategories {
-  type: ItemsActions.SET_CATEGORIES
-  payload: ICategory[]
+  type: ItemsActions.SET_CATEGORIES;
+  payload: ICategory[];
 }
 
 interface ISetItems {
-  type: ItemsActions.SET_ITEMS
-  payload: IItem[]
+  type: ItemsActions.SET_ITEMS;
+  payload: {
+    items: IItem[];
+    itemPages: number;
+  };
 }
 
 interface ISetCountries {
-  type: ItemsActions.SET_COUNTRIES
-  payload: ICountry[]
+  type: ItemsActions.SET_COUNTRIES;
+  payload: ICountry[];
 }
 
-export type IItemsAction = ISetCategories | ISetItems | ISetCountries
+export type IItemsAction = ISetCategories | ISetItems | ISetCountries;

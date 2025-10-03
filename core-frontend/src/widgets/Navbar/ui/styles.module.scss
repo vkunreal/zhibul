@@ -1,0 +1,39 @@
+@import "@/shared/styles/variables.scss";
+@import "@/shared/styles/media.scss";
+
+.nav {
+  display: flex;
+  justify-content: center;
+  margin: 4px 0;
+  height: 54px;
+  position: sticky;
+  top: 0;
+
+  &Spacer {
+    display: none;
+    width: 100%;
+    height: 100%;
+
+    &Left {
+      background: $primaryGrey;
+    }
+  }
+}
+
+.categories {
+  display: flex;
+  width: 100%;
+}
+
+@include desktop {
+  .nav {
+    position: unset;
+    &Spacer {
+      display: block;
+    }
+  }
+
+  .categories {
+    min-width: $display-lg;
+  }
+}

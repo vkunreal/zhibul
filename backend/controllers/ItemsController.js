@@ -5,6 +5,11 @@ const fs = require('fs')
 const OptionsServices = require('../services/OptionsServices')
 const FilesServices = require('../services/FilesServices')
 const ValutesServices = require('../services/ValutesServices')
+const {
+  getEndpoint,
+  createPrevURL,
+  createNextUrl,
+} = require('../utils/endpointSplitUrls')
 
 const testItem = (item) => {
   if (!item?.category_id || !String(item?.category_id).trim()) {
@@ -40,6 +45,29 @@ class ItemsController {
     const items = await ItemsServices.getAllItems()
 
     res.status(200).json(items)
+  }
+
+  async getAllItemsSplitted(req, res) {
+    try {
+      const page = parseInt(req.query.page, 10) || 1
+      const limit = parseInt(req.query.limit, 10) || 20
+
+      const [data, count] = await ItemsServices.getAllItemsSplitted(page, limit)
+
+      const endpointURL = getEndpoint(req)
+      const prev = createPrevURL(endpointURL, page, limit)
+      const next = createNextUrl(endpointURL, page, limit)
+
+      res.status(200).json({
+        next,
+        prev,
+        count,
+        data,
+      })
+    } catch (e) {
+      console.log('e', e)
+      res.status(500).json([])
+    }
   }
 
   async getAllItemsWithoutImages(req, res) {

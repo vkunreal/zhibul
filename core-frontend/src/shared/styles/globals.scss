@@ -1,0 +1,26 @@
+@import "./variables.scss";
+
+* {
+  box-sizing: border-box;
+  font-family: $roboto;
+  border: 0;
+  line-height: 1.5;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: #eee;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: $colorGrey;
+  border-radius: 20px;
+  border-top: 2px solid $white;
+  border-bottom: 2px solid $white;
+}

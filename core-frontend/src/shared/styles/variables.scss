@@ -1,0 +1,40 @@
+$white: #fff;
+$black: #000;
+$dark: rgba(0, 0, 0, 0.87);
+
+$primaryGrey: #2c2c2c;
+$secondaryGrey: #333;
+$colorPrimary: #ffd866;
+$colorSecondary: #0069b1;
+$colorThird: #ffeb3b;
+$colorFourth: #f07204;
+$colorFifth: #007646;
+$colorSixth: #ff7700;
+
+$colorGrey: #404040;
+
+$light-grey: #eee;
+$dark-grey: #999;
+
+$display-xs: 375px !default;
+$display-sm: 600px !default;
+$display-slider: 768px !default;
+$display-md: 960px !default;
+$display-lg: 1200px !default;
+$display-xl: 1904px !default;
+
+$serif: "Noto serif";
+$roboto: "Roboto";
+$play: "Play";
+$manrope: "Manrope";
+
+@font-face {
+  font-family: "Noto serif";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Noto serif"),
+    url("/static/fonts/notoserif/NotoSerif-VariableFont_wdth,wght.ttf")
+      format("tff"),
+    url("/static/fonts/notoserif/NotoSerif-VariableFont_wdth,wght.ttf")
+      format("tff");
+}
