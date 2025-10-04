@@ -3,7 +3,7 @@
 import { FC, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Icon } from "@/shared/ui/Icon";
+import { Icon } from "@/shared/ui";
 
 import { TABS } from "../utils";
 import styles from "./styles.module.scss";

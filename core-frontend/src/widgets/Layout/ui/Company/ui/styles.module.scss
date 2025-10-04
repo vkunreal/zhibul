@@ -1,0 +1,25 @@
+@use "@/shared/styles/media.scss" as *;
+@use "@/shared/styles/variables.scss" as *;
+
+.wrapper {
+  padding: 16px 12px;
+  max-width: $display-lg;
+  margin: 0 auto;
+  color: $dark;
+
+  ol {
+    padding-left: 24px;
+  }
+}
+
+.heading {
+  text-transform: uppercase;
+}
+
+.devider {
+  width: 70px;
+  height: 10px;
+  background: $primaryGrey;
+  margin-top: 16px;
+  margin-bottom: 32px;
+}

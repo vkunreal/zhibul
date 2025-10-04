@@ -1,0 +1,26 @@
+@use "@/shared/styles/variables.scss" as *;
+
+.slide {
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+
+  &Link {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: $white;
+    gap: 48px;
+  }
+
+  &Title {
+    color: $white;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 0 16px;
+    font-size: 30px;
+  }
+}

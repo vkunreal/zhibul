@@ -1,0 +1,47 @@
+@use "@/shared/styles/media.scss" as *;
+@use "@/shared/styles/variables.scss" as *;
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background: $colorPrimary;
+}
+
+.feedback {
+  width: 100%;
+  max-width: 900px;
+  padding: 48px;
+  color: $dark;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 64px;
+}
+
+.header {
+  width: 100%;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.description {
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@include laptop {
+  .feedback {
+    flex-direction: row;
+  }
+}

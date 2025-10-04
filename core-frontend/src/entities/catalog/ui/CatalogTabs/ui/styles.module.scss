@@ -1,5 +1,5 @@
-@import "@/shared/styles/variables.scss";
-@import "@/shared/styles/media.scss";
+@use "@/shared/styles/media.scss" as *;
+@use "@/shared/styles/variables.scss" as *;
 
 .tabs {
   width: 100%;
@@ -13,9 +13,6 @@
     color: $primaryGrey;
     text-decoration: none;
     font-weight: 500;
-    &.nuxt-link-exact-active {
-      color: $colorFourth;
-    }
   }
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Icon } from "@/shared/ui/Icon";
+import { Icon } from "@/shared/ui";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 

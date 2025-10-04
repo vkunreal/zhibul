@@ -1,13 +1,22 @@
-@import "./variables.scss";
+@use "./variables.scss" as *;
 
 * {
   box-sizing: border-box;
   font-family: $roboto;
+  margin: 0;
   border: 0;
   line-height: 1.5;
 }
 
+html,
 body {
+  margin: 0;
+  padding: 0;
+}
+
+iframe {
+  display: block;
+  border: none;
   margin: 0;
   padding: 0;
 }
@@ -15,7 +24,7 @@ body {
 html::-webkit-scrollbar {
   width: 8px;
   height: 8px;
-  background-color: #eee;
+  background-color: $light-grey;
 }
 
 html::-webkit-scrollbar-thumb {

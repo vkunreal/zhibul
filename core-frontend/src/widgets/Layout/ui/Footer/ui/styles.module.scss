@@ -1,0 +1,109 @@
+@use "@/shared/styles/media.scss" as *;
+@use "@/shared/styles/variables.scss" as *;
+
+.wrapper {
+  background: $primaryGrey;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.footer {
+  width: 100%;
+  max-width: $display-lg;
+  padding: 16px;
+
+  p {
+    font-size: 14px;
+    margin-bottom: 0;
+    color: $white;
+  }
+
+  h3 {
+    color: $white;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0 !important;
+  }
+}
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  margin-bottom: 32px;
+  gap: 32px;
+}
+
+.contact {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  background: $colorGrey;
+  text-decoration: none;
+  padding: 32px;
+
+  &Title {
+    font-size: 12px;
+    font-weight: 400;
+    color: $dark-grey !important;
+  }
+
+  &Text {
+    font-size: 18px !important;
+  }
+
+  svg {
+    color: $white;
+  }
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.socialNetworks {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+
+  svg {
+    color: $white;
+  }
+}
+
+.socialNetwork {
+  padding: 5px;
+}
+
+.recallButton {
+  margin: 0 auto;
+}
+
+.copyright {
+  text-align: center;
+  margin-top: 16px;
+}
+
+@include tablet {
+  .sections {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .recallButton {
+    margin: 0;
+  }
+}
+
+@include laptop {
+  .contacts {
+    flex-direction: row;
+  }
+}
