@@ -25,10 +25,12 @@ export default async function RootLayout({
   return (
     <html lang="ru" className={roboto.variable}>
       <body>
-        <Header />
-        <Navbar />
-        <main className={styles.main}>{children}</main>
-        <Footer />
+        <div className={styles.app}>
+          <Header />
+          <Navbar />
+          <main className={styles.main}>{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   )
