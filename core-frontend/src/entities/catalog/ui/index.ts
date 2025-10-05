@@ -1,2 +1,2 @@
-export { CatalogButton } from "./CatalogButton";
-export { CatalogTabs } from "./CatalogTabs";
+export { CatalogButton } from './CatalogButton'
+export { CatalogTabs } from './CatalogTabs'

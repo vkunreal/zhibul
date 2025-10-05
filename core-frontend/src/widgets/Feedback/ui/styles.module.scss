@@ -1,16 +1,12 @@
-@use "@/shared/styles/media.scss" as *;
-@use "@/shared/styles/variables.scss" as *;
+@use '@/shared/styles/media.scss' as *;
+@use '@/shared/styles/variables.scss' as *;
 
 .wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
   background: $colorPrimary;
 }
 
 .feedback {
-  width: 100%;
-  max-width: 900px;
+  // max-width: 900px;
   padding: 48px;
   color: $dark;
   display: flex;

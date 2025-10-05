@@ -1,1 +1,1 @@
-export { Header, Navbar, Company, Promotion, Footer } from "./ui";
+export { Header, Navbar, Company, Promotion, Footer } from './ui'

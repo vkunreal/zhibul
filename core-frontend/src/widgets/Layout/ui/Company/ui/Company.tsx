@@ -1,10 +1,11 @@
-import { FC } from "react";
+import { FC } from 'react'
+import { Wrapper } from '@/shared/ui'
 
-import styles from "./styles.module.scss";
+import styles from './styles.module.scss'
 
 export const Company: FC = () => {
   return (
-    <div className={styles.wrapper}>
+    <Wrapper className={styles.wrapper}>
       <h1 className={styles.heading}>О компании</h1>
 
       <div className={styles.devider} />
@@ -50,6 +51,6 @@ export const Company: FC = () => {
         <br />
         Это делает нас одной из известных компаний на территории Беларуси.
       </div>
-    </div>
-  );
-};
+    </Wrapper>
+  )
+}

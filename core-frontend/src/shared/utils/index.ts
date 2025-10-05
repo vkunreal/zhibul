@@ -1,0 +1,1 @@
+export { getVariable } from './variable'

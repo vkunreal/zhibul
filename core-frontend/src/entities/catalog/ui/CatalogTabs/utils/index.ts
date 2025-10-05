@@ -1,19 +1,19 @@
-import { TAB } from "../interfaces";
+import { TAB } from '../interfaces'
 
 export const TABS: TAB[] = [
-  { title: "О компании", url: "/" },
+  { title: 'О компании', url: '/' },
   {
-    title: "Доставка",
-    url: "/dostavka",
+    title: 'Доставка',
+    url: '/dostavka',
   },
   {
-    title: "Услуги",
-    url: "/uslugi",
+    title: 'Услуги',
+    url: '/uslugi',
     tabs: [
-      { title: "Ремонт пневмоинструмента", url: "/rembaza" },
-      { title: "Аренда автоприцепов", url: "/arenda_prizepa" },
+      { title: 'Ремонт пневмоинструмента', url: '/rembaza' },
+      { title: 'Аренда автоприцепов', url: '/arenda_prizepa' },
     ],
   },
-  { title: "Новости", url: "/news" },
-  { title: "Контакты", url: "/contacts" },
-];
+  { title: 'Новости', url: '/news' },
+  { title: 'Контакты', url: '/contacts' },
+]

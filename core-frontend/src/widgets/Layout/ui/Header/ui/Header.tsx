@@ -1,18 +1,16 @@
-import { FC } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { RecallButton } from "@/entities/ui/RecallButton";
-import { Icon } from "@/shared/ui";
+import { FC } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { Icon, Wrapper, RecallButton } from '@/shared/ui'
+import { useVariables } from '@/shared/hooks'
 
-import { HeaderProps } from "../interfaces";
-import styles from "./styles.module.scss";
+import styles from './styles.module.scss'
 
-export const Header: FC<HeaderProps> = ({ variables }) => {
-  const variableValue = (name: string) =>
-    variables.find((v) => v.name === name)?.value ?? "";
+export const Header: FC = async () => {
+  const { variable } = await useVariables()
 
   return (
-    <div className={styles.wrapper}>
+    <Wrapper className={styles.wrapper}>
       <header className={styles.header}>
         <Link href="/" className={styles.logo}>
           <Image width={140} height={57} src="/logo.avif" alt="Logo" />
@@ -24,15 +22,15 @@ export const Header: FC<HeaderProps> = ({ variables }) => {
           <div className={styles.phoneList}>
             <a
               className={styles.blockText}
-              href={`tel:${variableValue("phone_sales")}`}
+              href={`tel:${variable('phone_sales')}`}
             >
-              {variableValue("phone_sales")}
+              {variable('phone_sales')}
             </a>
             <a
               className={styles.blockText}
-              href={`tel:${variableValue("phone_services")}`}
+              href={`tel:${variable('phone_services')}`}
             >
-              {variableValue("phone_services")}
+              {variable('phone_services')}
             </a>
           </div>
         </div>
@@ -40,16 +38,13 @@ export const Header: FC<HeaderProps> = ({ variables }) => {
         <div className={styles.block}>
           <Icon name="email" width={30} height={30} />
 
-          <a
-            className={styles.blockText}
-            href={`mailto:${variableValue("email")}`}
-          >
-            {variableValue("email")}
+          <a className={styles.blockText} href={`mailto:${variable('email')}`}>
+            {variable('email')}
           </a>
         </div>
 
         <RecallButton />
       </header>
-    </div>
-  );
-};
+    </Wrapper>
+  )
+}

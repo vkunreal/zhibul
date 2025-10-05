@@ -1,4 +1,4 @@
-@use "./variables.scss" as *;
+@use './variables.scss' as *;
 
 @mixin toSmartphone {
   @media screen and (max-width: #{$display-xs - 1px}) {

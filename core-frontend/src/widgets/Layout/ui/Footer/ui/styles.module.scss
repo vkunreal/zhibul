@@ -1,16 +1,11 @@
-@use "@/shared/styles/media.scss" as *;
-@use "@/shared/styles/variables.scss" as *;
+@use '@/shared/styles/media.scss' as *;
+@use '@/shared/styles/variables.scss' as *;
 
 .wrapper {
   background: $primaryGrey;
-  width: 100%;
-  display: flex;
-  justify-content: center;
 }
 
 .footer {
-  width: 100%;
-  max-width: $display-lg;
   padding: 16px;
 
   p {

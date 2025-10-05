@@ -1,5 +1,5 @@
-import { Slide } from "@/entities/slider";
+import { Slide } from '@/entities/slider'
 
 export interface MainSliderProps {
-  slides: Slide[];
+  slides: Slide[]
 }

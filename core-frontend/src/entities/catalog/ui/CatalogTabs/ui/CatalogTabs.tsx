@@ -1,22 +1,22 @@
-"use client";
+'use client'
 
-import { FC, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Icon } from "@/shared/ui";
+import { FC, useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { Icon } from '@/shared/ui'
 
-import { TABS } from "../utils";
-import styles from "./styles.module.scss";
-import classNames from "classnames";
+import { TABS } from '../utils'
+import styles from './styles.module.scss'
+import classNames from 'classnames'
 
 export const CatalogTabs: FC = () => {
-  const [activeTab, setActiveTab] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<string | null>(null)
 
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   const isActive = (href: string) => {
-    return pathname === href;
-  };
+    return pathname === href
+  }
 
   return (
     <ul className={styles.tabs}>
@@ -54,5 +54,5 @@ export const CatalogTabs: FC = () => {
         </li>
       ))}
     </ul>
-  );
-};
+  )
+}

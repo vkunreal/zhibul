@@ -1,0 +1,32 @@
+@use '@/shared/styles/media.scss' as *;
+@use '@/shared/styles/variables.scss' as *;
+
+.wrapper {
+  display: none;
+  background: $primaryGrey;
+  color: $white;
+  padding: 6px 0;
+}
+
+.list {
+  list-style: none;
+  padding: 0 9px;
+  display: flex;
+  gap: 8px;
+
+  a {
+    text-decoration: none;
+    color: $white;
+    margin-right: 8px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+@include laptop {
+  .wrapper {
+    display: block;
+  }
+}

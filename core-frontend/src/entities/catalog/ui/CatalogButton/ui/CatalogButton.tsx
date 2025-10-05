@@ -1,22 +1,22 @@
-"use client";
+'use client'
 
-import { Icon } from "@/shared/ui";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { Icon } from '@/shared/ui'
+import { usePathname } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
-import styles from "./styles.module.scss";
+import styles from './styles.module.scss'
 
 export const CatalogButton = () => {
-  const router = useRouter();
-  const pathname = usePathname();
+  const router = useRouter()
+  const pathname = usePathname()
 
   const handleCatalogClick = () => {
-    if (pathname === "/katalog") {
-      router.back();
+    if (pathname === '/katalog') {
+      router.back()
     } else {
-      router.push("/katalog");
+      router.push('/katalog')
     }
-  };
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -32,5 +32,5 @@ export const CatalogButton = () => {
 
       <Icon className={styles.triangle} name="treug" width={30} height={30} />
     </div>
-  );
-};
+  )
+}

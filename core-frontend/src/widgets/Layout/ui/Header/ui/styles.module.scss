@@ -1,10 +1,7 @@
-@use "@/shared/styles/media.scss" as *;
-@use "@/shared/styles/variables.scss" as *;
+@use '@/shared/styles/media.scss' as *;
+@use '@/shared/styles/variables.scss' as *;
 
 .wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
   background: $primaryGrey;
   color: $white;
   z-index: 101;
@@ -13,8 +10,6 @@
 }
 
 .header {
-  width: 100%;
-  max-width: $display-lg;
   display: flex;
   flex-direction: column;
   justify-content: space-between;

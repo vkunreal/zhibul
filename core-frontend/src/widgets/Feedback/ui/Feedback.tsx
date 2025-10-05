@@ -1,21 +1,22 @@
-"use client";
+'use client'
 
-import { FC } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { PatternFormat } from "react-number-format";
-import { Button, TextField } from "@mui/material";
-import styled from "@emotion/styled";
+import { FC } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { PatternFormat } from 'react-number-format'
+import { Button, TextField } from '@mui/material'
+import { Wrapper } from '@/shared/ui'
+import styled from '@emotion/styled'
 
-import { FeedbackData } from "../interfaces";
-import styles from "./styles.module.scss";
+import { FeedbackData } from '../interfaces'
+import styles from './styles.module.scss'
 
 const WhiteButton = styled(Button)({
-  backgroundColor: "#ffffff",
-  color: "rgba(0, 0, 0, 0.87)",
-  "&:hover": {
-    backgroundColor: "#f0f0f0",
+  backgroundColor: '#ffffff',
+  color: 'rgba(0, 0, 0, 0.87)',
+  '&:hover': {
+    backgroundColor: '#f0f0f0',
   },
-});
+})
 
 export const Feedback: FC = () => {
   const {
@@ -23,14 +24,14 @@ export const Feedback: FC = () => {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-  } = useForm<FeedbackData>();
+  } = useForm<FeedbackData>()
 
   const onSubmit = (data: FeedbackData) => {
-    console.log(data);
-  };
+    console.log(data)
+  }
 
   return (
-    <section className={styles.wrapper}>
+    <Wrapper className={styles.wrapper} maxWidth="900px">
       <div className={styles.feedback}>
         <div className={styles.header}>
           <h2 className={styles.title}>
@@ -48,19 +49,19 @@ export const Feedback: FC = () => {
             error={!!errors.name}
             helperText={errors.name?.message}
             variant="standard"
-            {...register("name", {
-              required: "Имя обязательно",
+            {...register('name', {
+              required: 'Имя обязательно',
               minLength: {
                 value: 2,
-                message: "Минимум 2 символа",
+                message: 'Минимум 2 символа',
               },
               maxLength: {
                 value: 20,
-                message: "Имя не должно превышать 20 символов",
+                message: 'Имя не должно превышать 20 символов',
               },
               pattern: {
                 value: /^[a-zA-Zа-яА-ЯёЁ\s\-]+$/,
-                message: "Имя может содержать только буквы и дефисы",
+                message: 'Имя может содержать только буквы и дефисы',
               },
             })}
           />
@@ -69,10 +70,10 @@ export const Feedback: FC = () => {
             name="phone"
             control={control}
             rules={{
-              required: "Телефон обязателен",
-              validate: (value) => {
-                const unmasked = value.replace(/\D/g, "");
-                return unmasked.length === 12 || "Введите полный номер";
+              required: 'Телефон обязателен',
+              validate: value => {
+                const unmasked = value.replace(/\D/g, '')
+                return unmasked.length === 12 || 'Введите полный номер'
               },
             }}
             render={({ field, fieldState }) => (
@@ -96,7 +97,7 @@ export const Feedback: FC = () => {
             fullWidth
             error={!!errors.company}
             helperText={errors.company?.message}
-            {...register("company")}
+            {...register('company')}
           />
 
           <TextField
@@ -106,10 +107,10 @@ export const Feedback: FC = () => {
             fullWidth
             error={!!errors.email}
             helperText={errors.email?.message}
-            {...register("email", {
+            {...register('email', {
               pattern: {
                 value: /^\S+@\S+\.\S+$/,
-                message: "Введите корректный email адрес",
+                message: 'Введите корректный email адрес',
               },
             })}
           />
@@ -122,7 +123,7 @@ export const Feedback: FC = () => {
             error={!!errors.comment}
             helperText={errors.comment?.message}
             variant="standard"
-            {...register("comment")}
+            {...register('comment')}
           />
 
           <WhiteButton
@@ -133,10 +134,10 @@ export const Feedback: FC = () => {
             disabled={!isValid}
             size="large"
           >
-            {isSubmitting ? "Отправка..." : "Отправить"}
+            {isSubmitting ? 'Отправка...' : 'Отправить'}
           </WhiteButton>
         </form>
       </div>
-    </section>
-  );
-};
+    </Wrapper>
+  )
+}

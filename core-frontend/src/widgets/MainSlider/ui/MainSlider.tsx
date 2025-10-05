@@ -1,23 +1,23 @@
-"use client";
+'use client'
 
-import { FC } from "react";
-import { Autoplay, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import Link from "next/link";
-import { Slide } from "@/entities/slider";
-import { useResize } from "@/shared/hooks";
-import { Loader } from "@/shared/ui";
-import "swiper/css";
-import "swiper/css/pagination";
+import { FC } from 'react'
+import { Autoplay, Pagination } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import Link from 'next/link'
+import { Slide } from '@/entities/slider'
+import { useResize } from '@/shared/hooks'
+import { Loader } from '@/shared/ui'
+import 'swiper/css'
+import 'swiper/css/pagination'
 
-import { MainSliderProps } from "../interfaces";
-import styles from "./styles.module.scss";
-import "./pagination.scss";
+import { MainSliderProps } from '../interfaces'
+import styles from './styles.module.scss'
+import './pagination.scss'
 
 export const MainSlider: FC<MainSliderProps> = ({ slides }) => {
-  const { innerWidth } = useResize();
+  const { innerWidth } = useResize()
 
-  const isDesktop = innerWidth > 768;
+  const isDesktop = innerWidth > 768
 
   const slide = ({ id, url, title, images: { desktop, mobile } }: Slide) => (
     <SwiperSlide key={id}>
@@ -32,7 +32,7 @@ export const MainSlider: FC<MainSliderProps> = ({ slides }) => {
         </Link>
       </div>
     </SwiperSlide>
-  );
+  )
 
   return (
     <div>
@@ -54,5 +54,5 @@ export const MainSlider: FC<MainSliderProps> = ({ slides }) => {
         )}
       </Swiper>
     </div>
-  );
-};
+  )
+}

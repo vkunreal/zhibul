@@ -1,1 +1,1 @@
-export { getVariables } from "./getVariables";
+export { getVariables } from './getVariables'

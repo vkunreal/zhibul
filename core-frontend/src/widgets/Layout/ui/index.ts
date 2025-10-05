@@ -1,5 +1,5 @@
-export { Header } from "./Header";
-export { Navbar } from "./Navbar";
-export { Company } from "./Company";
-export { Promotion } from "./Promotion";
-export { Footer } from "./Footer";
+export { Header } from './Header'
+export { Navbar } from './Navbar'
+export { Company } from './Company'
+export { Promotion } from './Promotion'
+export { Footer } from './Footer'

@@ -1,42 +1,32 @@
-import { FC } from "react";
-import { RecallButton } from "@/entities/ui/RecallButton";
-import { Icon } from "@/shared/ui";
+import { FC } from 'react'
+import { useVariables } from '@/shared/hooks'
+import { Icon, Wrapper, RecallButton } from '@/shared/ui'
 
-import { FooterProps } from "../interfaces";
-import styles from "./styles.module.scss";
+import styles from './styles.module.scss'
 
-const socialNetworks = ["tg", "vk", "inst", "youtube", "dzen"];
+const socialNetworks = ['tg', 'vk', 'inst', 'youtube', 'dzen']
 
-export const Footer: FC<FooterProps> = ({ variables }) => {
-  const variableValue = (name: string) =>
-    variables.find((v) => v.name === name)?.value ?? "";
+export const Footer: FC = async () => {
+  const { variable } = await useVariables()
 
   return (
-    <footer className={styles.wrapper}>
-      <div className={styles.footer}>
+    <Wrapper className={styles.wrapper}>
+      <footer className={styles.footer}>
         <div className={styles.contacts}>
-          <a
-            className={styles.contact}
-            href={`tel:${variableValue("phone_sales")}`}
-          >
+          <a className={styles.contact} href={`tel:${variable('phone_sales')}`}>
             <Icon name="phone" width={35} height={35} />
 
             <div className={styles.contactInfo}>
               <h3 className={styles.contactTitle}>Звонок</h3>
-              <p className={styles.contactText}>
-                {variableValue("phone_sales")}
-              </p>
+              <p className={styles.contactText}>{variable('phone_sales')}</p>
             </div>
           </a>
-          <a
-            className={styles.contact}
-            href={`mailto:${variableValue("email")}`}
-          >
+          <a className={styles.contact} href={`mailto:${variable('email')}`}>
             <Icon name="email" width={40} height={40} />
 
             <div className={styles.contactInfo}>
               <h3 className={styles.contactTitle}>Электронная почта</h3>
-              <p className={styles.contactText}>{variableValue("email")}</p>
+              <p className={styles.contactText}>{variable('email')}</p>
             </div>
           </a>
         </div>
@@ -44,10 +34,10 @@ export const Footer: FC<FooterProps> = ({ variables }) => {
         <div className={styles.sections}>
           <ul className={styles.socialNetworks}>
             {socialNetworks.map(
-              (network) =>
-                variableValue(network) && (
+              network =>
+                variable(network) && (
                   <li key={network} className={styles.socialNetwork}>
-                    <a href={variableValue(network)} target="_blank">
+                    <a href={variable(network)} target="_blank">
                       <Icon name={network} width={30} height={30} />
                     </a>
                   </li>
@@ -61,7 +51,7 @@ export const Footer: FC<FooterProps> = ({ variables }) => {
         </div>
 
         <p className={styles.copyright}>© 2025 ZHBL</p>
-      </div>
-    </footer>
-  );
-};
+      </footer>
+    </Wrapper>
+  )
+}

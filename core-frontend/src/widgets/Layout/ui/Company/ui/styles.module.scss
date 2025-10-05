@@ -1,10 +1,8 @@
-@use "@/shared/styles/media.scss" as *;
-@use "@/shared/styles/variables.scss" as *;
+@use '@/shared/styles/media.scss' as *;
+@use '@/shared/styles/variables.scss' as *;
 
 .wrapper {
   padding: 16px 12px;
-  max-width: $display-lg;
-  margin: 0 auto;
   color: $dark;
 
   ol {

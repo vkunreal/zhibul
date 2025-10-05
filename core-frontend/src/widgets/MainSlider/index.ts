@@ -1,1 +1,1 @@
-export { MainSlider } from "./ui/MainSlider";
+export { MainSlider } from './ui/MainSlider'

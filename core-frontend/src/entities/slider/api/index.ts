@@ -1,1 +1,1 @@
-export { getSlides } from "./getSlides";
+export { getSlides } from './getSlides'
