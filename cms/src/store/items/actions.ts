@@ -86,14 +86,16 @@ export const getItemsDB: any = (page: number) => async (dispatch: Dispatch) => {
   //   dispatch(setItems(data))
   // })
   Promise.all([
-    axios.get(API + `/api/items-splitted?page=${page}&limit=20`),
+    // axios.get(API + `/api/items-splitted?page=${page}&limit=20`),
+    axios.get(API + `/api/items/without-images`),
     axios.get(API + "/api/countries"),
   ]).then((res) => {
     const [itemsData, countriesData] = res;
 
-    const { data: items, count } = itemsData.data;
+    // const { data: items, count } = itemsData.data;
 
-    dispatch(setItems(items, Math.ceil(count / 20)));
+    // dispatch(setItems(items, Math.ceil(count / 20)));
+    dispatch(setItems(itemsData.data, 1));
     dispatch(setCountries(countriesData.data));
   });
 };
