@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
 import styles from './styles.module.scss'
-import { CatalogButton, CatalogTabs } from '@/entities/catalog'
+import { CatalogButton, CatalogTabs } from '@/features/catalog'
 import cn from 'classnames'
 
 export const Navbar: FC = () => {

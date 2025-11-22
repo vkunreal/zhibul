@@ -13,9 +13,9 @@ export async function generateMetadata() {
   const page = await getPage(PAGE)
 
   return {
-    title: page.seo_title ?? 'Контакты',
-    description: page.seo_description ?? '',
-    keywords: page.seo_keywords ?? '',
+    title: page?.seo_title ?? 'Контакты',
+    description: page?.seo_description ?? '',
+    keywords: page?.seo_keywords ?? '',
   }
 }
 
@@ -72,13 +72,14 @@ export default async function ContactsPage() {
           <hr />
           <li className={styles.worktime}>
             <p className={styles.worktimeTitle}>Режим работы</p>
-            {variables
-              .filter(({ name }) => name === 'work_time')
-              .map(({ id, value }) => (
-                <p className={styles.worktimeValue} key={id}>
-                  {value}
-                </p>
-              ))}
+            {variables &&
+              variables
+                .filter(({ name }) => name === 'work_time')
+                .map(({ id, value }) => (
+                  <p className={styles.worktimeValue} key={id}>
+                    {value}
+                  </p>
+                ))}
           </li>
         </ul>
       </StaticPage>

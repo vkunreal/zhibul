@@ -12,9 +12,9 @@ export async function generateMetadata() {
   const page = await getPage(PAGE)
 
   return {
-    title: page.seo_title ?? 'Доставка',
-    description: page.seo_description ?? '',
-    keywords: page.seo_keywords ?? '',
+    title: page?.seo_title ?? 'Доставка',
+    description: page?.seo_description ?? '',
+    keywords: page?.seo_keywords ?? '',
   }
 }
 

@@ -1,0 +1,23 @@
+@use '@/shared/styles/media.scss' as *;
+@use '@/shared/styles/variables.scss' as *;
+
+.itemList {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 0 8px;
+  margin-bottom: 40px;
+
+  @include tablet {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include laptop {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}

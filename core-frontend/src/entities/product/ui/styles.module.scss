@@ -1,0 +1,40 @@
+@use '@/shared/styles/media.scss' as *;
+@use '@/shared/styles/variables.scss' as *;
+
+.product {
+  display: flex;
+  flex-direction: column;
+
+  &Image {
+    width: 100%;
+  }
+
+  &Body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 10px;
+  }
+
+  &Buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  &Button {
+    width: 100%;
+  }
+
+  @include tablet {
+    &.wide {
+      flex-direction: row;
+
+      & img {
+        width: 350px;
+      }
+    }
+  }
+}

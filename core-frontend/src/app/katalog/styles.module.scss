@@ -1,0 +1,115 @@
+@use '@/shared/styles/media.scss' as *;
+@use '@/shared/styles/variables.scss' as *;
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  font-size: 14px;
+  padding: 20px 20px;
+
+  ul {
+    padding: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+
+  @include tablet {
+    grid-template-columns: 1fr 1fr;
+    padding: 40px 60px;
+  }
+
+  @include laptop {
+    max-width: 1300px;
+    width: 100%;
+    margin: 0 auto;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0 auto;
+  margin-top: 16px;
+
+  & span {
+    transition: 0.3s;
+    color: $black;
+    &:hover {
+      background: $colorSecondary;
+      color: $white;
+      padding: 0 2px;
+    }
+  }
+}
+
+.elemTitle {
+  font-size: 18px;
+  color: $colorSecondary;
+}
+
+.tabs {
+  padding: 40px 20px 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+
+  hr {
+    border: 0;
+    border-top: 1px solid #999;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000;
+    &:active {
+      text-decoration: underline;
+    }
+  }
+
+  @include tablet {
+    padding: 40px 60px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  @include laptop {
+    display: none;
+  }
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  &Link {
+    font-size: 22px;
+    color: $colorSecondary !important;
+  }
+
+  &Details {
+    padding: 8px;
+  }
+}
+
+.subTab {
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+
+  &Link {
+    font-size: 14px;
+  }
+}

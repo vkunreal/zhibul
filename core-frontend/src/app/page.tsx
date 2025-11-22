@@ -7,7 +7,7 @@ export default async function Main() {
 
   return (
     <>
-      <MainSlider slides={slides} />
+      {!!slides?.length && <MainSlider slides={slides} />}
       <Company />
       <Promotion />
       <YandexMap type={MAPS_TYPES.ADDRESS} />

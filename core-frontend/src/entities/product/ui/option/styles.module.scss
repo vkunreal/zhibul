@@ -1,0 +1,14 @@
+@use '@/shared/styles/media.scss' as *;
+@use '@/shared/styles/variables.scss' as *;
+
+.field {
+  margin-top: 8px;
+
+  &Name {
+    color: #888;
+  }
+
+  @include tablet {
+    font-size: 14px;
+  }
+}

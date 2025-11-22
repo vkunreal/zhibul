@@ -1,0 +1,29 @@
+.button {
+  padding: 8px 24px;
+  font-size: 18px;
+  font-weight: 700;
+  border: 1px solid #2c2c2c;
+  cursor: pointer;
+  text-decoration: none;
+  color: #fff;
+  text-align: center;
+
+  &.primary {
+    background: #2c2c2c;
+    color: #fff;
+  }
+
+  &.white {
+    background: #fff;
+    color: #2c2c2c;
+  }
+
+  &.small {
+    font-size: 14px;
+    padding: 7px 0;
+  }
+
+  &.uppercase {
+    text-transform: uppercase;
+  }
+}

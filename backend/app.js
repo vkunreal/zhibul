@@ -59,12 +59,8 @@ app.use('/api', NewsRouter)
 app.use('/api', ValutesRouter)
 
 app.get('/images/:image', (req, res) => {
-  const imagePath = path.resolve(
-    __dirname,
-    'public',
-    'images',
-    req.params.image
-  )
+  const filename = req.params.image.split('?')[0]
+  const imagePath = path.resolve(__dirname, 'public', 'images', filename)
   if (existsSync(imagePath)) {
     res.sendFile(imagePath)
   } else {
