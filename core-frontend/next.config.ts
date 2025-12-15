@@ -2,7 +2,13 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['api.zhbl.by'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.zhbl.by',
+        pathname: '/images/**',
+      },
+    ],
   },
 }
 

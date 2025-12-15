@@ -27,10 +27,10 @@ export const Product: FC<ProductProps> = memo(({ product, isWide = false }) => {
     >
       <Image
         className={styles.productImage}
-        src={productImage.src}
+        src="https://api.zhbl.by/images/image-542-1731264968915.png"
         alt={product.name}
-        width="200"
-        height={200}
+        width={350}
+        height={350}
       />
 
       <div className={styles.productBody}>
