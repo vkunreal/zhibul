@@ -15,13 +15,16 @@ export const CategoryList: FC<{ categories: Category[] }> = ({
       {!!categories.length &&
         categories.map((category) => (
           <div key={category.id} className={styles.category}>
-            <Link href={`/menu/${category.url}`}>
+            <Link
+              href={`/menu/${category.url}`}
+              className={styles.imageWrapper}
+            >
               <Image
-                className={styles.categoryImage}
+                className={styles.image}
                 src={category.image}
                 alt={category.name}
-                width="200"
-                height={200}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </Link>
 

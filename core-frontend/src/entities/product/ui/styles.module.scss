@@ -5,8 +5,16 @@
   display: flex;
   flex-direction: column;
 
-  &Image {
+  .imageWrapper {
+    position: relative;
     width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+  }
+
+  .image {
+    object-fit: cover;
   }
 
   &Body {

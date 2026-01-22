@@ -2,7 +2,7 @@ import { FC } from 'react'
 import cn from 'classnames'
 import { Item } from '@/shared/api'
 import { Wrapper } from '@/shared/ui'
-import { Product } from '@/entities/product/ui/Product'
+import { Product } from '@/entities/product'
 
 import { ViewToggle } from './viewToggle/ViewToggle'
 

@@ -16,7 +16,7 @@ interface ProductProps {
 export const Product: FC<ProductProps> = memo(({ product, isWide = false }) => {
   const productImage = useMemo(
     () => product.images.find((im) => im.is_main) || product.images[0],
-    [product]
+    [product],
   )
 
   return (
@@ -25,13 +25,15 @@ export const Product: FC<ProductProps> = memo(({ product, isWide = false }) => {
         [styles.wide]: isWide,
       })}
     >
-      <Image
-        className={styles.productImage}
-        src="https://api.zhbl.by/images/image-542-1731264968915.png"
-        alt={product.name}
-        width={350}
-        height={350}
-      />
+      <div className={styles.imageWrapper}>
+        <Image
+          className={styles.image}
+          src={productImage.src}
+          alt={product.name}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+        />
+      </div>
 
       <div className={styles.productBody}>
         <div className={styles.productInfo}>

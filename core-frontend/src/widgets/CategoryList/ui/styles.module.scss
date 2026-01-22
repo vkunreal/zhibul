@@ -21,6 +21,7 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 16px;
+  width: 100%;
 
   &Heading {
     text-align: center;
@@ -34,9 +35,16 @@
     color: #000;
   }
 
-  &Image {
+  .imageWrapper {
+    position: relative;
     width: 100%;
     max-width: 400px;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+  }
+
+  .image {
+    object-fit: cover;
   }
 }
 
