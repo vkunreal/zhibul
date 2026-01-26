@@ -1,6 +1,21 @@
-import { getCategoryItems, useCategories } from '@/shared/api'
+import { getCategories, getCategoryItems, useCategories } from '@/shared/api'
 import { Breadcrumbs, buildBreadcrumbs } from '@/shared/ui'
 import { CategoryList, ItemList } from '@/widgets'
+
+export async function generateStaticParams() {
+  const categories = await getCategories()
+
+  if (!categories || !categories.length) {
+    return []
+  }
+
+  // Возвращаем только активные категории для статической генерации
+  return categories
+    .filter((category) => category.active)
+    .map((category) => ({
+      category_slug: category.url,
+    }))
+}
 
 export async function generateMetadata({
   params,
