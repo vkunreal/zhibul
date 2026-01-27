@@ -1,8 +1,9 @@
 'use client'
 
-import { Wrapper } from '@/shared/ui'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+
+import { Wrapper } from '@/shared/ui'
 
 import styles from './styles.module.scss'
 

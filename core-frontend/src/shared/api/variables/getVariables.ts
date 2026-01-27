@@ -1,4 +1,5 @@
 import type { Variable } from '@/shared/interfaces'
+
 import { apiGet } from '../base'
 
 const ENDPOINTS = {

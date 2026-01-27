@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
+
 import { Footer, Header, Navbar } from '@/widgets'
 
 import styles from './layout.module.scss'

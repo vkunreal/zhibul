@@ -1,13 +1,16 @@
 'use client'
 
-import { FC, useState } from 'react'
+import classNames from 'classnames'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { FC, useState } from 'react'
+
 import { Icon } from '@/shared/ui'
 
 import { TABS } from '../utils'
+
 import styles from './styles.module.scss'
-import classNames from 'classnames'
+
 
 export const CatalogTabs: FC = () => {
   const [activeTab, setActiveTab] = useState<string | null>(null)

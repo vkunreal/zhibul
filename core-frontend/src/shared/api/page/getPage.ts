@@ -1,4 +1,5 @@
 import type { Page } from '@/shared/interfaces'
+
 import { apiGet } from '../base'
 
 const ENDPOINTS = {

@@ -1,8 +1,8 @@
 import Image from 'next/image'
 
+import { getPage } from '@/shared/api'
 import { ButtonLink, StaticPage } from '@/shared/ui'
 import { Breadcrumbs } from '@/shared/ui'
-import { getPage } from '@/shared/api'
 import { Feedback, MAPS_TYPES, YandexMap } from '@/widgets'
 
 import { BLOCKS } from './constants'

@@ -1,6 +1,7 @@
 import { FC } from 'react'
 
 import { WrapperProps } from '../interfaces'
+
 import styles from './styles.module.scss'
 
 export const Wrapper: FC<WrapperProps> = ({ children, maxWidth, ...rest }) => {

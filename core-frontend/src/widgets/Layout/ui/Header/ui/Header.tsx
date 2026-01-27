@@ -1,8 +1,9 @@
-import { FC } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Icon, Wrapper, RecallButton } from '@/shared/ui'
+import { FC } from 'react'
+
 import { useVariables } from '@/shared/hooks'
+import { Icon, Wrapper, RecallButton } from '@/shared/ui'
 
 import styles from './styles.module.scss'
 

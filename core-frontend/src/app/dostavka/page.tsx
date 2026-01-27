@@ -1,6 +1,5 @@
-import { StaticPage } from '@/shared/ui'
-
 import { getPage } from '@/shared/api'
+import { StaticPage } from '@/shared/ui'
 import { Breadcrumbs } from '@/shared/ui'
 import { Feedback, MAPS_TYPES, YandexMap } from '@/widgets'
 

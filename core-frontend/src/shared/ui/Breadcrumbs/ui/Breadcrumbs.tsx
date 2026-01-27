@@ -1,8 +1,9 @@
+import Link from 'next/link'
 import { FC } from 'react'
+
 import { Wrapper } from '@/shared/ui/Wrapper'
 
 import styles from './styles.module.scss'
-import Link from 'next/link'
 
 export interface BreadCrumb {
   url: string

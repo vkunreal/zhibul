@@ -1,8 +1,9 @@
 'use client'
 
-import { FC } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
 import cn from 'classnames'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { FC } from 'react'
+
 import { Icon } from '@/shared/ui'
 
 import styles from './styles.module.scss'

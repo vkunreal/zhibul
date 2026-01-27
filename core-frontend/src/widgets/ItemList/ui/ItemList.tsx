@@ -1,12 +1,13 @@
-import { FC } from 'react'
 import cn from 'classnames'
+import { FC } from 'react'
+
+import { Product } from '@/entities/product'
 import { Item } from '@/shared/api'
 import { Wrapper } from '@/shared/ui'
-import { Product } from '@/entities/product'
-
-import { ViewToggle } from './viewToggle/ViewToggle'
 
 import styles from './styles.module.scss'
+import { ViewToggle } from './viewToggle/ViewToggle'
+
 
 export const ItemList: FC<{ items: Item[]; currentView: 'grid' | 'list' }> = ({
   items,

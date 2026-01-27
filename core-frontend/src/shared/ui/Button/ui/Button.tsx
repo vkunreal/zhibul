@@ -1,3 +1,5 @@
+import cn from 'classnames'
+import Link from 'next/link'
 import {
   AnchorHTMLAttributes,
   ButtonHTMLAttributes,
@@ -6,8 +8,6 @@ import {
 } from 'react'
 
 import styles from './styles.module.scss'
-import cn from 'classnames'
-import Link from 'next/link'
 
 interface ButtonShared {
   variant?: 'primary' | 'white'

@@ -1,11 +1,11 @@
+import { getPage } from '@/shared/api'
 import { useVariables } from '@/shared/hooks/useVariables'
 import { StaticPage } from '@/shared/ui'
 import { Icon } from '@/shared/ui'
-
-import styles from './styles.module.scss'
-import { getPage } from '@/shared/api'
 import { Breadcrumbs } from '@/shared/ui'
 import { Feedback, MAPS_TYPES, YandexMap } from '@/widgets'
+
+import styles from './styles.module.scss'
 
 const PAGE = 'contacts'
 

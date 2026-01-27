@@ -1,4 +1,5 @@
 import { FC } from 'react'
+
 import { useVariables } from '@/shared/hooks'
 import { Icon, Wrapper, RecallButton } from '@/shared/ui'
 

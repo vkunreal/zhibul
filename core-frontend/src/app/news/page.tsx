@@ -1,11 +1,12 @@
 import Image from 'next/image'
+import Link from 'next/link'
+
 import { getPage } from '@/shared/api'
 import { getNews } from '@/shared/api/news'
 import { Breadcrumbs, ButtonLink, Wrapper } from '@/shared/ui'
 import { getDate } from '@/shared/utils'
 
 import styles from './styles.module.scss'
-import Link from 'next/link'
 
 const PAGE = 'news'
 

@@ -1,4 +1,5 @@
 import { apiGet } from '../base'
+
 import { NewsItem } from './news'
 
 const ENDPOINTS = {

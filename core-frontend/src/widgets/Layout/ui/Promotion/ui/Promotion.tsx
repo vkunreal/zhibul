@@ -1,8 +1,10 @@
 import { FC } from 'react'
-import { Icon, Wrapper } from '@/shared/ui'
+
 import { useVariables } from '@/shared/hooks'
+import { Icon, Wrapper } from '@/shared/ui'
 
 import { PROMO_BLOCKS } from '../utils'
+
 import styles from './styles.module.scss'
 
 export const Promotion: FC = async () => {

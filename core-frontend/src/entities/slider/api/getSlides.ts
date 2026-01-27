@@ -1,4 +1,5 @@
 import { apiGet } from '@/shared/api/base'
+
 import type { Slide } from '../interfaces'
 
 const ENDPOINTS = {

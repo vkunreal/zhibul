@@ -1,8 +1,9 @@
 'use client'
 
-import { Icon } from '@/shared/ui'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/navigation'
+
+import { Icon } from '@/shared/ui'
 
 import styles from './styles.module.scss'
 

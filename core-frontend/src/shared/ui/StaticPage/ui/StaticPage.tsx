@@ -1,8 +1,10 @@
-import { getPage } from '@/shared/api'
 import { FC } from 'react'
+
+import { getPage } from '@/shared/api'
 import { Wrapper } from '@/shared/ui'
 
 import { StaticPageProps } from '../interfaces'
+
 import styles from './styles.module.scss'
 
 export const StaticPage: FC<StaticPageProps> = async ({

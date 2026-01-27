@@ -1,4 +1,5 @@
 import { FC } from 'react'
+
 import { Wrapper } from '@/shared/ui'
 
 import styles from './styles.module.scss'

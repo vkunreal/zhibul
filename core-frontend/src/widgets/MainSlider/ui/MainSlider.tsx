@@ -1,9 +1,10 @@
 'use client'
 
+import Link from 'next/link'
 import { FC } from 'react'
 import { Autoplay, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import Link from 'next/link'
+
 import { Slide } from '@/entities/slider'
 import { useResize } from '@/shared/hooks'
 import { Loader } from '@/shared/ui'
@@ -11,6 +12,7 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 
 import { MainSliderProps } from '../interfaces'
+
 import styles from './styles.module.scss'
 import './pagination.scss'
 

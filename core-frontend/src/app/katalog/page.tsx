@@ -1,7 +1,9 @@
-import { getCategories, getPage } from '@/shared/api'
-import styles from './styles.module.scss'
 import Link from 'next/link'
+
+import { getCategories, getPage } from '@/shared/api'
+
 import { TABS } from './constants'
+import styles from './styles.module.scss'
 
 const PAGE = 'katalog'
 
