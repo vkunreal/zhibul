@@ -11,6 +11,13 @@
   gap: 16px;
 
   &Item {
+    display: flex;
+    flex-direction: column;
+
+    @include laptop {
+      flex-direction: row;
+      align-items: center;
+    }
   }
 }
 
@@ -34,6 +41,10 @@
   padding: 16px 0;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.87);
+
+  @include laptop {
+    padding-top: 32px;
+  }
 }
 
 .buttons {

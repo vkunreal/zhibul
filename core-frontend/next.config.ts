@@ -21,10 +21,8 @@ const nextConfig: NextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'src', 'shared', 'styles')],
     prependData: `
-      @use "mixins" as *;
+      @use "media" as *;
       @use "variables" as *;
-      @use '@/shared/styles/media.scss' as *;
-      @use '@/shared/styles/variables.scss' as *;
     `,
   },
 }
