@@ -1,3 +1,5 @@
+import path from 'path'
+
 // Устанавливаем переменную окружения для работы с небезопасными SSL сертификатами
 // Это нужно для оптимизатора изображений Next.js
 if (typeof process !== 'undefined') {
@@ -15,6 +17,15 @@ const nextConfig: NextConfig = {
         pathname: '/images/**',
       },
     ],
+  },
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'src', 'shared', 'styles')],
+    prependData: `
+      @use "mixins" as *;
+      @use "variables" as *;
+      @use '@/shared/styles/media.scss' as *;
+      @use '@/shared/styles/variables.scss' as *;
+    `,
   },
 }
 

@@ -1,12 +1,12 @@
-import { ButtonLink, StaticPage } from '@/shared/ui'
+import Image from 'next/image'
 
-import { getPage } from '@/shared/api'
+import { ButtonLink, StaticPage } from '@/shared/ui'
 import { Breadcrumbs } from '@/shared/ui'
+import { getPage } from '@/shared/api'
 import { Feedback, MAPS_TYPES, YandexMap } from '@/widgets'
 
-import styles from './styles.module.scss'
-import Image from 'next/image'
 import { BLOCKS } from './constants'
+import styles from './styles.module.scss'
 
 const PAGE = 'uslugi'
 
@@ -14,13 +14,13 @@ export async function generateMetadata() {
   const page = await getPage(PAGE)
 
   return {
-    title: page?.seo_title ?? 'Доставка',
+    title: page?.seo_title ?? 'Услуги',
     description: page?.seo_description ?? '',
     keywords: page?.seo_keywords ?? '',
   }
 }
 
-export default async function Delivery() {
+export default async function Uslugi() {
   return (
     <>
       <Breadcrumbs
@@ -28,19 +28,39 @@ export default async function Delivery() {
         activeTitle="Услуги"
       />
       <StaticPage className={styles.wrapper} page={PAGE}>
-        <ul>
+        <ul className={styles.list}>
           {BLOCKS.map(({ id, title, description, image, link, phone }) => (
-            <li key={id}>
-              <Image src={image} alt="uslugi-image" width={400} height={400} />
-
-              <div>
-                <h2>{title}</h2>
-                <p>{description}</p>
+            <li key={id} className={styles.listItem}>
+              <div className={styles.imageWrapper}>
+                <Image
+                  className={styles.image}
+                  src={image}
+                  alt="uslugi-image"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
               </div>
 
-              <div>
-                <ButtonLink href={`/${link}`}>Подробнее</ButtonLink>
-                <ButtonLink href={`tel:${phone}`}>Позвонить</ButtonLink>
+              <div className={styles.content}>
+                <div>
+                  <h2>{title}</h2>
+                  <p className={styles.description}>{description}</p>
+                </div>
+
+                <div className={styles.buttons}>
+                  <ButtonLink href={`/${link}`} size="small" uppercase>
+                    Подробнее
+                  </ButtonLink>
+
+                  <ButtonLink
+                    href={`tel:${phone}`}
+                    variant="white"
+                    size="small"
+                    uppercase
+                  >
+                    Позвонить
+                  </ButtonLink>
+                </div>
               </div>
             </li>
           ))}

@@ -7,6 +7,7 @@
   text-decoration: none;
   color: #fff;
   text-align: center;
+  line-height: 1.5;
 
   &.primary {
     background: #2c2c2c;
@@ -20,7 +21,7 @@
 
   &.small {
     font-size: 14px;
-    padding: 7px 0;
+    padding: 7px 20px;
   }
 
   &.uppercase {
