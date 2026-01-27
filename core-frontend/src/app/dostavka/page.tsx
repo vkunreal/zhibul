@@ -26,7 +26,7 @@ export default async function Uslugi() {
         activeTitle="Доставка"
       />
       <StaticPage className={styles.wrapper} page={PAGE} />
-      <YandexMap type={MAPS_TYPES} />
+      <YandexMap type={MAPS_TYPES.DELIVERY} />
       <Feedback />
     </>
   )
