@@ -1,5 +1,4 @@
-import { getPage } from '@/shared/api'
-import { useVariables } from '@/shared/hooks/useVariables'
+import { getPage, useVariables } from '@/shared/api'
 import { StaticPage } from '@/shared/ui'
 import { Icon } from '@/shared/ui'
 import { Breadcrumbs } from '@/shared/ui'

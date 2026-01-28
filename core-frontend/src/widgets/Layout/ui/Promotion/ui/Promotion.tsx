@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { useVariables } from '@/shared/hooks'
+import { useVariables } from '@/shared/api'
 import { Icon, Wrapper } from '@/shared/ui'
 
 import { PROMO_BLOCKS } from '../utils'

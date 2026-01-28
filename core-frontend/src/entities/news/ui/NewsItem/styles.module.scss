@@ -1,0 +1,54 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  @include laptop {
+    flex-direction: row;
+  }
+}
+
+.content {
+  width: 100%;
+  @include laptop {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+.image {
+  object-fit: cover;
+
+  &Wrapper {
+    width: 100%;
+    max-width: 350px;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    margin: 0 auto;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.title {
+  a {
+    text-decoration: none;
+    color: $black;
+    font-weight: 400;
+  }
+}
+
+.time {
+  font-weight: 300;
+}
+
+.description {
+  font-weight: 300;
+  margin-bottom: 16px;
+}

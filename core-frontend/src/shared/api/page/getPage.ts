@@ -1,4 +1,4 @@
-import type { Page } from '@/shared/interfaces'
+import type { Page } from '@/shared/model'
 
 import { apiGet } from '../base'
 

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'
 
-import { useVariables } from '@/shared/hooks'
+import { useVariables } from '@/shared/api'
 import { Icon, Wrapper, RecallButton } from '@/shared/ui'
 
 import styles from './styles.module.scss'

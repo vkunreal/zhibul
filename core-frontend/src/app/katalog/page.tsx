@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
-import { getCategories, getPage } from '@/shared/api'
+import { categoriesApi } from '@/entities/categories'
+import { getPage } from '@/shared/api'
 
 import { TABS } from './constants'
 import styles from './styles.module.scss'
@@ -18,7 +19,7 @@ export async function generateMetadata() {
 }
 
 export default async function Katalog() {
-  const categories = await getCategories()
+  const categories = await categoriesApi.getCategories()
 
   if (!categories?.length) {
     return (

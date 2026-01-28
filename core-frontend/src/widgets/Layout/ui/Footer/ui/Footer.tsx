@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { useVariables } from '@/shared/hooks'
+import { useVariables } from '@/shared/api'
 import { Icon, Wrapper, RecallButton } from '@/shared/ui'
 
 import styles from './styles.module.scss'
@@ -35,14 +35,14 @@ export const Footer: FC = async () => {
         <div className={styles.sections}>
           <ul className={styles.socialNetworks}>
             {socialNetworks.map(
-              network =>
+              (network) =>
                 variable(network) && (
                   <li key={network} className={styles.socialNetwork}>
                     <a href={variable(network)} target="_blank">
                       <Icon name={network} width={30} height={30} />
                     </a>
                   </li>
-                )
+                ),
             )}
           </ul>
 

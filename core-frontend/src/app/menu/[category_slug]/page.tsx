@@ -1,9 +1,10 @@
-import { getCategories, getCategoryItems, useCategories } from '@/shared/api'
+import { categoriesApi, useCategories } from '@/entities/categories'
+import { itemsApi } from '@/entities/product'
 import { Breadcrumbs, buildBreadcrumbs } from '@/shared/ui'
 import { CategoryList, ItemList } from '@/widgets'
 
 export async function generateStaticParams() {
-  const categories = await getCategories()
+  const categories = await categoriesApi.getCategories()
 
   if (!categories || !categories.length) {
     return []
@@ -44,7 +45,7 @@ export default async function CategoryPage({
   const { category_slug } = await params
   const { view = 'grid' } = await searchParams
   const { categories, category } = await useCategories(category_slug)
-  const categoryItems = await getCategoryItems(category_slug)
+  const categoryItems = await itemsApi.getCategoryItems(category_slug)
 
   if (!categories || !category) {
     return null

@@ -1,10 +1,6 @@
-import Image from 'next/image'
-import Link from 'next/link'
-
+import { newsApi, NewsItem } from '@/entities/news'
 import { getPage } from '@/shared/api'
-import { getNews } from '@/shared/api/news'
-import { Breadcrumbs, ButtonLink, Wrapper } from '@/shared/ui'
-import { getDate } from '@/shared/utils'
+import { Breadcrumbs, Wrapper } from '@/shared/ui'
 
 import styles from './styles.module.scss'
 
@@ -21,7 +17,7 @@ export async function generateMetadata() {
 }
 
 export default async function NewsList() {
-  const newsList = await getNews()
+  const newsList = await newsApi.getNews()
 
   return (
     <>
@@ -34,40 +30,8 @@ export default async function NewsList() {
         <ul className={styles.list}>
           {!!newsList.length &&
             newsList.map((item) => (
-              <li key={item.id} className={styles.item}>
-                <div className={styles.imageWrapper}>
-                  <Image
-                    className={styles.image}
-                    src={item.media[0].src}
-                    alt="image"
-                    fill
-                  />
-                </div>
-
-                <div className={styles.content}>
-                  <div className={styles.info}>
-                    <h2 className={styles.title}>
-                      <Link href={`/news/${item.url}`}>{item.title}</Link>
-                    </h2>
-
-                    <time className={styles.time}>{getDate(item.date)}</time>
-
-                    <p
-                      className={styles.description}
-                      dangerouslySetInnerHTML={{ __html: item.short_text }}
-                    />
-                  </div>
-
-                  <div>
-                    <ButtonLink
-                      href={`/news/${item.url}`}
-                      size="small"
-                      uppercase
-                    >
-                      Подробнее
-                    </ButtonLink>
-                  </div>
-                </div>
+              <li key={item.id}>
+                <NewsItem item={item} />
               </li>
             ))}
         </ul>

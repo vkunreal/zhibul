@@ -1,1 +1,2 @@
-export { getVariables } from './getVariables'
+export { variablesApi } from './getVariables'
+export { useVariables } from './useVariables'

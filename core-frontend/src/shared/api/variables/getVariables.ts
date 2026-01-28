@@ -1,4 +1,4 @@
-import type { Variable } from '@/shared/interfaces'
+import type { Variable } from '@/shared/model'
 
 import { apiGet } from '../base'
 
@@ -6,8 +6,10 @@ const ENDPOINTS = {
   variables: '/api/variables',
 }
 
-export const getVariables = async () => {
-  const variables = await apiGet<Variable[]>(ENDPOINTS.variables, 3600)
+export const variablesApi = {
+  async getVariables() {
+    const variables = await apiGet<Variable[]>(ENDPOINTS.variables, 3600)
 
-  return variables
+    return variables
+  },
 }
