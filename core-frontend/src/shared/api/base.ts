@@ -12,7 +12,7 @@ export const apiInstance = axios.create({
   }),
 })
 
-export const apiGet = async <T>(url: string, revalidate?: number) => {
+export const apiGet = async <T>(url: string, revalidate: number = 3600) => {
   try {
     const response = await apiInstance.get<T>(`${API}${url}`, {
       headers: {
