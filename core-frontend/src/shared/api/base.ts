@@ -6,7 +6,7 @@ const API = process.env.API_URL
 
 export const apiInstance = axios.create({
   baseURL: API,
-  timeout: 10000,
+  timeout: 15000,
   httpsAgent: new https.Agent({
     rejectUnauthorized: false,
   }),

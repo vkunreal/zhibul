@@ -1,5 +1,5 @@
-import { NewsItem } from '@/shared/api/news/news'
+import { News } from '../..'
 
 export interface NewsItemProps {
-  item: NewsItem
+  item: News
 }

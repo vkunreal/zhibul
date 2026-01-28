@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'
 
-import { Category } from '@/shared/api'
+import { Category } from '@/entities/categories'
 import { Button } from '@/shared/ui'
 
 import styles from './styles.module.scss'

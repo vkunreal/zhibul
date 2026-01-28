@@ -2,8 +2,9 @@ import cn from 'classnames'
 import Image from 'next/image'
 import { FC, memo, useMemo } from 'react'
 
-import { Item } from '@/shared/api'
 import { Button, ButtonLink } from '@/shared/ui'
+
+import { Item } from '../../model'
 
 import { ProductOption } from './option/Option'
 import styles from './styles.module.scss'

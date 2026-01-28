@@ -11,9 +11,9 @@ export default function Error({
 }) {
   return (
     <div className="error-boundary">
-      <h2>Something went wrong!</h2>
+      <h2>Что-то пошло не так!</h2>
       <p>{error.message}</p>
-      <Button onClick={reset}>Try again</Button>
+      <Button onClick={reset}>Попробовать снова</Button>
     </div>
   )
 }

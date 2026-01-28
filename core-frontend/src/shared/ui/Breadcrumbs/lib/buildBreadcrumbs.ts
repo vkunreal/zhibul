@@ -1,4 +1,4 @@
-import { Category } from '@/shared/api'
+import { Category } from '@/entities/categories'
 
 export const buildBreadcrumbs = ({
   categories,
@@ -12,7 +12,7 @@ export const buildBreadcrumbs = ({
 
   while (tempCategory.parent_id) {
     const foundCategory = categories.find(
-      (c) => c.id === tempCategory.parent_id
+      (c) => c.id === tempCategory.parent_id,
     )
     if (foundCategory) {
       tempCategory = foundCategory
