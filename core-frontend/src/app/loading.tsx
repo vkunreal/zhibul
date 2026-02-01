@@ -1,6 +1,8 @@
-import { Box, CircularProgress } from '@mui/material'
+import { Box } from '@mui/material'
 
-export default function DashboardLoading() {
+import { Loader } from '@/shared/ui'
+
+export default function Loading() {
   return (
     <Box
       display="flex"
@@ -8,11 +10,7 @@ export default function DashboardLoading() {
       alignItems="center"
       minHeight="60vh"
     >
-      <CircularProgress
-        sx={{
-          color: '#333',
-        }}
-      />
+      <Loader />
     </Box>
   )
 }

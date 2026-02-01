@@ -2,9 +2,21 @@ import { notFound } from 'next/navigation'
 
 import { newsApi } from '@/entities/news'
 import { Breadcrumbs, Wrapper } from '@/shared/ui'
-import { Feedback } from '@/widgets'
+import { Feedback } from '@/widgets/layout'
 
 import styles from './styles.module.scss'
+
+export async function generateStaticParams() {
+  const news = await newsApi.getNews()
+
+  if (!news.length) {
+    return []
+  }
+
+  return news.map((item) => ({
+    news_slug: item.url,
+  }))
+}
 
 export async function generateMetadata({
   params,

@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 
-import { NotFound } from '@/widgets/NotFound'
+import { NotFound } from '@/widgets/layout'
 
 export const metadata: Metadata = {
   title: 'Страница не найдена',

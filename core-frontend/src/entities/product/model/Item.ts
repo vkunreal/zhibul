@@ -4,7 +4,7 @@ interface ItemImage {
   is_main: number
 }
 
-interface ItemMenuOption {
+export interface ItemOption {
   id: number
   item_id: number
   position: number
@@ -37,6 +37,6 @@ export interface Item {
   seo_description: string
   seo_keywords: string | null
   images: ItemImage[]
-  menuOptions: ItemMenuOption[]
+  menuOptions: ItemOption[]
   files: []
 }

@@ -22,6 +22,5 @@ export const buildBreadcrumbs = ({
 
   return result
     .reverse()
-    .slice(0, -1)
     .map(({ url, name }) => ({ url: `/menu/${url}`, title: name }))
 }

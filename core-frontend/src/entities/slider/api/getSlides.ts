@@ -1,4 +1,4 @@
-import { apiGet } from '@/shared/api/base'
+import { apiGet } from '@/shared/api'
 
 import type { Slide } from '../interfaces'
 

@@ -1,7 +1,7 @@
 import { getSlides } from '@/entities/slider'
 import { getPage } from '@/shared/api'
-import { MainSlider, Feedback, YandexMap, MAPS_TYPES } from '@/widgets'
-import { Company, Promotion } from '@/widgets/Layout'
+import { MainSlider, Feedback, Company, Promotion } from '@/widgets/layout'
+import { YandexMap, MAPS_TYPES } from '@/widgets/yandex'
 
 const PAGE = 'index'
 

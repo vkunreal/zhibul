@@ -1,1 +1,1 @@
-export type { Item } from './Item'
+export type { Item, ItemOption } from './Item'

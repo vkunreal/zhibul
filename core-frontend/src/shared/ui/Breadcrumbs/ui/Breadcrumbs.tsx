@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { FC } from 'react'
 
-import { Wrapper } from '@/shared/ui/Wrapper'
+import { Wrapper } from '@/shared/ui'
 
 import styles from './styles.module.scss'
 
@@ -13,11 +13,13 @@ export interface BreadCrumb {
 export interface BreadcrumbsProps {
   elements: BreadCrumb[]
   activeTitle: string
+  itemCode?: string
 }
 
 export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   elements,
   activeTitle,
+  itemCode,
 }) => {
   return (
     <Wrapper className={styles.wrapper}>
@@ -33,6 +35,8 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
           <span>{activeTitle}</span>
         </li>
       </ul>
+
+      {itemCode && <span>{itemCode}</span>}
     </Wrapper>
   )
 }

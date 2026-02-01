@@ -1,7 +1,10 @@
+import { notFound } from 'next/navigation'
+
 import { categoriesApi, useCategories } from '@/entities/categories'
 import { itemsApi } from '@/entities/product'
 import { Breadcrumbs, buildBreadcrumbs } from '@/shared/ui'
-import { CategoryList, ItemList } from '@/widgets'
+import { CategoryList } from '@/widgets/category'
+import { ItemList } from '@/widgets/item'
 
 export async function generateStaticParams() {
   const categories = await categoriesApi.getCategories()
@@ -26,6 +29,10 @@ export async function generateMetadata({
   const { category_slug } = await params
   const { category } = await useCategories(category_slug)
 
+  if (!category || !category.active) {
+    notFound()
+  }
+
   return {
     title: category?.seo_title || category?.name || 'Каталог',
     description: category?.seo_description || '',
@@ -47,8 +54,8 @@ export default async function CategoryPage({
   const { categories, category } = await useCategories(category_slug)
   const categoryItems = await itemsApi.getCategoryItems(category_slug)
 
-  if (!categories || !category) {
-    return null
+  if (!categories || !category || !category.active) {
+    notFound()
   }
 
   const undercategories =
@@ -69,7 +76,7 @@ export default async function CategoryPage({
       <Breadcrumbs
         elements={[
           { url: '/katalog', title: 'Каталог' },
-          ...categoryBreadcrubms,
+          ...categoryBreadcrubms.slice(0, -1),
         ]}
         activeTitle={category.name}
       />

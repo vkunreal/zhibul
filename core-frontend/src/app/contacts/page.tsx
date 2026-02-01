@@ -1,8 +1,7 @@
 import { getPage, useVariables } from '@/shared/api'
-import { StaticPage } from '@/shared/ui'
-import { Icon } from '@/shared/ui'
-import { Breadcrumbs } from '@/shared/ui'
-import { Feedback, MAPS_TYPES, YandexMap } from '@/widgets'
+import { StaticPage, Icon, Breadcrumbs } from '@/shared/ui'
+import { Feedback } from '@/widgets/layout'
+import { MAPS_TYPES, YandexMap } from '@/widgets/yandex'
 
 import styles from './styles.module.scss'
 

@@ -1,26 +1,13 @@
-import https from 'https'
-
-import axios from 'axios'
-
 const API = process.env.API_URL
-
-export const apiInstance = axios.create({
-  baseURL: API,
-  timeout: 15000,
-  httpsAgent: new https.Agent({
-    rejectUnauthorized: false,
-  }),
-})
 
 export const apiGet = async <T>(url: string, revalidate: number = 3600) => {
   try {
-    const response = await apiInstance.get<T>(`${API}${url}`, {
-      headers: {
-        'Cache-Control': `s-maxage=${revalidate}, stale-while-revalidate`,
-      },
-    })
+    const response = await fetch(`${API}${url}`, {
+      cache: 'force-cache',
+      next: { revalidate },
+    }).then((res) => res.json())
 
-    return response.data
+    return response as T
   } catch (e) {
     console.error('NETWORK ERROR: ', url, e)
   }
