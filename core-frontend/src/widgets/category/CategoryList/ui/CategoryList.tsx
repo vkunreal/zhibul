@@ -40,7 +40,7 @@ export const CategoryList: FC<{ categories: Category[] }> = ({
             </div>
 
             <div className={styles.buttons}>
-              <Link href={`/menu/${category.url}`} prefetch={false}>
+              <Link href={`/menu/${category.url}`}>
                 <Button>Каталог</Button>
               </Link>
 

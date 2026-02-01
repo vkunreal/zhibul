@@ -45,12 +45,10 @@ export default async function CategoryPage({
   searchParams,
 }: {
   params: Promise<{ category_slug: string }>
-  searchParams: {
-    view?: 'grid' | 'list'
-  }
+  searchParams: Promise<{ view?: 'grid' | 'list' }>
 }) {
   const { category_slug } = await params
-  const { view = 'grid' } = await searchParams
+  const { view = 'grid' } = (await searchParams) ?? {}
   const { categories, category } = await useCategories(category_slug)
   const categoryItems = await itemsApi.getCategoryItems(category_slug)
 
