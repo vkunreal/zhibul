@@ -1,0 +1,29 @@
+.container {
+  width: 450px;
+}
+
+.mainImage {
+  object-fit: cover;
+
+  &Wrapper {
+    max-width: 450px;
+    position: relative;
+    aspect-ratio: 1;
+  }
+}
+
+.scrollElem {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    height: 8px;
+    background-color: $light-grey;
+    border-radius: 9em;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $primaryGrey;
+    border-radius: 9em;
+  }
+}

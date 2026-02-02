@@ -1,4 +1,4 @@
-interface ItemImage {
+export interface ItemImage {
   item_id: number
   src: string
   is_main: number

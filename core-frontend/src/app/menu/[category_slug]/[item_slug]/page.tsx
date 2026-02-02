@@ -3,6 +3,9 @@ import { notFound } from 'next/navigation'
 import { useCategories } from '@/entities/categories'
 import { itemsApi, useItem } from '@/entities/product'
 import { Breadcrumbs, buildBreadcrumbs, Wrapper } from '@/shared/ui'
+import { ItemDetails, ItemImages } from '@/widgets/item'
+
+import styles from './styles.module.scss'
 
 export async function generateStaticParams() {
   const items = await itemsApi.getAllItems()
@@ -34,15 +37,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   }
 }
 
-const ItemOption = ({ name, value }: { name: string; value: string }) => (
-  <div>
-    <span>{name}</span>
-    <div className="" />
-    <span>{value}</span>
-  </div>
-)
-
-export default async function CategoryPage({ params }: { params: Params }) {
+export default async function ItemPage({ params }: { params: Params }) {
   const { category_slug, item_slug } = await params
 
   const { categories, category } = await useCategories(category_slug)
@@ -53,10 +48,6 @@ export default async function CategoryPage({ params }: { params: Params }) {
   }
 
   const categoryBreadcrubms = buildBreadcrumbs({ categories, category })
-
-  const visibleOptions = options
-    .filter((op) => !op?.is_dropdown && op?.show_item)
-    .sort((a, b) => (a.position < b.position ? -1 : 1))
 
   return (
     <>
@@ -72,19 +63,14 @@ export default async function CategoryPage({ params }: { params: Params }) {
       <Wrapper>
         <h1 dangerouslySetInnerHTML={{ __html: item.name }} />
 
-        <div>
-          <div></div>
-          <div>
-            <h2>Характеристики товара:</h2>
+        <div className={styles.top}>
+          <ItemImages images={item.images} alt={item.name} />
 
-            <ItemOption name="Бренд" value={item.brand} />
-
-            <ItemOption name="Страна производитель" value={item.manufacturer} />
-
-            {visibleOptions.map(({ id, name, value }) => (
-              <ItemOption key={id} name={name} value={value} />
-            ))}
-          </div>
+          <ItemDetails
+            options={options}
+            brand={item.brand}
+            manufacturer={item.manufacturer}
+          />
         </div>
       </Wrapper>
     </>
