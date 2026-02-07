@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-noto-serif);
+
+  & span {
+    white-space: nowrap;
+    font-size: 16px;
+
+    @include tablet {
+      font-size: 18px;
+    }
+  }
+}
+
+.divider {
+  width: 100%;
+  margin: 0 4px 6px;
+  border-bottom: 3px dotted $secondaryGrey;
+}

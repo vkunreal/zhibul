@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation'
 
 import { categoriesApi, useCategories } from '@/entities/categories'
-import { itemsApi } from '@/entities/product'
+import { productsApi } from '@/entities/product'
 import { Breadcrumbs, buildBreadcrumbs } from '@/shared/ui'
 import { CategoryList } from '@/widgets/category'
-import { ItemList } from '@/widgets/item'
+import { ProductList } from '@/widgets/product'
 
 export async function generateStaticParams() {
   const categories = await categoriesApi.getCategories()
@@ -15,9 +15,9 @@ export async function generateStaticParams() {
 
   // Возвращаем только активные категории для статической генерации
   return categories
-    .filter((category) => category.active)
-    .map((category) => ({
-      category_slug: category.url,
+    .filter(({ active }) => active)
+    .map(({ url }) => ({
+      category_slug: url,
     }))
 }
 
@@ -33,10 +33,12 @@ export async function generateMetadata({
     notFound()
   }
 
+  const { seo_title, seo_description, seo_keywords, name } = category
+
   return {
-    title: category?.seo_title || category?.name || 'Каталог',
-    description: category?.seo_description || '',
-    keywords: category?.seo_keywords || '',
+    title: seo_title || name || 'Каталог',
+    description: seo_description || '',
+    keywords: seo_keywords || '',
   }
 }
 
@@ -50,7 +52,7 @@ export default async function CategoryPage({
   const { category_slug } = await params
   const { view = 'grid' } = (await searchParams) ?? {}
   const { categories, category } = await useCategories(category_slug)
-  const categoryItems = await itemsApi.getCategoryItems(category_slug)
+  const categoryItems = await productsApi.getCategoryItems(category_slug)
 
   if (!categories || !category || !category.active) {
     notFound()
@@ -63,7 +65,7 @@ export default async function CategoryPage({
 
   const categoryBreadcrubms = buildBreadcrumbs({ categories, category })
 
-  let page = 'items'
+  let page = 'products'
 
   if (!categoryItems.length && undercategories.length) {
     page = 'categories'
@@ -79,8 +81,8 @@ export default async function CategoryPage({
         activeTitle={category.name}
       />
 
-      {page === 'items' ? (
-        <ItemList items={categoryItems} currentView={view} />
+      {page === 'products' ? (
+        <ProductList products={categoryItems} currentView={view} />
       ) : (
         <CategoryList categories={undercategories} />
       )}

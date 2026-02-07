@@ -31,12 +31,19 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
           </li>
         ))}
 
-        <li className={styles.element}>
-          <span>{activeTitle}</span>
-        </li>
+        {!itemCode && (
+          <li className={styles.element}>
+            <span>{activeTitle}</span>
+          </li>
+        )}
       </ul>
 
-      {itemCode && <span>{itemCode}</span>}
+      {itemCode && (
+        <div className={styles.itemTitle}>
+          <span>{activeTitle}</span>
+          <span>{itemCode}</span>
+        </div>
+      )}
     </Wrapper>
   )
 }

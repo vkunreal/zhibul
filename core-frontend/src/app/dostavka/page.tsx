@@ -5,7 +5,7 @@ import { MAPS_TYPES, YandexMap } from '@/widgets/yandex'
 
 import styles from './styles.module.scss'
 
-const PAGE = 'uslugi'
+const PAGE = 'dostavka'
 
 export async function generateMetadata() {
   const page = await getPage(PAGE)
@@ -17,7 +17,7 @@ export async function generateMetadata() {
   }
 }
 
-export default async function Uslugi() {
+export default async function Delivery() {
   return (
     <>
       <Breadcrumbs

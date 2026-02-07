@@ -1,2 +1,2 @@
-export { itemsApi } from './itemsApi'
-export { useItem } from './useItems'
+export { productsApi } from './productsApi'
+export { useProduct } from './useProducts'

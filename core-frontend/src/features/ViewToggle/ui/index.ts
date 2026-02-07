@@ -1,1 +1,1 @@
-export * from './ViewToggle/ViewToggle'
+export * from './ViewToggleBlock'

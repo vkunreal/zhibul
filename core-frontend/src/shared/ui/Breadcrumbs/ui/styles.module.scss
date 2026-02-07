@@ -3,6 +3,11 @@
   background: $primaryGrey;
   color: $white;
   padding: 6px 0;
+  font-weight: 300;
+
+  @include laptop {
+    display: block;
+  }
 }
 
 .list {
@@ -22,8 +27,9 @@
   }
 }
 
-@include laptop {
-  .wrapper {
-    display: block;
-  }
+.itemTitle {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 9px;
+  margin-top: 8px;
 }
