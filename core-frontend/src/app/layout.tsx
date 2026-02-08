@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 
+import { ModalProvider } from '@/shared/providers'
 import { Footer, Header, Navbar } from '@/widgets/layout'
 
 import styles from './layout.module.scss'
@@ -26,12 +27,14 @@ export default async function RootLayout({
   return (
     <html lang="ru" className={roboto.variable}>
       <body>
-        <div className={styles.app}>
-          <Header />
-          <Navbar />
-          <main className={styles.main}>{children}</main>
-          <Footer />
-        </div>
+        <ModalProvider>
+          <div className={styles.app}>
+            <Header />
+            <Navbar />
+            <main className={styles.main}>{children}</main>
+            <Footer />
+          </div>
+        </ModalProvider>
       </body>
     </html>
   )

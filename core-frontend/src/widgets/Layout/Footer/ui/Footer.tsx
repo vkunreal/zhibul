@@ -1,7 +1,8 @@
 import { FC } from 'react'
 
+import { CallBackButton } from '@/features/SendCallBack'
 import { useVariables } from '@/shared/api'
-import { Icon, Wrapper, RecallButton } from '@/shared/ui'
+import { Icon, Wrapper } from '@/shared/ui'
 
 import styles from './styles.module.scss'
 
@@ -46,8 +47,8 @@ export const Footer: FC = async () => {
             )}
           </ul>
 
-          <div className={styles.recallButton}>
-            <RecallButton />
+          <div className={styles.callBackButton}>
+            <CallBackButton />
           </div>
         </div>
 

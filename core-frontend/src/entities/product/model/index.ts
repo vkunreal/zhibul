@@ -44,6 +44,6 @@ export interface Product {
   seo_description: string
   seo_keywords: string | null
   images: ProductImage[]
-  menuOptions: ItemOption[]
-  files: ItemFile[]
+  menuOptions: ProductOption[]
+  files: ProductFile[]
 }

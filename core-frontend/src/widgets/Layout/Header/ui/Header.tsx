@@ -2,8 +2,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'
 
+import { CallBackButton } from '@/features/SendCallBack'
 import { useVariables } from '@/shared/api'
-import { Icon, Wrapper, RecallButton } from '@/shared/ui'
+import { Icon, Wrapper } from '@/shared/ui'
 
 import styles from './styles.module.scss'
 
@@ -44,7 +45,7 @@ export const Header: FC = async () => {
           </a>
         </div>
 
-        <RecallButton />
+        <CallBackButton />
       </header>
     </Wrapper>
   )

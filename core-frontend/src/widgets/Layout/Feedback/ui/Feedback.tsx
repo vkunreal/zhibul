@@ -8,6 +8,7 @@ import { PatternFormat } from 'react-number-format'
 
 import { Wrapper } from '@/shared/ui'
 
+import { FIELDS_CONFIGURATION } from '../config'
 import { FeedbackData } from '../interfaces'
 
 import styles from './styles.module.scss'
@@ -51,33 +52,13 @@ export const Feedback: FC = () => {
             error={!!errors.name}
             helperText={errors.name?.message}
             variant="standard"
-            {...register('name', {
-              required: 'Имя обязательно',
-              minLength: {
-                value: 2,
-                message: 'Минимум 2 символа',
-              },
-              maxLength: {
-                value: 20,
-                message: 'Имя не должно превышать 20 символов',
-              },
-              pattern: {
-                value: /^[a-zA-Zа-яА-ЯёЁ\s\-]+$/,
-                message: 'Имя может содержать только буквы и дефисы',
-              },
-            })}
+            {...register('name', FIELDS_CONFIGURATION.name)}
           />
 
           <Controller
             name="phone"
             control={control}
-            rules={{
-              required: 'Телефон обязателен',
-              validate: (value) => {
-                const unmasked = value.replace(/\D/g, '')
-                return unmasked.length === 12 || 'Введите полный номер'
-              },
-            }}
+            rules={FIELDS_CONFIGURATION.phone}
             render={({ field, fieldState }) => (
               <PatternFormat
                 {...field}
@@ -109,12 +90,7 @@ export const Feedback: FC = () => {
             fullWidth
             error={!!errors.email}
             helperText={errors.email?.message}
-            {...register('email', {
-              pattern: {
-                value: /^\S+@\S+\.\S+$/,
-                message: 'Введите корректный email адрес',
-              },
-            })}
+            {...register('email', FIELDS_CONFIGURATION.email)}
           />
 
           <TextField

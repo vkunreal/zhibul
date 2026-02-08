@@ -28,6 +28,7 @@ const eslintConfig = [
     },
     rules: {
       'react-hooks/rules-of-hooks': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
       'import/order': [
         'error',
         {

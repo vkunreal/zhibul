@@ -1,5 +1,5 @@
-import { ItemOption } from '@/entities/product'
+import { ProductOption } from '@/entities/product'
 
 export interface SelectOptionProps {
-  option: ItemOption
+  option: ProductOption
 }
