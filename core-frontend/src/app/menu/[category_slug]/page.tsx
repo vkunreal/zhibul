@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 
-import { categoriesApi, useCategories } from '@/entities/categories'
+import { categoriesApi, useCategories } from '@/entities/category'
 import { productsApi } from '@/entities/product'
 import { Breadcrumbs, buildBreadcrumbs } from '@/shared/ui'
 import { CategoryList } from '@/widgets/category'

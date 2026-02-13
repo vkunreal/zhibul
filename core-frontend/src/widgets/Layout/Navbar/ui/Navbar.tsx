@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { FC } from 'react'
 
-import { CategoriesButton, CategoriesTabs } from '@/entities/categories'
+import { CategoriesButton, CategoriesTabs } from '@/entities/category'
 
 import styles from './styles.module.scss'
 

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 
-import { useCategories } from '@/entities/categories'
+import { useCategories } from '@/entities/category'
 import {
   ProductDescription,
   productsApi,

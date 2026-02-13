@@ -1,4 +1,4 @@
-import { Category } from '@/entities/categories'
+import { Category } from '@/entities/category'
 
 export const buildBreadcrumbs = ({
   categories,
