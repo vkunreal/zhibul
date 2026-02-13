@@ -1,0 +1,7 @@
+.description {
+  margin-top: 12px;
+
+  :not(ul):not(ol) > li {
+    margin: 2px 0 2px 18px;
+  }
+}

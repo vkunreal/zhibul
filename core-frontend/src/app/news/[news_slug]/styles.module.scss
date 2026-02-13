@@ -1,0 +1,24 @@
+.container {
+  padding: 16px;
+}
+
+.top {
+  width: 100%;
+  overflow: auto;
+
+  @include laptop {
+    display: block;
+  }
+}
+
+.media {
+  width: 100%;
+  margin-bottom: 16px;
+
+  @include laptop {
+    float: left;
+    max-width: 400px;
+    margin-right: 24px;
+    margin-bottom: 16px;
+  }
+}

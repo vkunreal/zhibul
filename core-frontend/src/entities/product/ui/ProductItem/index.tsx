@@ -31,6 +31,10 @@ export const ProductItem: FC<ProductItemProps> = memo(
       display_price,
     } = product
 
+    if (!productImage?.src) {
+      return null
+    }
+
     return (
       <article
         className={cn(styles.product, {

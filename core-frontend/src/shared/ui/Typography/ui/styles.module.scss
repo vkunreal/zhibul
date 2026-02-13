@@ -1,0 +1,70 @@
+@use 'sass:list';
+
+// mobile (базовый), tablet (600px+), desktop (960px+)
+$headings: (
+  sm: (
+    12px,
+    14px,
+    16px,
+  ),
+  mdRelative: (
+    14px,
+    15px,
+    16px,
+  ),
+  md: (
+    16px,
+    16px,
+    16px,
+  ),
+  lg: (
+    20px,
+    22px,
+    24px,
+  ),
+  xl: (
+    26px,
+    26px,
+    26px,
+  ),
+  xlRelative: (
+    24px,
+    26px,
+    28px,
+  ),
+  xxl: (
+    18px,
+    24px,
+    32px,
+  ),
+);
+
+@each $heading, $sizes in $headings {
+  $base: list.nth($sizes, 1);
+  $tablet: list.nth($sizes, 2);
+  $desktop: list.nth($sizes, 3);
+
+  .#{$heading} {
+    font-size: $base;
+  }
+
+  @include tablet {
+    .#{$heading} {
+      font-size: $tablet;
+    }
+  }
+
+  @include laptop {
+    .#{$heading} {
+      font-size: $desktop;
+    }
+  }
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.upperCase {
+  text-transform: uppercase;
+}

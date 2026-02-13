@@ -1,18 +1,3 @@
-.title {
-  text-align: center;
-  margin: 16px 0;
-  font-size: 18px;
-
-  @include tablet {
-    font-size: 24px;
-    margin: 24px 0;
-  }
-
-  @include laptop {
-    font-size: 32px;
-  }
-}
-
 .container {
   padding: 16px;
 }

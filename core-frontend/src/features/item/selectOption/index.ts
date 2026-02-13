@@ -1,1 +1,1 @@
-export { SelectOption } from './ui/SelectOption'
+export { SelectOption } from './ui'

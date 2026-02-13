@@ -1,1 +1,1 @@
-export { CallBackButton } from './ui/CallBackButton'
+export { CallBackButton } from './ui'

@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Icon } from '@/shared/ui'
+import { Icon, Typography } from '@/shared/ui'
 
 import { ProductFile } from '../../model'
 
@@ -16,8 +16,10 @@ export const ProductFiles: FC<ProductFilesProps> = ({ files }) => {
   }
 
   return (
-    <div>
-      <h2>Прикрепленные файлы:</h2>
+    <section>
+      <Typography tag="h2" size="xlRelative">
+        Прикрепленные файлы:
+      </Typography>
 
       <ul className={styles.list}>
         {files.map(({ src, title, icon }) => (
@@ -30,6 +32,6 @@ export const ProductFiles: FC<ProductFilesProps> = ({ files }) => {
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   )
 }

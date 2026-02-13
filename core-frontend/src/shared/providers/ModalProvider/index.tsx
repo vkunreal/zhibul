@@ -14,6 +14,7 @@ import { createPortal } from 'react-dom'
 
 import { SendCallBackModal } from '@/features/SendCallBack'
 
+// список модалок - список пропсов
 type ModalMap = {
   sendCallBack: null
 }

@@ -1,9 +1,14 @@
 import { notFound } from 'next/navigation'
 
 import { useCategories } from '@/entities/categories'
-import { productsApi, useProduct } from '@/entities/product'
+import {
+  ProductDescription,
+  productsApi,
+  ProductTitle,
+  useProduct,
+} from '@/entities/product'
 import { ProductFiles } from '@/entities/product'
-import { Breadcrumbs, buildBreadcrumbs, Icon, Wrapper } from '@/shared/ui'
+import { Breadcrumbs, buildBreadcrumbs, Gallery, Wrapper } from '@/shared/ui'
 import { ProductDetails, ProductImages } from '@/widgets/product'
 
 import styles from './styles.module.scss'
@@ -31,12 +36,17 @@ export async function generateMetadata({ params }: { params: Params }) {
     notFound()
   }
 
-  const { seo_title, seo_description, seo_keywords, name } = product
+  const {
+    name = 'Товар',
+    seo_title = '',
+    seo_description = '',
+    seo_keywords = '',
+  } = product
 
   return {
-    title: seo_title || name || 'Товар',
-    description: seo_description || '',
-    keywords: seo_keywords || '',
+    title: seo_title || name,
+    description: seo_description,
+    keywords: seo_keywords,
   }
 }
 
@@ -75,13 +85,11 @@ export default async function ProductPage({ params }: { params: Params }) {
       />
 
       <Wrapper className={styles.container}>
-        <h1
-          className={styles.title}
-          dangerouslySetInnerHTML={{ __html: name.toUpperCase() }}
-        />
+        <ProductTitle>{name}</ProductTitle>
 
-        <div className={styles.top}>
-          <ProductImages images={images} alt={name} />
+        <section className={styles.top}>
+          {/* <ProductImages images={images} alt={name} /> */}
+          <Gallery images={images} alt={name} />
 
           <ProductDetails
             options={options}
@@ -89,17 +97,11 @@ export default async function ProductPage({ params }: { params: Params }) {
             manufacturer={manufacturer}
             displayPrice={display_price}
           />
-        </div>
+        </section>
 
         <ProductFiles files={files} />
 
-        {description && (
-          <div>
-            <h2>Описание товара:</h2>
-
-            <div dangerouslySetInnerHTML={{ __html: description }} />
-          </div>
-        )}
+        <ProductDescription>{description}</ProductDescription>
       </Wrapper>
     </>
   )
