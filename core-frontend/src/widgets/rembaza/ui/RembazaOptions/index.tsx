@@ -12,7 +12,7 @@ export const RembazaOptions: FC = () => {
         className={styles.title}
         tag="h2"
         size="xlRelative"
-        upperCase
+        uppercase
         textCenter
       >
         Преимущества нашей сервисной службы

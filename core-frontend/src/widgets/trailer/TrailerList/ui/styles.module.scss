@@ -1,0 +1,42 @@
+.list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.image {
+  object-fit: cover;
+  &Wrapper {
+    position: relative;
+    aspect-ratio: 1;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+    flex-shrink: 0;
+  }
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  @include laptop {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &Body {
+    padding: 16px;
+  }
+}
+
+.description {
+  margin: 16px 0;
+  @include laptop {
+    margin-top: 32px;
+  }
+}
+
+.actions {
+  margin-top: 40px;
+  display: flex;
+  gap: 16px;
+}

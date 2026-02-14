@@ -10,7 +10,7 @@ export const Typography: FC<TypographyProps> = ({
   size = 'md',
   className: propsClassName,
   textCenter,
-  upperCase,
+  uppercase,
   fontWeight,
   children,
 }) => {
@@ -18,7 +18,7 @@ export const Typography: FC<TypographyProps> = ({
 
   const className = cn(styles.typography, styles[size], propsClassName, {
     [styles.textCenter]: textCenter,
-    [styles.upperCase]: upperCase,
+    [styles.uppercase]: uppercase,
     [styles[`fontWeight${fontWeight}`]]: !!fontWeight,
   })
 

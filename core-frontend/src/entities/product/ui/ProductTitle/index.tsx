@@ -11,7 +11,7 @@ export const ProductTitle: FC<{ children: string }> = ({ children }) => {
       tag="h1"
       size="xxlRelative"
       textCenter
-      upperCase
+      uppercase
     >
       <span dangerouslySetInnerHTML={{ __html: children }} />
     </Typography>

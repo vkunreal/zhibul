@@ -19,6 +19,7 @@ export const RembazaCard: FC<{ text?: string }> = ({ text }) => {
           alt="Ремонт"
           fill
           sizes="(max-width: 768px) 100vw, 50vw"
+          loading="lazy"
         />
       </div>
 
@@ -27,7 +28,7 @@ export const RembazaCard: FC<{ text?: string }> = ({ text }) => {
           className={styles.title}
           tag="h2"
           size="smRelative"
-          upperCase
+          uppercase
         >
           <Icon name="info" width={28} height={28} />О нашем сервисе
         </Typography>

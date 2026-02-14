@@ -32,6 +32,6 @@ export interface TypographyProps extends PropsWithChildren {
   tag?: keyof typeof TitleTags
   size?: TypographySize
   textCenter?: boolean
-  upperCase?: boolean
+  uppercase?: boolean
   fontWeight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
 }
