@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'
 
-import { CallBackButton } from '@/features/SendCallBack'
+import { CallBackButton } from '@/features/sendFeedback'
 import { useVariables } from '@/shared/api'
 import { Icon, Wrapper } from '@/shared/ui'
 

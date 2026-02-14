@@ -1,1 +1,1 @@
-export { StaticPage } from './ui/StaticPage'
+export { StaticPage } from './ui'

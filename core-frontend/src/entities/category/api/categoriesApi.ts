@@ -1,6 +1,5 @@
 import { apiGet } from '@/shared/api'
-
-import { Category } from '..'
+import { Category } from '@/shared/model'
 
 const ENDPOINTS = {
   categories: '/api/categories/',

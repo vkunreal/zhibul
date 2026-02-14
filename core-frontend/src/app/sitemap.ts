@@ -1,8 +1,8 @@
 import type { MetadataRoute } from 'next'
 
-import { Category } from '@/entities/category'
 import { Product } from '@/entities/product'
 import { Trailer } from '@/entities/trailer'
+import { Category } from '@/shared/model'
 
 const apiGet = async <T>(url: string) => {
   const response = await fetch(url).then((data) => data.json())

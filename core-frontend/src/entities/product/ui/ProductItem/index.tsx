@@ -6,7 +6,7 @@ import { Button, ButtonLink } from '@/shared/ui'
 
 import { Product } from '../../model'
 
-import { ProductOption } from './components/Option'
+import { ProductOption } from './Option'
 import styles from './styles.module.scss'
 
 interface ProductItemProps {

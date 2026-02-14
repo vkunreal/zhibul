@@ -1,18 +1,11 @@
 import type { Metadata } from 'next'
-import { Roboto } from 'next/font/google'
 
-import { ModalProvider } from '@/shared/providers'
+import { ModalProvider } from '@/core/providers'
+import { roboto } from '@/shared/assets'
 import { Footer, Header, Navbar } from '@/widgets/layout'
 
 import styles from './layout.module.scss'
-import '@/shared/styles/globals.scss'
-
-const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin', 'cyrillic'],
-  display: 'swap',
-  variable: '--font-roboto',
-})
+import '@/core/styles/globals.scss'
 
 export const metadata: Metadata = {
   title: 'ZHBL',

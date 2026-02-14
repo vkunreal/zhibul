@@ -1,4 +1,4 @@
-import type { Category } from '../model'
+import { Category } from '@/shared/model'
 
 export const getUnderCategories = ({
   categories,

@@ -1,9 +1,9 @@
 import cn from 'classnames'
 import { FC } from 'react'
 
-import { notoSerif } from '@/shared/fonts'
+import { notoSerif } from '@/shared/assets'
 
-import styles from './Options.module.scss'
+import styles from './styles.module.scss'
 
 interface OptionProps {
   name: string

@@ -6,7 +6,7 @@ import { Autoplay, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { Slide } from '@/entities/slider'
-import { useResize } from '@/shared/hooks'
+import { useResize } from '@/shared/lib'
 import { Loader } from '@/shared/ui'
 import 'swiper/css'
 import 'swiper/css/pagination'

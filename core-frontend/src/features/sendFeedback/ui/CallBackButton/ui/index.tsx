@@ -2,7 +2,7 @@
 
 import { FC } from 'react'
 
-import { useModal } from '@/shared/providers'
+import { useModal } from '@/core/providers'
 
 import styles from './styles.module.scss'
 

@@ -2,7 +2,7 @@ import cn from 'classnames'
 import { FC } from 'react'
 
 import { ProductItem, Product } from '@/entities/product'
-import { ViewToggleBlock } from '@/features/ViewToggle'
+import { ViewToggleBlock } from '@/features/toggleView'
 import { Wrapper } from '@/shared/ui'
 
 import styles from './styles.module.scss'

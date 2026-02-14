@@ -1,1 +1,1 @@
-export { CategoriesButton } from './ui/CategoriesButton'
+export { CategoriesButton } from './ui'

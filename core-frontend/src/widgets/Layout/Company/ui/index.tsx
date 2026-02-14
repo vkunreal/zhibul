@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Wrapper } from '@/shared/ui'
+import { Divider, Wrapper } from '@/shared/ui'
 
 import styles from './styles.module.scss'
 
@@ -9,7 +9,7 @@ export const Company: FC = () => {
     <Wrapper className={styles.wrapper}>
       <h1 className={styles.heading}>О компании</h1>
 
-      <div className={styles.devider} />
+      <Divider />
 
       <div>
         Наша компания более 10 лет осуществляет продажу пневматического

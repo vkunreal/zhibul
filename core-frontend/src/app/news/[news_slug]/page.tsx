@@ -2,7 +2,7 @@ import cn from 'classnames'
 import { notFound } from 'next/navigation'
 
 import { newsApi, NewsTitle } from '@/entities/news'
-import { manrope } from '@/shared/fonts'
+import { manrope } from '@/shared/assets'
 import { Breadcrumbs, Gallery, Typography, Wrapper } from '@/shared/ui'
 import { Feedback } from '@/widgets/layout'
 

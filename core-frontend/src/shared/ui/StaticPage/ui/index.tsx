@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
 import { getPage } from '@/shared/api'
-import { Wrapper } from '@/shared/ui'
+import { Typography, Wrapper } from '@/shared/ui'
 
 import { StaticPageProps } from '../interfaces'
 
@@ -18,9 +18,13 @@ export const StaticPage: FC<StaticPageProps> = async ({
     <Wrapper {...rest}>
       <div className={styles.content}>
         <div>
-          <h1 className={styles.title}>{pageData?.name}</h1>
+          <Typography tag="h1" size="xxl" textCenter className={styles.title}>
+            {pageData?.name}
+          </Typography>
 
-          <div dangerouslySetInnerHTML={{ __html: pageData?.text ?? '' }} />
+          <Typography size="md">
+            <span dangerouslySetInnerHTML={{ __html: pageData?.text ?? '' }} />
+          </Typography>
 
           {children}
         </div>

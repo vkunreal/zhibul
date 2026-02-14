@@ -1,2 +1,2 @@
-export { Breadcrumbs } from './ui/Breadcrumbs'
-export { buildBreadcrumbs } from './lib/buildBreadcrumbs'
+export { Breadcrumbs } from './ui'
+export { buildBreadcrumbs } from './lib'

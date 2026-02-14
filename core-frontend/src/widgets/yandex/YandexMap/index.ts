@@ -1,2 +1,2 @@
-export { YandexMap } from './ui/YandexMap'
+export { YandexMap } from './ui'
 export { MAPS_TYPES } from './interfaces'

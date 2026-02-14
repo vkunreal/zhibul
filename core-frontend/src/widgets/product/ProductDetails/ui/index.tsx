@@ -1,11 +1,11 @@
 import { FC } from 'react'
 
 import { SelectOption } from '@/features/item/selectOption'
-import { notoSerif } from '@/shared/fonts'
+import { notoSerif } from '@/shared/assets'
 
 import { ProductDetailsProps } from '../interfaces'
 
-import { Option } from './components/Option'
+import { Option } from './Option'
 import styles from './styles.module.scss'
 
 export const ProductDetails: FC<ProductDetailsProps> = ({

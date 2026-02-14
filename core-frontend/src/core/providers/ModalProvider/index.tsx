@@ -12,7 +12,7 @@ import React, {
 } from 'react'
 import { createPortal } from 'react-dom'
 
-import { SendCallBackModal } from '@/features/SendCallBack'
+import { SendCallBackModal } from '@/features/sendFeedback'
 
 // список модалок - список пропсов
 type ModalMap = {

@@ -22,6 +22,7 @@ const eslintConfig = [
     ],
   },
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  ...compat.extends('@feature-sliced/eslint-config'),
   {
     plugins: {
       import: importPlugin,
@@ -29,6 +30,21 @@ const eslintConfig = [
     rules: {
       'react-hooks/rules-of-hooks': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
+      'import/no-internal-modules': [
+        'error',
+        {
+          allow: [
+            '@/core/**',
+            '@/widgets/**',
+            '@/features/**',
+            '@/entities/**',
+            '@/shared/**',
+            'next/**',
+            'swiper/**',
+            '@mui/**',
+          ],
+        },
+      ],
       'import/order': [
         'error',
         {
@@ -47,6 +63,11 @@ const eslintConfig = [
           },
         },
       ],
+    },
+  },
+  {
+    languageOptions: {
+      ecmaVersion: 'latest',
     },
   },
 ]

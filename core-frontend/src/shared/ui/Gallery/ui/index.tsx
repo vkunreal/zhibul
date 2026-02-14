@@ -1,18 +1,18 @@
 'use client'
 
 import Image from 'next/image'
-import { FC, useMemo, useRef, useState } from 'react'
+import { FC, useMemo, useState } from 'react'
 
 import type { GalleryImage, GalleryProps } from '../interfaces'
 
 import styles from './styles.module.scss'
 
-const SPEED = 30
+// const SPEED = 30
 
 export const Gallery: FC<GalleryProps> = ({ images, alt }) => {
   const [image, setImage] = useState<GalleryImage | null>(null)
 
-  const scrollElem = useRef<HTMLDivElement | null>(null)
+  // const scrollElem = useRef<HTMLDivElement | null>(null)
 
   if (!images || !images.length) return null
 
@@ -41,18 +41,18 @@ export const Gallery: FC<GalleryProps> = ({ images, alt }) => {
     }
   }, [sortedImages, image])
 
-  const onWheel = (e: WheelEvent) => {
-    e.preventDefault()
+  // const onWheel = (e: WheelEvent) => {
+  //   e.preventDefault()
 
-    const dx = e.deltaX || 0
-    const dy = e.deltaY || 0
+  //   const dx = e.deltaX || 0
+  //   const dy = e.deltaY || 0
 
-    if ((dx === 0 && dy === 0) || !scrollElem.current) return
+  //   if ((dx === 0 && dy === 0) || !scrollElem.current) return
 
-    const delta = Math.abs(dx) > Math.abs(dy) ? dx : dy
+  //   const delta = Math.abs(dx) > Math.abs(dy) ? dx : dy
 
-    scrollElem.current.scrollLeft += delta * (e.deltaMode === 1 ? SPEED : 1)
-  }
+  //   scrollElem.current.scrollLeft += delta * (e.deltaMode === 1 ? SPEED : 1)
+  // }
 
   return (
     <section className={styles.container}>
