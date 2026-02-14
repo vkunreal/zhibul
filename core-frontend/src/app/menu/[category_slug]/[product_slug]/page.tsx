@@ -9,7 +9,7 @@ import {
 } from '@/entities/product'
 import { ProductFiles } from '@/entities/product'
 import { Breadcrumbs, buildBreadcrumbs, Gallery, Wrapper } from '@/shared/ui'
-import { ProductDetails, ProductImages } from '@/widgets/product'
+import { ProductDetails } from '@/widgets/product'
 
 import styles from './styles.module.scss'
 
@@ -38,16 +38,12 @@ export async function generateMetadata({ params }: { params: Params }) {
 
   const {
     name = 'Товар',
-    seo_title = '',
-    seo_description = '',
-    seo_keywords = '',
+    seo_title: title = '',
+    seo_description: description = '',
+    seo_keywords: keywords = '',
   } = product
 
-  return {
-    title: seo_title || name,
-    description: seo_description,
-    keywords: seo_keywords,
-  }
+  return { title: title || name, description, keywords }
 }
 
 export default async function ProductPage({ params }: { params: Params }) {
@@ -88,7 +84,6 @@ export default async function ProductPage({ params }: { params: Params }) {
         <ProductTitle>{name}</ProductTitle>
 
         <section className={styles.top}>
-          {/* <ProductImages images={images} alt={name} /> */}
           <Gallery images={images} alt={name} />
 
           <ProductDetails

@@ -1,6 +1,10 @@
 import { notFound } from 'next/navigation'
 
-import { categoriesApi, useCategories } from '@/entities/category'
+import {
+  categoriesApi,
+  getUnderCategories,
+  useCategories,
+} from '@/entities/category'
 import { productsApi } from '@/entities/product'
 import { Breadcrumbs, buildBreadcrumbs } from '@/shared/ui'
 import { CategoryList } from '@/widgets/category'
@@ -33,13 +37,14 @@ export async function generateMetadata({
     notFound()
   }
 
-  const { seo_title, seo_description, seo_keywords, name } = category
+  const {
+    name = 'Каталог',
+    seo_title: title = '',
+    seo_description: description = '',
+    seo_keywords: keywords = '',
+  } = category
 
-  return {
-    title: seo_title || name || 'Каталог',
-    description: seo_description || '',
-    keywords: seo_keywords || '',
-  }
+  return { title: title || name, description, keywords }
 }
 
 export default async function CategoryPage({
@@ -58,12 +63,9 @@ export default async function CategoryPage({
     notFound()
   }
 
-  const undercategories =
-    categories
-      .filter(({ parent_id, active }) => parent_id === category.id && !!active)
-      .sort((a, b) => (a.position < b.position ? -1 : 1)) || []
+  const undercategories = getUnderCategories({ categories, category })
 
-  const categoryBreadcrubms = buildBreadcrumbs({ categories, category })
+  const breadcrumbs = buildBreadcrumbs({ categories, category })
 
   let page = 'products'
 
@@ -76,7 +78,7 @@ export default async function CategoryPage({
       <Breadcrumbs
         elements={[
           { url: '/katalog', title: 'Каталог' },
-          ...categoryBreadcrubms.slice(0, -1),
+          ...breadcrumbs.slice(0, -1),
         ]}
         activeTitle={category.name}
       />

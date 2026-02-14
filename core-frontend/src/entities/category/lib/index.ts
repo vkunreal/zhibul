@@ -1,0 +1,1 @@
+export { getUnderCategories } from './getUnderCategories'
