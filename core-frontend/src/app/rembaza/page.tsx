@@ -1,5 +1,6 @@
 import { getPage } from '@/shared/api'
 import { Breadcrumbs, Divider, Typography, Wrapper } from '@/shared/ui'
+import { RembazaCard, RembazaOptions } from '@/widgets/rembaza'
 
 import styles from './styles.module.scss'
 
@@ -27,15 +28,20 @@ export default async function Rembaza() {
         activeTitle="Ремонт пневмоинструмента"
       />
       <Wrapper className={styles.container}>
-        <Typography tag="h1" size="xxl" textCenter className={styles.title}>
+        <Typography
+          tag="h1"
+          size="xxlRelative"
+          textCenter
+          className={styles.title}
+        >
           {pageData?.name}
         </Typography>
 
         <Divider center />
 
-        <Typography size="md">
-          <span dangerouslySetInnerHTML={{ __html: pageData?.text ?? '' }} />
-        </Typography>
+        <RembazaCard text={pageData?.text} />
+
+        <RembazaOptions />
       </Wrapper>
     </>
   )

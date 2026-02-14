@@ -1,4 +1,7 @@
 .container {
   margin-top: 16px;
-  padding: 32px;
+  padding: 16px;
+  @include laptop {
+    padding: 32px;
+  }
 }

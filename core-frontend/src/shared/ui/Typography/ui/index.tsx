@@ -11,6 +11,7 @@ export const Typography: FC<TypographyProps> = ({
   className: propsClassName,
   textCenter,
   upperCase,
+  fontWeight,
   children,
 }) => {
   const Tag = TitleTags[tag]
@@ -18,6 +19,7 @@ export const Typography: FC<TypographyProps> = ({
   const className = cn(styles.typography, styles[size], propsClassName, {
     [styles.textCenter]: textCenter,
     [styles.upperCase]: upperCase,
+    [styles[`fontWeight${fontWeight}`]]: !!fontWeight,
   })
 
   return <Tag className={className}>{children}</Tag>

@@ -1,0 +1,35 @@
+.card {
+  display: flex;
+  flex-direction: column-reverse;
+  @include laptop {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  @include laptop {
+    justify-content: flex-start;
+  }
+}
+
+.hr {
+  margin: 16px 0;
+  border: 1px solid $colorGrey;
+}
+
+.image {
+  object-fit: cover;
+  &Wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    flex-shrink: 0;
+    aspect-ratio: 1;
+    margin: 0 auto;
+  }
+}

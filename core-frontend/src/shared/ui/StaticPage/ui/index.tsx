@@ -18,7 +18,12 @@ export const StaticPage: FC<StaticPageProps> = async ({
     <Wrapper {...rest}>
       <div className={styles.content}>
         <div>
-          <Typography tag="h1" size="xxl" textCenter className={styles.title}>
+          <Typography
+            tag="h1"
+            size="xxlRelative"
+            textCenter
+            className={styles.title}
+          >
             {pageData?.name}
           </Typography>
 

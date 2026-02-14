@@ -6,7 +6,7 @@ import styles from './styles.module.scss'
 
 export const NewsTitle: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <Typography size="xxl" textCenter className={styles.title}>
+    <Typography size="xxlRelative" textCenter className={styles.title}>
       {children}
     </Typography>
   )

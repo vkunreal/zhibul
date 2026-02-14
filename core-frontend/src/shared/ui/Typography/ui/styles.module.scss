@@ -2,42 +2,69 @@
 
 // mobile (базовый), tablet (600px+), desktop (960px+)
 $headings: (
-  sm: (
+  xs: (
+    14px,
+    14px,
+    14px,
+  ),
+  xsRelative: (
     12px,
     14px,
     16px,
   ),
-  mdRelative: (
-    14px,
-    15px,
+  sm: (
     16px,
+    16px,
+    16px,
+  ),
+  smRelative: (
+    14px,
+    16px,
+    18px,
+  ),
+  mdRelative: (
+    16px,
+    18px,
+    20px,
   ),
   md: (
-    16px,
-    16px,
-    16px,
+    18px,
+    18px,
+    18px,
   ),
   lg: (
+    22px,
+    22px,
+    22px,
+  ),
+  lgRelative: (
     20px,
     22px,
     24px,
   ),
   xl: (
-    26px,
-    26px,
-    26px,
+    24px,
+    24px,
+    24px,
   ),
   xlRelative: (
+    20px,
     24px,
     26px,
-    28px,
   ),
   xxl: (
-    18px,
+    32px,
+    32px,
+    32px,
+  ),
+  xxlRelative: (
+    20px,
     24px,
     32px,
   ),
 );
+
+$fontWeights: (100, 200, 300, 400, 500, 600, 700, 800, 900);
 
 @each $heading, $sizes in $headings {
   $base: list.nth($sizes, 1);
@@ -58,6 +85,12 @@ $headings: (
     .#{$heading} {
       font-size: $desktop;
     }
+  }
+}
+
+@each $size in $fontWeights {
+  .fontWeight#{$size} {
+    font-weight: $size;
   }
 }
 

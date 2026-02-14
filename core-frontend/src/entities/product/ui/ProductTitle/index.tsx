@@ -9,7 +9,7 @@ export const ProductTitle: FC<{ children: string }> = ({ children }) => {
     <Typography
       className={styles.title}
       tag="h1"
-      size="xxl"
+      size="xxlRelative"
       textCenter
       upperCase
     >

@@ -14,13 +14,18 @@ export enum TitleTags {
 }
 
 type TypographySize =
+  | 'xs'
+  | 'xsRelative'
   | 'sm'
+  | 'smRelative'
   | 'md'
   | 'mdRelative'
   | 'lg'
+  | 'lgRelative'
   | 'xl'
   | 'xlRelative'
   | 'xxl'
+  | 'xxlRelative'
 
 export interface TypographyProps extends PropsWithChildren {
   className?: string
@@ -28,4 +33,5 @@ export interface TypographyProps extends PropsWithChildren {
   size?: TypographySize
   textCenter?: boolean
   upperCase?: boolean
+  fontWeight?: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
 }
