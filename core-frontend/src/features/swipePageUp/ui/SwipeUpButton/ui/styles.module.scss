@@ -1,0 +1,24 @@
+.button {
+  width: 64px;
+  height: 64px;
+  background: $light-grey;
+  position: fixed;
+  bottom: 64px;
+  left: 64px;
+  border-radius: 50%;
+  z-index: 550;
+  transition: 0.3s ease;
+  cursor: pointer;
+
+  svg {
+    color: $primaryGrey;
+  }
+
+  &:hover {
+    background: $secondaryGrey;
+
+    svg {
+      color: $white;
+    }
+  }
+}

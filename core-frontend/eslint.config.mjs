@@ -40,6 +40,7 @@ const eslintConfig = [
             '@/entities/**',
             '@/shared/**',
             'next/**',
+            '@next/**',
             'swiper/**',
             '@mui/**',
           ],
