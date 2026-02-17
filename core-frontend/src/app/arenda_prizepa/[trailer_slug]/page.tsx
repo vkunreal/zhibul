@@ -14,6 +14,18 @@ import styles from './styles.module.scss'
 
 type Params = Promise<{ trailer_slug: string }>
 
+export async function generateStaticParams() {
+  const trailers = await trailersApi.getAllTrailers()
+
+  if (!trailers?.length) {
+    return []
+  }
+
+  return trailers.map(({ url }) => ({
+    trailer_slug: url,
+  }))
+}
+
 export async function generateMetadata({ params }: { params: Params }) {
   const { trailer_slug } = await params
 

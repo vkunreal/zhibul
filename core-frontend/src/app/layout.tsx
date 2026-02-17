@@ -29,6 +29,25 @@ export default async function RootLayout({
       {GTM_ID && <GoogleTagManager gtmId={GTM_ID} />}
       <head>
         <Script
+          id="bitrix"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+                  (function (w, d, u) {
+                    var s = d.createElement("script");
+                    s.async = true;
+                    s.src = u + "?" + ((Date.now() / 60000) | 0);
+                    var h = d.getElementsByTagName("script")[0];
+                    h.parentNode.insertBefore(s, h);
+                  })(
+                    window,
+                    document,
+                    "https://cdn-ru.bitrix24.by/b28268456/crm/site_button/loader_1_qhf2vf.js"
+                  );
+                  `,
+          }}
+        />
+        <Script
           id="yandex-metrika"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{

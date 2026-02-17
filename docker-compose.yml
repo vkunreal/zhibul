@@ -1,75 +1,74 @@
 version: "3.8"
 
 services:
-  mysql:
-    image: mysql:8
-    ports:
-      - "3305:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${MYSQL_DATABASE}"
-      MYSQL_USER: "${MYSQL_USER}"
-      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-    volumes:
-      - data-volume:/var/lib/mysql
-      - ./backend/db/dump/:/docker-entrypoint-initdb.d
-    networks:
-      - api
-
-  backend:
-    build:
-      context: ./backend
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./backend:/app
-    environment:
-      MYSQL_HOST: "mysql"
-      MYSQL_USER: "${MYSQL_USER}"
-      MYSQL_DATABASE: "${MYSQL_DATABASE}"
-      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-    networks:
-      - api
-    depends_on:
-      - mysql
-
-  frontend:
-    build:
-      context: ./frontend
-    ports:
-      - "3000:3000"
-    networks:
-      - api
-    depends_on:
-      - backend
-
-  cms:
-    build:
-      context: ./cms
-    ports:
-      - "4000:3000"
-    volumes:
-      - ./cms:/app
-    networks:
-      - api
-    depends_on:
-      - backend
-
-  # nginx:
-  #   image: nginx:stable-alpine
+  # mysql:
+  #   image: mysql:8
   #   ports:
-  #     - "80:80"
+  #     - "3305:3306"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+  #     MYSQL_DATABASE: "${MYSQL_DATABASE}"
+  #     MYSQL_USER: "${MYSQL_USER}"
+  #     MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
   #   volumes:
-  #     - "./nginx.conf.local:/etc/nginx/nginx.conf"
+  #     - data-volume:/var/lib/mysql
+  #     - ./backend/db/dump/:/docker-entrypoint-initdb.d
+  #   networks:
+  #     - api
+
+  # backend:
+  #   build:
+  #     context: ./backend
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - ./backend:/app
+  #   environment:
+  #     MYSQL_HOST: "mysql"
+  #     MYSQL_USER: "${MYSQL_USER}"
+  #     MYSQL_DATABASE: "${MYSQL_DATABASE}"
+  #     MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+  #   networks:
+  #     - api
+  #   depends_on:
+  #     - mysql
+
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   ports:
+  #     - "3000:3000"
   #   networks:
   #     - api
   #   depends_on:
   #     - backend
-  #     - cms
-  #     - frontend
 
-networks:
-  api:
+  # cms:
+  #   build:
+  #     context: ./cms
+  #   ports:
+  #     - "4000:3000"
+  #   volumes:
+  #     - ./cms:/app
+  #   networks:
+  #     - api
+  #   depends_on:
+  #     - backend
+  frontend:
+    build:
+      context: ./core-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      API_URL: "https://api.zhbl.by"
+      NEXT_PUBLIC_SITE_URL: "https://zhbl.by"
+      NEXT_PUBLIC_METRIKA_ID: "54863989"
+      NEXT_PUBLIC_GTM_ID: "GTM-THSSBC2"
+    restart: unless-stopped
 
-volumes:
-  data-volume:
+# networks:
+#   api:
+
+# volumes:
+#   data-volume:
