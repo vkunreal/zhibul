@@ -6,17 +6,6 @@
   }
 }
 
-.mainImage {
-  object-fit: cover;
-
-  &Wrapper {
-    max-width: 450px;
-    position: relative;
-    aspect-ratio: 1;
-    margin: 0 auto;
-  }
-}
-
 .scrollElem {
   display: flex;
   gap: 8px;

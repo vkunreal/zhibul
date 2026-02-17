@@ -1,9 +1,8 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { FC } from 'react'
 
 import { Category } from '@/shared/model'
-import { Button } from '@/shared/ui'
+import { Button, FlexImage } from '@/shared/ui'
 
 import styles from './styles.module.scss'
 
@@ -15,16 +14,11 @@ export const CategoryList: FC<{ categories: Category[] }> = ({
       {!!categories.length &&
         categories.map((category) => (
           <div key={category.id} className={styles.category}>
-            <Link
-              href={`/menu/${category.url}`}
-              className={styles.imageWrapper}
-            >
-              <Image
-                className={styles.image}
+            <Link href={`/menu/${category.url}`}>
+              <FlexImage
                 src={category.image}
                 alt={category.name}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
+                maxWidth={400}
               />
             </Link>
 

@@ -1,0 +1,1 @@
+export { FlexImage } from './ui'

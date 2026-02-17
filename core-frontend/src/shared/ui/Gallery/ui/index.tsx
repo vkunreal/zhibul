@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { FC, useMemo, useState } from 'react'
 
+import { FlexImage } from '../../FlexImage'
 import type { GalleryImage, GalleryProps } from '../interfaces'
 
 import styles from './styles.module.scss'
@@ -56,15 +57,7 @@ export const Gallery: FC<GalleryProps> = ({ images, alt }) => {
 
   return (
     <section className={styles.container}>
-      <div className={styles.mainImageWrapper}>
-        <Image
-          className={styles.mainImage}
-          src={productImage.src}
-          alt={alt}
-          fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-        />
-      </div>
+      <FlexImage src={productImage.src} alt={alt} maxWidth={450} />
 
       <div className={styles.scrollElem}>
         {sortedImages.length > 1 &&

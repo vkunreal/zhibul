@@ -17,18 +17,6 @@
   }
 }
 
-.image {
-  object-fit: cover;
-
-  &Wrapper {
-    width: 100%;
-    max-width: 350px;
-    aspect-ratio: 1 / 1;
-    position: relative;
-    margin: 0 auto;
-  }
-}
-
 .info {
   display: flex;
   flex-direction: column;

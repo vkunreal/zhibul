@@ -1,12 +1,11 @@
-import Image from 'next/image'
 import { FC } from 'react'
 
-import { Trailer } from '@/entities/trailer'
-import { ButtonLink, Typography } from '@/shared/ui'
+import { TrailerRent } from '@/entities/trailer'
+import { ButtonLink, FlexImage, Typography } from '@/shared/ui'
 
 import styles from './styles.module.scss'
 
-export const TrailerList: FC<{ list: Trailer[]; phone: string }> = ({
+export const TrailerList: FC<{ list: TrailerRent[]; phone: string }> = ({
   list,
   phone,
 }) => {
@@ -14,16 +13,12 @@ export const TrailerList: FC<{ list: Trailer[]; phone: string }> = ({
     <ul className={styles.list}>
       {list.map(({ id, title, description, url, image_src }) => (
         <li key={id} className={styles.item}>
-          <div className={styles.imageWrapper}>
-            <Image
-              className={styles.image}
-              src={image_src}
-              alt="Прицеп"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              loading="lazy"
-            />
-          </div>
+          <FlexImage
+            src={image_src}
+            alt="Прицеп"
+            maxWidth={400}
+            loading="lazy"
+          />
 
           <div className={styles.itemBody}>
             <div>

@@ -1,6 +1,6 @@
 import { apiGet } from '@/shared/api'
 
-import { Trailer } from '../model'
+import { Trailer, TrailerRent } from '../model'
 
 const ENDPOINTS = {
   trailers: '/api/trailers-rent/',
@@ -9,14 +9,14 @@ const ENDPOINTS = {
 
 export const trailersApi = {
   async getAllTrailers() {
-    const trailers = await apiGet<Trailer[]>(ENDPOINTS.trailers)
+    const trailers = await apiGet<TrailerRent[]>(ENDPOINTS.trailers)
 
     return trailers
   },
 
   async getTrailer(slug: string) {
-    const trailer = await apiGet<Trailer>(ENDPOINTS.trailer(slug))
+    const trailer = await apiGet<Trailer[]>(ENDPOINTS.trailer(slug))
 
-    return trailer
+    return trailer?.[0]
   },
 }

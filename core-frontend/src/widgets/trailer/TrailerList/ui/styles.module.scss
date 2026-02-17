@@ -3,18 +3,6 @@
   padding-left: 0;
 }
 
-.image {
-  object-fit: cover;
-  &Wrapper {
-    position: relative;
-    aspect-ratio: 1;
-    max-width: 400px;
-    width: 100%;
-    margin: 0 auto;
-    flex-shrink: 0;
-  }
-}
-
 .item {
   display: flex;
   flex-direction: column;

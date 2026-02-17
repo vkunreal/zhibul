@@ -1,7 +1,5 @@
-import Image from 'next/image'
-
 import { getPage } from '@/shared/api'
-import { ButtonLink, StaticPage } from '@/shared/ui'
+import { ButtonLink, FlexImage, StaticPage } from '@/shared/ui'
 import { Breadcrumbs } from '@/shared/ui'
 import { Feedback } from '@/widgets/layout'
 import { MAPS_TYPES, YandexMap } from '@/widgets/yandex'
@@ -32,15 +30,7 @@ export default async function Uslugi() {
         <ul className={styles.list}>
           {BLOCKS.map(({ id, title, description, image, link, phone }) => (
             <li key={id} className={styles.listItem}>
-              <div className={styles.imageWrapper}>
-                <Image
-                  className={styles.image}
-                  src={image}
-                  alt="uslugi-image"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
+              <FlexImage src={image} alt="uslugi-image" maxWidth={400} />
 
               <div className={styles.content}>
                 <div>

@@ -1,0 +1,30 @@
+.list {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 32px;
+  list-style: none;
+  padding-left: 0;
+
+  @include laptop {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+  }
+
+  &Item {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 32px;
+
+    @include laptop {
+      justify-self: center;
+    }
+  }
+
+  & svg {
+    flex-shrink: 0;
+  }
+}

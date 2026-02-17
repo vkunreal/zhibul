@@ -1,8 +1,7 @@
 import cn from 'classnames'
-import Image from 'next/image'
 import { FC, memo, useMemo } from 'react'
 
-import { Button, ButtonLink } from '@/shared/ui'
+import { Button, ButtonLink, FlexImage } from '@/shared/ui'
 
 import { Product } from '../../model'
 
@@ -41,15 +40,7 @@ export const ProductItem: FC<ProductItemProps> = memo(
           [styles.wide]: isWide,
         })}
       >
-        <div className={styles.imageWrapper}>
-          <Image
-            className={styles.image}
-            src={productImage.src}
-            alt={name}
-            fill
-            sizes="(max-width: 768px) 100vw, 50vw"
-          />
-        </div>
+        <FlexImage src={productImage.src} alt={name} maxWidth={400} />
 
         <div className={styles.productBody}>
           <div className={styles.productInfo}>

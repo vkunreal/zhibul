@@ -1,7 +1,6 @@
-import Image from 'next/image'
 import { FC } from 'react'
 
-import { Icon, Typography } from '@/shared/ui'
+import { FlexImage, Icon, Typography } from '@/shared/ui'
 
 import styles from './styles.module.scss'
 
@@ -12,16 +11,12 @@ export const RembazaCard: FC<{ text?: string }> = ({ text }) => {
 
   return (
     <section className={styles.card}>
-      <div className={styles.imageWrapper}>
-        <Image
-          className={styles.image}
-          src="https://api.zhbl.by/images/remont-image.png"
-          alt="Ремонт"
-          fill
-          sizes="(max-width: 768px) 100vw, 50vw"
-          loading="lazy"
-        />
-      </div>
+      <FlexImage
+        src="https://api.zhbl.by/images/remont-image.png"
+        alt="Ремонт"
+        loading="lazy"
+        maxWidth={400}
+      />
 
       <div>
         <Typography

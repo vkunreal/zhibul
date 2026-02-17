@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 
 import { Product } from '@/entities/product'
-import { Trailer } from '@/entities/trailer'
+import { TrailerRent } from '@/entities/trailer'
 import { Category } from '@/shared/model'
 
 const apiGet = async <T>(url: string) => {
@@ -31,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [categories, items, trailers] = await Promise.all([
     apiGet<Category[]>('https://api.zhbl.by/api/categories'),
     apiGet<Product[]>('https://api.zhbl.by/api/items'),
-    apiGet<Trailer[]>('https://api.zhbl.by/api/trailers-rent'),
+    apiGet<TrailerRent[]>('https://api.zhbl.by/api/trailers-rent'),
   ])
 
   // categories urls

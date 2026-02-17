@@ -21,15 +21,3 @@
   margin: 16px 0;
   border: 1px solid $colorGrey;
 }
-
-.image {
-  object-fit: cover;
-  &Wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-    flex-shrink: 0;
-    aspect-ratio: 1;
-    margin: 0 auto;
-  }
-}
