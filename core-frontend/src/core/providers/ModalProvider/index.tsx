@@ -12,11 +12,11 @@ import React, {
 } from 'react'
 import { createPortal } from 'react-dom'
 
-import { SendCallBackModal } from '@/features/sendFeedback'
+import { FeedbackModal } from '@/widgets/feedback'
 
 // список модалок - список пропсов
 type ModalMap = {
-  sendCallBack: null
+  feedbackModal: null
 }
 
 type ModalName = keyof ModalMap
@@ -32,7 +32,7 @@ type Ctx = {
 }
 
 const registry = {
-  sendCallBack: SendCallBackModal,
+  feedbackModal: FeedbackModal,
 } satisfies Record<ModalName, React.ComponentType<any>>
 
 const ModalContext = createContext<Ctx | null>(null)

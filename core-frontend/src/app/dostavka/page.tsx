@@ -1,6 +1,6 @@
 import { getPage } from '@/shared/api'
 import { StaticPage, Breadcrumbs } from '@/shared/ui'
-import { Feedback } from '@/widgets/layout'
+import { FeedbackBlock } from '@/widgets/feedback'
 import { MAPS_TYPES, YandexMap } from '@/widgets/yandex'
 
 import styles from './styles.module.scss'
@@ -26,7 +26,7 @@ export default async function Delivery() {
       />
       <StaticPage className={styles.wrapper} page={PAGE} />
       <YandexMap type={MAPS_TYPES.DELIVERY} />
-      <Feedback />
+      <FeedbackBlock />
     </>
   )
 }

@@ -1,6 +1,6 @@
 import { getPage, useVariables } from '@/shared/api'
 import { StaticPage, Icon, Breadcrumbs } from '@/shared/ui'
-import { Feedback } from '@/widgets/layout'
+import { FeedbackBlock } from '@/widgets/feedback'
 import { MAPS_TYPES, YandexMap } from '@/widgets/yandex'
 
 import styles from './styles.module.scss'
@@ -82,7 +82,7 @@ export default async function ContactsPage() {
         </ul>
       </StaticPage>
       <YandexMap type={MAPS_TYPES.ADDRESS} />
-      <Feedback />
+      <FeedbackBlock />
     </>
   )
 }

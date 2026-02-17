@@ -1,7 +1,7 @@
 import { getPage } from '@/shared/api'
 import { ButtonLink, FlexImage, StaticPage } from '@/shared/ui'
 import { Breadcrumbs } from '@/shared/ui'
-import { Feedback } from '@/widgets/layout'
+import { FeedbackBlock } from '@/widgets/feedback'
 import { MAPS_TYPES, YandexMap } from '@/widgets/yandex'
 
 import { BLOCKS } from './constants'
@@ -58,7 +58,7 @@ export default async function Uslugi() {
         </ul>
       </StaticPage>
       <YandexMap type={MAPS_TYPES.ADDRESS} />
-      <Feedback />
+      <FeedbackBlock />
     </>
   )
 }

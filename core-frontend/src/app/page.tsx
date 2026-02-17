@@ -1,6 +1,7 @@
 import { getSlides } from '@/entities/slider'
 import { getPage } from '@/shared/api'
-import { MainSlider, Feedback, Company, Promotion } from '@/widgets/layout'
+import { FeedbackBlock } from '@/widgets/feedback'
+import { MainSlider, Company, Promotion } from '@/widgets/layout'
 import { YandexMap, MAPS_TYPES } from '@/widgets/yandex'
 
 const PAGE = 'index'
@@ -24,7 +25,7 @@ export default async function Main() {
       <Company />
       <Promotion />
       <YandexMap type={MAPS_TYPES.ADDRESS} />
-      <Feedback />
+      <FeedbackBlock />
     </>
   )
 }

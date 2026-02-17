@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { newsApi, NewsTitle } from '@/entities/news'
 import { manrope } from '@/shared/assets'
 import { Breadcrumbs, Gallery, Typography, Wrapper } from '@/shared/ui'
-import { Feedback } from '@/widgets/layout'
+import { FeedbackBlock } from '@/widgets/feedback'
 
 import styles from './styles.module.scss'
 
@@ -84,7 +84,7 @@ export default async function NewsList({
         </section>
       </Wrapper>
 
-      <Feedback />
+      <FeedbackBlock />
     </>
   )
 }

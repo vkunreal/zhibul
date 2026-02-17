@@ -1,2 +1,2 @@
-export * from './CallBackButton'
-export * from './SendCallBackModal'
+export * from './FeedbackButton'
+export * from './FeedbackForm'
