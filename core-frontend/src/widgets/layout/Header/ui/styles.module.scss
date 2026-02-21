@@ -1,0 +1,68 @@
+.wrapper {
+  background: $primaryGrey;
+  color: $white;
+  z-index: 101;
+  padding: 32px;
+  position: static;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  max-width: 220px;
+
+  & p {
+    margin-bottom: 0;
+  }
+}
+
+.phoneList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: $white;
+}
+
+.blockText {
+  font-weight: bold;
+  text-decoration: none;
+  color: $white;
+}
+
+@include laptop {
+  .wrapper {
+    padding: 12px 8px;
+    position: sticky;
+    top: 0;
+  }
+
+  .header {
+    flex-direction: row;
+  }
+
+  .contacts {
+    flex-direction: row;
+  }
+}

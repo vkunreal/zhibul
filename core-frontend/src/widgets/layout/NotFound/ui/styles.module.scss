@@ -1,0 +1,50 @@
+.content {
+  height: 450px;
+  display: flex;
+  justify-content: space-around;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 64px;
+  color: $dark;
+  text-align: center;
+}
+
+.text {
+  text-align: center;
+  font-size: 24px;
+  margin: 20px 0;
+}
+
+.divider {
+  width: 115px;
+  height: 10px;
+  background: $dark;
+  margin-bottom: 20px;
+  margin: 0 auto;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.button {
+  display: flex;
+  background: $dark;
+  color: $white;
+  text-decoration: none;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s ease;
+
+  &:hover {
+    background: #555;
+  }
+}
