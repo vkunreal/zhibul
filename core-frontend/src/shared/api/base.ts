@@ -1,4 +1,4 @@
-const API = process.env.API_URL
+const API = process.env.NEXT_PUBLIC_API_URL ?? ''
 
 export const apiGet = async <T>(url: string, revalidate: number = 3600) => {
   try {
@@ -15,8 +15,11 @@ export const apiGet = async <T>(url: string, revalidate: number = 3600) => {
 
 export const apiPost = async <T, Body>(url: string, body: Body) => {
   try {
-    const response = await fetch(`${API}/${url}`, {
+    const response = await fetch(`${API}${url}`, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(body),
     }).then((res) => res.json())
 

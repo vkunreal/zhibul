@@ -13,11 +13,12 @@
   height: 12px;
   background-color: #eee;
   border-radius: 14px;
-  transition: 0.3s ease-in-out;
+  transition: 0.3s;
+  transform-origin: center;
 }
 
 .swiper-pagination-bullet-active {
-  width: 28px;
-  border-radius: 14px;
-  background-color: #ccc;
+  transform: scaleX(1.6);
+  border-radius: 5px;
+  background: #ccc;
 }
