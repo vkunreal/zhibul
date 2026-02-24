@@ -8,6 +8,7 @@ interface SendButtonProps {
   disabled?: boolean
   size?: 'small' | 'medium' | 'large'
   children: ReactNode
+  loading: boolean
 }
 
 export interface FeedbackFormProps {

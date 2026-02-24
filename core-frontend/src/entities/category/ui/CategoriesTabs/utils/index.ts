@@ -10,7 +10,7 @@ export const TABS: TAB[] = [
     title: 'Услуги',
     url: '/uslugi',
     tabs: [
-      { title: 'Ремонт пневмоинструмента', url: '/rembaza' },
+      { title: 'Ремонт инструмента', url: '/rembaza' },
       { title: 'Аренда автоприцепов', url: '/arenda_prizepa' },
     ],
   },

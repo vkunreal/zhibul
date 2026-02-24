@@ -1,9 +1,9 @@
 .container {
   display: flex;
   justify-content: space-between;
-  font-family: var(--font-noto-serif);
 
   & span {
+    font-family: 'Times New Roman';
     white-space: nowrap;
     font-size: 16px;
 

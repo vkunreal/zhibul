@@ -1,8 +1,6 @@
 import cn from 'classnames'
 import { FC } from 'react'
 
-import { notoSerif } from '@/shared/assets'
-
 import styles from './styles.module.scss'
 
 interface OptionProps {
@@ -12,8 +10,8 @@ interface OptionProps {
 
 export const Option: FC<OptionProps> = ({ name, value }) => (
   <div className={cn(styles.container)}>
-    <span className={notoSerif.className}>{name}</span>
+    <span>{name}</span>
     <div className={styles.divider} />
-    <span className={notoSerif.className}>{value}</span>
+    <span>{value}</span>
   </div>
 )

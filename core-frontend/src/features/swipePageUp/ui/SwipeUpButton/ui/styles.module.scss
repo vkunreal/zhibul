@@ -1,13 +1,13 @@
 .button {
-  width: 64px;
-  height: 64px;
+  width: 56px;
+  height: 56px;
   background: $light-grey;
   position: fixed;
-  bottom: 64px;
-  left: 64px;
+  bottom: 54px;
+  left: 54px;
   border-radius: 50%;
   z-index: 550;
-  transition: 0.3s ease;
+  transition: background 0.3s ease;
   cursor: pointer;
 
   svg {

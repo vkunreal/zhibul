@@ -45,7 +45,7 @@ export const MainSlider: FC<MainSliderProps> = ({ slides }) => {
         loop
         autoplay={{ delay: 5000 }}
         pagination={{ clickable: true }}
-        style={{ height: isDesktop ? 800 : 600 }}
+        style={{ height: isDesktop ? 700 : 600 }}
       >
         {slides.length && innerWidth ? (
           slides.map(slide)

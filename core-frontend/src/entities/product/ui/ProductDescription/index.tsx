@@ -15,7 +15,7 @@ export const ProductDescription: FC<{ children: string }> = ({ children }) => {
         Описание товара:
       </Typography>
 
-      <Typography className={styles.description} size="md">
+      <Typography className={styles.description} size="sm">
         <span dangerouslySetInnerHTML={{ __html: children }} />
       </Typography>
     </section>

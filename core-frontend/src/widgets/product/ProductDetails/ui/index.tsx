@@ -2,6 +2,7 @@ import { FC } from 'react'
 
 import { SelectOption } from '@/features/item/selectOption'
 import { notoSerif } from '@/shared/assets'
+import { Typography } from '@/shared/ui'
 
 import { ProductDetailsProps } from '../interfaces'
 
@@ -20,7 +21,9 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
 
   return (
     <section className={styles.container}>
-      <h2 className={notoSerif.className}>Характеристики товара:</h2>
+      <Typography tag="h2" size="xl" className={notoSerif.className}>
+        Характеристики товара:
+      </Typography>
 
       {options
         .filter(({ is_dropdown }) => !!is_dropdown)

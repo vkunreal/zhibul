@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { FC, memo, useMemo } from 'react'
 
-import { Button, ButtonLink, FlexImage } from '@/shared/ui'
+import { Button, ButtonLink, FlexImage, Typography } from '@/shared/ui'
 
 import { Product } from '../../model'
 
@@ -15,20 +15,21 @@ interface ProductItemProps {
 
 export const ProductItem: FC<ProductItemProps> = memo(
   ({ product, isWide = false }) => {
+    const { name, brand, manufacturer, category_url, url, display_price } =
+      product
+
     const productImage = useMemo(
       () => product.images.find((im) => im.is_main) || product.images[0],
       [product],
     )
 
-    const {
-      name,
-      brand,
-      manufacturer,
-      menuOptions,
-      category_url,
-      url,
-      display_price,
-    } = product
+    const productOptions = useMemo(
+      () =>
+        product.menuOptions
+          .filter((op) => !op.is_dropdown)
+          .sort((a, b) => (a.position < b.position ? -1 : 1)) ?? [],
+      [product],
+    )
 
     if (!productImage?.src) {
       return null
@@ -44,7 +45,9 @@ export const ProductItem: FC<ProductItemProps> = memo(
 
         <div className={styles.productBody}>
           <div className={styles.productInfo}>
-            <h2 dangerouslySetInnerHTML={{ __html: name }} />
+            <Typography tag="h2" size="md">
+              <span dangerouslySetInnerHTML={{ __html: name }} />
+            </Typography>
 
             {brand && <ProductOption name="Бренд" value={brand} />}
 
@@ -52,15 +55,14 @@ export const ProductItem: FC<ProductItemProps> = memo(
               <ProductOption name="Страна производитель" value={manufacturer} />
             )}
 
-            {!!menuOptions.length &&
-              menuOptions.map(({ id, name, value, is_dropdown }) => (
-                <ProductOption
-                  key={id}
-                  name={name}
-                  value={value}
-                  isDropdown={!!is_dropdown}
-                />
-              ))}
+            {productOptions.map(({ id, name, value, is_dropdown }) => (
+              <ProductOption
+                key={id}
+                name={name}
+                value={value}
+                isDropdown={!!is_dropdown}
+              />
+            ))}
           </div>
 
           <div className={styles.productButtons}>

@@ -24,7 +24,7 @@ export const FeedbackForm: FC<FeedbackFormProps> = ({
     formState: { errors, isValid, isSubmitting },
   } = useForm<SendFeedbackDTO>()
 
-  const { send } = useSendFeedback()
+  const { send, loading } = useSendFeedback()
 
   return (
     <form className={styles.form} onSubmit={handleSubmit(send)}>
@@ -96,6 +96,7 @@ export const FeedbackForm: FC<FeedbackFormProps> = ({
         style={{ marginTop: 23 }}
         fullWidth
         disabled={!isValid}
+        loading={loading}
         size="large"
       >
         {isSubmitting ? 'Отправка...' : 'Отправить'}

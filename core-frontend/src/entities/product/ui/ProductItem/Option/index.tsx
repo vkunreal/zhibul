@@ -1,5 +1,7 @@
 import { FC } from 'react'
 
+import { Typography } from '@/shared/ui'
+
 import styles from './styles.module.scss'
 
 interface ProductOptionProps {
@@ -13,9 +15,9 @@ export const ProductOption: FC<ProductOptionProps> = ({
   value,
   isDropdown = false,
 }) => (
-  <p className={styles.field}>
+  <Typography size="sm" className={styles.field}>
     <span className={styles.fieldName}>{name}:</span>
 
     <span> {isDropdown ? value.split('-').join(' - ') : value} </span>
-  </p>
+  </Typography>
 )
