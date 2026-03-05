@@ -11,6 +11,9 @@ export const ProductList: FC<{
   products: Product[]
   currentView: 'grid' | 'list'
 }> = ({ products, currentView }) => {
+  const filteredItems =
+    products?.sort((a, b) => (a.position < b.position ? -1 : 1)) ?? []
+
   return (
     <Wrapper>
       <ViewToggleBlock />
@@ -20,8 +23,8 @@ export const ProductList: FC<{
           [styles.list]: currentView === 'list',
         })}
       >
-        {!!products.length &&
-          products.map((product) => (
+        {!!filteredItems.length &&
+          filteredItems.map((product) => (
             <ProductItem
               key={product.id}
               product={product}
