@@ -28,11 +28,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticUrls.map((url) => ({ url: `${baseUrl}/${url}` })),
   ]
 
-  const [categories, items, trailers] = await Promise.all([
-    apiGet<Category[]>('https://api.zhbl.by/api/categories'),
-    apiGet<Product[]>('https://api.zhbl.by/api/items'),
-    apiGet<TrailerRent[]>('https://api.zhbl.by/api/trailers-rent'),
-  ])
+  // const [categories, items, trailers] = await Promise.all([
+  //   apiGet<Category[]>('https://api.zhbl.by/api/categories'),
+  //   apiGet<Product[]>('https://api.zhbl.by/api/items'),
+  //   apiGet<TrailerRent[]>('https://api.zhbl.by/api/trailers-rent'),
+  // ])
+  const categories = await apiGet<Category[]>(
+    'https://api.zhbl.by/api/categories',
+  )
+  const items = await apiGet<Product[]>('https://api.zhbl.by/api/items')
+  const trailers = await apiGet<TrailerRent[]>(
+    'https://api.zhbl.by/api/trailers-rent',
+  )
 
   // categories urls
   if (categories?.length) {
