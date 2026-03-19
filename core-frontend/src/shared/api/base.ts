@@ -1,6 +1,6 @@
 const API = process.env.NEXT_PUBLIC_API_URL ?? ''
 
-export const apiGet = async <T>(url: string, revalidate: number = 3600) => {
+export const apiGet = async <T>(url: string, revalidate: number = 600) => {
   try {
     const response = await fetch(`${API}${url}`, {
       cache: 'force-cache',
