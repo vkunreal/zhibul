@@ -48,3 +48,14 @@ model UserRole {
   @@unique([userId, roleId])
   @@map("user_roles")
 }
+
+model AppVariables {
+  id    Int    @id @default(autoincrement())
+  name  String
+  value String
+}
+
+model Countries {
+  id   Int    @id @default(autoincrement())
+  name String
+}
