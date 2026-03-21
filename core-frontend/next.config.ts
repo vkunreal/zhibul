@@ -29,8 +29,9 @@ const nextConfig: NextConfig = {
     ],
   },
   sassOptions: {
-    includePaths: [path.join(__dirname, 'src', 'core', 'styles')],
-    prependData: `
+    loadPaths: [path.resolve(process.cwd(), 'src', 'core', 'styles')],
+    includePaths: [path.resolve(process.cwd(), 'src', 'core', 'styles')],
+    additionalData: `
       @use "media" as *;
       @use "variables" as *;
     `,

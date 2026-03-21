@@ -1,1 +1,0 @@
-export { Promotion } from './ui'

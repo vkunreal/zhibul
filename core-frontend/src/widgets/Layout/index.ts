@@ -1,7 +1,0 @@
-export * from './Company'
-export * from './Footer'
-export * from './Header'
-export * from './MainSlider'
-export * from './Navbar'
-export * from './NotFound'
-export * from './Promotion'
