@@ -1,6 +1,8 @@
 import { FC } from 'react'
+import cn from 'classnames'
 
 import { Typography } from '@/shared/ui'
+import { notoSans } from '@/shared/assets'
 
 import styles from './styles.module.scss'
 
@@ -16,8 +18,11 @@ export const ProductOption: FC<ProductOptionProps> = ({
   isDropdown = false,
 }) => (
   <Typography className={styles.field}>
-    <span className={styles.fieldName}>{name}:</span>
+    <span className={cn(styles.fieldName, notoSans.className)}>{name}:</span>
 
-    <span> {isDropdown ? value.split('-').join(' - ') : value} </span>
+    <span className={notoSans.className}>
+      {' '}
+      {isDropdown ? value.split('-').join(' - ') : value}{' '}
+    </span>
   </Typography>
 )
