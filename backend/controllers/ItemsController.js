@@ -84,7 +84,7 @@ class ItemsController {
 
   async getItemsFromUrl(req, res) {
     const items = await ItemsServices.getItemsFromCategoryUrl(
-      req.params.category_url
+      req.params.category_url,
     )
     const valutes = await ValutesServices.getAllValutes()
 
@@ -123,7 +123,7 @@ class ItemsController {
   async getItemsWithoutImages(req, res) {
     const items = await ItemsServices.getItemsFromCategoryUrl(
       req.params.category_url,
-      false
+      false,
     )
 
     for (let i = 0; i < items.length; i++) {
@@ -246,7 +246,7 @@ class ItemsController {
         '..',
         'public',
         'images',
-        imageName
+        imageName,
       )
       const imageUrl = 'https://api.zhbl.by/images/' + imageName
       // const imageUrl = 'http://localhost:5000/images/' + imageName
@@ -282,10 +282,10 @@ class ItemsController {
         '..',
         'public',
         'images',
-        imageName
+        imageName,
       )
       await ItemsServices.deleteImageInDB(
-        'https://api.zhbl.by/images/' + imageName
+        'https://api.zhbl.by/images/' + imageName,
         // 'http://localhost:5000/images/' + imageName
       )
       if (fs.existsSync(imagePath)) {

@@ -9,6 +9,12 @@ class CategoriesController {
     res.status(200).json(categories)
   }
 
+  async getAllCategoriesWithItemsCount(_, res) {
+    const categories = await CategoriesServices.getAllCategoriesWithItemsCount()
+
+    res.status(200).json(categories)
+  }
+
   // get all categories (body = { parent_id })
   async getAllCategoriesById(req, res) {
     const parent_id = req.params.parent_id

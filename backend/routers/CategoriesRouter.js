@@ -6,38 +6,42 @@ const categoriesRouter = new Router()
 
 categoriesRouter.get('/categories/', CategoriesController.getAllCategories)
 categoriesRouter.get(
+  '/categories/with-items-count/',
+  CategoriesController.getAllCategoriesWithItemsCount,
+)
+categoriesRouter.get(
   '/categories/:id',
-  CategoriesController.getAllCategoriesById
+  CategoriesController.getAllCategoriesById,
 )
 
 categoriesRouter.post(
   '/category/',
   authenticateToken,
-  CategoriesController.addCategory
+  CategoriesController.addCategory,
 )
 
 categoriesRouter.post(
   '/category/image/:category_id',
   authenticateToken,
-  CategoriesController.changeCategoryImage
+  CategoriesController.changeCategoryImage,
 )
 
 categoriesRouter.put(
   '/category/',
   authenticateToken,
-  CategoriesController.changeCategory
+  CategoriesController.changeCategory,
 )
 
 categoriesRouter.put(
   '/category/active',
   authenticateToken,
-  CategoriesController.changeCategoryActive
+  CategoriesController.changeCategoryActive,
 )
 
 categoriesRouter.delete(
   '/category/:id',
   authenticateToken,
-  CategoriesController.deleteCategory
+  CategoriesController.deleteCategory,
 )
 
 module.exports = categoriesRouter

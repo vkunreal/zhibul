@@ -7,13 +7,29 @@ class CategoriesServices {
     return await request('SELECT * FROM categories')
   }
 
+  async getAllCategoriesWithItemsCount() {
+    return await request(`
+      SELECT
+        c.*,
+        COALESCE(p.items_count, 0) AS items_count
+      FROM categories c
+      LEFT JOIN (
+        SELECT
+          category_id,
+          COUNT(*) AS items_count
+        FROM products
+        GROUP BY category_id
+      ) p ON p.category_id = c.id  
+    `)
+  }
+
   // get all categories by parent_id
   async getAllCategoriesByParentId(parent_id) {
     if (parent_id === null) {
       return await request(`SELECT * FROM categories WHERE parent_id IS null`)
     }
     return await request(
-      `SELECT * FROM categories WHERE parent_id = "${parent_id}";`
+      `SELECT * FROM categories WHERE parent_id = "${parent_id}";`,
     )
   }
 
@@ -21,17 +37,17 @@ class CategoriesServices {
   async addCategory(category) {
     if (category.parent_id !== null) {
       await request(
-        `UPDATE categories SET is_contains = "1" WHERE id = "${category.parent_id}"`
+        `UPDATE categories SET is_contains = "1" WHERE id = "${category.parent_id}"`,
       )
       await request(`
         INSERT INTO categories (active, name, parent_id, is_contains, position, description, url, seo_title, seo_description, seo_keywords)
         VALUES ("0", "${category.name}", "${category.parent_id}", 0, "${
-        category.position
-      }", "${replaceQuotes(category.description)}", "${
-        category.url
-      }", "${replaceQuotes(category.seo_title)}", "${replaceQuotes(
-        category.seo_description
-      )}", "${replaceQuotes(category.seo_keywords)}")
+          category.position
+        }", "${replaceQuotes(category.description)}", "${
+          category.url
+        }", "${replaceQuotes(category.seo_title)}", "${replaceQuotes(
+          category.seo_description,
+        )}", "${replaceQuotes(category.seo_keywords)}")
       `)
     } else {
       await request(`
@@ -42,11 +58,11 @@ class CategoriesServices {
 
     const last = await request(
       'SELECT MAX(id) as id FROM categories',
-      (d) => d[0][0]
+      (d) => d[0][0],
     )
     const categoryData = await request(
       `SELECT * FROM categories WHERE id = "${last.id}"`,
-      (d) => d[0][0]
+      (d) => d[0][0],
     )
 
     writeLog('Category was added')
@@ -58,7 +74,7 @@ class CategoriesServices {
     try {
       const updateCategoryField = async (field, value) =>
         await request(
-          `UPDATE categories SET ${field} = "${value}" WHERE id = "${category.id}"`
+          `UPDATE categories SET ${field} = "${value}" WHERE id = "${category.id}"`,
         )
 
       updateCategoryField('position', category.position)
@@ -68,7 +84,7 @@ class CategoriesServices {
       updateCategoryField('seo_title', replaceQuotes(category.seo_title))
       updateCategoryField(
         'seo_description',
-        replaceQuotes(category.seo_description)
+        replaceQuotes(category.seo_description),
       )
       updateCategoryField('seo_keywords', replaceQuotes(category.seo_keywords))
     } catch (e) {
@@ -87,7 +103,7 @@ class CategoriesServices {
   async changeCategoryActiveById(active, id) {
     try {
       await request(
-        `UPDATE categories SET active = "${active ? 1 : 0}" WHERE id = "${id}"`
+        `UPDATE categories SET active = "${active ? 1 : 0}" WHERE id = "${id}"`,
       )
     } catch (e) {
       console.error(e)
