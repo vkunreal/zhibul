@@ -61,7 +61,7 @@ export const CategoryDetails: React.FC<ICategoryDetailsProps> = ({
           headers: {
             authorization: token,
           },
-        }
+        },
       )
       .then(({ data }) => {
         setVisible(data.active)
@@ -69,9 +69,9 @@ export const CategoryDetails: React.FC<ICategoryDetailsProps> = ({
   }
 
   return (
-    <div className="items__category">
+    <div className='items__category'>
       <div
-        className="items__category__name d-flex align-center"
+        className='items__category__name d-flex align-center'
         onClick={() => {
           setSubVisible((prevVal) => !prevVal)
         }}
@@ -81,18 +81,17 @@ export const CategoryDetails: React.FC<ICategoryDetailsProps> = ({
         <div onClick={(e) => e.stopPropagation()}>
           <Checkbox checked={visible} onChange={changeVisible} />
         </div>
-
-        {category.name}
+        {category.name} (товаров – {category.items_count})
         <Spacer />
         {btnsVisible && (
-          <div className="items__category__name--change-buttons">
+          <div className='items__category__name--change-buttons'>
             <Button onClick={openChangeMenu}>Изменить</Button>
             <Button onClick={openDeleteDialog}>Удалить</Button>
           </div>
         )}
       </div>
 
-      <ul className="ml-6">
+      <ul className='ml-6'>
         {subVisible &&
           subcategories.map((subcategory) => (
             <CategoryDetails
@@ -108,7 +107,7 @@ export const CategoryDetails: React.FC<ICategoryDetailsProps> = ({
 
         {subVisible && (
           <AddCategoryButton
-            className="items__category-button mb-1"
+            className='items__category-button mb-1'
             onClick={() => setParentId(category.id)}
           >
             Добавить категорию

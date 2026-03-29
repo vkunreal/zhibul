@@ -11,6 +11,7 @@ export interface ICategory {
   seo_title: string
   seo_description: string
   seo_keywords: string
+  items_count: number
 }
 
 export interface ICategoryCandidate {
