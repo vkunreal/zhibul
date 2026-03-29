@@ -1,4 +1,4 @@
-import { Manrope, Noto_Serif, Roboto } from 'next/font/google'
+import { Manrope, Noto_Sans, Noto_Serif, Roboto } from 'next/font/google'
 
 export const roboto = Roboto({
   weight: ['300', '400', '500', '700'],
@@ -8,6 +8,10 @@ export const roboto = Roboto({
 })
 
 export const notoSerif = Noto_Serif({
+  weight: ['300'],
+})
+
+export const notoSans = Noto_Sans({
   weight: ['300'],
 })
 

@@ -20,7 +20,7 @@ export const CategoryList: React.FC = () => {
 
   const [deletedCategory, setDeletedCategory] = useState<ICategory | null>(null)
   const [changedCategory, setChangedCategory] = useState<ICategory>(
-    categories[0]
+    categories[0],
   )
   const [parentId, setParentId] = useState<number | null>(null)
 
@@ -77,11 +77,13 @@ export const CategoryList: React.FC = () => {
   }
 
   return (
-    <div className="items pd-2">
+    <div className='items pd-2'>
       {/* categories list */}
-      <ul className="items__list">
+      <h2 className='mt-2 mb-4'>Дерево категорий:</h2>
+
+      <ul className='items__list'>
         <AddCategoryButton
-          className="items__category-button mb-2"
+          className='items__category-button mb-2'
           onClick={() => {
             setAddDialog(true)
             setParentId(null)
@@ -108,13 +110,32 @@ export const CategoryList: React.FC = () => {
         {/* add new category button */}
       </ul>
 
+      <hr className='mt-2' />
+
+      <h2 className='mt-2 mb-4'>Список всех категорий:</h2>
+
+      <ul className='items__list'>
+        {categories.map((category) => (
+          <li key={category.id}>
+            <CategoryDetails
+              categories={categories}
+              category={category}
+              getCategories={getCategories}
+              setParentId={handleSetParentId}
+              setDeletedCategory={setDeleteCategory}
+              setChangedCategory={setChangeCategory}
+            />
+          </li>
+        ))}
+      </ul>
+
       {/* delete category confirm */}
       <Confirm
         isOpen={deleteDialog}
         onClose={() => setDeleteDialog(false)}
-        title="Вы уверены, что хотите удалить категорию?"
+        title='Вы уверены, что хотите удалить категорию?'
       >
-        <Button variant="outlined" color="success" onClick={deleteCategory}>
+        <Button variant='outlined' color='success' onClick={deleteCategory}>
           Удалить
         </Button>
       </Confirm>
