@@ -21,7 +21,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
 
   return (
     <section className={styles.container}>
-      <Typography tag="h2" size="xl" className={notoSerif.className}>
+      <Typography tag="h2" size="xl">
         Характеристики товара:
       </Typography>
 

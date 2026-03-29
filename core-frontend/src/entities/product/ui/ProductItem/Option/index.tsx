@@ -15,7 +15,7 @@ export const ProductOption: FC<ProductOptionProps> = ({
   value,
   isDropdown = false,
 }) => (
-  <Typography size="sm" className={styles.field}>
+  <Typography className={styles.field}>
     <span className={styles.fieldName}>{name}:</span>
 
     <span> {isDropdown ? value.split('-').join(' - ') : value} </span>

@@ -45,7 +45,7 @@ export const ProductItem: FC<ProductItemProps> = memo(
 
         <div className={styles.productBody}>
           <div className={styles.productInfo}>
-            <Typography tag="h2" size="md">
+            <Typography tag="h2" size="sm">
               <span dangerouslySetInnerHTML={{ __html: name }} />
             </Typography>
 
