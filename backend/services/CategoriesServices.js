@@ -17,7 +17,7 @@ class CategoriesServices {
         SELECT
           category_id,
           COUNT(*) AS items_count
-        FROM products
+        FROM items
         GROUP BY category_id
       ) p ON p.category_id = c.id  
     `)
