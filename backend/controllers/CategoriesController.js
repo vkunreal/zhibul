@@ -13,9 +13,8 @@ class CategoriesController {
   async getAllCategoriesById(req, res) {
     const parent_id = req.params.parent_id
 
-    const categories = await CategoriesServices.getAllCategoriesByParentId(
-      parent_id
-    )
+    const categories =
+      await CategoriesServices.getAllCategoriesByParentId(parent_id)
     res.status(200).json(categories)
   }
 
@@ -68,7 +67,7 @@ class CategoriesController {
     try {
       const { category_id } = req.params
       if (!req.files) {
-        return res.status(400), json({ status: false })
+        return (res.status(400), json({ status: false }))
       }
       const file = Object.values(req.files)[0]
       const imageName = `image-${category_id}-${Date.now()}.${file.name
@@ -79,7 +78,7 @@ class CategoriesController {
         '..',
         'public',
         'images',
-        imageName
+        imageName,
       )
       const imageUrl = 'https://api.zhbl.by/images/' + imageName
       await file.mv(imagePath, async (err) => {

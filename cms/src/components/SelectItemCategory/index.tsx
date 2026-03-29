@@ -29,32 +29,34 @@ export const SelectItemCategory: React.FC<ISelectItemCategory> = ({
 
   useEffect(() => {
     const category = categories.filter(
-      (category) => category.name === changeCategory
+      (category) => category.name === changeCategory,
     )[0]
     onSelect(category)
   }, [changeCategory])
 
   useEffect(() => {
     const category = categories.filter(
-      (category) => category.name === changeCategory
+      (category) => category.name === changeCategory,
     )[0]
     onSelect(category)
   }, [category])
 
   return (
     <FormControl fullWidth>
-      <InputLabel id="items-view__label">Категория</InputLabel>
+      <InputLabel id='items-view__label'>Категория</InputLabel>
 
       <Select
-        labelId="items-view__label"
+        labelId='items-view__label'
         value={changeCategory}
         onChange={handleCategoryChange}
       >
-        {categories.map(({ name, id }) => (
-          <MenuItem key={id} value={name}>
-            {name}
-          </MenuItem>
-        ))}
+        {categories
+          .sort((a, b) => a.name.localeCompare(b.name, 'ru'))
+          .map(({ name, id }) => (
+            <MenuItem key={id} value={name}>
+              {name}
+            </MenuItem>
+          ))}
       </Select>
     </FormControl>
   )

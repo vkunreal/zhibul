@@ -94,6 +94,7 @@ export const CategoryList: React.FC = () => {
 
         {categories
           .filter((el) => el.parent_id === null)
+          .sort((a, b) => a.name.localeCompare(b.name, 'ru'))
           .map((category) => (
             <li key={category.id}>
               <CategoryDetails
@@ -115,18 +116,20 @@ export const CategoryList: React.FC = () => {
       <h2 className='mt-2 mb-4'>Список всех категорий:</h2>
 
       <ul className='items__list'>
-        {categories.map((category) => (
-          <li key={category.id}>
-            <CategoryDetails
-              categories={categories}
-              category={category}
-              getCategories={getCategories}
-              setParentId={handleSetParentId}
-              setDeletedCategory={setDeleteCategory}
-              setChangedCategory={setChangeCategory}
-            />
-          </li>
-        ))}
+        {categories
+          .sort((a, b) => a.name.localeCompare(b.name, 'ru'))
+          .map((category) => (
+            <li key={category.id}>
+              <CategoryDetails
+                categories={categories}
+                category={category}
+                getCategories={getCategories}
+                setParentId={handleSetParentId}
+                setDeletedCategory={setDeleteCategory}
+                setChangedCategory={setChangeCategory}
+              />
+            </li>
+          ))}
       </ul>
 
       {/* delete category confirm */}
