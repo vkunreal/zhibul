@@ -1,9 +1,9 @@
 export const BLOCKS = [
   {
     id: 1,
-    title: 'Ремонт пневмоинструмента',
+    title: 'Ремонт инструмента',
     description:
-      'Занимаемся ремонтом пневмоинструментов следующих брендов: BeA, BOSTITCH, DYNABRADE, EZ-FASTEN, FASCO (BECK), HITACHI, MAX, PREBENA, SENCO, SUMAKE.',
+      'Наша компания занимается ремонтом пневматического и электрического инструмента следующих брендов: RUPES, MIRKA, WALCOM, WALMEC, ASTUROMEC, JETA PRO, SATA JET, DEVILBISS, IWATA, SAGOLA, AUTECH, ANI, PMT, U-SEAL, BEA, BOSTITCH, DYNABRADE, FUBAG, MAX, EZ-FASTEN, FASCO (BECK), HITACHI, MAX, PREBENA, SENCO, SUMAKE.',
     image: 'https://api.zhbl.by/images/uslugi-1.png',
     link: 'rembaza',
     phone: '+375 (44) 758-16-43',
