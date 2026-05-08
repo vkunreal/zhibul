@@ -1,18 +1,32 @@
-FROM node:16-alpine
+# Stage 1: сборка
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json .
+# Установка зависимостей
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
-RUN npm install
-
+# Копируем исходники и собираем приложение
 COPY . .
+RUN yarn build
 
-RUN npm run build
+# Stage 2: рантайм
+FROM node:20-alpine AS runner
 
+WORKDIR /app
+
+# Переменная окружения в рантайме
+ENV NODE_ENV=production
+
+# Копируем артефакты сборки
+COPY --from=builder /app/.next /app/.next
+COPY --from=builder /app/public /app/public
+COPY --from=builder /app/node_modules /app/node_modules
+COPY --from=builder /app/package.json /app/package.json
+
+# Экспонируем порт Next.js (по умолчанию 3000)
 EXPOSE 3000
 
-ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=3000
-
-CMD [ "npm", "run", "start" ]
+# Команда запуска приложения
+CMD ["yarn", "start"]
