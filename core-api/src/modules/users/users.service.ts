@@ -8,7 +8,7 @@ import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateUserDTO } from './data/dto/create-user-dto'
 import { hash } from 'bcrypt'
 import { Prisma } from '@prisma/client'
-import { FindUserOptions, UserWithRolesRaw } from './interfaces'
+import { FindUserOptions } from './interfaces'
 import { findUserCondition } from './utils/findUserCondition'
 import { transformUserWithRoles } from './utils/transformUserWithRole'
 
@@ -20,29 +20,32 @@ export class UsersService {
     try {
       const { where, withRoles } = options
 
-      const baseQuery: Prisma.UserFindUniqueArgs = {
-        where: findUserCondition(where),
-      }
-
       if (withRoles) {
-        baseQuery.include = {
-          roles: {
-            include: {
-              role: {
-                select: {
-                  name: true,
+        const user = await this.prisma.user.findUnique({
+          where: findUserCondition(where),
+          include: {
+            roles: {
+              include: {
+                role: {
+                  select: {
+                    name: true,
+                  },
                 },
               },
             },
           },
-        }
+        })
+
+        if (!user) return null
+
+        return transformUserWithRoles(user)
       }
 
-      const user = await this.prisma.user.findUnique(baseQuery)
+      const user = await this.prisma.user.findUnique({
+        where: findUserCondition(where),
+      })
 
-      if (!user) return null
-
-      return withRoles ? transformUserWithRoles(user as UserWithRolesRaw) : user
+      return user
     } catch (e) {
       throw new InternalServerErrorException()
     }

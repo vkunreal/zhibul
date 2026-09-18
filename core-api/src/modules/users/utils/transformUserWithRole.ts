@@ -5,6 +5,6 @@ export const transformUserWithRoles = (user: UserWithRolesRaw) => {
 
   return {
     ...userData,
-    roles: Array.isArray(roles) ? roles.map((item: any) => item.role.name) : [],
+    roles: Array.isArray(roles) ? roles.map((item) => item.role.name) : [],
   };
 };

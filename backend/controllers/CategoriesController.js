@@ -6,7 +6,12 @@ class CategoriesController {
   async getAllCategories(req, res) {
     const categories = await CategoriesServices.getAllCategories()
 
-    res.status(200).json(categories)
+    const result = categories.map(({ image, ...category }) => ({
+      ...category,
+      image: `${process.env.BACKEND_DOMAIN ?? 'https://api.zhbl.by'}${image}`,
+    }))
+
+    res.status(200).json(result)
   }
 
   async getAllCategoriesWithItemsCount(_, res) {
@@ -86,7 +91,7 @@ class CategoriesController {
         'images',
         imageName,
       )
-      const imageUrl = 'https://api.zhbl.by/images/' + imageName
+      const imageUrl = `/images/${imageName}`
       await file.mv(imagePath, async (err) => {
         if (err) {
           console.error(err)

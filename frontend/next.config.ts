@@ -26,6 +26,21 @@ const nextConfig: NextConfig = {
         hostname: 'api.zhbl.by',
         pathname: '/trailer/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        pathname: '/images/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        pathname: '/trailers/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        pathname: '/trailer/**',
+      },
     ],
   },
   sassOptions: {

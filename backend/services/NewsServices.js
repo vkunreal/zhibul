@@ -9,19 +9,26 @@ class NewsServices {
   async getNewsItemFromId(id) {
     return await request(
       `SELECT * FROM news WHERE id = "${id}"`,
-      (res) => res[0][0]
+      (res) => res[0][0],
     )
   }
 
   async getNewsItemFromUrl(url) {
     return await request(
       `SELECT * FROM news WHERE url = "${url}"`,
-      (r) => r[0][0]
+      (r) => r[0][0],
     )
   }
 
   async getNewsMediaById(id) {
-    return await request(`SELECT * FROM news_media WHERE news_id = "${id}"`)
+    const images = await request(
+      `SELECT * FROM news_media WHERE news_id = "${id}"`,
+    )
+
+    return images.map(({ src, ...image }) => ({
+      ...image,
+      src: `${process.env.BACKEND_DOMAIN ?? 'https://api.zhbl.by'}${src}`,
+    }))
   }
 
   async addNewsItem(
@@ -31,7 +38,7 @@ class NewsServices {
     short_text,
     seo_title,
     seo_description,
-    seo_keywords
+    seo_keywords,
   ) {
     const date = new Date().getTime()
 
@@ -49,11 +56,11 @@ class NewsServices {
     short_text,
     seo_title,
     seo_description,
-    seo_keywords
+    seo_keywords,
   ) {
     const updateNewsField = async (field, value) =>
       await request(
-        `UPDATE news SET ${field} = "${value}" WHERE url = "${url}"`
+        `UPDATE news SET ${field} = "${value}" WHERE url = "${url}"`,
       )
 
     updateNewsField('title', replaceQuotes(title))
@@ -90,7 +97,7 @@ class NewsServices {
 
   async getFilesByNewsItem(news_id) {
     return await request(
-      `SELECT * FROM news_files WHERE news_id = "${news_id}"`
+      `SELECT * FROM news_files WHERE news_id = "${news_id}"`,
     )
   }
 

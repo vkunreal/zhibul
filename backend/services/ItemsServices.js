@@ -100,12 +100,12 @@ class ItemsServices {
     }
 
     const data = await request(
-      `${queryItems} LIMIT ${limit} OFFSET ${(page - 1) * limit}`
+      `${queryItems} LIMIT ${limit} OFFSET ${(page - 1) * limit}`,
     )
 
     const { count } = await request(
       'SELECT COUNT(*) as count FROM items;',
-      (res) => res[0][0]
+      (res) => res[0][0],
     )
 
     return [data, count]
@@ -124,7 +124,14 @@ class ItemsServices {
   }
 
   async getItemImages(item_id) {
-    return await request(`SELECT * FROM images WHERE item_id = "${item_id}"`)
+    const images = await request(
+      `SELECT * FROM images WHERE item_id = "${item_id}"`,
+    )
+
+    return images.map(({ src, ...image }) => ({
+      ...image,
+      src: `${process.env.DOMAIN ?? 'https://api.zhbl.by'}${src}`,
+    }))
   }
 
   // get item from db by id
@@ -132,7 +139,7 @@ class ItemsServices {
     try {
       return await request(
         `${queryItems} WHERE id = "${item_id}"`,
-        (res) => res[0][0]
+        (res) => res[0][0],
       )
     } catch (e) {
       console.error(e)
@@ -170,7 +177,7 @@ class ItemsServices {
         await request(
           `UPDATE items SET ${field} = ${
             value ? `"${value}"` : 'null'
-          } WHERE id = "${item_id}"`
+          } WHERE id = "${item_id}"`,
         )
 
       updateItemField('category_id', category_id)
@@ -216,21 +223,21 @@ class ItemsServices {
     try {
       const lastId = await request(
         'SELECT MAX(id) as id FROM items',
-        (d) => d[0][0]
+        (d) => d[0][0],
       )
       const code = '1.' + String(lastId.id + 1).padStart(4, '0')
 
       await request(`
         INSERT INTO items(code, position, url, category_id, name, description, brand, manufacturer_id, price, valute_id, purchase_price, profitabilaty, price_postfix, seo_title, seo_description, seo_keywords)
         VALUES ("${code}", "${position}", "${url}", "${category_id}", "${name}", "${replaceQuotes(
-        description
-      )}", "${brand}", "${manufacturer}", "${price}", "${valute_id || 1}", ${
-        purchase_price ? `"${purchase_price}"` : 'null'
-      }, ${
-        profitabilaty ? `"${profitabilaty}"` : 'null'
-      }, "${price_postfix}", "${replaceQuotes(seo_title)}", "${replaceQuotes(
-        seo_description
-      )}", "${replaceQuotes(seo_keywords)}")
+          description,
+        )}", "${brand}", "${manufacturer}", "${price}", "${valute_id || 1}", ${
+          purchase_price ? `"${purchase_price}"` : 'null'
+        }, ${
+          profitabilaty ? `"${profitabilaty}"` : 'null'
+        }, "${price_postfix}", "${replaceQuotes(seo_title)}", "${replaceQuotes(
+          seo_description,
+        )}", "${replaceQuotes(seo_keywords)}")
       `)
 
       writeLog('Item was added')
@@ -266,10 +273,10 @@ class ItemsServices {
     try {
       const result = await request(
         `SELECT item_id FROM images WHERE src = "${src}"`,
-        (res) => res[0][0]
+        (res) => res[0][0],
       )
       await request(
-        `UPDATE images SET is_main = "0" WHERE item_id = "${result.item_id}"`
+        `UPDATE images SET is_main = "0" WHERE item_id = "${result.item_id}"`,
       )
       await request(`UPDATE images SET is_main = "1" WHERE src = "${src}"`)
     } catch (e) {
