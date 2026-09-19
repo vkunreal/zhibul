@@ -11,6 +11,8 @@
     "cms:build": "cd cms && npm run build",
     "frontend:install": "cd frontend && npm install",
     "frontend:serve": "cd frontend && yarn dev",
-    "frontend:build": "cd frontend && yarn build"
+    "frontend:build": "cd frontend && yarn build",
+    "docker:dev": "docker compose up --build",
+    "docker:prod": "docker compose -f infra/docker/docker-compose.yml --env-file .env up -d --build"
   }
 }
