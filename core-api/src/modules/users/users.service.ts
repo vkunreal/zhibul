@@ -4,10 +4,10 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common'
-import { PrismaService } from 'src/prisma/prisma.service'
+import { PrismaService } from 'prisma/prisma.service'
 import { CreateUserDTO } from './data/dto/create-user-dto'
 import { hash } from 'bcrypt'
-import { Prisma } from '@prisma/client'
+import { Prisma } from 'prisma/client'
 import { FindUserOptions } from './interfaces'
 import { findUserCondition } from './utils/findUserCondition'
 import { transformUserWithRoles } from './utils/transformUserWithRole'

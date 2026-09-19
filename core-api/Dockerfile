@@ -29,10 +29,8 @@ RUN yarn build
 FROM base AS production
 ENV NODE_ENV=production
 RUN yarn install --frozen-lockfile --production
-COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=build /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/prisma ./prisma
 ENV PORT=5000
 EXPOSE 5000
-CMD ["node", "dist/src/main.js"]
+CMD ["node", "dist/main.js"]

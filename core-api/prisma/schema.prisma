@@ -1,14 +1,16 @@
 generator client {
-  provider = "prisma-client-js"
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "cjs"
+  importFileExtension = ""
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
-  id               String   @id @default(uuid())
+  id               String   @id @default(uuid(7))
   name             String?
   email            String?  @unique
   phoneNumber      String   @unique
@@ -19,13 +21,14 @@ model User {
   isEmailConfirmed Boolean  @default(false)
   isPhoneConfirmed Boolean  @default(false)
 
-  roles UserRole[]
+  roles    UserRole[]
+  sessions Session[]
 
   @@map("users")
 }
 
 model Role {
-  id          String   @id @default(uuid())
+  id          String   @id @default(uuid(7))
   name        String   @unique
   description String?
   permissions String?
@@ -37,8 +40,28 @@ model Role {
   @@map("roles")
 }
 
+model Session {
+  id           String    @id @default(uuid(7))
+  userId       String
+  tokenHash    String    @unique
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  replacedById String?
+  userAgent    String?
+  ip           String?
+  createdAt    DateTime  @default(now())
+
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  replacedBy Session?  @relation("SessionRotation", fields: [replacedById], references: [id], onDelete: SetNull)
+  replaces   Session[] @relation("SessionRotation")
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
 model UserRole {
-  id     String @id @default(uuid())
+  id     String @id @default(uuid(7))
   userId String
   roleId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -49,12 +72,12 @@ model UserRole {
 }
 
 model AppVariables {
-  id    Int    @id @default(autoincrement())
-  name  String
+  id    String @id @default(uuid(7))
+  name  String @unique
   value String
 }
 
 model Countries {
-  id   Int    @id @default(autoincrement())
-  name String
+  id   String @id @default(uuid(7))
+  name String @unique
 }

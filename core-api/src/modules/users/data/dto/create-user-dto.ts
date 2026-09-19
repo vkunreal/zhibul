@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import {
   IsArray,
   IsBoolean,
@@ -6,7 +6,7 @@ import {
   IsPhoneNumber,
   IsString,
   MinLength,
-} from 'class-validator';
+} from 'class-validator'
 
 export class CreateUserDTO {
   @ApiProperty({
@@ -15,7 +15,7 @@ export class CreateUserDTO {
   })
   @IsString()
   @IsPhoneNumber()
-  phoneNumber: string;
+  phoneNumber: string
 
   @ApiProperty({
     description: 'Password (min 6 characters)',
@@ -24,7 +24,7 @@ export class CreateUserDTO {
   })
   @IsString()
   @MinLength(8)
-  password: string;
+  password: string
 
   @ApiPropertyOptional({
     description: 'User name',
@@ -32,7 +32,7 @@ export class CreateUserDTO {
   })
   @IsString()
   @IsOptional()
-  name?: string;
+  name?: string
 
   @ApiPropertyOptional({
     description: 'Role names to assign to user',
@@ -41,7 +41,7 @@ export class CreateUserDTO {
   })
   @IsArray()
   @IsOptional()
-  roles?: string[];
+  roles?: string[]
 
   @ApiPropertyOptional({
     description: 'Is user active',
@@ -50,5 +50,5 @@ export class CreateUserDTO {
   })
   @IsBoolean()
   @IsOptional()
-  isActive?: boolean;
+  isActive?: boolean
 }

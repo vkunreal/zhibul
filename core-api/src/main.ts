@@ -1,18 +1,20 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import cookieParser from 'cookie-parser';
+import { NestFactory } from '@nestjs/core'
+import { AppModule } from './app.module'
+import { ValidationPipe } from '@nestjs/common'
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
+import cookieParser from 'cookie-parser'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule)
 
   app.enableCors({
     origin: '*',
     credentials: true,
-  });
+  })
 
-  app.use(cookieParser());
+  app.setGlobalPrefix('api', { exclude: ['healthCheck'] })
+
+  app.use(cookieParser())
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -21,19 +23,20 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       validateCustomDecorators: true,
     }),
-  );
+  )
 
   const config = new DocumentBuilder()
-    .setTitle('Core service')
+    .setTitle('Core')
     .setDescription('Service works with authorization, payments, orders')
     .setVersion('1.0.0')
     .addTag('core')
-    .build();
+    .addCookieAuth('accessToken')
+    .build()
 
-  const document = SwaggerModule.createDocument(app, config);
+  const document = SwaggerModule.createDocument(app, config)
 
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document)
 
-  await app.listen(process.env.PORT ?? 5050);
+  await app.listen(process.env.PORT ?? 5050)
 }
-bootstrap();
+bootstrap()
