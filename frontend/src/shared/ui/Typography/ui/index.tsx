@@ -2,8 +2,7 @@ import cn from 'classnames'
 import type { FC } from 'react'
 
 import { TitleTags, TypographyProps } from '../interfaces'
-
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const Typography: FC<TypographyProps> = ({
   tag = 'p',
@@ -16,10 +15,10 @@ export const Typography: FC<TypographyProps> = ({
 }) => {
   const Tag = TitleTags[tag]
 
-  const className = cn(styles.typography, styles[size], propsClassName, {
-    [styles.textCenter]: textCenter,
-    [styles.uppercase]: uppercase,
-    [styles[`fontWeight${fontWeight}`]]: !!fontWeight,
+  const className = cn(s.typography, s[size], propsClassName, {
+    [s.textCenter]: textCenter,
+    [s.uppercase]: uppercase,
+    [s[`fontWeight${fontWeight}`]]: !!fontWeight,
   })
 
   return <Tag className={className}>{children}</Tag>

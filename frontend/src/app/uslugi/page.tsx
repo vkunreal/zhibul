@@ -1,11 +1,12 @@
-import { getPage } from '@/shared/api'
-import { ButtonLink, FlexImage, StaticPage } from '@/shared/ui'
-import { Breadcrumbs } from '@/shared/ui'
 import { FeedbackBlock } from '@/widgets/feedback'
 import { MAPS_TYPES, YandexMap } from '@/widgets/yandex'
 
+import { getPage } from '@/shared/api'
+import { ButtonLink, FlexImage, StaticPage } from '@/shared/ui'
+import { Breadcrumbs } from '@/shared/ui'
+
 import { BLOCKS } from './constants'
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 const PAGE = 'uslugi'
 
@@ -26,19 +27,19 @@ export default async function Uslugi() {
         elements={[{ url: '/', title: 'Главная' }]}
         activeTitle="Услуги"
       />
-      <StaticPage className={styles.wrapper} page={PAGE}>
-        <ul className={styles.list}>
+      <StaticPage className={s.wrapper} page={PAGE}>
+        <ul className={s.list}>
           {BLOCKS.map(({ id, title, description, image, link, phone }) => (
-            <li key={id} className={styles.listItem}>
+            <li key={id} className={s.listItem}>
               <FlexImage src={image} alt="uslugi-image" maxWidth={400} />
 
-              <div className={styles.content}>
+              <div className={s.content}>
                 <div>
                   <h2>{title}</h2>
-                  <p className={styles.description}>{description}</p>
+                  <p className={s.description}>{description}</p>
                 </div>
 
-                <div className={styles.buttons}>
+                <div className={s.buttons}>
                   <ButtonLink href={`/${link}`} size="small" uppercase>
                     Подробнее
                   </ButtonLink>

@@ -11,12 +11,12 @@ Runs installing dependencies
 ### `npm start`
 
 Runs the app in the ready mode.\
-Server would open on adress [http://localhost:5000](http://localhost:5000).
+Server would open on adress [http://localhost:5001](http://localhost:5001).
 
 ### `npm run dev`
 
 Runs the app in the development mode.\
-Server would open on adress [http://localhost:5000](http://localhost:5000).
+Server would open on adress [http://localhost:5001](http://localhost:5001).
 
 # Routes
 

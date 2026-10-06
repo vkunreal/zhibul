@@ -1,8 +1,10 @@
-import { getSlides } from '@/entities/slider'
-import { getPage } from '@/shared/api'
 import { FeedbackBlock } from '@/widgets/feedback'
 import { MainSlider, Company, Promotion } from '@/widgets/layout'
 import { YandexMap, MAPS_TYPES } from '@/widgets/yandex'
+
+import { getSlides } from '@/entities/slider'
+
+import { getPage } from '@/shared/api'
 
 const PAGE = 'index'
 

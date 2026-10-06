@@ -1,0 +1,57 @@
+enum VerificationChannel {
+  PHONE
+  EMAIL
+}
+
+enum VerificationPurpose {
+  LOGIN
+  CONFIRM_EMAIL
+  CHANGE_PHONE
+  RECOVER_ACCESS
+}
+
+// One-time code. The plaintext is never stored. A new request for the same
+// destination and purpose overwrites this row instead of adding another,
+// which also resets `isUsed` and `attempts`.
+model VerificationCode {
+  id          String              @id @default(uuid(7))
+  // Empty for login codes: they are issued before we know whether the phone
+  // already belongs to an account.
+  userId      String?
+  channel     VerificationChannel
+  purpose     VerificationPurpose
+  // Phone number or email address the code was sent to.
+  destination String
+  codeHash    String
+  expiresAt   DateTime
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  isUsed      Boolean             @default(false)
+  // Wrong guesses. Capped in the service; a replacement code starts again at 0.
+  attempts    Int                 @default(0)
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([destination, purpose])
+  @@index([expiresAt])
+  @@index([userId])
+  @@map("verification_codes")
+}
+
+// Proof that the owner of a confirmed email passed the first step of access
+// recovery. Single use and short lived, because it authorizes a phone change.
+// The value handed to the client is stored only as `tokenHash`.
+model RecoveryTicket {
+  id        String    @id @default(uuid(7))
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("recovery_tickets")
+}

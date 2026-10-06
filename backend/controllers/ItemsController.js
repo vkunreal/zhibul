@@ -187,7 +187,13 @@ class ItemsController {
   async getItemImages(req, res) {
     const item_id = req.params.item_id
     const images = await ItemsServices.getItemImages(item_id)
-    res.status(200).json(images)
+
+    const result = images.map(({ src, ...image }) => ({
+      ...image,
+      src: `${process.env.BACKEND_DOMAIN ?? 'https://api.zhbl.by'}${src}`,
+    }))
+
+    res.status(200).json(result)
   }
 
   async changeItem(req, res) {
@@ -248,8 +254,7 @@ class ItemsController {
         'images',
         imageName,
       )
-      const imageUrl = 'https://api.zhbl.by/images/' + imageName
-      // const imageUrl = 'http://localhost:5000/images/' + imageName
+      const imageUrl = `/images/${imageName}`
       urls.push(imageUrl)
       await file.mv(imagePath, async (err) => {
         if (err) {
@@ -285,8 +290,8 @@ class ItemsController {
         imageName,
       )
       await ItemsServices.deleteImageInDB(
-        'https://api.zhbl.by/images/' + imageName,
-        // 'http://localhost:5000/images/' + imageName
+        `/images/${imageName}`,
+        // '/images/' + imageName
       )
       if (fs.existsSync(imagePath)) {
         // return res.status(400).json({ status: false })

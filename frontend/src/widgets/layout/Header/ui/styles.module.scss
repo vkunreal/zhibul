@@ -51,6 +51,11 @@
   color: $white;
 }
 
+.buttons {
+  display: flex;
+  gap: 16px;
+}
+
 @include laptop {
   .wrapper {
     padding: 12px 8px;

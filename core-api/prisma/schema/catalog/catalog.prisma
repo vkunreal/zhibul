@@ -1,0 +1,15 @@
+// Runtime key-value settings that do not belong in the environment.
+model AppVariables {
+  id    String @id @default(uuid(7))
+  name  String @unique
+  value String
+
+  @@map("app_variables")
+}
+
+model Countries {
+  id   String @id @default(uuid(7))
+  name String @unique
+
+  @@map("countries")
+}

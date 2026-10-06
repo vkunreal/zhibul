@@ -1,4 +1,4 @@
-import { apiGet } from '@/shared/api'
+import { httpClient } from '@/shared/api'
 
 import { Product, ProductOption } from '..'
 
@@ -11,28 +11,34 @@ export const productsApi = {
   },
 
   async getAllProducts() {
-    const products = await apiGet<Product[]>(this.endpoints.products)
+    const { data } = await httpClient.get<Product[]>({
+      url: this.endpoints.products,
+    })
 
-    return products || []
+    return data || []
   },
 
   async getCategoryItems(slug: string) {
-    const products = await apiGet<Product[]>(this.endpoints.categoryItems(slug))
+    const { data } = await httpClient.get<Product[]>({
+      url: this.endpoints.categoryItems(slug),
+    })
 
-    return products || []
+    return data || []
   },
 
   async getProduct(slug: string) {
-    const product = await apiGet<Product>(this.endpoints.product(slug))
+    const { data } = await httpClient.get<Product>({
+      url: this.endpoints.product(slug),
+    })
 
-    return product || null
+    return data || null
   },
 
   async getProductOptions(id: number) {
-    const options = await apiGet<ProductOption[]>(
-      this.endpoints.productOptions(id),
-    )
+    const { data } = await httpClient.get<ProductOption[]>({
+      url: this.endpoints.productOptions(id),
+    })
 
-    return options || []
+    return data || []
   },
 }

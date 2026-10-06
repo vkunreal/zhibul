@@ -1,13 +1,13 @@
 import type { Page } from '@/shared/model'
 
-import { apiGet } from '../base'
+import { httpClient } from '../httpClient'
 
 const ENDPOINTS = {
   page: (page: string) => `/api/pages/${page}/`,
 }
 
 export const getPage = async (page: string) => {
-  const pageData = await apiGet<Page>(ENDPOINTS.page(page), 3600)
+  const { data } = await httpClient.get<Page>({ url: ENDPOINTS.page(page) })
 
-  return pageData
+  return data
 }

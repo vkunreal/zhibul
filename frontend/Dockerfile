@@ -1,32 +1,67 @@
-# Stage 1: сборка
-FROM node:20-alpine AS builder
-
+FROM node:26-alpine AS base
 WORKDIR /app
 
-# Установка зависимостей
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+# Node 26 images no longer ship Corepack. Yarn 4 has to be activated explicitly:
+# the lockfile is Yarn Berry, and `npm install -g yarn` would install Yarn 1.
+RUN npm install -g corepack \
+    && corepack enable \
+    && corepack prepare yarn@4.18.1 --activate
 
-# Копируем исходники и собираем приложение
+COPY package.json yarn.lock .yarnrc.yml ./
+
+# ---- development ----
+FROM base AS dev
+RUN yarn install --immutable
+COPY . .
+EXPOSE 3000
+CMD ["yarn", "dev", "--hostname", "0.0.0.0"]
+
+# ---- production build ----
+FROM base AS builder
+
+ARG NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_API_CORE_URL
+ARG NEXT_PUBLIC_SITE_URL
+ARG NEXT_PUBLIC_METRIKA_ID
+ARG NEXT_PUBLIC_GTM_ID
+
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+    NEXT_PUBLIC_API_CORE_URL=$NEXT_PUBLIC_API_CORE_URL \
+    NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
+    NEXT_PUBLIC_METRIKA_ID=$NEXT_PUBLIC_METRIKA_ID \
+    NEXT_PUBLIC_GTM_ID=$NEXT_PUBLIC_GTM_ID
+
+RUN yarn install --immutable
 COPY . .
 RUN yarn build
 
-# Stage 2: рантайм
-FROM node:20-alpine AS runner
-
+# ---- production runtime ----
+FROM node:26-alpine AS runner
 WORKDIR /app
 
-# Переменная окружения в рантайме
+RUN npm install -g corepack \
+    && corepack enable \
+    && corepack prepare yarn@4.18.1 --activate
+
 ENV NODE_ENV=production
 
-# Копируем артефакты сборки
+ARG NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_API_CORE_URL
+ARG NEXT_PUBLIC_SITE_URL
+ARG NEXT_PUBLIC_METRIKA_ID
+ARG NEXT_PUBLIC_GTM_ID
+
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+    NEXT_PUBLIC_API_CORE_URL=$NEXT_PUBLIC_API_CORE_URL \
+    NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
+    NEXT_PUBLIC_METRIKA_ID=$NEXT_PUBLIC_METRIKA_ID \
+    NEXT_PUBLIC_GTM_ID=$NEXT_PUBLIC_GTM_ID
+
 COPY --from=builder /app/.next /app/.next
 COPY --from=builder /app/public /app/public
 COPY --from=builder /app/node_modules /app/node_modules
 COPY --from=builder /app/package.json /app/package.json
+COPY --from=builder /app/.yarnrc.yml /app/.yarnrc.yml
 
-# Экспонируем порт Next.js (по умолчанию 3000)
 EXPOSE 3000
-
-# Команда запуска приложения
 CMD ["yarn", "start"]

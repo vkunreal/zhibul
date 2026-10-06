@@ -1,0 +1,65 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 320px;
+  padding-top: 4px;
+}
+
+.actions {
+  margin-top: 16px;
+}
+
+.button,
+.back {
+  width: 100%;
+  height: 44px;
+  margin-top: 4px;
+  background: $primaryGrey;
+  color: $white;
+  border: 1px solid $primaryGrey;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+
+  &:hover {
+    background: $secondaryGrey;
+  }
+
+  &:disabled {
+    background: $dark-grey;
+    border-color: $dark-grey;
+    cursor: default;
+  }
+}
+
+.back {
+  background: $white;
+  color: $dark;
+  margin-top: 8px;
+
+  &:hover {
+    background: $white;
+    filter: brightness(0.95);
+  }
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid $light-grey;
+  text-align: center;
+}
+
+.note {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: $dark-grey;
+}

@@ -2,12 +2,12 @@ import { FC } from 'react'
 
 import { Divider, Wrapper } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const Company: FC = () => {
   return (
-    <Wrapper className={styles.wrapper}>
-      <h1 className={styles.heading}>О компании</h1>
+    <Wrapper className={s.wrapper}>
+      <h1 className={s.heading}>О компании</h1>
 
       <Divider />
 

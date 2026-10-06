@@ -5,9 +5,10 @@ import { Button } from '@mui/material'
 import { FC } from 'react'
 
 import { FeedbackForm } from '@/features/sendFeedback'
+
 import { Wrapper } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 const WhiteButton = styled(Button)({
   backgroundColor: '#ffffff',
@@ -19,13 +20,13 @@ const WhiteButton = styled(Button)({
 
 export const FeedbackBlock: FC = () => {
   return (
-    <Wrapper className={styles.wrapper} maxWidth="900px">
-      <div className={styles.feedback}>
-        <div className={styles.header}>
-          <h2 className={styles.title}>
+    <Wrapper className={s.wrapper} maxWidth="900px">
+      <div className={s.feedback}>
+        <div className={s.header}>
+          <h2 className={s.title}>
             Есть вопросы или необходима консультация?
           </h2>
-          <p className={styles.description}>
+          <p className={s.description}>
             Заполните форму и наш специалист ответит на все возникшие вопросы!
           </p>
         </div>

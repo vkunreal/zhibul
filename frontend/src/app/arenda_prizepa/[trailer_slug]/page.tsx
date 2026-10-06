@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
 import { trailersApi } from '@/entities/trailer'
+
 import {
   Breadcrumbs,
   Divider,
@@ -10,7 +11,7 @@ import {
   Wrapper,
 } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 type Params = Promise<{ trailer_slug: string }>
 
@@ -69,7 +70,7 @@ export default async function TrailersRent({ params }: { params: Params }) {
         ]}
         activeTitle={title}
       />
-      <Wrapper className={styles.container}>
+      <Wrapper className={s.container}>
         <Typography tag="h1" size="xxlRelative" textCenter uppercase>
           {title}
         </Typography>
@@ -80,11 +81,11 @@ export default async function TrailersRent({ params }: { params: Params }) {
           {text}
         </Typography>
 
-        <section className={styles.gallery}>
+        <section className={s.gallery}>
           {images.map(({ src }, index) => (
-            <div className={styles.imageWrapper} key={index}>
+            <div className={s.imageWrapper} key={index}>
               <Image
-                className={styles.image}
+                className={s.image}
                 src={src}
                 alt="Изображение прицепа"
                 width={800}
@@ -96,7 +97,7 @@ export default async function TrailersRent({ params }: { params: Params }) {
         </section>
 
         <Typography
-          className={styles.subtitle}
+          className={s.subtitle}
           size="xlRelative"
           fontWeight={700}
           textCenter

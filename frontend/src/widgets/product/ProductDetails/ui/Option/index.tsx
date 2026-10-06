@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { FC } from 'react'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 interface OptionProps {
   name: string
@@ -9,9 +9,9 @@ interface OptionProps {
 }
 
 export const Option: FC<OptionProps> = ({ name, value }) => (
-  <div className={cn(styles.container)}>
+  <div className={cn(s.container)}>
     <span>{name}</span>
-    <div className={styles.divider} />
+    <div className={s.divider} />
     <span>{value}</span>
   </div>
 )

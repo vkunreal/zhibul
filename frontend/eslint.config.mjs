@@ -2,6 +2,8 @@ import { dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 import { FlatCompat } from '@eslint/eslintrc'
+import nextCoreWebVitals from 'eslint-config-next/core-web-vitals'
+import nextTypescript from 'eslint-config-next/typescript'
 import importPlugin from 'eslint-plugin-import'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -21,7 +23,8 @@ const eslintConfig = [
       '**/next-env.d.ts',
     ],
   },
-  ...compat.extends('next/core-web-vitals', 'next/typescript'),
+  ...nextCoreWebVitals,
+  ...nextTypescript,
   ...compat.extends('@feature-sliced/eslint-config'),
   {
     plugins: {
@@ -57,6 +60,41 @@ const eslintConfig = [
             'sibling',
             'index',
           ],
+          // Each pattern is its own group, so `newlines-between` puts a blank
+          // line between layers. `core` sits above widgets: it is the app shell.
+          pathGroups: [
+            {
+              pattern: '@/{core,core/**}',
+              group: 'internal',
+              position: 'before',
+            },
+            {
+              pattern: '@/{widgets,widgets/**}',
+              group: 'internal',
+              position: 'before',
+            },
+            {
+              pattern: '@/{features,features/**}',
+              group: 'internal',
+              position: 'before',
+            },
+            {
+              pattern: '@/{entities,entities/**}',
+              group: 'internal',
+              position: 'before',
+            },
+            {
+              pattern: '@/{shared,shared/**}',
+              group: 'internal',
+              position: 'before',
+            },
+            {
+              pattern: '{.,..}/**',
+              group: 'parent',
+              position: 'before',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin'],
           'newlines-between': 'always',
           alphabetize: {
             order: 'asc',

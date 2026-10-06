@@ -4,7 +4,7 @@ import { FC } from 'react'
 import { notoSans } from '@/shared/assets'
 import { Wrapper } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export interface BreadCrumb {
   url: string
@@ -23,10 +23,10 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
   itemCode,
 }) => {
   return (
-    <Wrapper className={styles.wrapper}>
-      <ul className={styles.list}>
+    <Wrapper className={s.wrapper}>
+      <ul className={s.list}>
         {elements.map(({ url, title }) => (
-          <li className={styles.element} key={url}>
+          <li className={s.element} key={url}>
             <Link href={url} className={notoSans.className}>
               {title}
             </Link>
@@ -35,14 +35,14 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({
         ))}
 
         {!itemCode && (
-          <li className={styles.element}>
+          <li className={s.element}>
             <span className={notoSans.className}>{activeTitle}</span>
           </li>
         )}
       </ul>
 
       {itemCode && (
-        <div className={styles.itemTitle}>
+        <div className={s.itemTitle}>
           <span className={notoSans.className}>{activeTitle}</span>
           <span className={notoSans.className}>{itemCode}</span>
         </div>

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 
 import { Icon } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const CategoriesButton = () => {
   const router = useRouter()
@@ -20,18 +20,18 @@ export const CategoriesButton = () => {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div className={s.wrapper}>
       <button
         type="button"
-        className={styles.button}
+        className={s.button}
         onClick={handleCatalogClick}
       >
         <Icon name="menu" width={30} height={30} />
 
-        <span className={styles.buttonTitle}>Каталог</span>
+        <span className={s.buttonTitle}>Каталог</span>
       </button>
 
-      <Icon className={styles.triangle} name="treug" width={30} height={30} />
+      <Icon className={s.triangle} name="treug" width={30} height={30} />
     </div>
   )
 }

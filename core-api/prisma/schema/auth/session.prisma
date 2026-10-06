@@ -1,0 +1,23 @@
+// Refresh-token session. The raw token is never stored; lookup is by hash.
+// Rotation revokes this row and points `replacedBy` at the successor, so a
+// replayed token can be told apart from one that simply expired.
+model Session {
+  id           String    @id @default(uuid(7))
+  userId       String
+  tokenHash    String    @unique
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  replacedById String?
+  // Client snapshot taken when the session was opened.
+  userAgent    String?
+  ip           String?
+  createdAt    DateTime  @default(now())
+
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  replacedBy Session?  @relation("SessionRotation", fields: [replacedById], references: [id], onDelete: SetNull)
+  replaces   Session[] @relation("SessionRotation")
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}

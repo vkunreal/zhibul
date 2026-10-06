@@ -8,7 +8,12 @@ class FilesController {
 
     const files = await FilesServices.getFilesByItemId(item_id)
 
-    res.status(200).json(files)
+    const result = files.map(({ src, ...file }) => ({
+      ...file,
+      src: `${process.env.BACKEND_DOMAIN ?? 'https://api.zhbl.by'}${src}`,
+    }))
+
+    res.status(200).json(result)
   }
 
   async addFile(req, res) {
@@ -31,11 +36,10 @@ class FilesController {
         '..',
         'public',
         'files',
-        fileName
+        fileName,
       )
 
-      const fileUrl = 'https://api.zhbl.by/files/' + fileName
-      // const fileUrl = 'http://localhost:5000/files/' + fileName
+      const fileUrl = `/files/${fileName}`
 
       await file.mv(filePath, async (err) => {
         if (err) {
@@ -61,7 +65,7 @@ class FilesController {
         '..',
         'public',
         'files',
-        fileName
+        fileName,
       )
       if (fs.existsSync(filePath)) {
         fs.unlink(filePath, async (err) => {
@@ -70,8 +74,7 @@ class FilesController {
             console.log(err)
           }
           await FilesServices.deleteFileBySrc(
-            'https://api.zhbl.by/files/' + fileName
-            // 'http://localhost:5000/files/' + fileName
+            '/files/' + fileName,
           )
           res.status(200).json({ status: true })
         })

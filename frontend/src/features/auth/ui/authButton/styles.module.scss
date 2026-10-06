@@ -1,0 +1,41 @@
+.authButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 78px;
+  height: 44px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  user-select: none;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 1.25px;
+  cursor: pointer;
+
+  // Белая. Не спорит с жёлтой «Заказать звонок» на тёмной шапке.
+  // background: $white;
+  // color: $dark;
+
+  // Золото бренда, мягче жёлтой кнопки звонка.
+  // background: $colorPrimary;
+  // color: $dark;
+
+  // Оранжевый акцент. Читается отдельно от жёлтого.
+  // background: $colorSixth;
+  // color: $white;
+
+  // Синий бренда.
+  background: $colorSecondary;
+  color: $white;
+
+  &:hover {
+    filter: brightness(0.95);
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}

@@ -1,0 +1,59 @@
+// The phone number is the account. Email is optional and is written only after
+// the owner confirms it, so an unconfirmed address cannot occupy the unique
+// index and lock out its real owner.
+model User {
+  id        String  @id @default(uuid(7))
+  firstName String?
+  lastName  String?
+
+  phoneNumber      String    @unique
+  // Empty until the first successful sign-in. Seeded accounts stay that way
+  // until the owner actually logs in.
+  phoneConfirmedAt DateTime?
+
+  email            String?   @unique
+  // Not unique on purpose. Several people may request the same address;
+  // only the one who confirms it copies the value into `email`.
+  pendingEmail     String?
+  emailConfirmedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Inactive accounts are rejected at sign-in and during recovery.
+  isActive  Boolean  @default(true)
+
+  roles             UserRole[]
+  sessions          Session[]
+  verificationCodes VerificationCode[]
+  recoveryTickets   RecoveryTicket[]
+
+  @@map("users")
+}
+
+// Named grant. Users receive roles through `UserRole`, so one user can hold
+// several roles and one role can belong to several users.
+model Role {
+  id          String   @id @default(uuid(7))
+  name        String   @unique
+  description String?
+  // Opaque text for now. The API does not interpret it yet.
+  permissions String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users UserRole[]
+
+  @@map("roles")
+}
+
+model UserRole {
+  id     String @id @default(uuid(7))
+  userId String
+  roleId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  // A user holds each role at most once.
+  @@unique([userId, roleId])
+  @@map("user_roles")
+}
