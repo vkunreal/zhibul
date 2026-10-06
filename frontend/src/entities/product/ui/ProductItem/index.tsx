@@ -41,7 +41,11 @@ export const ProductItem: FC<ProductItemProps> = memo(
           [styles.wide]: isWide,
         })}
       >
-        <FlexImage src={productImage.src} alt={name} maxWidth={400} />
+        <FlexImage
+          wrapperClassName={styles.productImage}
+          src={productImage.src}
+          alt={name}
+        />
 
         <div className={styles.productBody}>
           <div className={styles.productInfo}>

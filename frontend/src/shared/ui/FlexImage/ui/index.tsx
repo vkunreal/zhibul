@@ -16,9 +16,7 @@ export const FlexImage: FC<FlexImageProps> = ({
   return (
     <div
       className={cn(styles.wrapper, wrapperClassName)}
-      style={{
-        maxWidth,
-      }}
+      style={maxWidth != null ? { maxWidth } : undefined}
     >
       <Image
         className={cn(styles.image, className)}
