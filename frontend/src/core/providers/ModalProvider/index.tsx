@@ -12,32 +12,19 @@ import React, {
 } from 'react'
 import { createPortal } from 'react-dom'
 
+import { AuthModal } from '@/widgets/auth'
 import { FeedbackModal } from '@/widgets/feedback'
 
-// список модалок - список пропсов
-type ModalMap = {
-  feedbackModal: null
-}
-
-type ModalName = keyof ModalMap
-
-type MountedState =
-  | { name: null; props: null }
-  | { name: ModalName; props: ModalMap[ModalName] }
-
-type Ctx = {
-  open: <N extends ModalName>(name: N, props?: ModalMap[N]) => void
-  close: () => void
-  isOpen: boolean
-}
+import { Ctx, ModalMap, ModalName, MountedState } from './interfaces'
 
 const registry = {
   feedbackModal: FeedbackModal,
+  authModal: AuthModal,
 } satisfies Record<ModalName, React.ComponentType<any>>
 
 const ModalContext = createContext<Ctx | null>(null)
 
-// Должно совпадать с длительностью fade-out в твоей модалке
+// Должно совпадать с длительностью fade-out в модалке
 const EXIT_MS = 300
 
 export function ModalProvider({ children }: PropsWithChildren) {
@@ -55,7 +42,7 @@ export function ModalProvider({ children }: PropsWithChildren) {
         window.clearTimeout(unmountTimerRef.current)
         unmountTimerRef.current = null
       }
-      setMounted({ name, props } as MountedState)
+      setMounted({ name, props })
       setIsOpen(true)
     },
     [],
@@ -107,3 +94,5 @@ export function useModal() {
   if (!ctx) throw new Error('useModal must be used within <ModalProvider>')
   return ctx
 }
+
+export { ModalEnum } from './interfaces'

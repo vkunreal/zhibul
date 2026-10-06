@@ -1,4 +1,4 @@
-import { apiGet } from '@/shared/api'
+import { httpClient } from '@/shared/api'
 
 import type { Slide } from '../interfaces'
 
@@ -7,7 +7,10 @@ const ENDPOINTS = {
 }
 
 export const getSlides = async () => {
-  const slides = await apiGet<Slide[]>(ENDPOINTS.slider, 3600)
+  const { data } = await httpClient.get<Slide[]>({
+    url: ENDPOINTS.slider,
+    revalidate: 3600,
+  })
 
-  return slides
+  return data
 }

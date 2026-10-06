@@ -3,10 +3,10 @@
 import Image from 'next/image'
 import { FC, useMemo, useState } from 'react'
 
-import { FlexImage } from '../../FlexImage'
 import type { GalleryImage, GalleryProps } from '../interfaces'
+import s from './styles.module.scss'
 
-import styles from './styles.module.scss'
+import { FlexImage } from '../../FlexImage'
 
 // const SPEED = 30
 
@@ -56,10 +56,10 @@ export const Gallery: FC<GalleryProps> = ({ images, alt }) => {
   // }
 
   return (
-    <section className={styles.container}>
+    <section className={s.container}>
       <FlexImage src={productImage.src} alt={alt} maxWidth={450} />
 
-      <div className={styles.scrollElem}>
+      <div className={s.scrollElem}>
         {sortedImages.length > 1 &&
           sortedImages.map(({ src }, ind) => (
             <div

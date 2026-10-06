@@ -7,7 +7,7 @@ import {
   PropsWithChildren,
 } from 'react'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 interface ButtonShared {
   variant?: 'primary' | 'white'
@@ -35,8 +35,8 @@ export const Button: FC<ButtonProps> = ({
   return (
     <button
       type={type ?? 'button'}
-      className={cn(styles.button, className, styles[variant], styles[size], {
-        [styles.uppercase]: uppercase,
+      className={cn(s.button, className, s[variant], s[size], {
+        [s.uppercase]: uppercase,
       })}
       {...rest}
     >
@@ -57,8 +57,8 @@ export const ButtonLink: FC<LinkProps> = ({
   return (
     <Link
       href={href}
-      className={cn(styles.button, className, styles[variant], styles[size], {
-        [styles.uppercase]: uppercase,
+      className={cn(s.button, className, s[variant], s[size], {
+        [s.uppercase]: uppercase,
       })}
       {...rest}
     >

@@ -1,8 +1,9 @@
 import { newsApi, NewsItem } from '@/entities/news'
+
 import { getPage } from '@/shared/api'
 import { Breadcrumbs, Wrapper } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 const PAGE = 'news'
 
@@ -26,8 +27,8 @@ export default async function NewsList() {
         activeTitle="Новости"
       />
 
-      <Wrapper className={styles.wrapper}>
-        <ul className={styles.list}>
+      <Wrapper className={s.wrapper}>
+        <ul className={s.list}>
           {!!newsList.length &&
             newsList.map((item) => (
               <li key={item.id}>

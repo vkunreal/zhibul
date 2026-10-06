@@ -1,15 +1,19 @@
+import { EffectorNext } from '@effector/next'
 import { GoogleTagManager } from '@next/third-parties/google'
 import type { Metadata } from 'next'
 import Script from 'next/script'
 
-import { ModalProvider } from '@/core/providers'
-import { ScrollToTop } from '@/features/scrollToTop'
-import { SwipeUpButton } from '@/features/swipePageUp'
-import { roboto } from '@/shared/assets'
+import { AppStarted, ModalProvider } from '@/core/providers'
+import '@/core/styles/globals.scss'
+
 import { Footer, Header, Navbar } from '@/widgets/layout'
 
-import styles from './layout.module.scss'
-import '@/core/styles/globals.scss'
+import { ScrollToTop } from '@/features/scrollToTop'
+import { SwipeUpButton } from '@/features/swipePageUp'
+
+import { roboto } from '@/shared/assets'
+
+import s from './layout.module.scss'
 
 export const metadata: Metadata = {
   title: 'ZHBL',
@@ -80,16 +84,19 @@ export default async function RootLayout({
         </noscript>
       </head>
       <body>
-        <ModalProvider>
-          <ScrollToTop />
-          <SwipeUpButton />
-          <div className={styles.app}>
-            <Header />
-            <Navbar />
-            <main className={styles.main}>{children}</main>
-            <Footer />
-          </div>
-        </ModalProvider>
+        <EffectorNext>
+          <AppStarted />
+          <ModalProvider>
+            <ScrollToTop />
+            <SwipeUpButton />
+            <div className={s.app}>
+              <Header />
+              <Navbar />
+              <main className={s.main}>{children}</main>
+              <Footer />
+            </div>
+          </ModalProvider>
+        </EffectorNext>
       </body>
     </html>
   )

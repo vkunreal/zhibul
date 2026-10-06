@@ -1,18 +1,19 @@
 import { FC } from 'react'
 
 import { TrailerRent } from '@/entities/trailer'
+
 import { ButtonLink, FlexImage, Typography } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const TrailerList: FC<{ list: TrailerRent[]; phone: string }> = ({
   list,
   phone,
 }) => {
   return (
-    <ul className={styles.list}>
+    <ul className={s.list}>
       {list.map(({ id, title, description, url, image_src }) => (
-        <li key={id} className={styles.item}>
+        <li key={id} className={s.item}>
           <FlexImage
             src={image_src}
             alt="Прицеп"
@@ -20,18 +21,18 @@ export const TrailerList: FC<{ list: TrailerRent[]; phone: string }> = ({
             loading="lazy"
           />
 
-          <div className={styles.itemBody}>
+          <div className={s.itemBody}>
             <div>
               <Typography tag="h2" size="xl" fontWeight={700}>
                 {title}
               </Typography>
 
-              <Typography className={styles.description} size="sm">
+              <Typography className={s.description} size="sm">
                 {description}
               </Typography>
             </div>
 
-            <div className={styles.actions}>
+            <div className={s.actions}>
               <ButtonLink
                 href={`/arenda_prizepa/${url}`}
                 size="small"

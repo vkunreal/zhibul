@@ -1,5 +1,4 @@
 import { ProductOption } from '../model'
-
 import { productsApi } from './productsApi'
 
 export const useProduct = async (slug: string) => {

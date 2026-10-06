@@ -40,7 +40,6 @@ class FilesController {
       )
 
       const fileUrl = `/files/${fileName}`
-      // const fileUrl = 'http://localhost:5000/files/' + fileName
 
       await file.mv(filePath, async (err) => {
         if (err) {
@@ -76,7 +75,6 @@ class FilesController {
           }
           await FilesServices.deleteFileBySrc(
             '/files/' + fileName,
-            // 'http://localhost:5000/files/' + fileName
           )
           res.status(200).json({ status: true })
         })

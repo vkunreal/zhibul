@@ -255,7 +255,6 @@ class ItemsController {
         imageName,
       )
       const imageUrl = `/images/${imageName}`
-      // const imageUrl = 'http://localhost:5000/images/' + imageName
       urls.push(imageUrl)
       await file.mv(imagePath, async (err) => {
         if (err) {

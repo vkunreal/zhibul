@@ -6,7 +6,7 @@ import { FC } from 'react'
 
 import { Icon } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const ViewToggleBlock: FC = () => {
   const router = useRouter()
@@ -21,11 +21,11 @@ export const ViewToggleBlock: FC = () => {
   }
 
   return (
-    <div className={styles.block}>
+    <div className={s.block}>
       <button
         type="button"
-        className={cn(styles.button, {
-          [styles.active]: currentView === 'list',
+        className={cn(s.button, {
+          [s.active]: currentView === 'list',
         })}
         onClick={() => toggleView('list')}
       >
@@ -34,8 +34,8 @@ export const ViewToggleBlock: FC = () => {
 
       <button
         type="button"
-        className={cn(styles.button, {
-          [styles.active]: currentView === 'grid',
+        className={cn(s.button, {
+          [s.active]: currentView === 'grid',
         })}
         onClick={() => toggleView('grid')}
       >

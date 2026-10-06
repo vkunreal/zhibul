@@ -5,7 +5,7 @@ export interface TokenCouple {
 
 export interface AuthCredentials {
   phoneNumber: string
-  password: string
+  code: string
 }
 
 export interface AuthRequestContext {

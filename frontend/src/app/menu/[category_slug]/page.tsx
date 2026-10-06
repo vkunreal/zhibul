@@ -1,14 +1,16 @@
 import { notFound } from 'next/navigation'
 
+import { CategoryList } from '@/widgets/category'
+import { ProductList } from '@/widgets/product'
+
 import {
   categoriesApi,
   getUnderCategories,
   useCategories,
 } from '@/entities/category'
 import { productsApi } from '@/entities/product'
+
 import { Breadcrumbs, buildBreadcrumbs } from '@/shared/ui'
-import { CategoryList } from '@/widgets/category'
-import { ProductList } from '@/widgets/product'
 
 export async function generateStaticParams() {
   const categories = await categoriesApi.getCategories()

@@ -1,11 +1,13 @@
 import cn from 'classnames'
 import { FC } from 'react'
 
-import { ProductItem, Product } from '@/entities/product'
 import { ViewToggleBlock } from '@/features/toggleView'
+
+import { ProductItem, Product } from '@/entities/product'
+
 import { Wrapper } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const ProductList: FC<{
   products: Product[]
@@ -19,8 +21,8 @@ export const ProductList: FC<{
       <ViewToggleBlock />
 
       <section
-        className={cn(styles.itemList, {
-          [styles.list]: currentView === 'list',
+        className={cn(s.itemList, {
+          [s.list]: currentView === 'list',
         })}
       >
         {!!filteredItems.length &&

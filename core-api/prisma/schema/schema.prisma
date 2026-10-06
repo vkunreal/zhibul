@@ -1,0 +1,14 @@
+// Generator and datasource stay in this file, at the root of the schema
+// directory. Domain models live in the folders next to it. Prisma loads every
+// `.prisma` file under the directory set in `prisma.config.ts`.
+
+generator client {
+  provider            = "prisma-client"
+  output              = "../../src/generated/prisma"
+  moduleFormat        = "cjs"
+  importFileExtension = ""
+}
+
+datasource db {
+  provider = "postgresql"
+}

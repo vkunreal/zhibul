@@ -27,6 +27,8 @@ export const Modal: FC<ModalProps> = ({
   open,
   onClose,
   title,
+  titleAlign = 'left',
+  titleFontSize,
   subtitle,
   actions,
   children,
@@ -35,6 +37,7 @@ export const Modal: FC<ModalProps> = ({
   disableEscClose = false,
   maxWidth = 'sm',
   fullWidth = true,
+  width,
   disableContentPadding = false,
   dialogProps,
 }) => {
@@ -61,6 +64,7 @@ export const Modal: FC<ModalProps> = ({
             overflow: 'hidden',
             boxShadow: '0 18px 60px rgba(0,0,0,0.22)',
             backdropFilter: 'blur(6px)',
+            ...(width != null && { width, maxWidth: 'calc(100% - 64px)' }),
           },
         },
       }}
@@ -71,7 +75,13 @@ export const Modal: FC<ModalProps> = ({
           <Box display="flex" alignItems="flex-start" gap={2}>
             <Box flex={1} minWidth={0}>
               {title && (
-                <Typography variant="h6" fontWeight={700} noWrap>
+                <Typography
+                  variant="h6"
+                  fontWeight={700}
+                  noWrap
+                  textAlign={titleAlign}
+                  fontSize={titleFontSize}
+                >
                   {title}
                 </Typography>
               )}

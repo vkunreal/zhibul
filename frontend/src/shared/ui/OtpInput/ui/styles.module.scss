@@ -1,0 +1,39 @@
+.digits {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.digit {
+  width: 52px;
+
+  :global(.MuiOutlinedInput-root) {
+    height: 58px;
+    border-radius: 12px;
+  }
+
+  :global(.MuiOutlinedInput-notchedOutline) {
+    top: 0;
+  }
+
+  :global(.MuiOutlinedInput-notchedOutline legend) {
+    display: none;
+  }
+
+  :global(.MuiOutlinedInput-root .MuiOutlinedInput-input) {
+    height: 52px;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 52px;
+    font-size: 22px;
+  }
+}
+
+.error {
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #d32f2f;
+}

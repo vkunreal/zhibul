@@ -2,12 +2,12 @@ import { FC } from 'react'
 
 import { Typography } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const ProductTitle: FC<{ children: string }> = ({ children }) => {
   return (
     <Typography
-      className={styles.title}
+      className={s.title}
       tag="h1"
       size="xxlRelative"
       textCenter

@@ -6,7 +6,7 @@ const fileUpload = require('express-fileupload')
 const { existsSync } = require('fs')
 
 const app = express()
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5001
 
 const AuthRouter = require('./routers/AuthRouter')
 const ItemsRouter = require('./routers/ItemsRouter')

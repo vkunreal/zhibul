@@ -1,10 +1,11 @@
 import Link from 'next/link'
 
 import { categoriesApi } from '@/entities/category'
+
 import { getPage } from '@/shared/api'
 
 import { TABS } from './constants'
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 const PAGE = 'katalog'
 
@@ -39,14 +40,14 @@ export default async function Katalog() {
 
   return (
     <>
-      <div className={styles.list}>
+      <div className={s.list}>
         {categoriesList().map(({ id: parent_id, name, url }) => (
           <article key={parent_id}>
             <Link href={`/menu/${url}`}>
-              <span className={styles.elemTitle}>{name}</span>
+              <span className={s.elemTitle}>{name}</span>
             </Link>
 
-            <ul className={styles.details}>
+            <ul className={s.details}>
               {categoriesList(parent_id).map(({ id, name, url }) => (
                 <Link href={`/menu/${url}`} key={id}>
                   <span>{name}</span>
@@ -57,20 +58,20 @@ export default async function Katalog() {
         ))}
       </div>
 
-      <section className={styles.tabs}>
+      <section className={s.tabs}>
         <hr />
 
         {TABS.map((tab) => (
-          <div key={tab.url} className={styles.tab}>
-            <Link href={tab.url} className={styles.tabLink}>
+          <div key={tab.url} className={s.tab}>
+            <Link href={tab.url} className={s.tabLink}>
               {tab.title}
             </Link>
 
             {tab.tabs?.length && (
-              <div className={styles.tabDetails}>
+              <div className={s.tabDetails}>
                 {tab.tabs.map((tab) => (
-                  <div key={tab.url} className={styles.subTab}>
-                    <Link href={tab.url} className={styles.subTabLink}>
+                  <div key={tab.url} className={s.subTab}>
+                    <Link href={tab.url} className={s.subTabLink}>
                       {tab.title}
                     </Link>
                   </div>

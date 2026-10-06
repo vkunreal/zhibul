@@ -1,14 +1,29 @@
-import { NestFactory } from '@nestjs/core'
-import { AppModule } from './app.module'
 import { ValidationPipe } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
+import { NestFactory } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import cookieParser from 'cookie-parser'
+import { AppModule } from './app.module'
+
+const defaultCorsOrigins = [
+  'http://localhost:3000',
+  'https://zhbl.by',
+  'https://www.zhbl.by',
+].join(',')
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
+  const configService = app.get(ConfigService)
+  const allowedOrigins = configService
+    .get<string>('CORS_ORIGINS', defaultCorsOrigins)
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean)
 
+  // A concrete origin is required: browsers drop Set-Cookie when
+  // Access-Control-Allow-Origin is `*` together with credentials.
   app.enableCors({
-    origin: '*',
+    origin: allowedOrigins,
     credentials: true,
   })
 
@@ -37,6 +52,7 @@ async function bootstrap() {
 
   SwaggerModule.setup('api', app, document)
 
-  await app.listen(process.env.PORT ?? 5050)
+  await app.listen(process.env.PORT ?? 5002)
 }
+
 bootstrap()

@@ -1,5 +1,4 @@
 import 'dotenv/config'
-import { hash } from 'bcrypt'
 import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from '../src/generated/prisma/client'
 
@@ -36,15 +35,14 @@ async function main() {
 
   const adminUsers = [
     {
-      phoneNumber: '+79991234567',
-      password: 'admin12345',
-      name: 'Admin',
+      phoneNumber: '375291234567',
+      firstName: 'Admin',
+      lastName: 'Root',
       roles: ['ADMIN', 'USER'],
     },
   ]
 
   for (const admin of adminUsers) {
-    const passwordHash = await hash(admin.password, 12)
     const roleRecords = await prisma.role.findMany({
       where: { name: { in: admin.roles } },
     })
@@ -52,14 +50,14 @@ async function main() {
     const user = await prisma.user.upsert({
       where: { phoneNumber: admin.phoneNumber },
       update: {
-        passwordHash,
-        name: admin.name,
+        firstName: admin.firstName,
+        lastName: admin.lastName,
         isActive: true,
       },
       create: {
         phoneNumber: admin.phoneNumber,
-        passwordHash,
-        name: admin.name,
+        firstName: admin.firstName,
+        lastName: admin.lastName,
         isActive: true,
       },
     })

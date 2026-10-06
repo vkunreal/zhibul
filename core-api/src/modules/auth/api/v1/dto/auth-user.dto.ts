@@ -1,34 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { BELARUSIAN_PHONE_EXAMPLE } from 'shared/utils/phone'
+import { IsBelarusianPhoneNumber } from 'shared/validation/is-belarusian-phone-number.decorator'
 import {
-  IsNotEmpty,
-  IsPhoneNumber,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator'
+  IsVerificationCode,
+  VERIFICATION_CODE_EXAMPLE,
+} from 'shared/validation/is-verification-code.decorator'
 
 export class AuthUserDTO {
-  @IsNotEmpty({ message: "User's phone number must be not empty" })
-  @IsPhoneNumber()
+  @IsBelarusianPhoneNumber()
   @ApiProperty({
     description: "User's phone number",
-    example: '+375447861303',
+    example: BELARUSIAN_PHONE_EXAMPLE,
     nullable: false,
   })
   phoneNumber!: string
 
-  @IsNotEmpty({ message: "User's password must be not empty" })
-  @IsString({ message: "User's password must be a string" })
-  @MinLength(8, {
-    message: "User's password must be at least 8 characters long",
-  })
-  @MaxLength(32, {
-    message: "User's password must be at most 32 characters long",
-  })
+  @IsVerificationCode()
   @ApiProperty({
-    description: "User's password",
-    example: 'pass12341234',
+    description: 'Auth code from SMS',
+    example: VERIFICATION_CODE_EXAMPLE,
     nullable: false,
   })
-  password!: string
+  code!: string
 }

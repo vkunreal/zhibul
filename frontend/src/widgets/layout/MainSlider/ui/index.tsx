@@ -6,14 +6,14 @@ import { Autoplay, Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
 import { Slide } from '@/entities/slider'
+
 import { useResize } from '@/shared/lib'
 import { Loader } from '@/shared/ui'
 import 'swiper/css'
 import 'swiper/css/pagination'
 
 import { MainSliderProps } from '../interfaces'
-
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 import './pagination.scss'
 
 export const MainSlider: FC<MainSliderProps> = ({ slides }) => {
@@ -24,13 +24,13 @@ export const MainSlider: FC<MainSliderProps> = ({ slides }) => {
   const slide = ({ id, url, title, images: { desktop, mobile } }: Slide) => (
     <SwiperSlide key={id}>
       <div
-        className={styles.slide}
+        className={s.slide}
         style={{
           backgroundImage: `url(${isDesktop ? desktop : mobile})`,
         }}
       >
-        <Link href={url} className={styles.slideLink}>
-          <p className={styles.slideTitle}>{title}</p>
+        <Link href={url} className={s.slideLink}>
+          <p className={s.slideTitle}>{title}</p>
         </Link>
       </div>
     </SwiperSlide>

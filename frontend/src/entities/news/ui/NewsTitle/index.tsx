@@ -2,11 +2,11 @@ import { FC, PropsWithChildren } from 'react'
 
 import { Typography } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const NewsTitle: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <Typography size="xxlRelative" textCenter className={styles.title}>
+    <Typography size="xxlRelative" textCenter className={s.title}>
       {children}
     </Typography>
   )

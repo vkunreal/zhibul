@@ -5,6 +5,8 @@ export interface ModalProps {
   onClose: () => void
 
   title?: React.ReactNode
+  titleAlign?: 'left' | 'center'
+  titleFontSize?: number
   subtitle?: React.ReactNode
   actions?: React.ReactNode
   children: React.ReactNode
@@ -18,6 +20,7 @@ export interface ModalProps {
   /** прокидываем самые нужные настройки размеров */
   maxWidth?: DialogProps['maxWidth'] // "xs" | "sm" | "md" | "lg" | "xl" | false
   fullWidth?: boolean
+  width?: number | string
 
   /** если нужно убрать стандартные padding у контента */
   disableContentPadding?: boolean
