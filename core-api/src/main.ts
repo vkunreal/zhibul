@@ -7,6 +7,7 @@ import { AppModule } from './app.module'
 
 const defaultCorsOrigins = [
   'http://localhost:3000',
+  'https://localhost:3000',
   'https://zhbl.by',
   'https://www.zhbl.by',
 ].join(',')

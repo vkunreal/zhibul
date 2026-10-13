@@ -28,6 +28,13 @@
     line-height: 52px;
     font-size: 22px;
   }
+
+  :global(
+    .MuiOutlinedInput-root.Mui-focused:not(.Mui-error)
+      .MuiOutlinedInput-notchedOutline
+  ) {
+    border-color: $primaryGrey;
+  }
 }
 
 .error {

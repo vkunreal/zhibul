@@ -72,15 +72,17 @@ export const Modal: FC<ModalProps> = ({
     >
       {(title || showCloseButton) && (
         <DialogTitle>
-          <Box display="flex" alignItems="flex-start" gap={2}>
-            <Box flex={1} minWidth={0}>
+          <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
+            <Box sx={{ flex: 1, minWidth: 0 }}>
               {title && (
                 <Typography
                   variant="h6"
-                  fontWeight={700}
                   noWrap
-                  textAlign={titleAlign}
-                  fontSize={titleFontSize}
+                  sx={{
+                    fontWeight: 700,
+                    textAlign: titleAlign,
+                    fontSize: titleFontSize,
+                  }}
                 >
                   {title}
                 </Typography>

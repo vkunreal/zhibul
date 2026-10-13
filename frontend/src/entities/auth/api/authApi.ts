@@ -16,6 +16,7 @@ export const authApi = {
       url: ENDPOINTS.getAuthCode,
       data: { phoneNumber },
     })
+    console.log('response', response)
     return response
   },
 

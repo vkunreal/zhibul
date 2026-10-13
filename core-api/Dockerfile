@@ -30,7 +30,8 @@ ENV DATABASE_URL=$DATABASE_URL
 COPY . .
 RUN yarn prisma generate
 EXPOSE 5002
-CMD ["yarn", "start:dev"]
+# The source bind-mount hides the client generated at build time (`src/generated` is gitignored).
+CMD ["sh", "-c", "yarn prisma generate && yarn start:dev"]
 
 # ---- build (also used for migrations) ----
 FROM deps AS build
