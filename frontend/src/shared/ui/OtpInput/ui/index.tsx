@@ -67,6 +67,7 @@ export const OtpInput: FC<OtpInputProps> = ({
                         length,
                         field.onChange,
                         focusDigit,
+                        onSubmit,
                       )
                     }}
                     onKeyDown={(e) => {
@@ -91,6 +92,7 @@ export const OtpInput: FC<OtpInputProps> = ({
                         length,
                         field.onChange,
                         focusDigit,
+                        onSubmit,
                       )
                     }}
                     slotProps={{

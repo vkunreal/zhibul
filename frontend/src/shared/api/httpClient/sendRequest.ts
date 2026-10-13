@@ -40,9 +40,12 @@ export const sendRequest: sendFuntion = async <T>({
   const responseData = await parseResponse(response, responseType)
 
   if (!response.ok) {
-    const errorData = responseData
+    const errorBody =
+      typeof responseData === 'object' && responseData !== null
+        ? responseData
+        : { data: responseData }
     const httpError = {
-      ...errorData,
+      ...errorBody,
       status: response.status,
     }
     // getOnServerError(httpError)

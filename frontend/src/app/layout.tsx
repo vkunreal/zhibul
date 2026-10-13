@@ -12,6 +12,7 @@ import { ScrollToTop } from '@/features/scrollToTop'
 import { SwipeUpButton } from '@/features/swipePageUp'
 
 import { roboto } from '@/shared/assets'
+import { ErrorBoundary } from '@/shared/ui'
 
 import s from './layout.module.scss'
 
@@ -92,7 +93,9 @@ export default async function RootLayout({
             <div className={s.app}>
               <Header />
               <Navbar />
-              <main className={s.main}>{children}</main>
+              <main className={s.main}>
+                <ErrorBoundary>{children}</ErrorBoundary>
+              </main>
               <Footer />
             </div>
           </ModalProvider>

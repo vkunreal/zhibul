@@ -1,54 +1,60 @@
 'use client'
 
-import { FC, useMemo, useState } from 'react'
+import { useUnit } from 'effector-react'
+import { FC, useEffect } from 'react'
 
 import { Modal } from '@/shared/ui'
 
 import { CodeStep } from './CodeStep'
-import { AuthModalProps, IssuedCode, Step } from './interfaces'
+import { ErrorStep } from './ErrorStep'
+import { AuthModalProps } from './interfaces'
 import { PhoneStep } from './PhoneStep'
+import { SuccessStep } from './SuccessStep'
+
+import {
+  $authScreen,
+  $authTitle,
+  $closeRequested,
+  authFlowReset,
+  AuthScreen,
+} from '../../model'
 
 export const AuthModal: FC<AuthModalProps> = ({ open, onClose }) => {
-  const [step, setStep] = useState<Step>(Step.phone)
-  const [code, setCode] = useState<IssuedCode | null>(null)
-  const [phoneNumber, setPhoneNumber] = useState<string>('')
+  const { authScreen, title, closeRequested } = useUnit({
+    authScreen: $authScreen,
+    title: $authTitle,
+    closeRequested: $closeRequested,
+  })
 
-  const title = useMemo(() => {
-    return step === Step.phone ? 'Войдите в аккаунт' : 'Введите код'
-  }, [step])
+  const reset = useUnit(authFlowReset)
+
+  useEffect(() => {
+    if (closeRequested) onClose()
+  }, [closeRequested, onClose])
+
+  useEffect(() => {
+    return () => reset()
+  }, [reset])
 
   return (
     <Modal
       open={open}
       onClose={onClose}
-      title={title}
+      title={title ?? undefined}
       titleAlign="center"
       titleFontSize={24}
-      showCloseButton={false}
+      showCloseButton={authScreen === AuthScreen.error}
       maxWidth="xs"
+      sheet
     >
-      {step === Step.phone ? (
-        <PhoneStep
-          onCodeIssued={(phone, issued) => {
-            setCode(issued)
-            setPhoneNumber(phone)
-            setStep(Step.code)
-          }}
-        />
+      {authScreen === AuthScreen.error ? (
+        <ErrorStep />
+      ) : authScreen === AuthScreen.success ? (
+        <SuccessStep />
+      ) : authScreen === AuthScreen.phone ? (
+        <PhoneStep />
       ) : (
-        code && (
-          <CodeStep
-            onClose={onClose}
-            ttl={code.ttl}
-            length={code.length}
-            phoneNumber={phoneNumber}
-            onBack={() => {
-              setStep(Step.phone)
-              setCode(null)
-              setPhoneNumber('')
-            }}
-          />
-        )
+        <CodeStep />
       )}
     </Modal>
   )

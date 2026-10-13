@@ -25,6 +25,9 @@ export interface ModalProps {
   /** если нужно убрать стандартные padding у контента */
   disableContentPadding?: boolean
 
+  /** панель снизу экрана на всю ширину */
+  sheet?: boolean
+
   /** доп. пропсы на Dialog */
   dialogProps?: Omit<DialogProps, 'open' | 'onClose'>
 }

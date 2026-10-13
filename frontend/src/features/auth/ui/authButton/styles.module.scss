@@ -16,8 +16,8 @@
   cursor: pointer;
 
   // Белая. Не спорит с жёлтой «Заказать звонок» на тёмной шапке.
-  // background: $white;
-  // color: $dark;
+  background: $white;
+  color: $dark;
 
   // Золото бренда, мягче жёлтой кнопки звонка.
   // background: $colorPrimary;
@@ -28,8 +28,8 @@
   // color: $white;
 
   // Синий бренда.
-  background: $colorSecondary;
-  color: $white;
+  // background: $colorSecondary;
+  // color: $white;
 
   &:hover {
     filter: brightness(0.95);

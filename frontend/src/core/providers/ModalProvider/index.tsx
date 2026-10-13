@@ -12,7 +12,7 @@ import React, {
 } from 'react'
 import { createPortal } from 'react-dom'
 
-import { AuthModal } from '@/widgets/auth'
+import { AuthModal, authFlowReset } from '@/widgets/auth'
 import { FeedbackModal } from '@/widgets/feedback'
 
 import { Ctx, ModalMap, ModalName, MountedState } from './interfaces'
@@ -38,6 +38,8 @@ export function ModalProvider({ children }: PropsWithChildren) {
 
   const open = useCallback(
     <N extends ModalName>(name: N, props: ModalMap[N] = null) => {
+      if (name === 'authModal') authFlowReset()
+
       if (unmountTimerRef.current) {
         window.clearTimeout(unmountTimerRef.current)
         unmountTimerRef.current = null

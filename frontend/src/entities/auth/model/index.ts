@@ -14,7 +14,7 @@ export const authEvent = createEvent<{ phoneNumber: string; code: string }>()
 
 export const $isAuthenticated = createStore<boolean>(false)
 
-const requestMeFx = createEffect(async () => {
+export const requestMeFx = createEffect(async () => {
   const response = await authApi.me()
   console.log(response)
   return response
@@ -28,7 +28,7 @@ export const $isAuthLoading = combine(
   (pending, checked) => pending || !checked,
 )
 
-const authFx = createEffect(
+export const signInFx = createEffect(
   async (body: { phoneNumber: string; code: string }) => {
     const response = await authApi.auth(body)
     return response
@@ -54,10 +54,10 @@ sample({
 
 sample({
   clock: authEvent,
-  target: authFx,
+  target: signInFx,
 })
 
 sample({
-  clock: authFx.doneData,
+  clock: signInFx.doneData,
   target: requestMeFx,
 })

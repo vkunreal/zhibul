@@ -1,0 +1,55 @@
+---
+description: Как писать код во frontend ZHBL
+globs: frontend/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Код frontend
+
+- Слои импорта сверху вниз, между ними пустая строка: `core` → `widgets` → `features` → `entities` → `shared`, затем относительные импорты. Так настроен `import/order`.
+- Типы, интерфейсы и пропсы компонента держи в `interfaces.ts` рядом с ним. Не называй этот файл `types.ts` и не объявляй их в `index.ts` или прямо в `FC<...>`.
+- Таймауты, задержки, списки, тексты и наборы настроек держи в `constants.ts` рядом с модулем. В компоненте не оставляй именованные константы и «магические» числа вроде `1500`.
+- Чистые функции компонента держи в `utils.ts` рядом с ним. Не называй этот файл `helpers.ts`.
+
+```ts
+// ❌ BAD
+const MIN_LOADING_MS = 1500
+const PHRASES = ['Готовим краскопульты']
+
+// ✅ GOOD
+import { MIN_LOADING_MS, PHRASES } from './constants'
+```
+
+```ts
+// ❌ BAD
+// model/index.ts
+type SignInWait = { startedAt: number }
+
+export const PhoneStep: FC<{ onServerError: () => void }> = () => null
+
+// ✅ GOOD
+// model/interfaces.ts
+export type SignInWait = { startedAt: number }
+
+// PhoneStep/interfaces.ts
+export interface PhoneStepProps {
+  onServerError: () => void
+}
+```
+
+- Рефы читай и меняй только в обработчиках и эффектах. Не передавай колбэк с `ref.current` в функцию, которую вызываешь во время рендера (`handleSubmit(...)` и аналоги).
+- Упавший запрос обрабатывай в месте вызова. Экран ошибки показывай, когда статус ответа больше 500.
+- Стили — CSS-модули рядом с компонентом. Цвета и брейкпоинты бери из `core/styles`, не плоди новые значения.
+- SVG не оставляй в разметке экрана. Новую иконку добавляй символом в `public/icons.svg` и рисуй через `Icon` из `@/shared/ui`.
+
+```tsx
+// ❌ BAD
+<svg viewBox="0 0 48 48" aria-hidden="true" />
+
+// ✅ GOOD
+import { Icon } from '@/shared/ui'
+
+<Icon name="spinner" />
+```
+
+- Не добавляй комментарии, которые пересказывают код.

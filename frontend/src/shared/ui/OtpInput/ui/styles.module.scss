@@ -16,6 +16,13 @@
     top: 0;
   }
 
+  :global(
+    .MuiOutlinedInput-root:hover:not(.Mui-focused):not(.Mui-error)
+      .MuiOutlinedInput-notchedOutline
+  ) {
+    border-color: rgba(0, 0, 0, 0.23);
+  }
+
   :global(.MuiOutlinedInput-notchedOutline legend) {
     display: none;
   }

@@ -14,59 +14,118 @@ const setup = (value: string) => ({
 
 describe('handleDigitChange', () => {
   it('пишет одну цифру и переводит фокус на следующую клетку', () => {
-    const { cells, onChange, focusDigit } = setup('')
+    const { cells, onChange, focusDigit, onSubmit } = setup('')
 
-    handleDigitChange('5', '', cells, 0, length, onChange, focusDigit)
+    handleDigitChange('5', '', cells, 0, length, onChange, focusDigit, onSubmit)
 
     expect(onChange).toHaveBeenCalledExactlyOnceWith('5     ')
     expect(focusDigit).toHaveBeenCalledExactlyOnceWith(1)
+    expect(onSubmit).not.toHaveBeenCalled()
   })
 
   it('берёт последнюю цифру, если браузер дописал её к уже стоящему символу', () => {
-    const { cells, onChange, focusDigit } = setup('1')
+    const { cells, onChange, focusDigit, onSubmit } = setup('1')
 
-    handleDigitChange('x7', '1', cells, 0, length, onChange, focusDigit)
+    handleDigitChange(
+      'x7',
+      '1',
+      cells,
+      0,
+      length,
+      onChange,
+      focusDigit,
+      onSubmit,
+    )
 
     expect(onChange).toHaveBeenCalledExactlyOnceWith('7     ')
     expect(focusDigit).toHaveBeenCalledExactlyOnceWith(1)
+    expect(onSubmit).not.toHaveBeenCalled()
   })
 
-  it('на последней клетке не сдвигает фокус дальше кода', () => {
-    const { cells, onChange, focusDigit } = setup('12345')
+  it('на последней цифре отправляет код и не сдвигает фокус дальше', () => {
+    const { cells, onChange, focusDigit, onSubmit } = setup('12345')
 
-    handleDigitChange('6', '12345', cells, 5, length, onChange, focusDigit)
+    handleDigitChange(
+      '6',
+      '12345',
+      cells,
+      5,
+      length,
+      onChange,
+      focusDigit,
+      onSubmit,
+    )
 
     expect(onChange).toHaveBeenCalledExactlyOnceWith('123456')
+    expect(onSubmit).toHaveBeenCalledOnce()
     expect(focusDigit).not.toHaveBeenCalled()
   })
 
   it('очищает клетку, если в вводе нет цифры', () => {
-    const { cells, onChange, focusDigit } = setup('12')
+    const { cells, onChange, focusDigit, onSubmit } = setup('12')
 
-    handleDigitChange('a', '12', cells, 0, length, onChange, focusDigit)
+    handleDigitChange(
+      'a',
+      '12',
+      cells,
+      0,
+      length,
+      onChange,
+      focusDigit,
+      onSubmit,
+    )
 
     expect(onChange).toHaveBeenCalledExactlyOnceWith(' 2    ')
     expect(focusDigit).not.toHaveBeenCalled()
+    expect(onSubmit).not.toHaveBeenCalled()
   })
 
-  it('несколько цифр сразу вставляет пачкой с текущей клетки', () => {
-    const { cells, onChange, focusDigit } = setup('12')
+  it('несколько цифр сразу вставляет пачкой и отправляет полный код', () => {
+    const { cells, onChange, focusDigit, onSubmit } = setup('12')
 
-    handleDigitChange('34ab56', '12', cells, 2, length, onChange, focusDigit)
+    handleDigitChange(
+      '34ab56',
+      '12',
+      cells,
+      2,
+      length,
+      onChange,
+      focusDigit,
+      onSubmit,
+    )
 
     expect(onChange).toHaveBeenCalledExactlyOnceWith('123456')
     expect(focusDigit).toHaveBeenCalledExactlyOnceWith(5)
+    expect(onSubmit).toHaveBeenCalledOnce()
   })
 })
 
 describe('handleDigitPaste', () => {
   it('вставляет цифры из буфера и фокусирует последнюю записанную клетку', () => {
-    const { onChange, focusDigit } = setup('12')
+    const { onChange, focusDigit, onSubmit } = setup('12')
 
-    handleDigitPaste('3-4 5', '12', 2, length, onChange, focusDigit)
+    handleDigitPaste('3-4 5', '12', 2, length, onChange, focusDigit, onSubmit)
 
     expect(onChange).toHaveBeenCalledExactlyOnceWith('12345 ')
     expect(focusDigit).toHaveBeenCalledExactlyOnceWith(4)
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+
+  it('отправляет код, если вставка заполнила все клетки', () => {
+    const { onChange, focusDigit, onSubmit } = setup('')
+
+    handleDigitPaste(
+      '12 34-56',
+      '',
+      0,
+      length,
+      onChange,
+      focusDigit,
+      onSubmit,
+    )
+
+    expect(onChange).toHaveBeenCalledExactlyOnceWith('123456')
+    expect(onSubmit).toHaveBeenCalledOnce()
   })
 })
 

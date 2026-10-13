@@ -64,3 +64,4 @@ const httpClient = {
 }
 
 export { httpClient }
+export { isServerError } from './isServerError'

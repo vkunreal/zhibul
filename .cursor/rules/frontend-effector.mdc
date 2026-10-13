@@ -1,0 +1,33 @@
+---
+description: Effector на клиентских экранах frontend
+globs: frontend/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Effector
+
+На клиентском экране бизнес-состояние и запросы держи в Effector, не в `useState` и не в `useEffect` с `fetch`.
+
+- Модель сущности или фичи: `createEvent`, `createStore`, `createEffect`, связь через `sample`.
+- UI только читает сторы и вызывает события: `useUnit`.
+- Эффект вызывает `api` слайса. Компонент эффект не вызывает.
+- Локальный UI-state (индекс слайда, открыт ли аккордеон) можно оставить в `useState`.
+
+```ts
+// ❌ BAD — запрос и флаги живут в компоненте
+const [user, setUser] = useState(null)
+useEffect(() => { authApi.me().then(setUser) }, [])
+
+// ✅ GOOD — model/index.ts
+sample({ clock: authEvent, target: signInFx })
+sample({
+  clock: signInFx.doneData,
+  fn: (data) => data.status === 200,
+  target: $isAuthenticated,
+})
+
+// компонент
+const [isAuthenticated, signIn] = useUnit([$isAuthenticated, authEvent])
+```
+
+Серверные страницы `app/` данные для первого рендера могут брать на сервере. Как только экран становится клиентским, дальнейшее состояние веди через Effector.

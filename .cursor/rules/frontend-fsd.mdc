@@ -1,0 +1,41 @@
+---
+description: Feature-Sliced Design во frontend ZHBL
+globs: frontend/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# FSD
+
+Слои в `frontend/src`, импорт только вниз:
+
+`app` и `core` → `widgets` → `features` → `entities` → `shared`
+
+- `app` — маршруты Next.js. Страница собирает виджеты и не содержит бизнес-логики.
+- `core` — оболочка приложения: провайдеры, глобальные стили, `AppGate`.
+- `widgets` — крупные блоки страницы.
+- `features` — одно действие пользователя.
+- `entities` — сущность: `model`, `api`, `ui`.
+- `shared` — UI-кит, http-клиент, утилиты без знания домена.
+
+Сегменты слайса: `ui`, `model`, `api`, `lib`, `constants.ts`. Наружу слайс открывается через `index.ts`. Глубокие импорты `@/widgets/**` линтер разрешает, но новый код веди через публичный `index.ts`, если он уже есть.
+
+```ts
+// ❌ BAD — виджет лезет в слайс выше или в чужой ui-файл
+import { Header } from '@/widgets/layout/Header/ui'
+
+// ✅ GOOD
+import { Header } from '@/widgets/layout'
+```
+
+Кросс-импорт внутри одного слоя запрещён: фича не импортирует другую фичу, сущность не импортирует другую сущность. Общий код опускай в `shared` или поднимай в слой выше.
+
+Внутренний экран слайса не реэкспортируй из его `index.ts`. Если один и тот же UI нужен в двух слоях, положи его в `shared`.
+
+```ts
+// ❌ BAD — страница забирает шаг авторизации
+export { ErrorStep }
+import { ErrorStep } from '@/widgets/auth'
+
+// ✅ GOOD
+import { ErrorFallback } from '@/shared/ui'
+```

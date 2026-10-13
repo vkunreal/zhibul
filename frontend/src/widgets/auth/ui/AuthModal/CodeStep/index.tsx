@@ -1,53 +1,46 @@
 import { useUnit } from 'effector-react'
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import { useForm } from 'react-hook-form'
-
-import { authEvent } from '@/entities/auth'
 
 import { OtpInput } from '@/shared/ui'
 
-import { formatTime } from './helpers'
+import { CodeFormValues } from './interfaces'
 import s from './styles.module.scss'
+import { useSecondsUntil } from './useSecondsUntil'
+import { formatTime } from './utils'
 
-export const CodeStep: FC<{
-  onClose: () => void
-  ttl: number
-  length: number
-  phoneNumber: string
-  onBack: () => void
-}> = ({ onClose, ttl, length, phoneNumber, onBack }) => {
-  const [secondsLeft, setSecondsLeft] = useState(ttl)
-  const login = useUnit(authEvent)
-  const { control, handleSubmit } = useForm<{ code: string }>({
+import { $codeSession, backToPhone, signInStarted } from '../../../model'
+
+export const CodeStep: FC = () => {
+  const { phone, issued, expiresAt } = useUnit($codeSession)
+  const { startSignIn, returnToPhone } = useUnit({
+    startSignIn: signInStarted,
+    returnToPhone: backToPhone,
+  })
+  const { control, handleSubmit } = useForm<CodeFormValues>({
     defaultValues: { code: '' },
   })
+  const secondsLeft = useSecondsUntil(expiresAt)
 
-  const submit = handleSubmit((data) => {
-    login({
-      phoneNumber: phoneNumber.replace(/[^0-9]/g, ''),
-      code: data.code.replace(/\s/g, ''),
-    })
-    onClose()
-  })
-
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setSecondsLeft((current) => (current > 0 ? current - 1 : 0))
-    }, 1000)
-
-    return () => window.clearInterval(timer)
-  }, [])
+  const onSubmit = ({ code }: CodeFormValues) =>
+    startSignIn(code.replace(/\s/g, ''))
 
   return (
-    <form className={s.form} onSubmit={submit}>
-      <OtpInput length={length} control={control} onSubmit={submit} />
+    <form className={s.form} onSubmit={handleSubmit(onSubmit)}>
+      <p className={s.lead}>Код отправлен на {phone}</p>
+
+      <OtpInput
+        length={issued.length}
+        control={control}
+        onSubmit={handleSubmit(onSubmit)}
+      />
 
       <div className={s.actions}>
         <button type="submit" className={s.button}>
           Войти
         </button>
 
-        <button type="button" className={s.back} onClick={onBack}>
+        <button type="button" className={s.back} onClick={returnToPhone}>
           Изменить номер
         </button>
       </div>

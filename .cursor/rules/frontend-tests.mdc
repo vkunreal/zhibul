@@ -1,0 +1,49 @@
+---
+description: Юнит-тесты frontend — только утилиты и Effector-сторы
+globs: frontend/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Юнит-тесты
+
+Пока тестируем только вынесенные чистые функции (`lib`, `utils`) и Effector-модели. Тесты на компоненты, страницы и DOM не пишем.
+
+- Vitest. Файл лежит рядом с кодом: `lib/__tests__/cells.test.ts`.
+- Запуск из `frontend`: `yarn test`.
+- Название теста — что делает функция, по-русски.
+- Чистая функция: вход и выход, без React и без сети.
+
+```ts
+import { describe, expect, it } from 'vitest'
+
+import { getCells } from '../cells'
+
+describe('getCells', () => {
+  it('дополняет короткую строку пробелами до длины кода', () => {
+    expect(getCells('12', 6)).toEqual(['1', '2', ' ', ' ', ' ', ' '])
+  })
+})
+```
+
+- Effector проверяй в изолированном `fork`, не в глобальном скоупе. Зависимости подменяй `handlers`, исходные сторы — `values`. Запуск — `allSettled`.
+
+```ts
+import { allSettled, fork } from 'effector'
+import { describe, expect, it } from 'vitest'
+
+import { $isAuthenticated, requestMeFx } from '../model'
+
+it('отмечает пользователя авторизованным, если me вернул id', async () => {
+  const scope = fork({
+    handlers: [
+      [requestMeFx, async () => ({ status: 200, data: { id: '1' } })],
+    ],
+  })
+
+  await allSettled(requestMeFx, { scope })
+
+  expect(scope.getState($isAuthenticated)).toBe(true)
+})
+```
+
+Не мокай модуль целиком через `vi.mock`, если достаточно `handlers` у `fork`.

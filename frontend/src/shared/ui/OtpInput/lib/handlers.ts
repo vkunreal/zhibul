@@ -1,6 +1,17 @@
 import { writeDigits } from './cells'
 
 // Обычный ввод в одну клетку. Несколько символов сразу обрабатываются как вставка.
+const commitCode = (
+  value: string,
+  length: number,
+  onChange: (value: string) => void,
+  onSubmit: () => void,
+) => {
+  onChange(value)
+
+  if (value.replace(/\s/g, '').length === length) onSubmit()
+}
+
 export const handleDigitChange = (
   raw: string,
   current: string,
@@ -9,10 +20,16 @@ export const handleDigitChange = (
   length: number,
   onChange: (value: string) => void,
   focusDigit: (index: number) => void,
+  onSubmit: () => void,
 ) => {
   // Автозаполнение или вставка приходят в onChange одной строкой длиннее одной цифры.
   if (raw.replace(/\D/g, '').length > 1) {
-    onChange(writeDigits(current, raw, index, length, focusDigit))
+    commitCode(
+      writeDigits(current, raw, index, length, focusDigit),
+      length,
+      onChange,
+      onSubmit,
+    )
     return
   }
 
@@ -22,7 +39,7 @@ export const handleDigitChange = (
 
   // Нет цифры — клетка очищается. Есть цифра — фокус уходит на следующую, кроме последней.
   updated[index] = digit || ' '
-  onChange(updated.join(''))
+  commitCode(updated.join(''), length, onChange, onSubmit)
 
   if (digit && index < length - 1) focusDigit(index + 1)
 }
@@ -35,8 +52,14 @@ export const handleDigitPaste = (
   length: number,
   onChange: (value: string) => void,
   focusDigit: (index: number) => void,
+  onSubmit: () => void,
 ) => {
-  onChange(writeDigits(current, text, index, length, focusDigit))
+  commitCode(
+    writeDigits(current, text, index, length, focusDigit),
+    length,
+    onChange,
+    onSubmit,
+  )
 }
 
 // Клавиши, которые не должны попасть в поле как текст.
