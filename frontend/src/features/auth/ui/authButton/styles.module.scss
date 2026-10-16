@@ -15,21 +15,17 @@
   letter-spacing: 1.25px;
   cursor: pointer;
 
-  // Белая. Не спорит с жёлтой «Заказать звонок» на тёмной шапке.
   background: $white;
   color: $dark;
 
-  // Золото бренда, мягче жёлтой кнопки звонка.
-  // background: $colorPrimary;
-  // color: $dark;
-
-  // Оранжевый акцент. Читается отдельно от жёлтого.
-  // background: $colorSixth;
-  // color: $white;
-
-  // Синий бренда.
-  // background: $colorSecondary;
-  // color: $white;
+  // «Кабинет» — ссылка, у ссылок подчёркивание по умолчанию в любом состоянии.
+  &,
+  &:link,
+  &:visited,
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
 
   &:hover {
     filter: brightness(0.95);

@@ -1,14 +1,14 @@
 'use client'
 
 import { CircularProgress } from '@mui/material'
+import cn from 'classnames'
 import { useUnit } from 'effector-react'
+import Link from 'next/link'
 import { FC } from 'react'
 
 import { useModal, ModalEnum } from '@/core/providers'
 
 import { $isAuthenticated, $isAuthLoading } from '@/entities/auth/model'
-
-import { ButtonLink } from '@/shared/ui'
 
 import s from './styles.module.scss'
 
@@ -35,9 +35,9 @@ export const AuthButton: FC = () => {
 
   if (isAuthenticated) {
     return (
-      <ButtonLink href="/cabinet" className={s.authButton}>
+      <Link href="/cabinet" className={cn(s.authButton, s.cabinet)}>
         Кабинет
-      </ButtonLink>
+      </Link>
     )
   }
 
