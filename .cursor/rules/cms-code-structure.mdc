@@ -1,0 +1,84 @@
+---
+description: Структура кода CMS — FSD lite, entities, API и Effector
+globs: cms/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Структура кода CMS (FSD lite)
+
+Слои сверху вниз: `views` → `widgets` → `features` → `entities` → `shared`.
+
+Папки:
+- `views` — страницы/роуты;
+- `widgets` — собранные блоки экрана (`ItemsView`, `CategoryList`, `Navbar`, …);
+- `features` — пользовательские действия (`save-item`, `login`, `create-news`, …): UI + `model` с `*Submitted` → entity `*Fx`;
+- `entities/<сущность>/` — `model` / `store` / `utils` / `ui` (отображение без действия: таблица, селект, карточка опции);
+- `shared/ui` — без домена (`FormModal`, `Spacer`, …).
+Папки `components` нет.
+
+## Entities
+
+Бизнес-сущности живут в `cms/src/entities/<сущность>` с единой раскладкой:
+
+```
+entities/<name>/
+  index.ts      # публичный API: реэкспорт store (+ model, utils при необходимости)
+  model/        # доменные типы (Item, Category, Page, …)
+  store/        # Effector: сторы, эффекты, события, их interfaces
+  utils/        # mappers, constants и прочие хелперы сущности
+  ui/           # UI этой сущности (формы, таблицы, селекты)
+```
+
+Импорт снаружи — через алиасы слоёв: `from '@entities/items'`.  
+Модель при необходимости: `from '@entities/items/model'`.  
+Внутри сущности/фичи предпочитай относительные пути (`../model`, `../utils/mappers`).
+
+Алиасы (`tsconfig` + Vite): `@app`, `@views`, `@widgets`, `@features`, `@entities`, `@shared`.
+Роутинг — в `app/` (`@app/RoutesComp`). Навигация — `@shared/navigation`.
+ESLint как во frontend: `@feature-sliced/eslint-config` + `import/order`.
+
+Отдельную папку в `entities` заводи, только если сущность живёт сама по себе.
+
+## Shared
+
+- `shared/api/<домен>` — запросы, DTO (`*DTO`), zod-схемы;
+- `shared/auth` — сессия/токен (`$token`), доступный и `shared/api`, и верхним слоям;
+- `shared/ui` — переиспользуемые UI без бизнес-логики (`FormModal`, `FormTextField`, …);
+- `shared/toasts` — стек тостов справа: `toastShown` / `bindEffectToasts` / `ToastsHost`;
+  мутации сущностей подключаются централизованно в `app/bindToasts.ts`;
+- `shared/config` — env и прочий конфиг;
+- `shared/constants`, `shared/utils`;
+- `shared/model` — только кросс-сущностные типы UI (например `FilePreview`), не доменные модели.
+
+Импорты только вниз по слоям: `shared` не тянет `entities`/`features`/`widgets`/`views`. Границы проверяет `eslint-plugin-boundaries` в `cms/eslint.config.js`.
+
+## Константы и локальные типы
+
+Константы — в `constants.ts` рядом с модулем. Локальные типы (пропсы, form values, payload событий) — в `interfaces.ts` рядом с модулем. Имена без префикса `I`. `any` не используется.
+
+## Окружение
+
+URL API и сайта — из `.env` (`VITE_API_URL`, `VITE_SITE_URL`), проверка в `shared/config/env.ts`. Используй `env.apiUrl` / `env.siteUrl`. Новые переменные описывай в `cms/.env.example`.
+
+## API
+
+В `shared/api/<домен>`:
+
+- `interfaces.ts` — DTO бэкенда как есть;
+- `schemas.ts` — zod-схемы ответов;
+- `index.ts` — `request({ method, path, schema?, auth?, body?, params? })`.
+
+Без `schema` ответ не валидируется (`void`). При ошибке валидации — лог в консоль, приложение не падает.
+
+## Effector
+
+Подписку пиши сразу у объявления стора:
+
+```ts
+export const $items = createStore<Item[]>([]).on(
+  getItemsFx.doneData,
+  (_, { data }) => data.map(toItem),
+)
+```
+
+Маппинг формы → DTO и прочая логика не из Effector — в `mappers.ts` / `shared/utils`, не в `model.ts` стора.

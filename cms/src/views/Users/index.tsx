@@ -1,99 +1,114 @@
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-import CircularProgress from '@mui/material/CircularProgress'
-import axios from 'axios'
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import {
+  Box,
+  Button,
+  CircularProgress,
+  IconButton,
+  Paper,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Tooltip,
+  Typography,
+} from '@mui/material'
+import { useUnit } from 'effector-react'
 import { useEffect, useState } from 'react'
-import { Button } from '@mui/material'
-import { Confirm } from '../../components/Confirm'
-import { getDate } from '../../utils/date'
-import API from '../../utils/api'
-import { useSelector } from 'react-redux'
-import { selectToken } from '../../store/variables/selectors'
 
-interface IUser {
-  id: string
-  phone: string
-  name: string
-  company?: string
-  email?: string
-  comment?: string
-  time?: string
-}
+import {
+  $users,
+  $usersLoading,
+  deleteUserFx,
+  usersRequested,
+} from '@entities/users'
+import { Confirm } from '@shared/ui'
+import { getDate } from '@shared/utils'
+
+const headCellSx = {
+  bgcolor: 'grey.50',
+  fontWeight: 600,
+  color: 'text.secondary',
+  borderBottomColor: 'divider',
+  whiteSpace: 'nowrap',
+} as const
 
 export const Users: React.FC = () => {
-  const [users, setUsers] = useState<IUser[]>([])
-  const [open, setOpen] = useState(false)
-  const [deletedUserId, setDeletedUserId] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [users, loading, loadUsers, removeUser] = useUnit([
+    $users,
+    $usersLoading,
+    usersRequested,
+    deleteUserFx,
+  ])
+  const [deletedUserId, setDeletedUserId] = useState<number | null>(null)
 
-  const token = useSelector(selectToken)
-
-  const handleClose = () => setOpen(false)
+  const handleClose = () => setDeletedUserId(null)
 
   useEffect(() => {
-    updateUsers(true)
-  }, [])
-
-  const updateUsers = (withLoading: boolean = false) => {
-    if (withLoading) setLoading(true)
-
-    axios.get(API + '/api/users', {
-      headers: {
-        authorization: token
-      }
-    }).then((res) => {
-      setUsers(res.data)
-      setLoading(false)
-    })
-  }
-
-  const deleteUser = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const className = (e.target as HTMLButtonElement)?.getAttribute('id') || ''
-
-    setDeletedUserId((className.match(/\d+/) || [])[0] || '')
-    setOpen(true)
-  }
+    loadUsers()
+  }, [loadUsers])
 
   const handleDelete = () => {
-    axios
-      .delete(`${API}/api/user`, {
-        headers: {
-          authorization: token,
-        },
-        data: { id: deletedUserId },
-      })
-      .then((res) => {
-        if (res.data.status) {
-          console.log('User was deleted')
-        } else {
-          console.log('Someth went wrong')
-        }
-      })
-      .finally(() => {
-        updateUsers()
-        setOpen(false)
-      })
+    if (deletedUserId !== null) removeUser(deletedUserId)
+    setDeletedUserId(null)
   }
 
-  return (
-    <div className="pd-4">
-      <h1>Пользователи</h1>
+  const deletedUser = users.find((user) => user.id === deletedUserId)
 
-      {!!users.length && (
-        <TableContainer>
-          <Table>
+  return (
+    <Stack spacing={2.5} sx={{ p: 3 }}>
+      <Box>
+        <Typography variant='h4' component='h1' sx={{ fontWeight: 600 }}>
+          Пользователи
+        </Typography>
+        <Typography variant='body2' color='text.secondary' sx={{ mt: 0.5 }}>
+          Заявки и контакты посетителей сайта
+        </Typography>
+      </Box>
+
+      {!loading && users.length === 0 ? (
+        <Paper variant='outlined' sx={{ px: 3, py: 5, textAlign: 'center' }}>
+          <Typography color='text.secondary'>Пользователей пока нет</Typography>
+        </Paper>
+      ) : (
+        <TableContainer
+          component={Paper}
+          variant='outlined'
+          sx={{
+            position: 'relative',
+            minHeight: loading && !users.length ? 220 : undefined,
+          }}
+        >
+          {loading && (
+            <Box
+              sx={{
+                position: 'absolute',
+                inset: 0,
+                zIndex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                bgcolor: 'rgba(255, 255, 255, 0.72)',
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
+
+          <Table size='medium'>
             <TableHead>
               <TableRow>
-                <TableCell align="center">Дата</TableCell>
-                <TableCell align="center">Телефон</TableCell>
-                <TableCell align="center">Имя</TableCell>
-                <TableCell align="center">Компания</TableCell>
-                <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Комментарий</TableCell>
+                <TableCell sx={headCellSx}>Дата</TableCell>
+                <TableCell sx={headCellSx}>Имя</TableCell>
+                <TableCell sx={headCellSx}>Телефон</TableCell>
+                <TableCell sx={headCellSx}>Email</TableCell>
+                <TableCell sx={headCellSx}>Компания</TableCell>
+                <TableCell sx={headCellSx}>Комментарий</TableCell>
+                <TableCell align='right' sx={headCellSx}>
+                  Действия
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -101,51 +116,87 @@ export const Users: React.FC = () => {
                 ({ id, phone, name, company, email, comment, time }) => (
                   <TableRow
                     key={id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    hover
+                    sx={{ '&:last-child td': { borderBottom: 0 } }}
                   >
-                    <TableCell align="center">
-                      {time ? getDate(Number(time)) : '-'}
+                    <TableCell sx={{ whiteSpace: 'nowrap' }}>
+                      <Typography variant='body2' color='text.secondary'>
+                        {time ? getDate(time) : '—'}
+                      </Typography>
                     </TableCell>
-                    <TableCell align="center">{phone}</TableCell>
-                    <TableCell align="center">{name}</TableCell>
-                    <TableCell align="center">{company || '-'}</TableCell>
-                    <TableCell align="center">{email || '-'}</TableCell>
-                    <TableCell align="center">{comment || '-'}</TableCell>
-                    <TableCell align="center">
-                      <Button
-                        color="error"
-                        variant="outlined"
-                        id={`user-${id}`}
-                        onClick={deleteUser}
+                    <TableCell>
+                      <Typography variant='body2' sx={{ fontWeight: 600 }}>
+                        {name || '—'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        variant='body2'
+                        sx={{ fontFamily: 'ui-monospace, monospace' }}
                       >
-                        Удалить
-                      </Button>
+                        {phone || '—'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        variant='body2'
+                        sx={{
+                          color: email ? 'text.primary' : 'text.disabled',
+                        }}
+                      >
+                        {email || '—'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography
+                        variant='body2'
+                        sx={{
+                          color: company ? 'text.primary' : 'text.disabled',
+                        }}
+                      >
+                        {company || '—'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell sx={{ maxWidth: 280 }}>
+                      <Typography
+                        variant='body2'
+                        sx={{
+                          color: comment ? 'text.primary' : 'text.disabled',
+                          whiteSpace: 'pre-wrap',
+                          wordBreak: 'break-word',
+                        }}
+                      >
+                        {comment || '—'}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align='right'>
+                      <Tooltip title='Удалить'>
+                        <IconButton
+                          size='small'
+                          color='error'
+                          onClick={() => setDeletedUserId(id)}
+                        >
+                          <DeleteOutlinedIcon fontSize='small' />
+                        </IconButton>
+                      </Tooltip>
                     </TableCell>
                   </TableRow>
-                )
+                ),
               )}
             </TableBody>
           </Table>
         </TableContainer>
       )}
 
-      {!users.length && !loading && <p>Пользователей нет</p>}
-
-      {loading && (
-        <div className="d-flex justify-center mt-35">
-          <CircularProgress />
-        </div>
-      )}
-
       <Confirm
-        isOpen={open}
+        isOpen={deletedUserId !== null}
         onClose={handleClose}
-        title="Вы уверены, что хотите удалить пользователя?"
+        title={`Удалить пользователя «${deletedUser?.name || deletedUser?.phone || ''}»?`}
       >
-        <Button variant="outlined" color="error" onClick={handleDelete}>
+        <Button variant='outlined' color='success' onClick={handleDelete}>
           Удалить
         </Button>
       </Confirm>
-    </div>
+    </Stack>
   )
 }

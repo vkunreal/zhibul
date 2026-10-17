@@ -1,17 +1,15 @@
-import { RoutesComp } from './views/RoutesComp'
-import { Provider } from 'react-redux'
-import { persistor, rootStore } from './store'
-import { PersistGate } from 'redux-persist/integration/react'
+import { RoutesComp } from '@app/RoutesComp'
+import { ToastsHost } from '@shared/toasts'
+
+import '@app/bindToasts'
+
 import './App.scss'
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   return (
-    <Provider store={rootStore}>
-      <PersistGate persistor={persistor}>
-        <RoutesComp />
-      </PersistGate>
-    </Provider>
+    <>
+      <RoutesComp />
+      <ToastsHost />
+    </>
   )
 }
-
-export default App

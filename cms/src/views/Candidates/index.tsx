@@ -1,73 +1,50 @@
+import { Button } from '@mui/material'
+import CircularProgress from '@mui/material/CircularProgress'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import CircularProgress from '@mui/material/CircularProgress'
-import axios from 'axios'
+import { useUnit } from 'effector-react'
 import { useEffect, useState } from 'react'
-import { Button } from '@mui/material'
-import { Confirm } from '../../components/Confirm'
 
-interface ICandidate {
-  id: string
-  phone: string
-  name?: string
-  company?: string
-  email?: string
-  comment?: string
-}
+import {
+  $candidates,
+  $candidatesLoading,
+  candidatesRequested,
+  deleteCandidateFx,
+} from '@entities/users'
+import { Confirm } from '@shared/ui'
+
 
 export const Candidates: React.FC = () => {
-  const [candidates, setCandidates] = useState<ICandidate[]>([])
-  const [open, setOpen] = useState(false)
-  const [deletedCandidateId, setDeletedCandidateId] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [candidates, loading, loadCandidates, removeCandidate] = useUnit([
+    $candidates,
+    $candidatesLoading,
+    candidatesRequested,
+    deleteCandidateFx,
+  ])
+  const [deletedCandidateId, setDeletedCandidateId] = useState<number | null>(
+    null,
+  )
 
-  const handleClose = () => setOpen(false)
+  const handleClose = () => setDeletedCandidateId(null)
 
   useEffect(() => {
-    updateCandidates(true)
-  }, [])
-
-  const updateCandidates = (withLoading: boolean = false) => {
-    if (withLoading) setLoading(true)
-
-    axios.get('/api/candidates').then((res) => {
-      setCandidates(res.data)
-      setLoading(false)
-    })
-  }
-
-  const deleteCandidate = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const className = (e.target as HTMLButtonElement)?.getAttribute('id') || ''
-
-    setDeletedCandidateId((className.match(/\d+/) || [])[0] || '')
-    setOpen(true)
-  }
+    loadCandidates()
+  }, [loadCandidates])
 
   const handleDelete = () => {
-    axios
-      .delete('/api/candidate', { data: { id: deletedCandidateId } })
-      .then((res) => {
-        if (res.data.status) {
-          console.log('Candidate was deleted')
-        } else {
-          console.log('Someth went wrong')
-        }
-      })
-      .finally(() => {
-        updateCandidates()
-        setOpen(false)
-      })
+    if (deletedCandidateId !== null) removeCandidate(deletedCandidateId)
+    setDeletedCandidateId(null)
   }
 
   return (
-    <div className="pd-4">
+    <div className='pd-4'>
       <h1>Потенциальные покупатели</h1>
 
-      <p className="mt-2 mb-4">
+      <p className='mt-2 mb-4'>
         Потенциальные покупатели - раздел, в котором хранятся посетители,
         вводившие данные в обратной связи, но по какой-то причине покинувшие
         сайт
@@ -78,11 +55,11 @@ export const Candidates: React.FC = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell align="center">Телефон</TableCell>
-                <TableCell align="center">Имя</TableCell>
-                <TableCell align="center">Компания</TableCell>
-                <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Комментарий</TableCell>
+                <TableCell align='center'>Телефон</TableCell>
+                <TableCell align='center'>Имя</TableCell>
+                <TableCell align='center'>Компания</TableCell>
+                <TableCell align='center'>Email</TableCell>
+                <TableCell align='center'>Комментарий</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -92,23 +69,22 @@ export const Candidates: React.FC = () => {
                     key={id}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                    <TableCell align="center">{phone || '-'}</TableCell>
-                    <TableCell align="center">{name || '-'}</TableCell>
-                    <TableCell align="center">{company || '-'}</TableCell>
-                    <TableCell align="center">{email || '-'}</TableCell>
-                    <TableCell align="center">{comment || '-'}</TableCell>
-                    <TableCell align="center">
+                    <TableCell align='center'>{phone || '-'}</TableCell>
+                    <TableCell align='center'>{name || '-'}</TableCell>
+                    <TableCell align='center'>{company || '-'}</TableCell>
+                    <TableCell align='center'>{email || '-'}</TableCell>
+                    <TableCell align='center'>{comment || '-'}</TableCell>
+                    <TableCell align='center'>
                       <Button
-                        color="error"
-                        variant="outlined"
-                        id={`user-${id}`}
-                        onClick={deleteCandidate}
+                        color='error'
+                        variant='outlined'
+                        onClick={() => setDeletedCandidateId(id)}
                       >
                         Удалить
                       </Button>
                     </TableCell>
                   </TableRow>
-                )
+                ),
               )}
             </TableBody>
           </Table>
@@ -118,17 +94,17 @@ export const Candidates: React.FC = () => {
       {!candidates.length && !loading && <p>Потенциальных покупателей нет</p>}
 
       {loading && (
-        <div className="d-flex justify-center mt-35">
+        <div className='d-flex justify-center mt-35'>
           <CircularProgress />
         </div>
       )}
 
       <Confirm
-        isOpen={open}
+        isOpen={deletedCandidateId !== null}
         onClose={handleClose}
-        title="Вы уверены, что хотите удалить пользователя?"
+        title='Вы уверены, что хотите удалить пользователя?'
       >
-        <Button variant="outlined" color="error" onClick={handleDelete}>
+        <Button variant='outlined' color='error' onClick={handleDelete}>
           Удалить
         </Button>
       </Confirm>

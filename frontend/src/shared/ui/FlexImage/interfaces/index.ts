@@ -7,5 +7,5 @@ export interface FlexImageProps extends Omit<
 > {
   wrapperClassName?: string
   className?: string
-  maxWidth: number
+  maxWidth?: number
 }
