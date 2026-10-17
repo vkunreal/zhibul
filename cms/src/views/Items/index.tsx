@@ -1,70 +1,131 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Pagination } from "@mui/material";
-import { CategoryList } from "../../components/CategoryList";
-import { ItemsView } from "../../components/ItemsView";
-import { getItemsDB } from "../../store/items/actions";
-import { selectItemPages, selectItems } from "../../store/items/selectors";
-import "./styles.scss";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Pagination,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  Typography,
+} from '@mui/material'
+import { useUnit } from 'effector-react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
 
-const viewTypes = ["По категориям", "По товарам"];
+import {
+  $itemPages,
+  $items,
+  $itemsLoading,
+  $pageLimit,
+  ITEMS_PAGE_LIMIT_OPTIONS,
+  itemsRequested,
+  pageLimitChanged,
+} from '@entities/items'
+import { ItemsView } from '@widgets/items/ItemsView'
 
 export const Items: React.FC = () => {
-  const [viewType, setViewType] = useState(viewTypes[1]);
-  const items = useSelector(selectItems);
-  const itemPages = useSelector(selectItemPages);
+  const [items, itemPages, pageLimit, loading, loadItems, changePageLimit] =
+    useUnit([
+      $items,
+      $itemPages,
+      $pageLimit,
+      $itemsLoading,
+      itemsRequested,
+      pageLimitChanged,
+    ])
+  const { url: categoryUrl = '' } = useParams()
 
-  const [page, setPage] = useState(1);
-  const dispatch = useDispatch();
+  const [page, setPage] = useState(1)
+  const [searchInput, setSearchInput] = useState('')
+  const [search, setSearch] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
-    console.log(page);
-    dispatch(getItemsDB(page));
-  }, [page]);
+    const timer = window.setTimeout(() => {
+      const nextSearch = searchInput.trim()
+      setSearch((prev) => (prev === nextSearch ? prev : nextSearch))
+    }, 1000)
+
+    return () => window.clearTimeout(timer)
+  }, [searchInput])
+
+  useEffect(() => {
+    setPage(1)
+  }, [search])
+
+  useEffect(() => {
+    loadItems({ page, categoryUrl, search })
+  }, [loadItems, page, categoryUrl, pageLimit, search])
+
+  // После удаления последнего товара на последней странице её больше нет.
+  useEffect(() => {
+    if (itemPages > 0 && page > itemPages) setPage(itemPages)
+  }, [itemPages, page])
+
+  const handleCategoryChange = (nextCategoryUrl: string) => {
+    setPage(1)
+    navigate(nextCategoryUrl ? `/items/${nextCategoryUrl}` : '/items')
+  }
+
+  const handlePageLimitChange = (event: SelectChangeEvent<number>) => {
+    setPage(1)
+    changePageLimit(Number(event.target.value))
+  }
 
   return (
-    <div className="items pd-4">
-      <h1>Товары</h1>
+    <Stack spacing={2.5} sx={{ p: 3 }}>
+      <Box>
+        <Typography variant='h4' component='h1' sx={{ fontWeight: 600 }}>
+          Товары
+        </Typography>
+        <Typography variant='body2' color='text.secondary' sx={{ mt: 0.5 }}>
+          Каталог позиций, цены и видимость
+        </Typography>
+      </Box>
 
-      <div className="items__sort d-flex align-center g-2 mt-1">
-        <h3 className="items__sort--title mt-1 mb-1">Вид:</h3>
+      <ItemsView
+        items={items}
+        categoryUrl={categoryUrl}
+        search={searchInput}
+        loading={loading}
+        onCategoryChange={handleCategoryChange}
+        onSearchChange={setSearchInput}
+      />
 
-        <ul className="items__sort__list d-flex">
-          {viewTypes.map((type: string) => (
-            <li
-              className={
-                viewType === type
-                  ? "items__sort__list--item active"
-                  : "items__sort__list--item"
-              }
-              key={type}
-              onClick={() => setViewType(type)}
-            >
-              {type}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+          gap: 2,
+        }}
+      >
+        <FormControl size='small' sx={{ width: 120 }}>
+          <InputLabel id='items-page-limit-label'>На странице</InputLabel>
+          <Select
+            labelId='items-page-limit-label'
+            label='На странице'
+            value={pageLimit}
+            onChange={handlePageLimitChange}
+          >
+            {ITEMS_PAGE_LIMIT_OPTIONS.map((limit) => (
+              <MenuItem key={limit} value={limit}>
+                {limit}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-      <div className="mt-2">
-        {viewType === viewTypes[0] && <CategoryList />}
-
-        {viewType === viewTypes[1] && (
-          <>
-            <ItemsView items={items} />
-
-            <div className="fill-width d-flex justify-center mt-2 mb-2">
-              <Pagination
-                count={itemPages}
-                page={page}
-                onChange={(_, value) => setPage(value)}
-                size="large"
-                color="primary"
-              />
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-};
+        <Pagination
+          count={itemPages}
+          page={page}
+          onChange={(_, value) => setPage(value)}
+          size='large'
+          color='primary'
+        />
+      </Box>
+    </Stack>
+  )
+}

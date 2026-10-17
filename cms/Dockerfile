@@ -1,11 +1,11 @@
-FROM node:17-alpine
+FROM node:26-alpine
 
 WORKDIR /app
 
-COPY package.json .
+COPY package.json yarn.lock .yarnrc.yml ./
 
-RUN npm install
+RUN corepack enable && yarn install --immutable
 
 COPY . .
 
-CMD [ "npm", "start" ]
+CMD [ "yarn", "dev" ]

@@ -1,122 +1,203 @@
-import { Button } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
+import AddIcon from '@mui/icons-material/Add'
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import {
-  addPagesDB,
-  changePageDB,
-  deletePageDB,
-  getPagesDB,
-} from '../../store/pages/actions'
-import { selectPages } from '../../store/pages/selectors'
-import AddPageButton from '../../components/AddButton'
-import { AddPageMenu } from '../../components/AddPageMenu'
-import { IPage } from '../../interfaces/App'
-import './styles.scss'
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material'
+import { useUnit } from 'effector-react'
+import { useEffect, useState } from 'react'
+
+import { $pages, deletePageFx, getPagesFx } from '@entities/pages'
+import { Page } from '@entities/pages/model'
+import { AddPageMenu } from '@features/save-page'
+import { Confirm } from '@shared/ui'
+
+const Field = ({
+  label,
+  value,
+}: {
+  label: string
+  value: string
+}) => (
+  <Box>
+    <Typography
+      variant='caption'
+      color='text.secondary'
+      sx={{ display: 'block', mb: 0.5, letterSpacing: 0.2 }}
+    >
+      {label}
+    </Typography>
+    <Typography
+      variant='body2'
+      sx={{
+        color: value ? 'text.primary' : 'text.disabled',
+        whiteSpace: 'pre-wrap',
+        wordBreak: 'break-word',
+        lineHeight: 1.55,
+      }}
+    >
+      {value || '—'}
+    </Typography>
+  </Box>
+)
 
 export const Pages: React.FC = () => {
   const [addMenu, setAddMenu] = useState(false)
   const [changeMenu, setChangeMenu] = useState(false)
-  const [changedPage, setChangedPage] = useState<IPage | null>(null)
+  const [changedPage, setChangedPage] = useState<Page | null>(null)
+  const [deletedPage, setDeletedPage] = useState<Page | null>(null)
 
-  const pages = useSelector(selectPages)
-  const dispatch = useDispatch()
+  const [pages, loadPages, removePage] = useUnit([
+    $pages,
+    getPagesFx,
+    deletePageFx,
+  ])
 
   useEffect(() => {
-    dispatch(getPagesDB())
-  }, [])
+    loadPages()
+  }, [loadPages])
 
-  const setChangePage = (page: IPage) => {
-    setChangeMenu(true)
+  const openChangePage = (page: Page) => {
     setChangedPage(page)
+    setChangeMenu(true)
   }
 
-  const addPage = (page: IPage) => {
-    setAddMenu(false)
-    dispatch(addPagesDB(page))
-  }
-
-  const changePage = (page: IPage) => {
-    setChangeMenu(false)
-    dispatch(changePageDB(page))
-  }
-
-  const deletePage = (url: string) => {
-    dispatch(deletePageDB(url))
+  const confirmDelete = () => {
+    if (!deletedPage) return
+    removePage(deletedPage.url)
+    setDeletedPage(null)
   }
 
   return (
-    <div className="pages pd-4">
-      <h1>Страницы</h1>
+    <Stack spacing={2.5} sx={{ p: 3, maxWidth: 1200 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          gap: 2,
+        }}
+      >
+        <Box>
+          <Typography variant='h4' component='h1' sx={{ fontWeight: 600 }}>
+            Страницы
+          </Typography>
+          <Typography variant='body2' color='text.secondary' sx={{ mt: 0.5 }}>
+            Статический контент и SEO-данные для страниц сайта
+          </Typography>
+        </Box>
 
-      <p className="mt-2 mb-4">
-        Страницы - раздел, в котором хранится статическая информация и картинки
-        для страниц.
-      </p>
+        <Button
+          variant='contained'
+          startIcon={<AddIcon />}
+          onClick={() => setAddMenu(true)}
+        >
+          Добавить
+        </Button>
+      </Box>
 
-      <div className="mt-2 d-flex flex-column g-2">
-        <AddPageButton onClick={() => setAddMenu(true)}>
-          Добавить страницу
-        </AddPageButton>
-
-        {pages.map((page) => (
-          <div className="pages__page pd-2" key={page.url}>
-            <div className="d-flex flex-column g-1">
-              <h2>{page.name}</h2>
-              <p>
-                <b>URL:</b> {page.url}
-              </p>
-              <p>
-                <b>Текст:</b> {page.text}
-              </p>
-
-              <h3 className="mt-2">SEO:</h3>
-              <p>
-                <b>Title:</b> {page.seo_title}
-              </p>
-              <p>
-                <b>Description:</b> {page.seo_description}
-              </p>
-              <p>
-                <b>Keywords:</b> {page.seo_keywords}
-              </p>
-            </div>
-
-            <div className="d-flex g-2 mt-2">
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={() => setChangePage(page)}
+      {pages.length === 0 ? (
+        <Paper variant='outlined' sx={{ px: 3, py: 5, textAlign: 'center' }}>
+          <Typography color='text.secondary'>
+            Пока нет страниц — создайте первую
+          </Typography>
+        </Paper>
+      ) : (
+        <Stack spacing={2}>
+          {pages.map((page) => (
+            <Paper key={page.url} variant='outlined' sx={{ overflow: 'hidden' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 2,
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: 'grey.50',
+                  borderBottom: '1px solid',
+                  borderColor: 'divider',
+                }}
               >
-                Изменить
-              </Button>
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={() => deletePage(page.url)}
-              >
-                Удалить
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div>
+                <Typography
+                  variant='body2'
+                  color='primary'
+                  sx={{ fontFamily: 'ui-monospace, monospace', fontWeight: 600 }}
+                >
+                  /{page.url}
+                </Typography>
+
+                <Box sx={{ display: 'flex', gap: 0.25, flexShrink: 0 }}>
+                  <Tooltip title='Изменить'>
+                    <IconButton
+                      size='small'
+                      onClick={() => openChangePage(page)}
+                    >
+                      <EditOutlinedIcon fontSize='small' />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title='Удалить'>
+                    <IconButton
+                      size='small'
+                      color='error'
+                      onClick={() => setDeletedPage(page)}
+                    >
+                      <DeleteOutlinedIcon fontSize='small' />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Box>
+
+              <Stack spacing={2} sx={{ p: 2.5 }} divider={<Divider />}>
+                <Field label='Название' value={page.name} />
+                <Field label='Текст' value={page.text} />
+                <Stack spacing={1.5}>
+                  <Typography
+                    variant='subtitle1'
+                    sx={{ fontWeight: 600, letterSpacing: 0.2 }}
+                  >
+                    SEO
+                  </Typography>
+                  <Field label='Title' value={page.seoTitle} />
+                  <Field label='Description' value={page.seoDescription} />
+                  <Field label='Keywords' value={page.seoKeywords} />
+                </Stack>
+              </Stack>
+            </Paper>
+          ))}
+        </Stack>
+      )}
 
       <AddPageMenu
-        title="Добавление страницы"
+        title='Добавление страницы'
         isOpen={addMenu}
         onClose={() => setAddMenu(false)}
-        addPage={addPage}
       />
 
       <AddPageMenu
-        title="Изменение страницы"
+        title='Изменение страницы'
         isOpen={changeMenu}
         page={changedPage}
         onClose={() => setChangeMenu(false)}
-        addPage={changePage}
         change
       />
-    </div>
+
+      <Confirm
+        isOpen={deletedPage !== null}
+        onClose={() => setDeletedPage(null)}
+        title={`Удалить страницу «${deletedPage?.name || deletedPage?.url || ''}»?`}
+      >
+        <Button variant='outlined' color='success' onClick={confirmDelete}>
+          Удалить
+        </Button>
+      </Confirm>
+    </Stack>
   )
 }

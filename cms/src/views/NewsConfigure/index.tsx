@@ -1,53 +1,93 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined'
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
+import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined'
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
+import {
+  Box,
+  Button,
+  Chip,
+  CircularProgress,
+  IconButton,
+  Paper,
+  Stack,
+  Typography,
+} from '@mui/material'
+import { useUnit } from 'effector-react'
+import { useEffect, useRef, useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router'
-import API, { DOMAIN } from '../../utils/api'
-import { Button, TextField } from '@mui/material'
-import { getDate } from '../../utils/date'
-import { selectToken } from '../../store/variables/selectors'
-import { useSelector } from 'react-redux'
-import { useRef } from 'react'
+
+import {
+  $newsItem,
+  $newsMedia,
+  changeNewsFx,
+  changeNewsSubmitted,
+  deleteNewsMediaFx,
+  emptyNewsForm,
+  getNewsItemFx,
+  uploadNewsMediaFx,
+} from '@entities/news'
+import { env } from '@shared/config'
+import { FilePreview } from '@shared/model'
+import { FormTextField, RichTextEditor } from '@shared/ui'
+import { filesToFormData, getDate, readFileAsDataUrl } from '@shared/utils'
 
 export const NewsConfigure = () => {
   const { news_id } = useParams()
-  const [newsItem, setNewsItem] = useState<any | null>(null)
-
   const navigate = useNavigate()
-
-  const [url, setUrl] = useState('')
-  const [title, setTitle] = useState('')
-  const [text, setText] = useState('')
-  const [shortText, setShortText] = useState('')
-  const [seoTitle, setSeoTitle] = useState('')
-  const [seoDescription, setSeoDescription] = useState('')
-  const [seoKeywords, setSeoKeywords] = useState('')
-
-  const [images, setImages] = useState<any[]>([])
-  const [loadedImages, setLoadedImages] = useState<any[]>([])
+  const fileRef = useRef<HTMLInputElement | null>(null)
+  const [loadedImages, setLoadedImages] = useState<FilePreview[]>([])
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [change, setChange] = useState(false)
 
-  const token = useSelector(selectToken)
-  const fileRef = useRef<HTMLInputElement | null>(null)
+  const [
+    newsItem,
+    images,
+    loading,
+    saving,
+    loadNewsItem,
+    submitNews,
+    uploadMedia,
+    removeMedia,
+  ] = useUnit([
+    $newsItem,
+    $newsMedia,
+    getNewsItemFx.pending,
+    changeNewsFx.pending,
+    getNewsItemFx,
+    changeNewsSubmitted,
+    uploadNewsMediaFx,
+    deleteNewsMediaFx,
+  ])
 
-  const fetchData = async () => {
-    const newsData = await axios.get(API + '/api/news/id/' + news_id)
+  const newsId = Number(news_id)
+  const hasValidId = Number.isFinite(newsId) && newsId > 0
 
-    setNewsItem(newsData.data)
-    setImages(newsData.data.media)
+  const { control, reset, handleSubmit } = useForm({
+    defaultValues: emptyNewsForm,
+  })
 
-    setUrl(newsData.data.url)
-    setTitle(newsData.data.title)
-    setText(newsData.data.text)
-    setShortText(newsData.data.short_text)
-    setSeoTitle(newsData.data.seo_title)
-    setSeoDescription(newsData.data.seo_description)
-    setSeoKeywords(newsData.data.seo_keywords)
-  }
+  const onSubmit = handleSubmit((values) => {
+    submitNews(values)
+  })
 
   useEffect(() => {
-    fetchData()
-  }, [news_id])
+    if (hasValidId) loadNewsItem(newsId)
+  }, [hasValidId, newsId, loadNewsItem])
+
+  useEffect(() => {
+    if (!newsItem || newsItem.id !== newsId) return
+
+    reset({
+      url: newsItem.url,
+      title: newsItem.title,
+      text: newsItem.text,
+      shortText: newsItem.shortText,
+      seoTitle: newsItem.seoTitle,
+      seoDescription: newsItem.seoDescription,
+      seoKeywords: newsItem.seoKeywords,
+    })
+  }, [newsItem, newsId, reset])
 
   useEffect(() => {
     setSelectedFiles([])
@@ -57,248 +97,413 @@ export const NewsConfigure = () => {
   const handleOpenFile = () => fileRef?.current?.click()
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target?.files?.length) {
-      return
-    }
-    const files: File[] = Array.from(e.target?.files || [])
+    if (!e.target?.files?.length) return
+
+    const files: File[] = Array.from(e.target.files)
     setSelectedFiles(files)
 
-    files.forEach((file) => {
-      if (!file.type.match('image')) {
-        return
-      }
-      const fileName = file.name
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const result = (e.target as any).result
-        setLoadedImages((oldImages: any) => [
-          ...oldImages,
-          { name: fileName, result },
-        ])
-      }
-      reader.readAsDataURL(file)
+    files.forEach(async (file) => {
+      if (!file.type.match('image')) return
+
+      const src = await readFileAsDataUrl(file)
+      setLoadedImages((oldImages) => [...oldImages, { name: file.name, src }])
     })
   }
 
-  const handleLoadImage = async () => {
+  const handleLoadImage = () => {
     setChange(false)
-    if (!selectedFiles.length) return
-    const formData = new FormData()
-    for (let i = 0; i < selectedFiles.length; i++) {
-      formData.append(selectedFiles[i].name, selectedFiles[i])
-    }
-    const res = await fetch(API + '/api/news/media/' + (newsItem.id || 0), {
-      method: 'POST',
-      body: formData,
-      headers: {
-        authorization: token,
-      },
+    if (!newsItem || !selectedFiles.length) return
+    uploadMedia({
+      newsId: newsItem.id,
+      formData: filesToFormData(selectedFiles),
     })
-    const { status } = await res.json()
-    if (status) {
-      // getItemImages(item?.id || 0).then((imagesDB: IImage[]) =>
-      //   setImages(imagesDB)
-      // )
-      await axios
-        .get(`${API}/api/news/media/${newsItem.id}`)
-        .then(({ data }) => {
-          setImages(data)
-        })
-    }
     setLoadedImages([])
     setSelectedFiles([])
   }
 
   const deleteLoadImage = (name: string) => {
-    setLoadedImages(loadedImages.filter((elem) => elem.name !== name))
-    setSelectedFiles(selectedFiles.filter((elem) => elem.name !== name))
+    setLoadedImages((prev) => prev.filter((elem) => elem.name !== name))
+    setSelectedFiles((prev) => prev.filter((elem) => elem.name !== name))
   }
 
-  const deleteImage = async (src: string) => {
-    // await deleteImageDB(src, token)
-    await axios.delete(`${API}/api/news/media/`, {
-      headers: {
-        authorization: token,
-      },
-      data: { src },
-    })
-    await axios.get(`${API}/api/news/media/${newsItem.id}`).then(({ data }) => {
-      setImages(data)
-    })
+  const deleteImage = (src: string) => {
+    if (!newsItem) return
+    removeMedia({ newsId: newsItem.id, src })
   }
 
-  // const putMain = async (src: string) => {
-  //   await putMainDB(src, token)
-  //   getItemImages(item?.id || 0).then((imagesDB: IImage[]) =>
-  //     setImages(imagesDB)
-  //   )
-  // }
-
-  const saveNewsItem = async () => {
-    const data = {
-      url,
-      title,
-      text,
-      short_text: shortText,
-      seo_title: seoTitle,
-      seo_description: seoDescription,
-      seo_keywords: seoKeywords,
-    }
-
-    await axios.put(`${API}/api/news/`, data, {
-      headers: {
-        authorization: token,
-      },
-    })
-    await fetchData()
+  if (!hasValidId || loading || !newsItem || newsItem.id !== newsId) {
+    return (
+      <Stack spacing={2.5} sx={{ p: 3, maxWidth: 960 }}>
+        <Button
+          size='small'
+          startIcon={<ArrowBackOutlinedIcon />}
+          onClick={() => navigate('/news')}
+          sx={{ alignSelf: 'flex-start', color: 'text.secondary' }}
+        >
+          К новостям
+        </Button>
+        {!hasValidId || (!loading && !newsItem) ? (
+          <Paper variant='outlined' sx={{ px: 3, py: 5, textAlign: 'center' }}>
+            <Typography color='text.secondary'>Новость не найдена</Typography>
+          </Paper>
+        ) : (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+            <CircularProgress />
+          </Box>
+        )}
+      </Stack>
+    )
   }
+
+  const siteUrl = `${env.siteUrl}/news/${newsItem.url}`
 
   return (
-    <div className="pd-2">
-      <Button
-        variant="outlined"
-        color="error"
-        onClick={() => navigate('/news')}
-        className="mb-2"
+    <Stack spacing={2.5} sx={{ p: 3, maxWidth: 960 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          gap: 2,
+          flexWrap: 'wrap',
+        }}
       >
-        Назад
-      </Button>
-
-      <h1>Конфигурация новости</h1>
-
-      <div
-        style={{ width: '100%', height: 1, background: '#ddd', marginTop: 16 }}
-      />
-
-      <div className="configure-images scroll d-flex g-2 mt-2">
-        {images.map((image, i) => (
-          <div
-            className="configure-image d-flex flex-column"
-            key={image.src + i}
+        <Box sx={{ minWidth: 0 }}>
+          <Button
+            size='small'
+            startIcon={<ArrowBackOutlinedIcon />}
+            onClick={() => navigate('/news')}
+            sx={{ mb: 1, color: 'text.secondary' }}
           >
-            {change && (
-              <span
-                className="configure-image-close"
-                onClick={() => deleteImage(image.src)}
-              >
-                &#10006;
-              </span>
-            )}
-            <img src={image.src} alt="item image" />
-            {/* {!image.is_main && change && (
-              <Button className="mt-1 mb-1" onClick={() => putMain(image.src)}>
-                Сделать главной
-              </Button>
-            )} */}
-          </div>
-        ))}
-        {loadedImages.map((image, i) => (
-          <div className="configure-image loaded" key={image.name + i}>
-            {change && (
-              <span
-                className="configure-image-close"
-                onClick={() => deleteLoadImage(image.name)}
-              >
-                &#10006;
-              </span>
-            )}
-            <img src={image.result} alt="item image" />
-          </div>
-        ))}
-      </div>
-
-      <div className="mt-2 mb-2">
-        <input
-          type="file"
-          className="d-none"
-          accept="image/jpeg,image/png"
-          ref={fileRef}
-          onChange={handleChangeInput}
-          multiple
-        />
-        {change ? (
-          <div className="d-flex g-1">
-            <Button
-              variant="outlined"
-              color="success"
-              onClick={handleLoadImage}
-            >
-              Готово
-            </Button>
-            <Button variant="outlined" color="warning" onClick={handleOpenFile}>
-              Загрузить
-            </Button>
-          </div>
-        ) : (
-          <Button variant="outlined" onClick={() => setChange(true)}>
-            Добавить / удалить картинку
+            К новостям
           </Button>
-        )}
-      </div>
+          <Typography variant='h4' component='h1' sx={{ fontWeight: 600 }}>
+            {newsItem.title || 'Новость'}
+          </Typography>
+          <Typography
+            variant='body2'
+            color='text.secondary'
+            sx={{ mt: 0.5, fontFamily: 'ui-monospace, monospace' }}
+          >
+            /{newsItem.url || '—'}
+          </Typography>
+          <Stack
+            direction='row'
+            spacing={0.75}
+            useFlexGap
+            sx={{ mt: 1.25, flexWrap: 'wrap' }}
+          >
+            <Chip
+              label={getDate(newsItem.date)}
+              size='small'
+              variant='outlined'
+            />
+          </Stack>
+        </Box>
 
-      <a href={`${DOMAIN}/news/${newsItem?.url}`} target="_blank">
-        Открыть на сайте
-      </a>
+        <Stack direction='row' spacing={1} useFlexGap sx={{ flexWrap: 'wrap' }}>
+          <Button
+            variant='outlined'
+            startIcon={<OpenInNewOutlinedIcon />}
+            href={siteUrl}
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            Открыть на сайте
+          </Button>
+          <Button
+            type='submit'
+            form='news-edit-form'
+            variant='contained'
+            startIcon={<SaveOutlinedIcon />}
+            disabled={saving}
+          >
+            Сохранить
+          </Button>
+        </Stack>
+      </Box>
 
-      {!!newsItem && (
-        <p className="mt-2 mb-4">Дата: {getDate(Number(newsItem.date))}</p>
-      )}
+      <Paper variant='outlined' sx={{ overflow: 'hidden' }}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 2,
+            px: 2.5,
+            py: 1.5,
+            bgcolor: 'grey.50',
+            borderBottom: '1px solid',
+            borderColor: 'divider',
+          }}
+        >
+          <Typography variant='subtitle1' sx={{ fontWeight: 600 }}>
+            Изображения
+          </Typography>
+          <input
+            type='file'
+            hidden
+            accept='image/jpeg,image/png'
+            ref={fileRef}
+            onChange={handleChangeInput}
+            multiple
+          />
+          {change ? (
+            <Stack direction='row' spacing={1}>
+              <Button
+                size='small'
+                variant='contained'
+                color='success'
+                onClick={handleLoadImage}
+              >
+                Готово
+              </Button>
+              <Button size='small' variant='outlined' onClick={handleOpenFile}>
+                Загрузить
+              </Button>
+              <Button
+                size='small'
+                color='inherit'
+                onClick={() => setChange(false)}
+              >
+                Отмена
+              </Button>
+            </Stack>
+          ) : (
+            <Button
+              size='small'
+              variant='outlined'
+              onClick={() => setChange(true)}
+            >
+              Изменить
+            </Button>
+          )}
+        </Box>
 
-      <div className="fill-width d-flex flex-column g-2 mt-2">
-        <TextField
-          value={title}
-          label="Название"
-          onChange={(e) => setTitle(e.target.value)}
-          style={{ width: '100%' }}
-        />
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 2,
+            p: 2.5,
+            overflowX: 'auto',
+            minHeight: 200,
+          }}
+        >
+          {images.length === 0 && loadedImages.length === 0 ? (
+            <Typography color='text.secondary' sx={{ py: 4, mx: 'auto' }}>
+              Нет изображений — нажмите «Изменить», чтобы загрузить
+            </Typography>
+          ) : null}
 
-        <TextField
-          value={text}
-          label="Текст"
-          onChange={(e) => setText(e.target.value)}
-          style={{ width: '100%' }}
-          multiline
-        />
+          {images.map((image, i) => (
+            <Paper
+              key={image.src + i}
+              variant='outlined'
+              sx={{
+                position: 'relative',
+                flex: '0 0 auto',
+                width: 200,
+                overflow: 'hidden',
+              }}
+            >
+              {change && (
+                <IconButton
+                  size='small'
+                  onClick={() => deleteImage(image.src)}
+                  sx={{
+                    position: 'absolute',
+                    top: 6,
+                    right: 6,
+                    zIndex: 1,
+                    bgcolor: 'rgba(0,0,0,0.55)',
+                    color: '#fff',
+                    '&:hover': { bgcolor: 'rgba(0,0,0,0.75)' },
+                  }}
+                >
+                  <CloseOutlinedIcon fontSize='small' />
+                </IconButton>
+              )}
+              <Box
+                component='img'
+                src={image.src}
+                alt=''
+                sx={{
+                  display: 'block',
+                  width: '100%',
+                  height: 160,
+                  objectFit: 'cover',
+                }}
+              />
+            </Paper>
+          ))}
 
-        <TextField
-          value={shortText}
-          label="Короткое описание"
-          onChange={(e) => setShortText(e.target.value)}
-          style={{ width: '100%' }}
-          multiline
-          maxRows={8}
-        />
+          {loadedImages.map((image, i) => (
+            <Paper
+              key={image.name + i}
+              variant='outlined'
+              sx={{
+                position: 'relative',
+                flex: '0 0 auto',
+                width: 200,
+                overflow: 'hidden',
+                borderColor: 'success.main',
+              }}
+            >
+              {change && (
+                <IconButton
+                  size='small'
+                  onClick={() => deleteLoadImage(image.name)}
+                  sx={{
+                    position: 'absolute',
+                    top: 6,
+                    right: 6,
+                    zIndex: 1,
+                    bgcolor: 'rgba(0,0,0,0.55)',
+                    color: '#fff',
+                    '&:hover': { bgcolor: 'rgba(0,0,0,0.75)' },
+                  }}
+                >
+                  <CloseOutlinedIcon fontSize='small' />
+                </IconButton>
+              )}
+              <Box
+                component='img'
+                src={image.src}
+                alt=''
+                sx={{
+                  display: 'block',
+                  width: '100%',
+                  height: 160,
+                  objectFit: 'cover',
+                }}
+              />
+              <Box sx={{ px: 1, py: 0.75 }}>
+                <Chip
+                  size='small'
+                  color='success'
+                  label='Новое'
+                  sx={{ height: 24 }}
+                />
+              </Box>
+            </Paper>
+          ))}
+        </Box>
+      </Paper>
 
-        <TextField
-          value={seoTitle}
-          label="SEO Title"
-          onChange={(e) => setSeoTitle(e.target.value)}
-          style={{ width: '100%' }}
-        />
+      <Box component='form' id='news-edit-form' onSubmit={onSubmit}>
+        <Stack spacing={2.5}>
+          <Paper variant='outlined' sx={{ overflow: 'hidden' }}>
+            <Box
+              sx={{
+                px: 2.5,
+                py: 1.5,
+                bgcolor: 'grey.50',
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+              }}
+            >
+              <Typography variant='subtitle1' sx={{ fontWeight: 600 }}>
+                Содержание
+              </Typography>
+            </Box>
 
-        <TextField
-          value={seoDescription}
-          label="SEO Description"
-          onChange={(e) => setSeoDescription(e.target.value)}
-          style={{ width: '100%' }}
-        />
+            <Stack spacing={2.5} sx={{ p: 2.5 }}>
+              <FormTextField
+                control={control}
+                name='title'
+                textFieldProps={{
+                  label: 'Название',
+                  autoComplete: 'off',
+                  fullWidth: true,
+                }}
+              />
+              <Controller
+                name='text'
+                control={control}
+                render={({ field }) => (
+                  <RichTextEditor
+                    label='Текст'
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
+              <FormTextField
+                control={control}
+                name='shortText'
+                textFieldProps={{
+                  label: 'Короткое описание',
+                  autoComplete: 'off',
+                  fullWidth: true,
+                  multiline: true,
+                  minRows: 3,
+                  maxRows: 8,
+                }}
+              />
+            </Stack>
+          </Paper>
 
-        <TextField
-          value={seoKeywords}
-          label="SEO Keywords"
-          onChange={(e) => setSeoKeywords(e.target.value)}
-          style={{ width: '100%' }}
-        />
-      </div>
+          <Paper variant='outlined' sx={{ overflow: 'hidden' }}>
+            <Box
+              sx={{
+                px: 2.5,
+                py: 1.5,
+                bgcolor: 'grey.50',
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+              }}
+            >
+              <Typography variant='subtitle1' sx={{ fontWeight: 600 }}>
+                SEO
+              </Typography>
+            </Box>
 
-      <Button
-        variant="outlined"
-        color="success"
-        className="mt-2"
-        onClick={() => saveNewsItem()}
-      >
-        Сохранить
-      </Button>
-    </div>
+            <Stack spacing={2.5} sx={{ p: 2.5 }}>
+              <FormTextField
+                control={control}
+                name='seoTitle'
+                textFieldProps={{
+                  label: 'Title',
+                  autoComplete: 'off',
+                  fullWidth: true,
+                }}
+              />
+              <FormTextField
+                control={control}
+                name='seoDescription'
+                textFieldProps={{
+                  label: 'Description',
+                  autoComplete: 'off',
+                  fullWidth: true,
+                  multiline: true,
+                  minRows: 2,
+                  maxRows: 6,
+                }}
+              />
+              <FormTextField
+                control={control}
+                name='seoKeywords'
+                textFieldProps={{
+                  label: 'Keywords',
+                  autoComplete: 'off',
+                  fullWidth: true,
+                }}
+              />
+            </Stack>
+          </Paper>
+
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Button
+              type='submit'
+              variant='contained'
+              startIcon={<SaveOutlinedIcon />}
+              disabled={saving}
+            >
+              Сохранить
+            </Button>
+          </Box>
+        </Stack>
+      </Box>
+    </Stack>
   )
 }

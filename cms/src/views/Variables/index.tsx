@@ -1,124 +1,202 @@
+import AddIcon from '@mui/icons-material/Add'
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
 import {
+  Box,
   Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
+  IconButton,
+  Paper,
+  Stack,
+  Tooltip,
+  Typography,
 } from '@mui/material'
+import { useUnit } from 'effector-react'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
-import { ChangeVariableMenu } from '../../components/ChangeVariableMenu'
-import { IVariable, variablesList } from '../../interfaces/App'
+
 import {
-  addVariableDB,
-  changeVariableDB,
-  deleteVariableDB,
-  getVariablesDB,
-} from '../../store/variables/actions'
-import { selectVariables } from '../../store/variables/selectors'
-import AddVariableButton from '../../components/AddButton'
+  $variables,
+  deleteVariableFx,
+  getVariablesFx,
+} from '@entities/variables'
+import { Variable } from '@entities/variables/model'
+import { ChangeVariableMenu } from '@features/save-variable'
+import { variablesList } from '@shared/constants'
+import { Confirm } from '@shared/ui'
+
+const getVariableLabel = (name: string) =>
+  variablesList.find(({ type }) => type === name)?.name || name
 
 export const Variables: React.FC = () => {
   const [changeMenu, setChangeMenu] = useState(false)
   const [addMenu, setAddMenu] = useState(false)
-  const [changedVariable, setChangedVariable] = useState<IVariable | null>(null)
+  const [changedVariable, setChangedVariable] = useState<Variable | null>(null)
+  const [deletedVariable, setDeletedVariable] = useState<Variable | null>(null)
 
-  const variables = useSelector(selectVariables)
-  const dispatch = useDispatch()
+  const [variables, loadVariables, removeVariable] = useUnit([
+    $variables,
+    getVariablesFx,
+    deleteVariableFx,
+  ])
 
   useEffect(() => {
-    dispatch(getVariablesDB())
-  }, [])
+    loadVariables()
+  }, [loadVariables])
 
-  const deleteVariable = (id: number) => {
-    dispatch(deleteVariableDB(id))
-  }
-
-  const openChangeMenu = (variable: IVariable) => {
+  const openChangeMenu = (variable: Variable) => {
     setChangedVariable(variable)
     setChangeMenu(true)
   }
 
-  const changeVariable = (variable: IVariable) => {
-    dispatch(changeVariableDB(variable))
-    setChangeMenu(false)
-  }
-
-  const addVariable = (variable: IVariable) => {
-    dispatch(addVariableDB(variable))
-    setAddMenu(false)
+  const confirmDelete = () => {
+    if (!deletedVariable) return
+    removeVariable(deletedVariable.id)
+    setDeletedVariable(null)
   }
 
   return (
-    <div className="pd-4">
-      <h1>Глобальные переменные</h1>
+    <Stack spacing={2.5} sx={{ p: 3, maxWidth: 1200 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'space-between',
+          gap: 2,
+        }}
+      >
+        <Box>
+          <Typography variant='h4' component='h1' sx={{ fontWeight: 600 }}>
+            Переменные
+          </Typography>
+          <Typography variant='body2' color='text.secondary' sx={{ mt: 0.5 }}>
+            Статические данные, которые отображаются на сайте
+          </Typography>
+        </Box>
 
-      <p className="mt-2 mb-4">
-        Глобальные переменные - раздел, в котором хранятся статические данные,
-        которые отображаются на сайте.
-      </p>
+        <Button
+          variant='contained'
+          startIcon={<AddIcon />}
+          onClick={() => setAddMenu(true)}
+        >
+          Добавить
+        </Button>
+      </Box>
 
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">Переменная</TableCell>
-              <TableCell align="center">Значение</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {variables.map((variable) => (
-              <TableRow key={variable.id}>
-                <TableCell align="center">
-                  {variablesList.find(({ type }) => type === variable.name)
-                    ?.name || ''}
-                </TableCell>
-                <TableCell align="center">{variable.value}</TableCell>
-                <TableCell align="center">
-                  <Button
-                    className="mr-2"
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => openChangeMenu(variable)}
+      {variables.length === 0 ? (
+        <Paper variant='outlined' sx={{ px: 3, py: 5, textAlign: 'center' }}>
+          <Typography color='text.secondary'>
+            Пока нет переменных — создайте первую
+          </Typography>
+        </Paper>
+      ) : (
+        <Stack spacing={1.5}>
+          {variables.map((variable) => (
+            <Paper
+              key={variable.id}
+              variant='outlined'
+              sx={{ overflow: 'hidden' }}
+            >
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: 2,
+                  px: 2.5,
+                  py: 1.5,
+                  bgcolor: 'grey.50',
+                  borderBottom: '1px solid',
+                  borderColor: 'divider',
+                }}
+              >
+                <Box sx={{ minWidth: 0 }}>
+                  <Typography variant='subtitle1' sx={{ fontWeight: 600 }}>
+                    {getVariableLabel(variable.name)}
+                  </Typography>
+                  <Typography
+                    variant='caption'
+                    color='text.secondary'
+                    sx={{
+                      display: 'block',
+                      mt: 0.25,
+                      fontFamily: 'ui-monospace, monospace',
+                    }}
                   >
-                    Изменить
-                  </Button>
+                    {variable.name}
+                  </Typography>
+                </Box>
 
-                  <Button
-                    variant="outlined"
-                    color="error"
-                    onClick={() => deleteVariable(variable.id)}
-                  >
-                    Удалить
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                <Box sx={{ display: 'flex', gap: 0.25, flexShrink: 0 }}>
+                  <Tooltip title='Изменить'>
+                    <IconButton
+                      size='small'
+                      onClick={() => openChangeMenu(variable)}
+                    >
+                      <EditOutlinedIcon fontSize='small' />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title='Удалить'>
+                    <IconButton
+                      size='small'
+                      color='error'
+                      onClick={() => setDeletedVariable(variable)}
+                    >
+                      <DeleteOutlinedIcon fontSize='small' />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Box>
 
-      <AddVariableButton className="mt-2" onClick={() => setAddMenu(true)}>
-        Добавить переменную
-      </AddVariableButton>
+              <Box sx={{ px: 2.5, py: 2 }}>
+                <Typography
+                  variant='caption'
+                  color='text.secondary'
+                  sx={{ display: 'block', mb: 0.5, letterSpacing: 0.2 }}
+                >
+                  Значение
+                </Typography>
+                <Typography
+                  variant='body2'
+                  sx={{
+                    color: variable.value ? 'text.primary' : 'text.disabled',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word',
+                    lineHeight: 1.55,
+                  }}
+                >
+                  {variable.value || '—'}
+                </Typography>
+              </Box>
+            </Paper>
+          ))}
+        </Stack>
+      )}
 
       <ChangeVariableMenu
-        title="Добавление переменной"
+        title='Добавление переменной'
         isOpen={addMenu}
         onClose={() => setAddMenu(false)}
-        saveVariable={addVariable}
       />
 
       <ChangeVariableMenu
-        title="Изменение переменной"
+        title='Изменение переменной'
         variable={changedVariable}
         isOpen={changeMenu}
         onClose={() => setChangeMenu(false)}
-        saveVariable={changeVariable}
       />
-    </div>
+
+      <Confirm
+        isOpen={deletedVariable !== null}
+        onClose={() => setDeletedVariable(null)}
+        title={`Удалить переменную «${
+          deletedVariable
+            ? getVariableLabel(deletedVariable.name)
+            : ''
+        }»?`}
+      >
+        <Button variant='outlined' color='success' onClick={confirmDelete}>
+          Удалить
+        </Button>
+      </Confirm>
+    </Stack>
   )
 }

@@ -1,9 +1,20 @@
-@import './styles/display.scss';
-@import './styles/variables.scss';
+@import './shared/styles/display.scss';
+@import './shared/styles/variables.scss';
+@import './shared/styles/scrollbar.scss';
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: Arial;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
 }
