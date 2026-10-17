@@ -10,6 +10,9 @@ const {
   createPrevURL,
   createNextUrl,
 } = require('../utils/endpointSplitUrls')
+const { buildDisplayPrice } = require('../utils/displayPrice')
+
+const isItemActive = (item) => !!Number(item?.is_active)
 
 const testItem = (item) => {
   if (!item?.category_id || !String(item?.category_id).trim()) {
@@ -44,29 +47,53 @@ class ItemsController {
   async getAllItems(req, res) {
     const items = await ItemsServices.getAllItems()
 
-    res.status(200).json(items)
+    // Витрина: скрытые товары наружу не отдаём. CMS ходит в without-images / items-splitted.
+    res.status(200).json((items || []).filter(isItemActive))
   }
 
   async getAllItemsSplitted(req, res) {
     try {
       const page = parseInt(req.query.page, 10) || 1
       const limit = parseInt(req.query.limit, 10) || 20
+      const categoryUrl = req.query.category_url
+        ? String(req.query.category_url)
+        : ''
+      const search = req.query.search ? String(req.query.search) : ''
 
-      const [data, count] = await ItemsServices.getAllItemsSplitted(page, limit)
+      const [{ items: data, count }, valutes] = await Promise.all([
+        ItemsServices.getAllItemsSplitted(page, limit, categoryUrl, search),
+        ValutesServices.getAllValutes(),
+      ])
+
+      const items = (data || []).map((item) => {
+        const valute = valutes.find((v) => v.id === item.valute_id)?.value
+
+        return {
+          ...item,
+          display_price: buildDisplayPrice(item, valute),
+        }
+      })
 
       const endpointURL = getEndpoint(req)
-      const prev = createPrevURL(endpointURL, page, limit)
-      const next = createNextUrl(endpointURL, page, limit)
+      const query = {
+        ...(categoryUrl ? { category_url: categoryUrl } : {}),
+        ...(search ? { search } : {}),
+      }
 
       res.status(200).json({
-        next,
-        prev,
+        data: items,
         count,
-        data,
+        prev: createPrevURL(endpointURL, page, limit, query),
+        next: createNextUrl(endpointURL, page, limit, count, query),
       })
     } catch (e) {
       console.log('e', e)
-      res.status(500).json([])
+      res.status(500).json({
+        data: [],
+        count: 0,
+        prev: null,
+        next: null,
+      })
     }
   }
 
@@ -85,6 +112,7 @@ class ItemsController {
   async getItemsFromUrl(req, res) {
     const items = await ItemsServices.getItemsFromCategoryUrl(
       req.params.category_url,
+      { onlyActive: true },
     )
     const valutes = await ValutesServices.getAllValutes()
 
@@ -94,27 +122,12 @@ class ItemsController {
       const itemOptions = await OptionsServices.getOptionsByItemId(itemId)
       const itemFiles = await FilesServices.getFilesByItemId(itemId)
       const itemElem = items[i]
-      const valute = valutes.find((v) => v.id === itemElem.valute_id).value
+      const valute = valutes.find((v) => v.id === itemElem.valute_id)?.value
 
       items[i].images = images
       items[i].menuOptions = itemOptions.filter((op) => !!op.show_menu)
       items[i].files = itemFiles
-      if (itemElem.price) {
-        items[i].display_price = itemElem.price
-      } else if (
-        itemElem.purchase_price &&
-        itemElem.profitabilaty &&
-        valute &&
-        itemElem.price_postfix
-      ) {
-        items[i].display_price = `${(
-          itemElem.purchase_price *
-          itemElem.profitabilaty *
-          valute
-        ).toFixed(1)}0 ${itemElem.price_postfix}`
-      } else {
-        items[i].display_price = ''
-      }
+      items[i].display_price = buildDisplayPrice(itemElem, valute)
     }
 
     res.status(200).json(items)
@@ -123,7 +136,6 @@ class ItemsController {
   async getItemsWithoutImages(req, res) {
     const items = await ItemsServices.getItemsFromCategoryUrl(
       req.params.category_url,
-      false,
     )
 
     for (let i = 0; i < items.length; i++) {
@@ -136,50 +148,36 @@ class ItemsController {
     res.status(200).json(items)
   }
 
-  // get one item from id or name
+  // get one item from id (CMS)
   async getItem(req, res) {
     const item = await ItemsServices.getItemFromId(req.params.id)
 
-    if (item) {
-      const images = await ItemsServices.getItemImages(item.id)
-      const files = await FilesServices.getFilesByItemId(item.id)
-
-      item.images = images
-      item.files = files
+    if (!item) {
+      return res.status(404).json(null)
     }
+
+    const valutes = await ValutesServices.getAllValutes()
+    const valute = valutes.find((v) => v.id === item.valute_id)?.value
+    item.display_price = buildDisplayPrice(item, valute)
 
     res.status(200).json(item)
   }
 
   async getItemFromUrl(req, res) {
     const item = await ItemsServices.getItemFromUrl(req.params.item_url)
-    const valutes = await ValutesServices.getAllValutes()
 
-    if (item) {
-      const images = await ItemsServices.getItemImages(item.id)
-      const files = await FilesServices.getFilesByItemId(item.id)
-
-      const valute = valutes.find((v) => v.id === item.valute_id).value
-
-      item.images = images
-      item.files = files
-      if (item.price) {
-        item.display_price = item.price
-      } else if (
-        item.purchase_price &&
-        item.profitabilaty &&
-        valute &&
-        item.price_postfix
-      ) {
-        item.display_price = `${(
-          item.purchase_price *
-          item.profitabilaty *
-          valute
-        ).toFixed(1)}0 ${item.price_postfix}`
-      } else {
-        item.display_price = ''
-      }
+    if (!item || !isItemActive(item)) {
+      return res.status(404).json(null)
     }
+
+    const valutes = await ValutesServices.getAllValutes()
+    const images = await ItemsServices.getItemImages(item.id)
+    const files = await FilesServices.getFilesByItemId(item.id)
+    const valute = valutes.find((v) => v.id === item.valute_id)?.value
+
+    item.images = images
+    item.files = files
+    item.display_price = buildDisplayPrice(item, valute)
 
     res.status(200).json(item)
   }

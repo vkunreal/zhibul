@@ -31,7 +31,7 @@ class FilesController {
         '..',
         'public',
         'files',
-        fileName
+        fileName,
       )
 
       const fileUrl = 'https://api.zhbl.by/files/' + fileName
@@ -61,7 +61,7 @@ class FilesController {
         '..',
         'public',
         'files',
-        fileName
+        fileName,
       )
       if (fs.existsSync(filePath)) {
         fs.unlink(filePath, async (err) => {
@@ -70,7 +70,7 @@ class FilesController {
             console.log(err)
           }
           await FilesServices.deleteFileBySrc(
-            'https://api.zhbl.by/files/' + fileName
+            'https://api.zhbl.by/files/' + fileName,
             // 'http://localhost:5000/files/' + fileName
           )
           res.status(200).json({ status: true })

@@ -10,6 +10,7 @@ const socialNetworks = ['tg', 'vk', 'inst', 'youtube', 'dzen']
 
 export const Footer: FC = async () => {
   const { variable } = await useVariables()
+  const year = new Date().getFullYear()
 
   return (
     <Wrapper className={styles.wrapper}>
@@ -52,7 +53,7 @@ export const Footer: FC = async () => {
           </div>
         </div>
 
-        <p className={styles.copyright}>© 2025 ZHBL</p>
+        <p className={styles.copyright}>© {year} ZHBL</p>
       </footer>
     </Wrapper>
   )

@@ -1,74 +1,211 @@
-version: "3.8"
+# Local development stack
+# Usage (from repo root): docker compose up --build
 
 services:
-  # mysql:
-  #   image: mysql:8
-  #   ports:
-  #     - "3305:3306"
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-  #     MYSQL_DATABASE: "${MYSQL_DATABASE}"
-  #     MYSQL_USER: "${MYSQL_USER}"
-  #     MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-  #   volumes:
-  #     - data-volume:/var/lib/mysql
-  #     - ./backend/db/dump/:/docker-entrypoint-initdb.d
-  #   networks:
-  #     - api
+  mysql:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    volumes:
+      - data-volume:/var/lib/mysql
+      - ./backend/db/dump/:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    networks: [app]
 
-  # backend:
-  #   build:
-  #     context: ./backend
-  #   ports:
-  #     - "5000:5000"
-  #   volumes:
-  #     - ./backend:/app
-  #   environment:
-  #     MYSQL_HOST: "mysql"
-  #     MYSQL_USER: "${MYSQL_USER}"
-  #     MYSQL_DATABASE: "${MYSQL_DATABASE}"
-  #     MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-  #   networks:
-  #     - api
-  #   depends_on:
-  #     - mysql
+  phpmyadmin:
+    image: phpmyadmin:5
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: "${MYSQL_USER}"
+      PMA_PASSWORD: "${MYSQL_PASSWORD}"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks: [app]
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
+  # postgres:
+  #   image: postgres:16-alpine
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_DB: "${POSTGRES_DB}"
+  #     POSTGRES_USER: "${POSTGRES_USER}"
+  #     POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
   #   ports:
-  #     - "3000:3000"
-  #   networks:
-  #     - api
+  #     - "5432:5432"
+  #   volumes:
+  #     - pg-data:/var/lib/postgresql/data
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 12
+  #   networks: [app]
+
+  # pgadmin:
+  #   image: dpage/pgadmin4:8
+  #   restart: unless-stopped
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: "${PGADMIN_DEFAULT_EMAIL}"
+  #     PGADMIN_DEFAULT_PASSWORD: "${PGADMIN_DEFAULT_PASSWORD}"
+  #   ports:
+  #     - "5050:80"
+  #   volumes:
+  #     - pgadmin-data:/var/lib/pgadmin
   #   depends_on:
-  #     - backend
+  #     postgres:
+  #       condition: service_healthy
+  #   networks: [app]
+
+  legacy-api:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      MYSQL_HOST: "mysql"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      JWT_SECRET: ${JWT_SECRET}
+      DOMAIN: ${BACKEND_DOMAIN}
+      PORT: 5001
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks: [app]
+    command: npm run dev
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  # api:
+  #   build:
+  #     context: ./core-api
+  #     target: dev
+  #   init: true
+  #   restart: unless-stopped
+  #   env_file: .env
+  #   environment:
+  #     NODE_ENV: development
+  #     PORT: 5002
+  #     DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public&connection_limit=10
+  #     # LEGACY_API_URL: http://legacy-api:5001
+  #     LEGACY_API_URL: https://api.zhbl.by
+  #     LEGACY_MYSQL_URL: mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}
+  #     JWT_SECRET: ${JWT_SECRET}
+  #     CHOKIDAR_USEPOLLING: "true"
+  #     WATCHPACK_POLLING: "true"
+  #   command: ["sh", "-c", "yarn prisma generate && yarn start:dev"]
+  #   ports:
+  #     - "5002:5002"
+  #   volumes:
+  #     - ./core-api:/app
+  #     - /app/node_modules
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     migrate:
+  #       condition: service_completed_successfully
+  #     # legacy-api:
+  #     #   condition: service_started
+  #   networks: [app]
+
+  # migrate:
+  #   build:
+  #     context: ./core-api
+  #     target: dev
+  #   command: ["sh", "-c", "yarn prisma generate && yarn prisma migrate deploy && yarn prisma db seed"]
+  #   restart: "no"
+  #   environment:
+  #     DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   networks: [app]
 
   # cms:
   #   build:
   #     context: ./cms
+  #   environment:
+  #     NODE_ENV: "development"
   #   ports:
   #     - "4000:3000"
   #   volumes:
   #     - ./cms:/app
-  #   networks:
-  #     - api
+  #   networks: [app]
   #   depends_on:
-  #     - backend
-  frontend:
-    build:
-      context: ./core-frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    environment:
-      API_URL: "https://api.zhbl.by"
-      NEXT_PUBLIC_SITE_URL: "https://zhbl.by"
-      NEXT_PUBLIC_METRIKA_ID: "54863989"
-      NEXT_PUBLIC_GTM_ID: "GTM-THSSBC2"
-    restart: unless-stopped
+  #     legacy-api:
+  #       condition: service_started
 
-# networks:
-#   api:
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     target: dev
+  #     args:
+  #       NEXT_PUBLIC_API_URL: "http://localhost:5001"
+  #       NEXT_PUBLIC_API_CORE_URL: "http://localhost:5002"
+  #       NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
+  #       NEXT_PUBLIC_METRIKA_ID: "54863989"
+  #       NEXT_PUBLIC_GTM_ID: "GTM-THSSBC2"
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     NEXT_PUBLIC_API_URL: "http://legacy-api:5001"
+  #     NEXT_PUBLIC_API_CORE_URL: "http://api:5002"
+  #     NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
+  #     NEXT_PUBLIC_METRIKA_ID: "54863989"
+  #     NEXT_PUBLIC_GTM_ID: "GTM-THSSBC2"
+  #   extra_hosts:
+  #     - "localhost:host-gateway"
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #     - /app/.next
+  #   restart: unless-stopped
+  #   depends_on:
+  #     legacy-api:
+  #       condition: service_started
+  #     api:
+  #       condition: service_started
+  #   networks: [app]
 
-# volumes:
-#   data-volume:
+  # gateway:
+  #   image: nginx:1.27-alpine
+  #   restart: unless-stopped
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+  #     - ./infra/ssl/zhbl.crt:/etc/ssl/zhbl.crt:ro
+  #     - ./infra/ssl/zhbl.key:/etc/ssl/zhbl.key:ro
+  #   depends_on:
+  #     legacy-api:
+  #       condition: service_started
+  #     api:
+  #       condition: service_started
+  #     frontend:
+  #       condition: service_started
+  #   networks: [app]
+
+networks:
+  app:
+
+volumes:
+  data-volume:
+  pg-data:
+  pgadmin-data:

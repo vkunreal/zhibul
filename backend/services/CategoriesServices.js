@@ -2,6 +2,18 @@ const { request } = require('../db/database')
 const { replaceQuotes } = require('../utils/quotes')
 const { writeLog } = require('../writeLog')
 
+const SORT_MODES = [
+  'manual',
+  'alphabet',
+  'random',
+  'price_asc',
+  'price_desc',
+  'newest',
+]
+
+const resolveSortMode = (value) =>
+  SORT_MODES.includes(value) ? value : 'manual'
+
 class CategoriesServices {
   async getAllCategories() {
     return await request('SELECT * FROM categories')
@@ -35,24 +47,32 @@ class CategoriesServices {
 
   // add new category
   async addCategory(category) {
+    const sortMode = resolveSortMode(category.sort_mode)
+
     if (category.parent_id !== null) {
       await request(
         `UPDATE categories SET is_contains = "1" WHERE id = "${category.parent_id}"`,
       )
       await request(`
-        INSERT INTO categories (active, name, parent_id, is_contains, position, description, url, seo_title, seo_description, seo_keywords)
+        INSERT INTO categories (active, name, parent_id, is_contains, position, description, url, seo_title, seo_description, seo_keywords, sort_mode)
         VALUES ("0", "${category.name}", "${category.parent_id}", 0, "${
           category.position
         }", "${replaceQuotes(category.description)}", "${
           category.url
         }", "${replaceQuotes(category.seo_title)}", "${replaceQuotes(
           category.seo_description,
-        )}", "${replaceQuotes(category.seo_keywords)}")
+        )}", "${replaceQuotes(category.seo_keywords)}", "${sortMode}")
       `)
     } else {
       await request(`
-        INSERT INTO categories (active, name, parent_id, is_contains, position, description, url, seo_title, seo_description, seo_keywords)
-        VALUES ("0", "${category.name}", ${category.parent_id}, 0, "${category.position}", "${category.description}", "${category.url}", "${category.seo_title}", "${category.seo_description}", "${category.seo_keywords}")
+        INSERT INTO categories (active, name, parent_id, is_contains, position, description, url, seo_title, seo_description, seo_keywords, sort_mode)
+        VALUES ("0", "${category.name}", ${category.parent_id}, 0, "${
+          category.position
+        }", "${replaceQuotes(category.description)}", "${
+          category.url
+        }", "${replaceQuotes(category.seo_title)}", "${replaceQuotes(
+          category.seo_description,
+        )}", "${replaceQuotes(category.seo_keywords)}", "${sortMode}")
       `)
     }
 
@@ -87,6 +107,7 @@ class CategoriesServices {
         replaceQuotes(category.seo_description),
       )
       updateCategoryField('seo_keywords', replaceQuotes(category.seo_keywords))
+      updateCategoryField('sort_mode', resolveSortMode(category.sort_mode))
     } catch (e) {
       console.error(e)
     }

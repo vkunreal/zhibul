@@ -43,6 +43,10 @@ export interface Product {
   seo_title: string
   seo_description: string
   seo_keywords: string | null
+  /** Видимость товара. API отдаёт 0/1. */
+  is_active: boolean | number
+  /** Только по заказу. API отдаёт 0/1. */
+  is_order_only: boolean | number
   images: ProductImage[]
   menuOptions: ProductOption[]
   files: ProductFile[]

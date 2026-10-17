@@ -11,8 +11,10 @@ export const ProductList: FC<{
   products: Product[]
   currentView: 'grid' | 'list'
 }> = ({ products, currentView }) => {
-  const filteredItems =
-    products?.sort((a, b) => (a.position < b.position ? -1 : 1)) ?? []
+  // Порядок как пришёл с бэкенда (sort_mode категории).
+  const items = products ?? []
+
+  console.log(items)
 
   return (
     <Wrapper>
@@ -23,8 +25,8 @@ export const ProductList: FC<{
           [styles.list]: currentView === 'list',
         })}
       >
-        {!!filteredItems.length &&
-          filteredItems.map((product) => (
+        {!!items.length &&
+          items.map((product) => (
             <ProductItem
               key={product.id}
               product={product}
