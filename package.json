@@ -12,7 +12,7 @@
     "frontend:install": "cd frontend && npm install",
     "frontend:serve": "cd frontend && yarn dev",
     "frontend:build": "cd frontend && yarn build",
-    "docker:build": "docker compose up --build",
+    "docker:build": "docker compose build legacy-api && docker compose build migrate && docker compose build api && docker compose build cms && docker compose build frontend && docker compose up",
     "docker:dev": "docker compose up",
     "docker:prod": "docker compose -f infra/docker/docker-compose.yml --env-file .env up -d --build"
   }

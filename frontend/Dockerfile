@@ -8,6 +8,8 @@ RUN npm install -g corepack \
     && corepack prepare yarn@4.18.1 --activate
 
 COPY package.json yarn.lock .yarnrc.yml ./
+# Меньше параллельных загрузок — иначе Docker Desktop часто падает с OOM.
+ENV YARN_NETWORK_CONCURRENCY=4
 
 # ---- development ----
 FROM base AS dev

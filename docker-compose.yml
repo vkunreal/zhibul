@@ -2,38 +2,38 @@
 # Usage (from repo root): docker compose up --build
 
 services:
-  # mysql:
-  #   image: mysql:8
-  #   ports:
-  #     - "3306:3306"
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-  #     MYSQL_DATABASE: "${MYSQL_DATABASE}"
-  #     MYSQL_USER: "${MYSQL_USER}"
-  #     MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-  #   volumes:
-  #     - data-volume:/var/lib/mysql
-  #     - ./backend/db/dump/:/docker-entrypoint-initdb.d
-  #   healthcheck:
-  #     test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${MYSQL_ROOT_PASSWORD}"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 12
-  #   networks: [app]
-
-  phpmyadmin:
-    image: phpmyadmin:5
-    restart: unless-stopped
+  mysql:
+    image: mysql:8
     ports:
-      - "8080:80"
+      - "3306:3306"
     environment:
-      PMA_HOST: mysql
-      PMA_USER: "${MYSQL_USER}"
-      PMA_PASSWORD: "${MYSQL_PASSWORD}"
-    depends_on:
-      mysql:
-        condition: service_healthy
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+    volumes:
+      - data-volume:/var/lib/mysql
+      - ./backend/db/dump/:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
     networks: [app]
+
+  # phpmyadmin:
+  #   image: phpmyadmin:5
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8080:80"
+  #   environment:
+  #     PMA_HOST: mysql
+  #     PMA_USER: "${MYSQL_USER}"
+  #     PMA_PASSWORD: "${MYSQL_PASSWORD}"
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #   networks: [app]
 
   postgres:
     image: postgres:16-alpine
@@ -68,29 +68,29 @@ services:
   #       condition: service_healthy
   #   networks: [app]
 
-  # legacy-api:
-  #   build:
-  #     context: ./backend
-  #   restart: unless-stopped
-  #   env_file: .env
-  #   environment:
-  #     MYSQL_HOST: "mysql"
-  #     MYSQL_USER: "${MYSQL_USER}"
-  #     MYSQL_DATABASE: "${MYSQL_DATABASE}"
-  #     MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
-  #     JWT_SECRET: ${JWT_SECRET}
-  #     DOMAIN: ${BACKEND_DOMAIN}
-  #     PORT: 5001
-  #   ports:
-  #     - "5001:5001"
-  #   volumes:
-  #     - ./backend:/app
-  #     - /app/node_modules
-  #   networks: [app]
-  #   command: npm run dev
-  #   depends_on:
-  #     mysql:
-  #       condition: service_healthy
+  legacy-api:
+    build:
+      context: ./backend
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      MYSQL_HOST: "mysql"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      JWT_SECRET: ${JWT_SECRET}
+      DOMAIN: ${BACKEND_DOMAIN}
+      PORT: 5001
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks: [app]
+    command: npm run dev
+    depends_on:
+      mysql:
+        condition: service_healthy
 
   api:
     build:
@@ -142,51 +142,57 @@ services:
         condition: service_healthy
     networks: [app]
 
-  # cms:
-  #   build:
-  #     context: ./cms
-  #   environment:
-  #     NODE_ENV: "development"
-  #   ports:
-  #     - "4000:3000"
-  #   volumes:
-  #     - ./cms:/app
-  #   networks: [app]
-  #   depends_on:
-  #     legacy-api:
-  #       condition: service_started
+  cms:
+    build:
+      context: ./cms
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      # Vite вшивает VITE_* в клиентский бандл: браузер ходит на хост-порты.
+      VITE_API_URL: http://localhost:5001
+      VITE_SITE_URL: http://localhost:3000
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "4000:3000"
+    volumes:
+      - ./cms:/app
+      - /app/node_modules
+    networks: [app]
+    depends_on:
+      legacy-api:
+        condition: service_started
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     target: dev
-  #     args:
-  #       NEXT_PUBLIC_API_URL: "http://localhost:5001"
-  #       NEXT_PUBLIC_API_CORE_URL: "http://localhost:5002"
-  #       NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
-  #       NEXT_PUBLIC_METRIKA_ID: "54863989"
-  #       NEXT_PUBLIC_GTM_ID: "GTM-THSSBC2"
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     NEXT_PUBLIC_API_URL: "http://legacy-api:5001"
-  #     NEXT_PUBLIC_API_CORE_URL: "http://api:5002"
-  #     NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
-  #     NEXT_PUBLIC_METRIKA_ID: "54863989"
-  #     NEXT_PUBLIC_GTM_ID: "GTM-THSSBC2"
-  #   extra_hosts:
-  #     - "localhost:host-gateway"
-  #   volumes:
-  #     - ./frontend:/app
-  #     - /app/node_modules
-  #     - /app/.next
-  #   restart: unless-stopped
-  #   depends_on:
-  #     legacy-api:
-  #       condition: service_started
-  #     api:
-  #       condition: service_started
-  #   networks: [app]
+  frontend:
+    build:
+      context: ./frontend
+      target: dev
+      args:
+        NEXT_PUBLIC_API_URL: "http://localhost:5001"
+        NEXT_PUBLIC_API_CORE_URL: "http://localhost:5002"
+        NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
+        NEXT_PUBLIC_METRIKA_ID: "54863989"
+        NEXT_PUBLIC_GTM_ID: "GTM-THSSBC2"
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: "http://legacy-api:5001"
+      NEXT_PUBLIC_API_CORE_URL: "http://api:5002"
+      NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
+      NEXT_PUBLIC_METRIKA_ID: "54863989"
+      NEXT_PUBLIC_GTM_ID: "GTM-THSSBC2"
+    extra_hosts:
+      - "localhost:host-gateway"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    restart: unless-stopped
+    depends_on:
+      legacy-api:
+        condition: service_started
+      api:
+        condition: service_started
+    networks: [app]
 
   # gateway:
   #   image: nginx:1.27-alpine

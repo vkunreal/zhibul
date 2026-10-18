@@ -14,6 +14,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends openssl \
 COPY package.json yarn.lock .yarnrc.yml ./
 
 FROM base AS deps
+# Меньше параллельных загрузок — иначе Docker Desktop часто падает с OOM.
+ENV YARN_NETWORK_CONCURRENCY=4
 RUN yarn install --immutable
 
 # ---- development ----
