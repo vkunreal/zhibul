@@ -1,0 +1,33 @@
+.page {
+  padding: 24px;
+  max-width: 1200px;
+}
+
+.code:global(.MuiTypography-root) {
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  font-family: ui-monospace, monospace;
+}
+
+.fieldLabel:global(.MuiTypography-root) {
+  display: block;
+  margin-bottom: 4px;
+  letter-spacing: 0.2px;
+}
+
+.rate:global(.MuiTypography-root) {
+  font-weight: 600;
+}
+
+.rateUnit:global(.MuiTypography-root) {
+  font-weight: 500;
+}
+
+.formRow {
+  align-items: center;
+}
+
+.unit:global(.MuiTypography-root) {
+  flex-shrink: 0;
+  font-weight: 600;
+}

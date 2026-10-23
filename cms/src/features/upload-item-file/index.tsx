@@ -20,6 +20,8 @@ import { emptyFileForm, icons } from './constants'
 import { FileModalProps } from './interfaces'
 import { fileUploadSubmitted } from './model'
 
+import s from './styles.module.scss'
+
 export { getFileIcon, icons } from './constants'
 
 export const FileModal: React.FC<FileModalProps> = ({
@@ -90,7 +92,7 @@ export const FileModal: React.FC<FileModalProps> = ({
                   <Stack
                     direction='row'
                     spacing={1}
-                    sx={{ alignItems: 'center' }}
+                    className={s.iconOption}
                   >
                     <Icon fontSize='small' color='action' />
                     <Box component='span'>{title}</Box>
@@ -112,7 +114,7 @@ export const FileModal: React.FC<FileModalProps> = ({
 
       <input
         type='file'
-        className='d-none'
+        className={s.fileInput}
         accept='application/pdf,application/vnd.ms-excel'
         ref={inputRef}
         onChange={handleChangeInput}

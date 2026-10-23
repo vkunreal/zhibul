@@ -94,6 +94,39 @@ export default tseslint.config(
       // Сегменты store/utils в CMS не из канона FSD (ui/model/lib/api) —
       // public-api из @feature-sliced здесь шумный, слои ловит boundaries.
       'import/no-internal-modules': 'off',
+      // Контекст модалок живёт в app, потому что собирает фичи.
+      // Виджеты и страницы открывают его, но не остальной app.
+      'boundaries/element-types': [
+        'error',
+        {
+          default: 'disallow',
+          message:
+            '"${file.type}" is not allowed to import "${dependency.type}" | See rules: https://feature-sliced.design/docs/reference/layers/overview ',
+          rules: [
+            { from: 'app', allow: ['app', 'pages', 'widgets', 'features', 'entities', 'shared'] },
+            { from: 'pages', allow: ['widgets', 'features', 'entities', 'shared', ['app', { slices: 'contexts' }]] },
+            { from: 'widgets', allow: ['features', 'entities', 'shared', ['app', { slices: 'contexts' }]] },
+            { from: 'features', allow: ['entities', 'shared'] },
+            { from: 'entities', allow: ['shared'] },
+            { from: 'shared', allow: ['shared'] },
+          ],
+        },
+      ],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'JSXAttribute[name.name="sx"]',
+          message: 'Стили пиши в styles.module.scss, не в sx.',
+        },
+        {
+          selector: 'JSXAttribute[name.name="style"]',
+          message: 'Стили пиши в styles.module.scss, не в style.',
+        },
+        {
+          selector: 'Property[key.name="sx"]',
+          message: 'Стили пиши в styles.module.scss, не в sx.',
+        },
+      ],
       'import/order': [
         'error',
         {
@@ -104,7 +137,21 @@ export default tseslint.config(
             'parent',
             'sibling',
             'index',
+            'unknown',
           ],
+          pathGroups: [
+            {
+              pattern: './*.scss',
+              group: 'unknown',
+              position: 'after',
+            },
+            {
+              pattern: './**/*.scss',
+              group: 'unknown',
+              position: 'after',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin', 'external'],
           'newlines-between': 'always',
           alphabetize: {
             order: 'asc',

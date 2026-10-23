@@ -1,23 +1,18 @@
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Paper,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material'
+import { Box, Button, Paper, Stack } from '@mui/material'
 import { useUnit } from 'effector-react'
 import { useEffect } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 import { changeOptionSubmitted, deleteOptionFx } from '@entities/options'
 
 import { OptionElemProps } from './interfaces'
+import { toOptionForm } from './mappers'
+import { OptionFields } from './ui/OptionFields'
+
+import s from './styles.module.scss'
 
 export const OptionElem: React.FC<OptionElemProps> = ({
   id,
@@ -33,12 +28,7 @@ export const OptionElem: React.FC<OptionElemProps> = ({
     deleteOptionFx,
   ])
   const { register, control, reset, handleSubmit } = useForm({
-    defaultValues: {
-      name: option.name,
-      value: option.value,
-      isSelectMenu: option.isDropdown,
-      isShowMenu: option.showMenu,
-    },
+    defaultValues: toOptionForm(option),
   })
 
   const onSubmit = handleSubmit((values) => {
@@ -53,134 +43,28 @@ export const OptionElem: React.FC<OptionElemProps> = ({
   })
 
   useEffect(() => {
-    reset({
-      name: option.name,
-      value: option.value,
-      isSelectMenu: option.isDropdown,
-      isShowMenu: option.showMenu,
-    })
+    reset(toOptionForm(option))
   }, [option, reset])
-
-  const onDelete = () => {
-    removeOption({ id: option.id, itemId })
-  }
 
   return (
     <Paper
       id={id}
       variant='outlined'
       draggable
-      onDragStart={(e) => onDragStart(e, option)}
-      onDragLeave={(e) => onDragLeave(e)}
-      onDragOver={(e) => onDragOver(e)}
-      onDrop={(e) => onDrop(e, option)}
-      sx={{
-        overflow: 'hidden',
-        cursor: 'grab',
-        transition: 'box-shadow 0.15s ease, border-color 0.15s ease',
-        '&:active': { cursor: 'grabbing' },
-        '&:hover': { borderColor: 'divider' },
-      }}
+      onDragStart={(event) => onDragStart(event, option)}
+      onDragLeave={(event) => onDragLeave(event)}
+      onDragOver={(event) => onDragOver(event)}
+      onDrop={(event) => onDrop(event, option)}
+      className={s.card}
     >
-      <Box
-        component='form'
-        onSubmit={onSubmit}
-        sx={{
-          display: 'flex',
-          gap: 2,
-          p: 2,
-          alignItems: 'stretch',
-          flexWrap: 'wrap',
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            color: 'text.disabled',
-            flexShrink: 0,
-          }}
-        >
+      <Box component='form' onSubmit={onSubmit} className={s.form}>
+        <Box className={s.handle}>
           <DragIndicatorIcon fontSize='small' />
         </Box>
 
-        <Stack spacing={1.5} sx={{ flex: '1 1 280px', minWidth: 0 }}>
-          <Stack
-            direction='row'
-            spacing={1.5}
-            useFlexGap
-            sx={{ flexWrap: 'wrap' }}
-          >
-            <TextField
-              size='small'
-              label='Название'
-              placeholder='Ввести'
-              {...register('name')}
-              sx={{ flex: '1 1 160px' }}
-            />
-            <TextField
-              size='small'
-              label='Значение'
-              placeholder='Ввести'
-              {...register('value')}
-              sx={{ flex: '1 1 160px' }}
-            />
-          </Stack>
+        <OptionFields register={register} control={control} />
 
-          <Stack
-            direction='row'
-            spacing={1}
-            useFlexGap
-            sx={{ flexWrap: 'wrap' }}
-          >
-            <Controller
-              name='isSelectMenu'
-              control={control}
-              render={({ field }) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      size='small'
-                      checked={field.value}
-                      onChange={(_, checked) => field.onChange(checked)}
-                    />
-                  }
-                  label={
-                    <Typography variant='body2'>Выпадающее меню</Typography>
-                  }
-                />
-              )}
-            />
-            <Controller
-              name='isShowMenu'
-              control={control}
-              render={({ field }) => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      size='small'
-                      checked={field.value}
-                      onChange={(_, checked) => field.onChange(checked)}
-                    />
-                  }
-                  label={
-                    <Typography variant='body2'>В каталоге</Typography>
-                  }
-                />
-              )}
-            />
-          </Stack>
-        </Stack>
-
-        <Stack
-          direction='row'
-          spacing={1}
-          sx={{
-            alignItems: 'flex-end',
-            flexShrink: 0,
-            ml: { sm: 'auto' },
-          }}
-        >
+        <Stack direction='row' spacing={1} className={s.buttons}>
           <Button
             type='submit'
             size='small'
@@ -195,7 +79,7 @@ export const OptionElem: React.FC<OptionElemProps> = ({
             variant='outlined'
             color='error'
             startIcon={<DeleteOutlinedIcon />}
-            onClick={onDelete}
+            onClick={() => removeOption({ id: option.id, itemId })}
           >
             Удалить
           </Button>

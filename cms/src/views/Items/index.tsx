@@ -7,7 +7,6 @@ import {
   Select,
   SelectChangeEvent,
   Stack,
-  Typography,
 } from '@mui/material'
 import { useUnit } from 'effector-react'
 import React, { useEffect, useState } from 'react'
@@ -22,7 +21,10 @@ import {
   itemsRequested,
   pageLimitChanged,
 } from '@entities/items'
+import { PageHeader } from '@shared/ui'
 import { ItemsView } from '@widgets/items/ItemsView'
+
+import s from './styles.module.scss'
 
 export const Items: React.FC = () => {
   const [items, itemPages, pageLimit, loading, loadItems, changePageLimit] =
@@ -74,15 +76,8 @@ export const Items: React.FC = () => {
   }
 
   return (
-    <Stack spacing={2.5} sx={{ p: 3 }}>
-      <Box>
-        <Typography variant='h4' component='h1' sx={{ fontWeight: 600 }}>
-          Товары
-        </Typography>
-        <Typography variant='body2' color='text.secondary' sx={{ mt: 0.5 }}>
-          Каталог позиций, цены и видимость
-        </Typography>
-      </Box>
+    <Stack spacing={2.5} className={s.page}>
+      <PageHeader title='Товары' subtitle='Каталог позиций, цены и видимость' />
 
       <ItemsView
         items={items}
@@ -93,16 +88,8 @@ export const Items: React.FC = () => {
         onSearchChange={setSearchInput}
       />
 
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-          gap: 2,
-        }}
-      >
-        <FormControl size='small' sx={{ width: 120 }}>
+      <Box className={s.footer}>
+        <FormControl size='small' className={s.pageLimit}>
           <InputLabel id='items-page-limit-label'>На странице</InputLabel>
           <Select
             labelId='items-page-limit-label'

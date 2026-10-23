@@ -15,6 +15,14 @@ class FilesServices {
   async deleteFileBySrc(src) {
     await request(`DELETE FROM files WHERE src = "${src}"`)
   }
+
+  async deleteFilesByItemId(item_id) {
+    const safeId = parseInt(item_id, 10)
+    if (!safeId) return { status: false }
+
+    await request(`DELETE FROM files WHERE item_id = "${safeId}"`)
+    return { status: true }
+  }
 }
 
 module.exports = new FilesServices()

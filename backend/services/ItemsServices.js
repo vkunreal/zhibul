@@ -1,6 +1,56 @@
+const fs = require('fs/promises')
+const path = require('path')
+
 const { request } = require('../db/database')
 const { writeLog } = require('../writeLog')
 const { replaceQuotes } = require('../utils/quotes')
+
+const publicDir = path.resolve(__dirname, '..', 'public')
+
+const sqlText = (value) => {
+  if (value === null || value === undefined) return 'null'
+  return `"${replaceQuotes(String(value))}"`
+}
+
+const sqlNumber = (value) => {
+  if (value === null || value === undefined || value === '') return 'null'
+  const number = Number(value)
+  return Number.isFinite(number) ? String(number) : 'null'
+}
+
+const fileNameOf = (src) => {
+  const name = path.basename(String(src || '').split('?')[0])
+  if (!name || name === '.' || name === '..') return ''
+  return name
+}
+
+// Копия лежит рядом с оригиналом, но под новым именем. Общий файл не переиспользуется.
+const copyStoredFile = async (folder, src) => {
+  const sourceName = fileNameOf(src)
+  if (!sourceName) return null
+
+  const folderDir = path.resolve(publicDir, folder)
+  const sourcePath = path.resolve(folderDir, sourceName)
+  if (!sourcePath.startsWith(folderDir + path.sep)) return null
+
+  try {
+    await fs.access(sourcePath)
+  } catch {
+    console.error(`Copy skipped, file is missing: ${sourcePath}`)
+    return null
+  }
+
+  const ext = path.extname(sourceName).toLowerCase()
+  const copyName = `copy-${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`
+  const destPath = path.resolve(folderDir, copyName)
+  await fs.copyFile(sourcePath, destPath)
+
+  const cleanSrc = String(src).split('?')[0]
+  const slash = cleanSrc.lastIndexOf('/')
+  const prefix = slash === -1 ? '' : cleanSrc.slice(0, slash + 1)
+
+  return { src: `${prefix}${copyName}`, path: destPath }
+}
 
 const queryItems = `
   SELECT
@@ -161,9 +211,7 @@ class ItemsServices {
       .trim()
       .replace(/["\\%_]/g, '')
       .slice(0, 100)
-    const nameFilter = safeSearch
-      ? `it.name LIKE "%${safeSearch}%"`
-      : ''
+    const nameFilter = safeSearch ? `it.name LIKE "%${safeSearch}%"` : ''
 
     const baseQuery = safeCategoryUrl
       ? queryItemsByCategoryUrl(safeCategoryUrl)
@@ -171,7 +219,10 @@ class ItemsServices {
     const filteredQuery = nameFilter
       ? safeCategoryUrl
         ? baseQuery.replace('WHERE 1 = 1', `WHERE 1 = 1 AND ${nameFilter}`)
-        : baseQuery.replace('GROUP BY it.id', `WHERE ${nameFilter}\n  GROUP BY it.id`)
+        : baseQuery.replace(
+            'GROUP BY it.id',
+            `WHERE ${nameFilter}\n  GROUP BY it.id`,
+          )
       : baseQuery
 
     const countQuery = safeCategoryUrl
@@ -185,7 +236,7 @@ class ItemsServices {
     const items = await request(
       `${filteredQuery} ORDER BY it.position ASC, it.id ASC LIMIT ${limit} OFFSET ${
         (page - 1) * limit
-      }`
+      }`,
     )
 
     const { count } = await request(countQuery, (res) => res[0][0])
@@ -269,7 +320,7 @@ class ItemsServices {
         await request(
           `UPDATE items SET ${field} = ${
             value ? `"${value}"` : 'null'
-          } WHERE id = "${item_id}"`
+          } WHERE id = "${item_id}"`,
         )
 
       updateItemField('category_id', category_id)
@@ -290,12 +341,12 @@ class ItemsServices {
 
       // false нельзя гонять через updateItemField — там falsy превращается в null
       await request(
-        `UPDATE items SET is_active = ${toSqlBool(is_active)} WHERE id = "${item_id}"`
+        `UPDATE items SET is_active = ${toSqlBool(is_active)} WHERE id = "${item_id}"`,
       )
       await request(
         `UPDATE items SET is_order_only = ${toSqlBool(
-          is_order_only
-        )} WHERE id = "${item_id}"`
+          is_order_only,
+        )} WHERE id = "${item_id}"`,
       )
 
       writeLog('Item was changed')
@@ -327,23 +378,23 @@ class ItemsServices {
     try {
       const lastId = await request(
         'SELECT MAX(id) as id FROM items',
-        (d) => d[0][0]
+        (d) => d[0][0],
       )
       const code = '1.' + String(lastId.id + 1).padStart(4, '0')
 
       await request(`
         INSERT INTO items(code, position, url, category_id, name, description, brand, manufacturer_id, price, valute_id, purchase_price, profitabilaty, price_postfix, seo_title, seo_description, seo_keywords, is_active, is_order_only)
         VALUES ("${code}", "${position}", "${url}", "${category_id}", "${name}", "${replaceQuotes(
-        description
-      )}", "${brand}", "${manufacturer}", "${price}", "${valute_id || 1}", ${
-        purchase_price ? `"${purchase_price}"` : 'null'
-      }, ${
-        profitabilaty ? `"${profitabilaty}"` : 'null'
-      }, "${price_postfix}", "${replaceQuotes(seo_title)}", "${replaceQuotes(
-        seo_description
-      )}", "${replaceQuotes(seo_keywords)}", ${toSqlBool(
-        is_active
-      )}, ${toSqlBool(is_order_only)})
+          description,
+        )}", "${brand}", "${manufacturer}", "${price}", "${valute_id || 1}", ${
+          purchase_price ? `"${purchase_price}"` : 'null'
+        }, ${
+          profitabilaty ? `"${profitabilaty}"` : 'null'
+        }, "${price_postfix}", "${replaceQuotes(seo_title)}", "${replaceQuotes(
+          seo_description,
+        )}", "${replaceQuotes(seo_keywords)}", ${toSqlBool(
+          is_active,
+        )}, ${toSqlBool(is_order_only)})
       `)
 
       writeLog('Item was added')
@@ -379,14 +430,146 @@ class ItemsServices {
     try {
       const result = await request(
         `SELECT item_id FROM images WHERE src = "${src}"`,
-        (res) => res[0][0]
+        (res) => res[0][0],
       )
       await request(
-        `UPDATE images SET is_main = "0" WHERE item_id = "${result.item_id}"`
+        `UPDATE images SET is_main = "0" WHERE item_id = "${result.item_id}"`,
       )
       await request(`UPDATE images SET is_main = "1" WHERE src = "${src}"`)
     } catch (e) {
       console.error(e)
+    }
+  }
+
+  // Свободный url для копии: к исходному адресу добавляется `-copy`,
+  // а если он занят — `-copy-2`, `-copy-3` и дальше. Длина не больше 120 символов.
+  async nextCopyUrl(url) {
+    const raw = String(url || 'item').replace(/["\\]/g, '')
+
+    for (let n = 1; n < 100; n++) {
+      const suffix = n === 1 ? '-copy' : `-copy-${n}`
+      const candidate = `${raw.slice(0, 120 - suffix.length)}${suffix}`
+      const existing = await request(
+        `SELECT id FROM items WHERE url = ${sqlText(candidate)} LIMIT 1`,
+        (res) => res[0][0],
+      )
+      if (!existing) return candidate
+    }
+
+    throw new Error('Не удалось подобрать уникальный url')
+  }
+
+  // Новая карточка: id и url выдаёт база/этот метод, артикул пустой, is_active = 0.
+  // Опции, картинки и файлы — отдельные записи, файлы скопированы на диск.
+  async copyItem(itemId) {
+    const safeId = parseInt(itemId, 10)
+    if (!safeId) return null
+
+    const source = await request(
+      `SELECT * FROM items WHERE id = "${safeId}" LIMIT 1`,
+      (res) => res[0][0],
+    )
+    if (!source) return null
+
+    const category = await request(
+      `SELECT url FROM categories WHERE id = "${source.category_id}" LIMIT 1`,
+      (res) => res[0][0],
+    )
+    if (!category?.url) return null
+
+    const url = await this.nextCopyUrl(source.url)
+    const createdFiles = []
+    let newId = null
+
+    try {
+      const inserted = await request(`
+        INSERT INTO items (
+          position, url, category_id, name, description, brand, manufacturer_id,
+          price, valute_id, purchase_price, profitabilaty, price_postfix,
+          seo_title, seo_description, seo_keywords, is_active, is_order_only
+        ) VALUES (
+          ${sqlNumber(source.position) === 'null' ? 0 : sqlNumber(source.position)},
+          ${sqlText(url)},
+          ${sqlNumber(source.category_id)},
+          ${sqlText(source.name)},
+          ${sqlText(source.description)},
+          ${sqlText(source.brand)},
+          ${sqlNumber(source.manufacturer_id)},
+          ${sqlText(source.price ?? '')},
+          ${sqlNumber(source.valute_id) === 'null' ? 1 : sqlNumber(source.valute_id)},
+          ${sqlNumber(source.purchase_price)},
+          ${sqlNumber(source.profitabilaty)},
+          ${sqlText(source.price_postfix)},
+          ${sqlText(source.seo_title)},
+          ${sqlText(source.seo_description)},
+          ${sqlText(source.seo_keywords)},
+          0,
+          ${toSqlBool(source.is_order_only)}
+        )
+      `)
+
+      newId = inserted?.insertId
+      if (!newId) throw new Error('Insert did not return id')
+
+      const images =
+        (await request(`SELECT * FROM images WHERE item_id = "${safeId}"`)) ||
+        []
+      for (const image of images) {
+        const copied = await copyStoredFile('images', image.src)
+        if (!copied) continue
+        createdFiles.push(copied.path)
+        await request(`
+          INSERT INTO images (item_id, src, is_main)
+          VALUES ("${newId}", ${sqlText(copied.src)}, ${image.is_main ? 1 : 0})
+        `)
+      }
+
+      const files =
+        (await request(`SELECT * FROM files WHERE item_id = "${safeId}"`)) || []
+      for (const file of files) {
+        const copied = await copyStoredFile('files', file.src)
+        if (!copied) continue
+        createdFiles.push(copied.path)
+        await request(`
+          INSERT INTO files (item_id, src, title, icon)
+          VALUES (
+            "${newId}",
+            ${sqlText(copied.src)},
+            ${sqlText(file.title || '')},
+            ${sqlText(file.icon || '')}
+          )
+        `)
+      }
+
+      const options =
+        (await request(`SELECT * FROM options WHERE item_id = "${safeId}"`)) ||
+        []
+      for (const option of options) {
+        await request(`
+          INSERT INTO options (
+            item_id, position, name, value, show_item, show_menu, is_dropdown
+          ) VALUES (
+            "${newId}",
+            ${sqlNumber(option.position) === 'null' ? 0 : sqlNumber(option.position)},
+            ${sqlText(option.name || '')},
+            ${sqlText(option.value || '')},
+            ${option.show_item ? 1 : 0},
+            ${option.show_menu ? 1 : 0},
+            ${option.is_dropdown ? 1 : 0}
+          )
+        `)
+      }
+
+      writeLog('Item was copied')
+      return { id: newId, url, category_url: category.url }
+    } catch (error) {
+      await Promise.all(
+        createdFiles.map((filePath) => fs.unlink(filePath).catch(() => {})),
+      )
+      if (newId) {
+        await request(`DELETE FROM items WHERE id = "${newId}"`).catch(() => {})
+      }
+      throw error
     }
   }
 

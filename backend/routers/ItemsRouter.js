@@ -28,6 +28,11 @@ ItemsRouter.post(
   ItemsController.loadImages
 )
 ItemsRouter.post('/item/', authenticateToken, ItemsController.addItem)
+ItemsRouter.post(
+  '/item/:id/copy',
+  authenticateToken,
+  ItemsController.copyItem,
+)
 ItemsRouter.put('/item/', authenticateToken, ItemsController.changeItem)
 ItemsRouter.put('/item/image-main/', authenticateToken, ItemsController.putMain)
 

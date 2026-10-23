@@ -5,4 +5,5 @@ export interface ItemsTableProps {
   loading?: boolean
   setDeleteItem: (item: Item) => void
   setChangeItem: (item: Item) => void
+  setCopyItem: (item: Item) => void
 }

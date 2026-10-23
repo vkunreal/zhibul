@@ -1,0 +1,19 @@
+.paper:global(.MuiPaper-root) {
+  max-height: 90vh;
+}
+
+.content:global(.MuiDialogContent-root) {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.actions:global(.MuiDialogActions-root) {
+  padding: 16px 24px;
+}

@@ -6,8 +6,8 @@ export interface VariableFormValues {
 }
 
 export interface ChangeVariableMenuProps {
-  title: string
-  variable?: Variable | null
+  variable: Variable | null
+  onSubmit: (values: VariableFormValues) => void
   isOpen: boolean
   onClose: () => void
 }

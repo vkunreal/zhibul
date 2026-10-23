@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { addNewsFx, emptyNewsForm } from '@entities/news'
-import { FormModal, FormTextField, RichTextEditor } from '@shared/ui'
+import { FormModal, FormTextField, RichTextEditor, SeoFields } from '@shared/ui'
 
 import { AddNewsItemProps } from './interfaces'
 import { createNewsSubmitted } from './model'
@@ -68,21 +68,7 @@ export const AddNewsItem: React.FC<AddNewsItemProps> = ({
           maxRows: 8,
         }}
       />
-      <FormTextField
-        control={control}
-        name='seoTitle'
-        textFieldProps={{ label: 'SEO Title', autoComplete: 'off' }}
-      />
-      <FormTextField
-        control={control}
-        name='seoDescription'
-        textFieldProps={{ label: 'SEO Description', autoComplete: 'off' }}
-      />
-      <FormTextField
-        control={control}
-        name='seoKeywords'
-        textFieldProps={{ label: 'SEO Keywords', autoComplete: 'off' }}
-      />
+      <SeoFields control={control} />
     </FormModal>
   )
 }

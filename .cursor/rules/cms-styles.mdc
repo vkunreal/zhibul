@@ -1,0 +1,33 @@
+---
+description: Стили CMS — SCSS-модули рядом с компонентом, без sx и style
+globs: cms/**/*.{tsx,scss}
+alwaysApply: false
+---
+
+# Стили CMS
+
+Стили компонента лежат в `styles.module.scss` рядом с файлом компонента. Импорт всегда последний, перед ним пустая строка:
+
+```tsx
+import { ItemRowProps } from './interfaces'
+
+import s from './styles.module.scss'
+```
+
+Класс берётся из модуля: `className={s.fileIcon}`. Имена классов — camelCase.
+
+Глобальными остаются только сброс и скроллбар в `App.scss`. Утилиты вроде `d-flex` и `g-2` в компонентах не используются.
+
+`sx` и `style` запрещены — это ловит ESLint (`no-restricted-syntax`). В том числе `sx` внутри `slotProps`. Цвет, отступ и состояние — отдельные классы модуля, не инлайн.
+
+```tsx
+// ❌
+<Box sx={{ display: 'flex', gap: 1 }} />
+<img style={{ width: 220 }} />
+
+// ✅
+<Box className={s.row} />
+<img className={s.preview} alt='' />
+```
+
+Чужие классы (MUI, tiptap) внутри модуля — через `:global`. Если класс перебивает стили компонента MUI, селектор пиши как `.title:global(.MuiTypography-root)`, чтобы он был сильнее класса Emotion.

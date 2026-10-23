@@ -53,6 +53,34 @@ class FilesController {
     }
   }
 
+  async deleteFiles(req, res) {
+    try {
+      const itemId = parseInt(req.params.item_id, 10)
+      if (!itemId) return res.status(400).json({ status: false })
+
+      const files = (await FilesServices.getFilesByItemId(itemId)) || []
+      const dir = path.resolve(__dirname, '..', 'public', 'files')
+
+      await Promise.all(
+        files.map(async (file) => {
+          const name = path.basename(String(file.src || '').split('?')[0])
+          if (!name || name === '.' || name === '..') return
+
+          const filePath = path.resolve(dir, name)
+          if (!filePath.startsWith(dir + path.sep)) return
+
+          await fs.promises.unlink(filePath).catch(() => {})
+        }),
+      )
+
+      const result = await FilesServices.deleteFilesByItemId(itemId)
+      return res.status(200).json(result)
+    } catch (e) {
+      console.error(e)
+      return res.status(500).json({ status: false })
+    }
+  }
+
   async deleteFile(req, res) {
     try {
       const fileName = req.body.src.split('/').pop()

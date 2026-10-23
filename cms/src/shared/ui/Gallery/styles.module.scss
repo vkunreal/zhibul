@@ -1,0 +1,21 @@
+.root {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  overflow-x: auto;
+  min-height: 200px;
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.empty:global(.MuiTypography-root) {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  margin-left: auto;
+  margin-right: auto;
+}

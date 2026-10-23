@@ -1,20 +1,17 @@
-import Box from '@mui/material/Box'
 import Stack from '@mui/material/Stack'
-import Typography from '@mui/material/Typography'
 
+import { PageHeader } from '@shared/ui'
 import { CategoryList } from '@widgets/categories/CategoryList'
+
+import s from './styles.module.scss'
 
 export const Categories: React.FC = () => {
   return (
-    <Stack spacing={2} sx={{ p: 3, maxWidth: 960 }}>
-      <Box>
-        <Typography variant='h4' component='h1' sx={{ fontWeight: 600 }}>
-          Категории
-        </Typography>
-        <Typography variant='body2' color='text.secondary' sx={{ mt: 0.5 }}>
-          Структура каталога и видимость разделов
-        </Typography>
-      </Box>
+    <Stack spacing={2} className={s.page}>
+      <PageHeader
+        title='Категории'
+        subtitle='Структура каталога и видимость разделов'
+      />
 
       <CategoryList />
     </Stack>

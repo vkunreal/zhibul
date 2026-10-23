@@ -1,0 +1,31 @@
+.pending {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+}
+
+.emptyText:global(.MuiTypography-root) {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  text-align: center;
+}
+
+.emptyPaper:global(.MuiPaper-root) {
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.frame {
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.72);
+}

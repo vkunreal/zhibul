@@ -1,4 +1,4 @@
-import { createStore } from 'effector'
+import { createEvent, createStore } from 'effector'
 
 const TOKEN_KEY = 'token'
 
@@ -17,9 +17,15 @@ const readToken = () => {
   }
 }
 
-export const $token = createStore(readToken())
+export const sessionCleared = createEvent()
+
+export const $token = createStore(readToken()).on(sessionCleared, () => '')
 
 $token.watch((token) => {
   if (token) localStorage.setItem(TOKEN_KEY, token)
   else localStorage.removeItem(TOKEN_KEY)
+})
+
+sessionCleared.watch(() => {
+  localStorage.clear()
 })

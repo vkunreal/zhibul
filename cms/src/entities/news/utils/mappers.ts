@@ -22,6 +22,16 @@ export const toNews = (dto: NewsDTO): News => ({
   media: dto.media.map(toNewsMedia),
 })
 
+export const toNewsForm = (news: News): NewsFormValues => ({
+  url: news.url,
+  title: news.title,
+  text: news.text,
+  shortText: news.shortText,
+  seoTitle: news.seoTitle,
+  seoDescription: news.seoDescription,
+  seoKeywords: news.seoKeywords,
+})
+
 export const toSaveNewsDTO = (values: NewsFormValues): SaveNewsDTO => ({
   url: values.url,
   title: values.title,

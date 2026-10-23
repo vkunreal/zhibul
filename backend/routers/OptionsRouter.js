@@ -16,6 +16,11 @@ OptionsRouter.put(
 OptionsRouter.post('/option', authenticateToken, OptionsController.addOption)
 
 OptionsRouter.delete(
+  '/options/:item_id',
+  authenticateToken,
+  OptionsController.deleteOptions,
+)
+OptionsRouter.delete(
   '/option',
   authenticateToken,
   OptionsController.deleteOption

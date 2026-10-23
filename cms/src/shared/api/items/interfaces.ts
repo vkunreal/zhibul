@@ -10,7 +10,7 @@
  */
 export interface ItemDTO {
   id: number
-  code: string
+  code: string | null
   position: number | null
   category_id: number
   category_url: string
@@ -73,6 +73,13 @@ export interface AddItemDTO {
   seo_keywords: string
   is_active: boolean
   is_order_only: boolean
+}
+
+/** Ответ `POST /api/item/:id/copy`. `url` — новый адрес копии. */
+export interface CopiedItemDTO {
+  id: number
+  url: string
+  category_url: string
 }
 
 /** Тело `PUT /api/item/`. */

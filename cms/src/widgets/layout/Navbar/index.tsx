@@ -1,113 +1,128 @@
 import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined'
+import KeyboardDoubleArrowLeftOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowLeftOutlined'
+import KeyboardDoubleArrowRightOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowRightOutlined'
 import {
   Box,
   Button,
   Divider,
+  IconButton,
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Paper,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import { NavLink, useLocation } from 'react-router'
 
+import { sessionCleared } from '@shared/auth'
+
 import { navRoutes } from './constants'
+import { useNavbarCollapsed } from './hook'
+
+import s from './styles.module.scss'
 
 const isRouteActive = (pathname: string, url: string) =>
   pathname === url || pathname.startsWith(`${url}/`)
 
 export const Navbar: React.FC = () => {
   const { pathname } = useLocation()
+  const { collapsed, toggle } = useNavbarCollapsed()
+  const toggleLabel = collapsed ? 'Развернуть меню' : 'Свернуть меню'
 
   return (
     <Paper
       elevation={0}
       square
-      sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        bgcolor: 'grey.50',
-        borderRight: '1px solid',
-        borderColor: 'divider',
-      }}
+      className={collapsed ? `${s.sidebar} ${s.collapsed}` : s.sidebar}
     >
-      <Box sx={{ px: 2.5, pt: 3, pb: 2 }}>
-        <Typography
-          variant='h6'
-          sx={{ fontWeight: 700, letterSpacing: 0.2, lineHeight: 1.2 }}
-        >
-          CMS
-        </Typography>
-        <Typography variant='caption' color='text.secondary'>
-          Управление сайтом
-        </Typography>
+      <Box className={s.brand}>
+        <Box className={s.brandText}>
+          <Typography variant='h6' className={s.title}>
+            CMS
+          </Typography>
+          <Typography variant='caption' color='text.secondary'>
+            Управление сайтом
+          </Typography>
+        </Box>
+        <Tooltip title={toggleLabel} placement='right'>
+          <IconButton
+            size='small'
+            aria-label={toggleLabel}
+            onClick={toggle}
+            className={s.toggle}
+          >
+            {collapsed ? (
+              <KeyboardDoubleArrowRightOutlinedIcon fontSize='small' />
+            ) : (
+              <KeyboardDoubleArrowLeftOutlinedIcon fontSize='small' />
+            )}
+          </IconButton>
+        </Tooltip>
       </Box>
 
       <Divider />
 
-      <List sx={{ flex: 1, px: 1.25, py: 1.5 }} disablePadding>
+      <List className={s.nav} disablePadding>
         {navRoutes.map(({ name, url, Icon }) => {
           const active = isRouteActive(pathname, url)
 
           return (
-            <ListItemButton
+            <Tooltip
               key={url}
-              component={NavLink}
-              to={url}
-              selected={active}
-              sx={{
-                mb: 0.5,
-                borderRadius: 1.5,
-                py: 1,
-                '&.Mui-selected': {
-                  bgcolor: 'primary.main',
-                  color: 'primary.contrastText',
-                  '&:hover': {
-                    bgcolor: 'primary.dark',
-                  },
-                  '& .MuiListItemIcon-root': {
-                    color: 'inherit',
-                  },
-                },
-              }}
+              title={name}
+              placement='right'
+              disableHoverListener={!collapsed}
+              disableFocusListener={!collapsed}
             >
-              <ListItemIcon sx={{ minWidth: 40, color: 'text.secondary' }}>
-                <Icon fontSize='small' />
-              </ListItemIcon>
-              <ListItemText
-                primary={name}
-                slotProps={{
-                  primary: {
-                    variant: 'body2',
-                    sx: { fontWeight: active ? 600 : 500 },
-                  },
-                }}
-              />
-            </ListItemButton>
+              <ListItemButton
+                component={NavLink}
+                to={url}
+                selected={active}
+                aria-label={name}
+                className={s.link}
+              >
+                <ListItemIcon className={s.icon}>
+                  <Icon fontSize='small' />
+                </ListItemIcon>
+                <ListItemText
+                  primary={name}
+                  className={s.label}
+                  slotProps={{
+                    primary: {
+                      variant: 'body2',
+                      className: active ? s.linkTextActive : s.linkText,
+                    },
+                  }}
+                />
+              </ListItemButton>
+            </Tooltip>
           )
         })}
       </List>
 
-      <Box sx={{ px: 1.5, pb: 2, pt: 1 }}>
-        <Divider sx={{ mb: 1.5 }} />
-        <Button
-          fullWidth
-          size='small'
-          color='inherit'
-          variant='outlined'
-          startIcon={<DeleteSweepOutlinedIcon />}
-          onClick={() => localStorage.clear()}
-          sx={{
-            justifyContent: 'flex-start',
-            color: 'text.secondary',
-            borderColor: 'divider',
-            textTransform: 'none',
-          }}
+      <Box className={s.footer}>
+        <Divider className={s.footerDivider} />
+        <Tooltip
+          title='Очистить кэш'
+          placement='right'
+          disableHoverListener={!collapsed}
+          disableFocusListener={!collapsed}
         >
-          Очистить кэш
-        </Button>
+          <Button
+            fullWidth
+            size='small'
+            color='inherit'
+            variant='outlined'
+            aria-label='Очистить кэш'
+            startIcon={<DeleteSweepOutlinedIcon />}
+            onClick={() => sessionCleared()}
+            className={s.clearButton}
+          >
+            <span className={s.clearLabel}>Очистить кэш</span>
+          </Button>
+        </Tooltip>
       </Box>
     </Paper>
   )

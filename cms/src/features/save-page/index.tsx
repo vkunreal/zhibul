@@ -1,32 +1,24 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import { useUnit } from 'effector-react'
 import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
-import { FormModal, FormTextField, RichTextEditor } from '@shared/ui'
+import { FormModal, FormTextField, RichTextEditor, SeoFields } from '@shared/ui'
 
 import { emptyPageForm, urlList } from './constants'
 import { AddPageMenuProps } from './interfaces'
-import { changePageSubmitted, createPageSubmitted } from './model'
 
 export const AddPageMenu: React.FC<AddPageMenuProps> = ({
   isOpen,
-  title,
   page,
   onClose,
-  change,
+  onSubmit: submitPage,
 }) => {
-  const [createPage, updatePage] = useUnit([
-    createPageSubmitted,
-    changePageSubmitted,
-  ])
   const { control, reset, watch, handleSubmit } = useForm({
     defaultValues: emptyPageForm,
   })
 
   const onSubmit = handleSubmit((values) => {
-    if (change) updatePage(values)
-    else createPage(values)
+    submitPage(values)
     reset(emptyPageForm)
     onClose()
   })
@@ -40,11 +32,11 @@ export const AddPageMenu: React.FC<AddPageMenuProps> = ({
   return (
     <FormModal
       isOpen={isOpen}
-      title={title}
+      title={page ? 'Изменение страницы' : 'Добавление страницы'}
       onClose={onClose}
       onSubmit={onSubmit}
     >
-      {!change ? (
+      {!page ? (
         <Controller
           name='url'
           control={control}
@@ -87,30 +79,10 @@ export const AddPageMenu: React.FC<AddPageMenuProps> = ({
           />
         )}
       />
-      <FormTextField
+      <SeoFields
         control={control}
-        name='seoTitle'
-        textFieldProps={{ label: 'SEO Title', autoComplete: 'off' }}
-      />
-      <FormTextField
-        control={control}
-        name='seoDescription'
-        textFieldProps={{
-          label: 'SEO Description',
-          autoComplete: 'off',
-          multiline: true,
-          maxRows: 8,
-        }}
-      />
-      <FormTextField
-        control={control}
-        name='seoKeywords'
-        textFieldProps={{
-          label: 'SEO Keywords',
-          autoComplete: 'off',
-          multiline: true,
-          maxRows: 8,
-        }}
+        descriptionProps={{ multiline: true, maxRows: 8 }}
+        keywordsProps={{ multiline: true, maxRows: 8 }}
       />
     </FormModal>
   )

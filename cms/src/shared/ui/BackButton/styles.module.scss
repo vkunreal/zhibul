@@ -1,0 +1,11 @@
+.root:global(.MuiButton-root) {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.edge:global(.MuiButton-root) {
+  align-self: flex-start;
+}
+
+.block:global(.MuiButton-root) {
+  margin-bottom: 8px;
+}

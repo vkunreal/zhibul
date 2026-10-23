@@ -25,11 +25,12 @@ export interface ItemFormValues {
 }
 
 export interface ItemMenuProps {
-  item?: Item
+  item: Item | null
   categories: CategoryOption[]
+  valutes: Valute[]
+  onSubmit: (values: ItemFormValues) => void
   isOpen: boolean
   onClose: () => void
-  valutes: Valute[]
 }
 
 export interface ChangeItemPayload {

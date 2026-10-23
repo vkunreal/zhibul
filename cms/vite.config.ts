@@ -1,15 +1,16 @@
-/// <reference types="vitest/config" />
-
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import { defineConfig, type UserConfig } from 'vite'
+import type { InlineConfig } from 'vitest/node'
 
 const rootDir = path.dirname(fileURLToPath(import.meta.url))
 const srcDir = path.resolve(rootDir, 'src')
 
-export default defineConfig({
+// Vite 8 отдаёт UserConfig как type, поэтому Vitest не может дописать в него `test`.
+// Объект проверяется здесь и передаётся в defineConfig уже как переменная.
+const config = {
   plugins: [react()],
   resolve: {
     alias: {
@@ -36,7 +37,7 @@ export default defineConfig({
   },
   test: {
     environment: 'happy-dom',
-    include: ['src/**/*.{test,spec}.{ts,tsx}'],
+    include: ['src/**/tests/**/*.{test,spec}.{ts,tsx}'],
     setupFiles: ['./src/test/setup.ts'],
     clearMocks: true,
     env: {
@@ -44,4 +45,6 @@ export default defineConfig({
       VITE_SITE_URL: 'http://localhost:3000',
     },
   },
-})
+} satisfies UserConfig & { test: InlineConfig }
+
+export default defineConfig(config)

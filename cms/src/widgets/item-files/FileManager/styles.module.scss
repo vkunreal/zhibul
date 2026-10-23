@@ -1,0 +1,31 @@
+.file {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+}
+
+.fileIcon:global(.MuiBox-root) {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.fileBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.fileTitle:global(.MuiTypography-root) {
+  font-weight: 600;
+}
+
+.actions {
+  flex-wrap: wrap;
+}

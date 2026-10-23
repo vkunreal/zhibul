@@ -34,7 +34,7 @@ entities/<name>/
 Внутри сущности/фичи предпочитай относительные пути (`../model`, `../utils/mappers`).
 
 Алиасы (`tsconfig` + Vite): `@app`, `@views`, `@widgets`, `@features`, `@entities`, `@shared`.
-Роутинг — в `app/` (`@app/RoutesComp`). Навигация — `@shared/navigation`.
+Роутинг — в `app/routes` (`@app/routes/RoutesComp`). Навигация — `@shared/navigation`.
 ESLint как во frontend: `@feature-sliced/eslint-config` + `import/order`.
 
 Отдельную папку в `entities` заводи, только если сущность живёт сама по себе.
@@ -45,7 +45,7 @@ ESLint как во frontend: `@feature-sliced/eslint-config` + `import/order`.
 - `shared/auth` — сессия/токен (`$token`), доступный и `shared/api`, и верхним слоям;
 - `shared/ui` — переиспользуемые UI без бизнес-логики (`FormModal`, `FormTextField`, …);
 - `shared/toasts` — стек тостов справа: `toastShown` / `bindEffectToasts` / `ToastsHost`;
-  мутации сущностей подключаются централизованно в `app/bindToasts.ts`;
+  мутации сущностей подключаются централизованно в `app/toasts/bindToasts.ts`;
 - `shared/config` — env и прочий конфиг;
 - `shared/constants`, `shared/utils`;
 - `shared/model` — только кросс-сущностные типы UI (например `FilePreview`), не доменные модели.

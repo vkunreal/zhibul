@@ -5,6 +5,7 @@ import {
   changeOption,
   changeOptionPositions,
   deleteOption,
+  deleteOptions,
   getOptions,
   type AddOptionDTO,
   type ChangeOptionDTO,
@@ -47,6 +48,11 @@ export const changeOptionPositionsFx = createEffect(
   },
 )
 
+export const deleteOptionsFx = createEffect(async (itemId: number) => {
+  await deleteOptions(itemId)
+  return itemId
+})
+
 export const deleteOptionFx = createEffect(
   async ({ id, itemId }: OptionRef) => {
     await deleteOption({ option_id: id })
@@ -80,6 +86,7 @@ sample({
     changeOptionFx.doneData,
     changeOptionPositionsFx.doneData,
     deleteOptionFx.doneData,
+    deleteOptionsFx.doneData,
   ],
   target: getOptionsFx,
 })

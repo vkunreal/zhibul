@@ -8,6 +8,11 @@ FilesRouter.get('/files/:item_id', FilesController.getFiles)
 
 FilesRouter.post('/file', authenticateToken, FilesController.addFile)
 
+FilesRouter.delete(
+  '/files/:item_id',
+  authenticateToken,
+  FilesController.deleteFiles,
+)
 FilesRouter.delete('/file', authenticateToken, FilesController.deleteFile)
 
 module.exports = FilesRouter

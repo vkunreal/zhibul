@@ -1,0 +1,19 @@
+.page {
+  padding: 2rem;
+}
+
+.lead {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.row:last-child td,
+.row:last-child th {
+  border: 0;
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  margin-top: 17.5rem;
+}

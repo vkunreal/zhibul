@@ -7,8 +7,10 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { useEffect } from 'react'
 
-import { TOAST_ACCENT, TOAST_AUTO_HIDE_MS } from './constants'
+import { TOAST_AUTO_HIDE_MS } from './constants'
 import { Toast, ToastKind } from './interfaces'
+
+import s from './styles.module.scss'
 
 type ToastItemProps = {
   toast: Toast
@@ -17,8 +19,22 @@ type ToastItemProps = {
 
 export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
   const { id, kind, title, description } = toast
-  const accent = TOAST_ACCENT[kind]
   const isLoading = kind === ToastKind.Loading
+  const barClass = {
+    [ToastKind.Loading]: s.barLoading,
+    [ToastKind.Success]: s.barSuccess,
+    [ToastKind.Error]: s.barError,
+  }[kind]
+  const iconClass = {
+    [ToastKind.Loading]: s.iconLoading,
+    [ToastKind.Success]: s.iconSuccess,
+    [ToastKind.Error]: s.iconError,
+  }[kind]
+  const progressClass = {
+    [ToastKind.Loading]: s.progressLoading,
+    [ToastKind.Success]: s.progressSuccess,
+    [ToastKind.Error]: s.progressError,
+  }[kind]
 
   useEffect(() => {
     const duration = TOAST_AUTO_HIDE_MS[kind]
@@ -29,70 +45,30 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
   }, [id, kind, onClose])
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        alignItems: 'flex-start',
-        gap: 1.25,
-        minWidth: 320,
-        maxWidth: 420,
-        bgcolor: '#fff',
-        borderRadius: 1.5,
-        boxShadow: '0 8px 24px rgba(15, 23, 42, 0.12)',
-        overflow: 'hidden',
-        border: '1px solid rgba(15, 23, 42, 0.06)',
-      }}
-    >
-      <Box
-        sx={{
-          width: '2px',
-          alignSelf: 'stretch',
-          flexShrink: 0,
-          bgcolor: accent,
-        }}
-      />
+    <Box className={s.toast}>
+      <Box className={[s.bar, barClass].join(' ')} />
 
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: 1.25,
-          flex: 1,
-          py: 1.25,
-          pr: 0.5,
-          pl: 0.25,
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            mt: 0.15,
-            color: accent,
-          }}
-        >
+      <Box className={s.body}>
+        <Box className={[s.icon, iconClass].join(' ')}>
           {isLoading ? (
-            <CircularProgress size={18} thickness={5} sx={{ color: accent }} />
+            <CircularProgress
+              size={18}
+              thickness={5}
+              className={progressClass}
+            />
           ) : kind === ToastKind.Success ? (
-            <CheckCircleIcon sx={{ fontSize: 20 }} />
+            <CheckCircleIcon className={s.glyph} />
           ) : (
-            <BlockIcon sx={{ fontSize: 20 }} />
+            <BlockIcon className={s.glyph} />
           )}
         </Box>
 
-        <Box sx={{ flex: 1, minWidth: 0, pr: 0.5 }}>
-          <Typography
-            variant='subtitle2'
-            sx={{ fontWeight: 600, color: '#0f172a', lineHeight: 1.35 }}
-          >
+        <Box className={s.text}>
+          <Typography variant='subtitle2' className={s.title}>
             {title}
           </Typography>
           {description ? (
-            <Typography
-              variant='body2'
-              sx={{ mt: 0.25, color: '#64748b', lineHeight: 1.4 }}
-            >
+            <Typography variant='body2' className={s.description}>
               {description}
             </Typography>
           ) : null}
@@ -103,7 +79,7 @@ export const ToastItem: React.FC<ToastItemProps> = ({ toast, onClose }) => {
             size='small'
             aria-label='Закрыть'
             onClick={() => onClose(id)}
-            sx={{ color: '#94a3b8', mt: -0.25 }}
+            className={s.close}
           >
             <CloseIcon fontSize='small' />
           </IconButton>

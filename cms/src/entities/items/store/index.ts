@@ -3,6 +3,7 @@ import { createEffect, createEvent, createStore, sample } from 'effector'
 import {
   addItem,
   changeItem,
+  copyItem,
   deleteItem,
   getItemById,
   getItems,
@@ -36,6 +37,7 @@ export const $itemsLoading = getItemsFx.pending
 export const $configureItemLoading = getItemByIdFx.pending
 export const addItemFx = createEffect(addItem)
 export const changeItemFx = createEffect(changeItem)
+export const copyItemFx = createEffect(copyItem)
 export const deleteItemFx = createEffect(deleteItem)
 
 export const $items = createStore<Item[]>([]).on(
@@ -50,6 +52,15 @@ export const $configureItem = createStore<Item | null>(null)
 
 sample({
   clock: configureItemRequested,
+  target: getItemByIdFx,
+})
+
+// Редактирование с страницы настройки не сбрасывает карточку: подтягиваем её заново.
+sample({
+  clock: changeItemFx.done,
+  source: $configureItem,
+  filter: (current, { params }) => current?.id === params.item_id,
+  fn: (_, { params }) => params.item_id,
   target: getItemByIdFx,
 })
 
@@ -91,6 +102,11 @@ sample({
 const reloadItems = itemsRequested.prepend(() => undefined)
 
 sample({
-  clock: [addItemFx.done, changeItemFx.done, deleteItemFx.done],
+  clock: [
+    addItemFx.done,
+    changeItemFx.done,
+    copyItemFx.done,
+    deleteItemFx.done,
+  ],
   target: reloadItems,
 })

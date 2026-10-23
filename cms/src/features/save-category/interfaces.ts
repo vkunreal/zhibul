@@ -11,22 +11,15 @@ export interface CategoryFormValues {
   sortMode: CategorySortMode
 }
 
-interface CategoryMenuBaseProps {
+export interface CategoryMenuProps {
+  category: Category | null
+  onSubmit: (payload: {
+    values: CategoryFormValues
+    image: File | null
+  }) => void
   isOpen: boolean
   onClose: () => void
 }
-
-export interface CreateCategoryMenuProps extends CategoryMenuBaseProps {
-  category?: undefined
-  parentId: number | null
-}
-
-export interface EditCategoryMenuProps extends CategoryMenuBaseProps {
-  category: Category
-  parentId?: never
-}
-
-export type CategoryMenuProps = CreateCategoryMenuProps | EditCategoryMenuProps
 
 export interface CreateCategoryPayload {
   values: CategoryFormValues

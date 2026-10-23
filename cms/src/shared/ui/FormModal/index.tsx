@@ -10,6 +10,8 @@ import { useId } from 'react'
 import { DEFAULT_CANCEL_TEXT, DEFAULT_SUBMIT_TEXT } from './constants'
 import { FormModalProps } from './interfaces'
 
+import s from './styles.module.scss'
+
 export const FormModal: React.FC<FormModalProps> = ({
   isOpen,
   title,
@@ -31,7 +33,7 @@ export const FormModal: React.FC<FormModalProps> = ({
       scroll='paper'
       slotProps={{
         paper: {
-          sx: { maxHeight: '90vh' },
+          className: s.paper,
         },
       }}
     >
@@ -39,18 +41,14 @@ export const FormModal: React.FC<FormModalProps> = ({
 
       <DialogContent
         dividers
-        className={`d-flex flex-column g-3 ${contentClassName}`}
+        className={[s.content, contentClassName].filter(Boolean).join(' ')}
       >
-        <form
-          id={formId}
-          className='d-flex flex-column g-3'
-          onSubmit={onSubmit}
-        >
+        <form id={formId} className={s.form} onSubmit={onSubmit}>
           {children}
         </form>
       </DialogContent>
 
-      <DialogActions sx={{ px: 3, py: 2 }}>
+      <DialogActions className={s.actions}>
         <Button
           type='submit'
           form={formId}

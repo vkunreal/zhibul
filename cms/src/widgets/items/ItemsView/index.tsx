@@ -1,30 +1,30 @@
 import AddIcon from '@mui/icons-material/Add'
-import SearchIcon from '@mui/icons-material/Search'
-import {
-  Box,
-  Button,
-  FormControl,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  SelectChangeEvent,
-  Stack,
-  TextField,
-} from '@mui/material'
+import { Box, Button, SelectChangeEvent, Stack } from '@mui/material'
 import { useUnit } from 'effector-react'
 import { useEffect, useMemo, useState } from 'react'
 
+import { useModal } from '@app/contexts/ModalContext'
 import { countriesRequested } from '@entities/countries'
-import { $categories, deleteItemFx, getCategoriesFx } from '@entities/items'
+import {
+  $categories,
+  copyItemFx,
+  deleteItemFx,
+  getCategoriesFx,
+} from '@entities/items'
 import { CategoryOption, Item } from '@entities/items/model'
 import { ItemsTable } from '@entities/items/ui/ItemsTable'
 import { $valutes, valutesRequested } from '@entities/valutes'
-import { ItemMenu } from '@features/save-item'
+import { ItemFormValues } from '@features/save-item/interfaces'
+import {
+  changeItemSubmitted,
+  createItemSubmitted,
+} from '@features/save-item/model'
 import { Confirm } from '@shared/ui'
 
 import { ItemsViewProps } from './interfaces'
+import { ItemsFilters } from './ui/ItemsFilters'
+
+import s from './styles.module.scss'
 
 export const ItemsView: React.FC<ItemsViewProps> = ({
   items,
@@ -35,26 +35,31 @@ export const ItemsView: React.FC<ItemsViewProps> = ({
   onSearchChange,
 }) => {
   const [deleteDialog, setDeleteDialog] = useState(false)
-  const [changeDialog, setChangeDialog] = useState(false)
-  const [addDialog, setAddDialog] = useState(false)
-
   const [deletedItem, setDeletedItem] = useState<Item | null>(null)
-  const [changedItem, setChangedItem] = useState<Item | null>(null)
+  const [copyDialog, setCopyDialog] = useState(false)
+  const [copiedItem, setCopiedItem] = useState<Item | null>(null)
+  const { open } = useModal()
 
   const [
     allCategoriesDB,
     loadCategories,
     loadCountries,
     removeItem,
+    copyItem,
     valutes,
     loadValutes,
+    createItem,
+    changeItem,
   ] = useUnit([
     $categories,
     getCategoriesFx,
     countriesRequested,
     deleteItemFx,
+    copyItemFx,
     $valutes,
     valutesRequested,
+    createItemSubmitted,
+    changeItemSubmitted,
   ])
 
   useEffect(() => {
@@ -82,9 +87,34 @@ export const ItemsView: React.FC<ItemsViewProps> = ({
     setDeleteDialog(true)
   }
 
-  const setChangeItem = (item: Item) => {
-    setChangedItem(item)
-    setChangeDialog(true)
+  const openItemModal = (item: Item | null) => {
+    const onSubmit = (values: ItemFormValues) => {
+      if (item) changeItem({ values, item })
+      else createItem(values)
+    }
+
+    open('itemModal', { item, categories, valutes, onSubmit })
+  }
+
+  const askCopyItem = (item: Item) => {
+    setCopiedItem(item)
+    setCopyDialog(true)
+  }
+
+  const copyAndOpen = () => {
+    if (!copiedItem) return
+
+    const tab = window.open('about:blank', '_blank')
+    setCopyDialog(false)
+
+    void copyItem(copiedItem.id)
+      .then((copied) => {
+        const link = `${window.location.origin}/configure/${copied.id}`
+        if (tab) tab.location.replace(link)
+      })
+      .catch(() => {
+        tab?.close()
+      })
   }
 
   const deleteItem = (id: number) => {
@@ -99,68 +129,19 @@ export const ItemsView: React.FC<ItemsViewProps> = ({
 
   return (
     <Stack spacing={2}>
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 2,
-          flexWrap: 'wrap',
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 1.5,
-            flex: '1 1 420px',
-            flexWrap: 'wrap',
-            minWidth: 0,
-          }}
-        >
-          <TextField
-            size='small'
-            label='Поиск'
-            placeholder='Название товара'
-            value={search}
-            onChange={(event) => onSearchChange(event.target.value)}
-            sx={{ minWidth: 220, flex: '1 1 220px' }}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <SearchIcon fontSize='small' color='action' />
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-
-          <FormControl size='small' sx={{ minWidth: 220, flex: '1 1 220px' }}>
-            <InputLabel id='items-category-filter-label' shrink>
-              Категория
-            </InputLabel>
-            <Select
-              labelId='items-category-filter-label'
-              value={categoryFilterValue}
-              onChange={handleCategoryFilterChange}
-              input={<OutlinedInput notched label='Категория' />}
-              displayEmpty
-            >
-              <MenuItem value=''>Все товары</MenuItem>
-              {categories.map(({ id, name, url }) => (
-                <MenuItem key={id} value={url}>
-                  {name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
+      <Box className={s.toolbar}>
+        <ItemsFilters
+          search={search}
+          categoryUrl={categoryFilterValue}
+          categories={categories}
+          onSearchChange={onSearchChange}
+          onCategoryChange={handleCategoryFilterChange}
+        />
 
         <Button
           variant='contained'
           startIcon={<AddIcon />}
-          onClick={() => setAddDialog(true)}
+          onClick={() => openItemModal(null)}
         >
           Добавить
         </Button>
@@ -170,15 +151,24 @@ export const ItemsView: React.FC<ItemsViewProps> = ({
         items={items}
         loading={loading}
         setDeleteItem={setDeleteItem}
-        setChangeItem={setChangeItem}
+        setChangeItem={openItemModal}
+        setCopyItem={askCopyItem}
       />
+
+      <Confirm
+        isOpen={copyDialog}
+        onClose={() => setCopyDialog(false)}
+        title='Вы точно хотите скопировать этот товар?'
+      >
+        <Button variant='outlined' color='success' onClick={copyAndOpen}>
+          Скопировать
+        </Button>
+      </Confirm>
 
       <Confirm
         isOpen={deleteDialog}
         onClose={() => setDeleteDialog(false)}
-        title={`Вы уверены, что хотите удалить товар ${
-          deletedItem?.name || ''
-        }?`}
+        title={`Вы уверены, что хотите удалить товар ${deletedItem?.name || ''}?`}
       >
         <Button
           variant='outlined'
@@ -188,23 +178,6 @@ export const ItemsView: React.FC<ItemsViewProps> = ({
           Удалить
         </Button>
       </Confirm>
-
-      {changedItem && (
-        <ItemMenu
-          isOpen={changeDialog}
-          item={changedItem}
-          categories={categories}
-          onClose={() => setChangeDialog(false)}
-          valutes={valutes}
-        />
-      )}
-
-      <ItemMenu
-        isOpen={addDialog}
-        categories={categories}
-        onClose={() => setAddDialog(false)}
-        valutes={valutes}
-      />
     </Stack>
   )
 }

@@ -13,19 +13,31 @@ import {
 import { useUnit } from 'effector-react'
 import { useEffect, useState } from 'react'
 
-import { $itemFiles, deleteItemFileFx, getItemFilesFx } from '@entities/items'
+import { useModal } from '@app/contexts/ModalContext'
+import {
+  $itemFiles,
+  deleteItemFileFx,
+  deleteItemFilesFx,
+  getItemFilesFx,
+} from '@entities/items'
 import { ItemFile } from '@entities/items/model'
-import { FileModal, getFileIcon } from '@features/upload-item-file'
+import { getFileIcon } from '@features/upload-item-file'
+import { Confirm, FetchState } from '@shared/ui'
 
 import { FileManagerProps } from './interfaces'
 
+import s from './styles.module.scss'
+
 export const FileManager: React.FC<FileManagerProps> = ({ itemId }) => {
-  const [files, loadFiles, removeFile] = useUnit([
+  const [files, loading, loadFiles, removeFile, removeFiles] = useUnit([
     $itemFiles,
+    getItemFilesFx.pending,
     getItemFilesFx,
     deleteItemFileFx,
+    deleteItemFilesFx,
   ])
-  const [isModal, setIsModal] = useState(false)
+  const [deleteDialog, setDeleteDialog] = useState(false)
+  const { open } = useModal()
 
   useEffect(() => {
     loadFiles(itemId)
@@ -37,45 +49,24 @@ export const FileManager: React.FC<FileManagerProps> = ({ itemId }) => {
 
   return (
     <Stack spacing={2}>
-      {files.length === 0 ? (
-        <Typography color='text.secondary'>
-          Прикреплённых файлов пока нет
-        </Typography>
-      ) : (
+      <FetchState
+        loading={loading}
+        empty={files.length === 0}
+        emptyText='Прикреплённых файлов пока нет'
+        framed={false}
+      >
         <Stack spacing={1.25}>
           {files.map((file) => {
             const FileIcon =
               getFileIcon(file.icon) || InsertDriveFileOutlinedIcon
 
             return (
-              <Paper
-                key={file.src}
-                variant='outlined'
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1.5,
-                  px: 2,
-                  py: 1.25,
-                }}
-              >
-                <Box
-                  sx={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 1,
-                    bgcolor: 'grey.100',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
-                    color: 'text.secondary',
-                  }}
-                >
+              <Paper key={file.src} variant='outlined' className={s.file}>
+                <Box className={s.fileIcon}>
                   <FileIcon />
                 </Box>
-                <Box sx={{ flex: 1, minWidth: 0 }}>
-                  <Typography variant='body2' sx={{ fontWeight: 600 }} noWrap>
+                <Box className={s.fileBody}>
+                  <Typography variant='body2' className={s.fileTitle} noWrap>
                     {file.title || 'Без названия'}
                   </Typography>
                 </Box>
@@ -100,23 +91,44 @@ export const FileManager: React.FC<FileManagerProps> = ({ itemId }) => {
             )
           })}
         </Stack>
-      )}
+      </FetchState>
 
-      <Box>
+      <Stack direction='row' spacing={1} className={s.actions}>
         <Button
           variant='contained'
           startIcon={<AddIcon />}
-          onClick={() => setIsModal(true)}
+          onClick={() => open('fileModal', { itemId })}
         >
           Добавить файл
         </Button>
-      </Box>
+        {files.length > 0 && (
+          <Button
+            variant='outlined'
+            color='error'
+            startIcon={<DeleteOutlinedIcon />}
+            onClick={() => setDeleteDialog(true)}
+          >
+            Удалить все файлы
+          </Button>
+        )}
+      </Stack>
 
-      <FileModal
-        isOpen={isModal}
-        onClose={() => setIsModal(false)}
-        itemId={itemId}
-      />
+      <Confirm
+        isOpen={deleteDialog}
+        onClose={() => setDeleteDialog(false)}
+        title='Вы точно хотите удалить все файлы?'
+      >
+        <Button
+          variant='outlined'
+          color='success'
+          onClick={() => {
+            setDeleteDialog(false)
+            removeFiles(itemId)
+          }}
+        >
+          Удалить
+        </Button>
+      </Confirm>
     </Stack>
   )
 }

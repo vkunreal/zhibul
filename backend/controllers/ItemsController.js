@@ -203,6 +203,21 @@ class ItemsController {
     res.status(200).json(result)
   }
 
+  async copyItem(req, res) {
+    try {
+      const copied = await ItemsServices.copyItem(req.params.id)
+
+      if (!copied) {
+        return res.status(404).json({ status: false })
+      }
+
+      return res.status(201).json(copied)
+    } catch (e) {
+      console.error(e)
+      return res.status(500).json({ status: false })
+    }
+  }
+
   async addItem(req, res) {
     const item = req.body
     const test = testItem(item)

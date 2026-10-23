@@ -1,30 +1,38 @@
-import AddIcon from '@mui/icons-material/Add'
-import { Alert, Button, Stack, Typography } from '@mui/material'
+import { Alert, Button, Stack } from '@mui/material'
 import { useUnit } from 'effector-react'
 import { useEffect, useState } from 'react'
 
+import { useModal } from '@app/contexts/ModalContext'
 import {
   $options,
   changeOptionPositionsFx,
+  deleteOptionsFx,
   getOptionsFx,
 } from '@entities/options'
 import { ItemOption, OptionPosition } from '@entities/options/model'
 import { OptionElem } from '@entities/options/ui/OptionElem'
 import { OptionDragEvent } from '@entities/options/ui/OptionElem/interfaces'
-import { AddOptionMenu } from '@features/add-option'
+import { Confirm, FetchState } from '@shared/ui'
 
 import { OptionsListProps } from './interfaces'
+import { OptionsToolbar } from './ui/OptionsToolbar'
+
+import s from './styles.module.scss'
 
 export const OptionsList: React.FC<OptionsListProps> = ({ itemId }) => {
-  const [options, loadOptions, savePositions] = useUnit([
-    $options,
-    getOptionsFx,
-    changeOptionPositionsFx,
-  ])
+  const [options, loading, loadOptions, savePositions, removeOptions] =
+    useUnit([
+      $options,
+      getOptionsFx.pending,
+      getOptionsFx,
+      changeOptionPositionsFx,
+      deleteOptionsFx,
+    ])
+  const [deleteDialog, setDeleteDialog] = useState(false)
   const [items, setItems] = useState<ItemOption[]>(options)
   const [positions, setPositions] = useState<OptionPosition[]>([])
   const [currentOption, setCurrentOption] = useState<ItemOption | null>(null)
-  const [optionDialog, setOptionDialog] = useState(false)
+  const { open } = useModal()
 
   useEffect(() => {
     loadOptions(itemId)
@@ -42,17 +50,17 @@ export const OptionsList: React.FC<OptionsListProps> = ({ itemId }) => {
     setCurrentOption(option)
   }
   const onDragLeave = (e: OptionDragEvent) => {
-    e.currentTarget.style.opacity = '1'
+    e.currentTarget.classList.remove(s.dragging)
   }
   const onDragOver = (e: OptionDragEvent) => {
     e.preventDefault()
-    e.currentTarget.style.opacity = '0.85'
+    e.currentTarget.classList.add(s.dragging)
   }
 
   const onDrop = (e: OptionDragEvent, option: ItemOption) => {
     if (!currentOption) return
     e.preventDefault()
-    e.currentTarget.style.opacity = '1'
+    e.currentTarget.classList.remove(s.dragging)
     const nItems = items.map((c) => {
       if (c.id === option.id) {
         return { ...c, position: currentOption.position }
@@ -91,16 +99,17 @@ export const OptionsList: React.FC<OptionsListProps> = ({ itemId }) => {
 
   return (
     <Stack spacing={2}>
-      <Alert severity='info' variant='outlined' sx={{ py: 0.5 }}>
+      <Alert severity='info' variant='outlined' className={s.hint}>
         Для выпадающего меню включите галочку и укажите значения через дефис,
         например: 1.1-1.2-1.3. Перетаскивайте карточки, чтобы менять порядок.
       </Alert>
 
-      {items.length === 0 ? (
-        <Typography color='text.secondary'>
-          Опций пока нет — добавьте первую
-        </Typography>
-      ) : (
+      <FetchState
+        loading={loading}
+        empty={items.length === 0}
+        emptyText='Опций пока нет — добавьте первую'
+        framed={false}
+      >
         <Stack spacing={1.25}>
           {[...items].sort(sortOptions).map((option, i) => (
             <OptionElem
@@ -115,38 +124,33 @@ export const OptionsList: React.FC<OptionsListProps> = ({ itemId }) => {
             />
           ))}
         </Stack>
-      )}
+      </FetchState>
 
-      <Stack direction='row' spacing={1} sx={{ flexWrap: 'wrap' }}>
-        <Button
-          variant='contained'
-          startIcon={<AddIcon />}
-          onClick={() => setOptionDialog(true)}
-        >
-          Добавить опцию
-        </Button>
-        {orderChanged && (
-          <>
-            <Button
-              variant='outlined'
-              color='success'
-              onClick={saveOptionsPositions}
-            >
-              Сохранить порядок
-            </Button>
-            <Button variant='outlined' color='inherit' onClick={cancelDiffs}>
-              Отменить
-            </Button>
-          </>
-        )}
-      </Stack>
-
-      <AddOptionMenu
-        isOpen={optionDialog}
-        itemId={itemId}
-        position={nextPosition}
-        onClose={() => setOptionDialog(false)}
+      <OptionsToolbar
+        onAdd={() => open('optionModal', { itemId, position: nextPosition })}
+        canDeleteAll={items.length > 0}
+        onDeleteAll={() => setDeleteDialog(true)}
+        orderChanged={orderChanged}
+        onSave={saveOptionsPositions}
+        onCancel={cancelDiffs}
       />
+
+      <Confirm
+        isOpen={deleteDialog}
+        onClose={() => setDeleteDialog(false)}
+        title='Вы точно хотите удалить все опции?'
+      >
+        <Button
+          variant='outlined'
+          color='success'
+          onClick={() => {
+            setDeleteDialog(false)
+            removeOptions(itemId)
+          }}
+        >
+          Удалить
+        </Button>
+      </Confirm>
     </Stack>
   )
 }

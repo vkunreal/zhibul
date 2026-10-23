@@ -1,0 +1,120 @@
+.host {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1400;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  pointer-events: none;
+  max-height: calc(100vh - 32px);
+  overflow: hidden;
+}
+
+.list {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+}
+
+.slot {
+  padding-bottom: 8px;
+  pointer-events: auto;
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 320px;
+  max-width: 420px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+  overflow: hidden;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.bar {
+  width: 2px;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+.body {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1;
+  padding: 10px 4px 10px 2px;
+}
+
+.icon:global(.MuiBox-root) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+.glyph:global(.MuiSvgIcon-root) {
+  font-size: 20px;
+}
+
+.progressLoading:global(.MuiCircularProgress-root) {
+  color: #1976d2;
+}
+
+.progressSuccess:global(.MuiCircularProgress-root) {
+  color: #2e7d32;
+}
+
+.progressError:global(.MuiCircularProgress-root) {
+  color: #d32f2f;
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+  padding-right: 4px;
+}
+
+.title:global(.MuiTypography-root) {
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.35;
+}
+
+.description:global(.MuiTypography-root) {
+  margin-top: 2px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.close:global(.MuiIconButton-root) {
+  color: #94a3b8;
+  margin-top: -2px;
+}
+
+.barLoading {
+  background-color: #1976d2;
+}
+
+.barSuccess {
+  background-color: #2e7d32;
+}
+
+.barError {
+  background-color: #d32f2f;
+}
+
+.iconLoading {
+  color: #1976d2;
+}
+
+.iconSuccess {
+  color: #2e7d32;
+}
+
+.iconError {
+  color: #d32f2f;
+}
