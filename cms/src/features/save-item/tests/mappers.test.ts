@@ -38,6 +38,7 @@ describe('save-item mappers', () => {
   it('toAddItemDTO собирает DTO и резолвит manufacturer по имени страны', () => {
     expect(toAddItemDTO(values(), countries)).toEqual({
       category_id: 5,
+      code: '',
       position: 3,
       url: 'drill',
       name: 'Дрель',
@@ -74,10 +75,17 @@ describe('save-item mappers', () => {
     })
   })
 
+  it('обрезает артикул до 6 символов и снимает пробелы', () => {
+    expect(toAddItemDTO(values({ code: '  ABCDEFG  ' }), countries)).toMatchObject({
+      code: 'ABCDEF',
+    })
+  })
+
   it('toItemForm собирает значения формы и оставляет производителя только из списка стран', () => {
     const item = {
       categoryId: 5,
       categoryName: 'Инструмент',
+      code: 'A-1',
       url: 'drill',
       position: 3,
       name: 'Дрель',
@@ -98,6 +106,7 @@ describe('save-item mappers', () => {
 
     expect(toItemForm(item, countries)).toMatchObject({
       categoryId: 5,
+      code: 'A-1',
       manufacturer: 'Германия',
       valute: '2',
       purchase: '100',

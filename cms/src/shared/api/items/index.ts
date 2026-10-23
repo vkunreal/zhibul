@@ -9,6 +9,7 @@ import {
 } from './interfaces'
 import {
   copiedItemSchema,
+  itemCodeFreeSchema,
   itemImagesSchema,
   itemSchema,
   itemsPageSchema,
@@ -53,6 +54,18 @@ export const changeItem = (body: ChangeItemDTO) =>
     schema: statusResponseSchema,
     auth: true,
     body,
+  })
+
+export const isItemCodeFree = (code: string, itemId?: number) =>
+  request({
+    method: 'GET',
+    path: '/api/item/code',
+    schema: itemCodeFreeSchema,
+    auth: true,
+    params: {
+      code,
+      ...(itemId ? { item_id: itemId } : {}),
+    },
   })
 
 export const copyItem = (id: number) =>

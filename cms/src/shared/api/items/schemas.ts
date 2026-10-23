@@ -1,6 +1,12 @@
 import { z } from 'zod'
 
-import { CopiedItemDTO, ItemDTO, ItemImageDTO, ItemsPageDTO } from './interfaces'
+import {
+  CopiedItemDTO,
+  ItemCodeFreeDTO,
+  ItemDTO,
+  ItemImageDTO,
+  ItemsPageDTO,
+} from './interfaces'
 
 export const itemSchema: z.ZodType<ItemDTO> = z.object({
   id: z.number(),
@@ -41,6 +47,10 @@ export const itemImageSchema: z.ZodType<ItemImageDTO> = z.object({
 })
 
 export const itemImagesSchema = z.array(itemImageSchema)
+
+export const itemCodeFreeSchema: z.ZodType<ItemCodeFreeDTO> = z.object({
+  free: z.boolean(),
+})
 
 export const copiedItemSchema: z.ZodType<CopiedItemDTO> = z.object({
   id: z.number(),

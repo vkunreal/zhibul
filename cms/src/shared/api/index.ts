@@ -30,6 +30,7 @@ export {
   getItemById,
   getItemImages,
   getItems,
+  isItemCodeFree,
   setMainItemImage,
   uploadItemImages,
 } from './items'

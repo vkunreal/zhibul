@@ -39,7 +39,7 @@ export interface GetItemsQueryDTO {
   page: number
   limit: number
   category_url?: string
-  /** Подстрока названия товара. */
+  /** Подстрока названия или артикула. */
   search?: string
 }
 
@@ -54,9 +54,11 @@ export interface ItemsPageDTO {
   next: string | null
 }
 
-/** Тело `POST /api/item`. `manufacturer` — id страны. */
+/** Тело `POST /api/item`. `manufacturer` — id страны. Пустой `code` при создании сервер заполнит сам. */
 export interface AddItemDTO {
   category_id: number
+  /** Артикул, до 6 символов. Пустая строка при изменении очищает артикул. */
+  code: string
   position: number
   url: string
   name: string
@@ -80,6 +82,11 @@ export interface CopiedItemDTO {
   id: number
   url: string
   category_url: string
+}
+
+/** Ответ `GET /api/item/code`. `free` — артикула нет у другого товара. */
+export interface ItemCodeFreeDTO {
+  free: boolean
 }
 
 /** Тело `PUT /api/item/`. */

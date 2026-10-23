@@ -19,6 +19,7 @@ ItemsRouter.get(
 ItemsRouter.get('/countries', ItemsController.getCountries)
 
 ItemsRouter.get('/item/id/:id', ItemsController.getItem)
+ItemsRouter.get('/item/code', authenticateToken, ItemsController.isCodeFree)
 ItemsRouter.get('/item/:item_url', ItemsController.getItemFromUrl)
 ItemsRouter.get('/item/images/:item_id', ItemsController.getItemImages)
 

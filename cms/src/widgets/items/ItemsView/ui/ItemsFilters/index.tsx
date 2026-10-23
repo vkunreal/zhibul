@@ -26,7 +26,7 @@ export const ItemsFilters = ({
       <TextField
         size='small'
         label='Поиск'
-        placeholder='Название товара'
+        placeholder='Название или артикул'
         value={search}
         onChange={(event) => onSearchChange(event.target.value)}
         className={s.field}

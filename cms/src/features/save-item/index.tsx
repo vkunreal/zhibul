@@ -1,9 +1,11 @@
 import { useUnit } from 'effector-react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { $countries } from '@entities/countries'
 import { CategoryOption } from '@entities/items/model'
+import { isItemCodeFree } from '@shared/api'
+import { ToastKind, toastShown } from '@shared/toasts'
 import { FormModal, SeoFields } from '@shared/ui'
 
 import { emptyItemForm } from './constants'
@@ -24,11 +26,34 @@ export const ItemMenu: React.FC<ItemMenuProps> = ({
   valutes,
 }) => {
   const countries = useUnit($countries)
+  const [checkingCode, setCheckingCode] = useState(false)
   const { control, reset, setValue, watch, handleSubmit } = useForm({
     defaultValues: emptyItemForm,
   })
 
-  const onSubmit = handleSubmit((values) => {
+  const onSubmit = handleSubmit(async (values) => {
+    const code = values.code.trim().slice(0, 6)
+
+    if (code) {
+      setCheckingCode(true)
+      try {
+        const { free } = await isItemCodeFree(code, item?.id)
+        if (!free) {
+          toastShown({
+            id: 'items/code',
+            kind: ToastKind.Error,
+            title: 'Артикул уже занят',
+            description: 'Укажите другой артикул',
+          })
+          return
+        }
+      } catch {
+        return
+      } finally {
+        setCheckingCode(false)
+      }
+    }
+
     submitItem(values)
     onClose()
   })
@@ -58,7 +83,7 @@ export const ItemMenu: React.FC<ItemMenuProps> = ({
       title={item ? 'Изменение товара' : 'Добавление товара'}
       onClose={onClose}
       onSubmit={onSubmit}
-      submitDisabled={!item && submitDisabled}
+      submitDisabled={checkingCode || (!item && submitDisabled)}
       contentClassName={s.menu}
     >
       <ItemFlags control={control} />

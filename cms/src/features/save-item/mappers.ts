@@ -21,6 +21,7 @@ export const toItemForm = (
   return {
     categoryId: item.categoryId,
     categoryName: item.categoryName,
+    code: item.code,
     url: item.url,
     position: item.position,
     name: item.name,
@@ -45,6 +46,7 @@ export const toAddItemDTO = (
   countries: Country[],
 ): AddItemDTO => ({
   category_id: values.categoryId,
+  code: values.code.trim().slice(0, 6),
   position: values.position,
   url: values.url,
   name: values.name,

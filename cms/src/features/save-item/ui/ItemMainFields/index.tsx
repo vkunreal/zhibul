@@ -23,6 +23,16 @@ export const ItemMainFields = ({
 
       <FormTextField
         control={control}
+        name='code'
+        textFieldProps={{
+          label: 'Артикул',
+          autoComplete: 'off',
+          slotProps: { htmlInput: { maxLength: 6 } },
+        }}
+      />
+
+      <FormTextField
+        control={control}
         name='url'
         textFieldProps={{ label: 'URL', autoComplete: 'off' }}
       />

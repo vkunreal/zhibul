@@ -16,7 +16,7 @@
 
 ### `yarn start`
 
-Отдаёт собранную папку `build` локально.
+Отдаёт собранную папку `build` локально на [http://localhost:3000](http://localhost:3000).
 
 ### `yarn admin`
 

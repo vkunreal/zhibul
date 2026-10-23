@@ -3,6 +3,7 @@ import { ItemFormValues } from './interfaces'
 export const emptyItemForm: ItemFormValues = {
   categoryId: 0,
   categoryName: '',
+  code: '',
   url: '',
   position: 0,
   name: '',

@@ -4,6 +4,8 @@ import { Valute } from '@entities/valutes/model'
 export interface ItemFormValues {
   categoryId: number
   categoryName: string
+  /** Артикул, до 6 символов. Пустая строка — без артикула. */
+  code: string
   url: string
   position: number
   name: string

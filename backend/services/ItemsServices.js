@@ -188,6 +188,18 @@ const queryItemById = (item_id) => `
 
 const toSqlBool = (value) => (value ? 1 : 0)
 
+const normalizeCode = (code) => String(code ?? '').trim().slice(0, 6)
+
+const codeTakenError = () => {
+  const error = new Error('Артикул уже занят')
+  error.codeTaken = true
+  return error
+}
+
+const isCodeDuplicate = (error) =>
+  error?.codeTaken ||
+  (error?.code === 'ER_DUP_ENTRY' && String(error.sqlMessage ?? error.message).includes('code'))
+
 class ItemsServices {
   // get all items from db
   async getAllItems() {
@@ -211,17 +223,19 @@ class ItemsServices {
       .trim()
       .replace(/["\\%_]/g, '')
       .slice(0, 100)
-    const nameFilter = safeSearch ? `it.name LIKE "%${safeSearch}%"` : ''
+    const searchFilter = safeSearch
+      ? `(it.name LIKE "%${safeSearch}%" OR it.code LIKE "%${safeSearch}%")`
+      : ''
 
     const baseQuery = safeCategoryUrl
       ? queryItemsByCategoryUrl(safeCategoryUrl)
       : queryItems
-    const filteredQuery = nameFilter
+    const filteredQuery = searchFilter
       ? safeCategoryUrl
-        ? baseQuery.replace('WHERE 1 = 1', `WHERE 1 = 1 AND ${nameFilter}`)
+        ? baseQuery.replace('WHERE 1 = 1', `WHERE 1 = 1 AND ${searchFilter}`)
         : baseQuery.replace(
             'GROUP BY it.id',
-            `WHERE ${nameFilter}\n  GROUP BY it.id`,
+            `WHERE ${searchFilter}\n  GROUP BY it.id`,
           )
       : baseQuery
 
@@ -229,9 +243,9 @@ class ItemsServices {
       ? `SELECT COUNT(*) as count
          FROM items it
          JOIN categories c ON it.category_id = c.id AND c.url = "${safeCategoryUrl}"
-         ${nameFilter ? `WHERE ${nameFilter}` : ''}`
+         ${searchFilter ? `WHERE ${searchFilter}` : ''}`
       : `SELECT COUNT(*) as count FROM items it
-         ${nameFilter ? `WHERE ${nameFilter}` : ''}`
+         ${searchFilter ? `WHERE ${searchFilter}` : ''}`
 
     const items = await request(
       `${filteredQuery} ORDER BY it.position ASC, it.id ASC LIMIT ${limit} OFFSET ${
@@ -295,9 +309,49 @@ class ItemsServices {
     }
   }
 
+  // Пустой артикул свободен: в UNIQUE-колонке несколько NULL допустимы.
+  // exceptId — текущий товар, его собственный артикул не считается занятым.
+  async codeOwnerId(code, exceptId) {
+    const article = normalizeCode(code)
+    if (!article) return null
+
+    const except = parseInt(exceptId, 10)
+    const exceptSql = Number.isInteger(except) && except > 0 ? ` AND id != ${except}` : ''
+    const row = await request(
+      `SELECT id FROM items WHERE code = ${sqlText(article)}${exceptSql} LIMIT 1`,
+      (res) => res[0][0],
+    )
+
+    return row?.id ?? null
+  }
+
+  async assertCodeFree(code, exceptId) {
+    const ownerId = await this.codeOwnerId(code, exceptId)
+    if (ownerId) throw codeTakenError()
+  }
+
+  // Артикул нового товара: `1.` и следующий id, до 6 символов. Если занят — берём следующий свободный.
+  async nextDefaultCode() {
+    const lastId = await request(
+      'SELECT MAX(id) as id FROM items',
+      (d) => d[0][0],
+    )
+    let n = Number(lastId?.id) || 0
+
+    for (let step = 0; step < 100; step += 1) {
+      n += 1
+      const article = `1.${String(n).padStart(4, '0')}`
+      if (article.length > 6) break
+      if (!(await this.codeOwnerId(article))) return article
+    }
+
+    throw codeTakenError()
+  }
+
   async changeItemById({
     item_id,
     category_id,
+    code,
     url,
     position,
     name,
@@ -315,6 +369,8 @@ class ItemsServices {
     is_active,
     is_order_only,
   }) {
+    if (code !== undefined) await this.assertCodeFree(code, item_id)
+
     try {
       const updateItemField = async (field, value) =>
         await request(
@@ -324,6 +380,9 @@ class ItemsServices {
         )
 
       updateItemField('category_id', category_id)
+      if (code !== undefined) {
+        await updateItemField('code', replaceQuotes(normalizeCode(code)))
+      }
       updateItemField('name', replaceQuotes(name))
       updateItemField('position', position)
       updateItemField('url', url)
@@ -352,12 +411,14 @@ class ItemsServices {
       writeLog('Item was changed')
       return { status: true }
     } catch (e) {
+      if (isCodeDuplicate(e)) throw codeTakenError()
       console.error(e)
     }
   }
 
   async addItem({
     category_id,
+    code,
     url,
     position,
     name,
@@ -375,16 +436,14 @@ class ItemsServices {
     is_active = true,
     is_order_only = false,
   }) {
-    try {
-      const lastId = await request(
-        'SELECT MAX(id) as id FROM items',
-        (d) => d[0][0],
-      )
-      const code = '1.' + String(lastId.id + 1).padStart(4, '0')
+    const typedCode = normalizeCode(code)
+    const article = typedCode || (await this.nextDefaultCode())
+    if (typedCode) await this.assertCodeFree(article)
 
+    try {
       await request(`
         INSERT INTO items(code, position, url, category_id, name, description, brand, manufacturer_id, price, valute_id, purchase_price, profitabilaty, price_postfix, seo_title, seo_description, seo_keywords, is_active, is_order_only)
-        VALUES ("${code}", "${position}", "${url}", "${category_id}", "${name}", "${replaceQuotes(
+        VALUES (${sqlText(article)}, "${position}", "${url}", "${category_id}", "${name}", "${replaceQuotes(
           description,
         )}", "${brand}", "${manufacturer}", "${price}", "${valute_id || 1}", ${
           purchase_price ? `"${purchase_price}"` : 'null'
@@ -400,6 +459,7 @@ class ItemsServices {
       writeLog('Item was added')
       return { status: true }
     } catch (e) {
+      if (isCodeDuplicate(e)) throw codeTakenError()
       console.error(e)
     }
   }
@@ -459,7 +519,7 @@ class ItemsServices {
     throw new Error('Не удалось подобрать уникальный url')
   }
 
-  // Новая карточка: id и url выдаёт база/этот метод, артикул пустой, is_active = 0.
+  // Новая карточка: id и url выдаёт база/этот метод, артикул — как у нового товара, is_active = 0.
   // Опции, картинки и файлы — отдельные записи, файлы скопированы на диск.
   async copyItem(itemId) {
     const safeId = parseInt(itemId, 10)
@@ -478,16 +538,18 @@ class ItemsServices {
     if (!category?.url) return null
 
     const url = await this.nextCopyUrl(source.url)
+    const article = await this.nextDefaultCode()
     const createdFiles = []
     let newId = null
 
     try {
       const inserted = await request(`
         INSERT INTO items (
-          position, url, category_id, name, description, brand, manufacturer_id,
+          code, position, url, category_id, name, description, brand, manufacturer_id,
           price, valute_id, purchase_price, profitabilaty, price_postfix,
           seo_title, seo_description, seo_keywords, is_active, is_order_only
         ) VALUES (
+          ${sqlText(article)},
           ${sqlNumber(source.position) === 'null' ? 0 : sqlNumber(source.position)},
           ${sqlText(url)},
           ${sqlNumber(source.category_id)},
