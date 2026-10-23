@@ -2,46 +2,24 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
 import { Box, Button, Paper, Stack, Typography } from '@mui/material'
 import { Link as RouterLink } from 'react-router'
 
+import s from './styles.module.scss'
+
 export const NotFound: React.FC = () => {
   return (
-    <Box
-      sx={{
-        minHeight: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        p: 3,
-      }}
-    >
-      <Paper
-        variant='outlined'
-        sx={{
-          width: '100%',
-          maxWidth: 480,
-          px: 4,
-          py: 5,
-          textAlign: 'center',
-        }}
-      >
-        <Typography
-          variant='h2'
-          sx={{ fontWeight: 700, letterSpacing: 1, color: 'text.secondary' }}
-        >
+    <Box className={s.page}>
+      <Paper variant='outlined' className={s.card}>
+        <Typography variant='h2' className={s.code}>
           404
         </Typography>
-        <Typography variant='h5' sx={{ fontWeight: 600, mt: 1 }}>
+        <Typography variant='h5' className={s.title}>
           Страница не найдена
         </Typography>
-        <Typography variant='body2' color='text.secondary' sx={{ mt: 1.5 }}>
+        <Typography variant='body2' color='text.secondary' className={s.text}>
           Такого адреса в админке нет. Проверьте ссылку или вернитесь на
           главную.
         </Typography>
 
-        <Stack
-          direction='row'
-          spacing={1.5}
-          sx={{ justifyContent: 'center', mt: 3 }}
-        >
+        <Stack direction='row' spacing={1.5} className={s.actions}>
           <Button
             variant='contained'
             component={RouterLink}

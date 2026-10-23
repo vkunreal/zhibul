@@ -7,7 +7,13 @@ import {
   GetItemsQueryDTO,
   ItemImageSrcDTO,
 } from './interfaces'
-import { itemImagesSchema, itemSchema, itemsPageSchema } from './schemas'
+import {
+  copiedItemSchema,
+  itemCodeFreeSchema,
+  itemImagesSchema,
+  itemSchema,
+  itemsPageSchema,
+} from './schemas'
 
 export const getItemById = (id: number) =>
   request({
@@ -48,6 +54,26 @@ export const changeItem = (body: ChangeItemDTO) =>
     schema: statusResponseSchema,
     auth: true,
     body,
+  })
+
+export const isItemCodeFree = (code: string, itemId?: number) =>
+  request({
+    method: 'GET',
+    path: '/api/item/code',
+    schema: itemCodeFreeSchema,
+    auth: true,
+    params: {
+      code,
+      ...(itemId ? { item_id: itemId } : {}),
+    },
+  })
+
+export const copyItem = (id: number) =>
+  request({
+    method: 'POST',
+    path: `/api/item/${id}/copy`,
+    schema: copiedItemSchema,
+    auth: true,
   })
 
 export const deleteItem = (id: number) =>

@@ -1,0 +1,50 @@
+.card {
+  position: relative;
+  flex: 0 0 auto;
+  width: 200px;
+  overflow: hidden;
+}
+
+.pending:global(.MuiPaper-root) {
+  border-color: #2e7d32;
+}
+
+.remove:global(.MuiIconButton-root) {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.55);
+  color: #fff;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 6px 8px;
+
+  :global(.MuiChip-root) {
+    height: 24px;
+  }
+}
+
+.caption {
+  padding: 6px 8px;
+}
+
+.chip:global(.MuiChip-root) {
+  height: 24px;
+}

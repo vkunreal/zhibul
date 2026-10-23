@@ -92,6 +92,15 @@ class OptionsServices {
     return response
   }
 
+  async deleteOptionsByItemId(item_id) {
+    const safeId = parseInt(item_id, 10)
+    if (!safeId) return { status: false }
+
+    await request(`DELETE FROM options WHERE item_id = "${safeId}"`)
+    writeLog('Options were deleted')
+    return { status: true }
+  }
+
   // delete option by id
   async deleteOptionById(option_id) {
     let response

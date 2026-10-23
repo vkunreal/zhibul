@@ -4,6 +4,8 @@ import { Valute } from '@entities/valutes/model'
 export interface ItemFormValues {
   categoryId: number
   categoryName: string
+  /** Артикул, до 6 символов. Пустая строка — без артикула. */
+  code: string
   url: string
   position: number
   name: string
@@ -25,11 +27,12 @@ export interface ItemFormValues {
 }
 
 export interface ItemMenuProps {
-  item?: Item
+  item: Item | null
   categories: CategoryOption[]
+  valutes: Valute[]
+  onSubmit: (values: ItemFormValues) => void
   isOpen: boolean
   onClose: () => void
-  valutes: Valute[]
 }
 
 export interface ChangeItemPayload {

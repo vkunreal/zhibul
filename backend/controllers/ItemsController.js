@@ -204,9 +204,44 @@ class ItemsController {
       return res.status(400).json({ status: false })
     }
 
-    const result = await ItemsServices.changeItemById(item)
+    try {
+      const result = await ItemsServices.changeItemById(item)
+      res.status(200).json(result)
+    } catch (e) {
+      if (e.codeTaken) {
+        return res.status(409).json({ status: false, message: 'Артикул уже занят' })
+      }
+      console.error(e)
+      res.status(500).json({ status: false })
+    }
+  }
 
-    res.status(200).json(result)
+  async isCodeFree(req, res) {
+    try {
+      const ownerId = await ItemsServices.codeOwnerId(
+        req.query.code,
+        req.query.item_id,
+      )
+      res.status(200).json({ free: !ownerId })
+    } catch (e) {
+      console.error(e)
+      res.status(500).json({ status: false })
+    }
+  }
+
+  async copyItem(req, res) {
+    try {
+      const copied = await ItemsServices.copyItem(req.params.id)
+
+      if (!copied) {
+        return res.status(404).json({ status: false })
+      }
+
+      return res.status(201).json(copied)
+    } catch (e) {
+      console.error(e)
+      return res.status(500).json({ status: false })
+    }
   }
 
   async addItem(req, res) {
@@ -217,8 +252,16 @@ class ItemsController {
       return res.status(400).json(test)
     }
 
-    const result = await ItemsServices.addItem(item)
-    return res.status(201).json(result)
+    try {
+      const result = await ItemsServices.addItem(item)
+      return res.status(201).json(result)
+    } catch (e) {
+      if (e.codeTaken) {
+        return res.status(409).json({ status: false, message: 'Артикул уже занят' })
+      }
+      console.error(e)
+      return res.status(500).json({ status: false })
+    }
   }
 
   // delete item by id

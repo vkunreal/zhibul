@@ -20,6 +20,14 @@ export const uploadItemFile = (body: FormData) =>
     body,
   })
 
+export const deleteItemFiles = (itemId: number) =>
+  request({
+    method: 'DELETE',
+    path: `/api/files/${itemId}`,
+    schema: statusResponseSchema,
+    auth: true,
+  })
+
 export const deleteItemFile = (body: DeleteItemFileDTO) =>
   request({
     method: 'DELETE',

@@ -7,7 +7,6 @@ import {
 } from '@entities/items'
 import { filesToFormData } from '@shared/utils'
 
-
 import {
   CategoryFormValues,
   CategoryImagePayload,

@@ -13,17 +13,24 @@ export {
 export type * from './categories/interfaces'
 export { getCountries } from './countries'
 export type * from './countries/interfaces'
-export { deleteItemFile, getItemFiles, uploadItemFile } from './files'
+export {
+  deleteItemFile,
+  deleteItemFiles,
+  getItemFiles,
+  uploadItemFile,
+} from './files'
 export type * from './files/interfaces'
 export type * from './interfaces'
 export {
   addItem,
   changeItem,
+  copyItem,
   deleteItem,
   deleteItemImage,
   getItemById,
   getItemImages,
   getItems,
+  isItemCodeFree,
   setMainItemImage,
   uploadItemImages,
 } from './items'
@@ -44,6 +51,7 @@ export {
   changeOption,
   changeOptionPositions,
   deleteOption,
+  deleteOptions,
   getOptions,
 } from './options'
 export type * from './options/interfaces'

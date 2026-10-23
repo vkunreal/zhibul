@@ -1,8 +1,11 @@
-import axios, { Method } from 'axios'
+import axios, { AxiosError, Method } from 'axios'
 import { z } from 'zod'
 
-import { $token } from '../auth'
+import { $token, sessionCleared } from '../auth'
 import { env } from '../config'
+
+// Просроченный и неверный токен бэкенд отклоняет статусом 403, не 401.
+const isExpiredSession = (status?: number) => status === 401 || status === 403
 
 interface RequestBase {
   method: Method
@@ -57,13 +60,25 @@ export async function request<Schema extends z.ZodType>({
 }:
   | RequestWithSchema<Schema>
   | RequestWithoutSchema): Promise<z.output<Schema> | void> {
-  const { data } = await axios.request<unknown>({
-    method,
-    url: apiUrl(path),
-    data: body,
-    params,
-    headers: auth ? authHeaders() : undefined,
-  })
+  let data: unknown
+  try {
+    ;({ data } = await axios.request<unknown>({
+      method,
+      url: apiUrl(path),
+      data: body,
+      params,
+      headers: auth ? authHeaders() : undefined,
+    }))
+  } catch (error) {
+    if (
+      auth &&
+      error instanceof AxiosError &&
+      isExpiredSession(error.response?.status)
+    ) {
+      sessionCleared()
+    }
+    throw error
+  }
 
   if (!schema) return
 

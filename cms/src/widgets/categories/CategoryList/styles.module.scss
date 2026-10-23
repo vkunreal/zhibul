@@ -1,0 +1,15 @@
+.panel {
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 16px;
+}
+
+.title:global(.MuiTypography-root) {
+  font-weight: 600;
+}

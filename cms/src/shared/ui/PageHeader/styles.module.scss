@@ -1,0 +1,14 @@
+.row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.title:global(.MuiTypography-root) {
+  font-weight: 600;
+}
+
+.subtitle:global(.MuiTypography-root) {
+  margin-top: 4px;
+}

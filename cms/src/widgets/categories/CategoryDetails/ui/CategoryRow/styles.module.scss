@@ -1,0 +1,53 @@
+.row {
+  &:hover .actions {
+    opacity: 1;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  opacity: 1;
+  transition: opacity 0.15s ease;
+
+  @media (min-width: 900px) {
+    opacity: 0.35;
+  }
+}
+
+.button:global(.MuiListItemButton-root) {
+  border-radius: 4px;
+  padding-right: 176px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
+.expand:global(.MuiListItemIcon-root) {
+  min-width: 36px;
+}
+
+.spacer {
+  width: 24px;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.name:global(.MuiTypography-root) {
+  font-weight: 500;
+}
+
+.chip:global(.MuiChip-root) {
+  height: 22px;
+  font-size: 12px;
+}
+
+@for $level from 0 through 24 {
+  .depth#{$level} {
+    padding-left: #{$level * 16}px;
+  }
+}

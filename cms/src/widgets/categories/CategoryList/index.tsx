@@ -1,37 +1,42 @@
 import AddIcon from '@mui/icons-material/Add'
-import {
-  Box,
-  Button,
-  Divider,
-  List,
-  Paper,
-  Stack,
-  Typography,
-} from '@mui/material'
+import { Box, Button, Divider, Paper, Stack, Typography } from '@mui/material'
 import { useUnit } from 'effector-react'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import { useModal } from '@app/contexts/ModalContext'
 import { $categories, deleteCategoryFx, getCategoriesFx } from '@entities/items'
 import { Category } from '@entities/items/model'
-import { CategoryMenu } from '@features/save-category'
-import { Confirm } from '@shared/ui'
+import { CategoryFormValues } from '@features/save-category/interfaces'
+import {
+  changeCategorySubmitted,
+  createCategorySubmitted,
+} from '@features/save-category/model'
+import { Confirm, FetchState } from '@shared/ui'
 
-import { CategoryDetails } from '../CategoryDetails'
+import { CategoryTree } from './ui/CategoryTree'
+
+import s from './styles.module.scss'
 
 export const CategoryList: React.FC = () => {
-  const [categories, loadCategories, removeCategory] = useUnit([
+  const { open } = useModal()
+  const [
+    categories,
+    loading,
+    loadCategories,
+    removeCategory,
+    createCategory,
+    changeCategory,
+  ] = useUnit([
     $categories,
+    getCategoriesFx.pending,
     getCategoriesFx,
     deleteCategoryFx,
+    createCategorySubmitted,
+    changeCategorySubmitted,
   ])
 
   const [deletedCategory, setDeletedCategory] = useState<Category | null>(null)
-  const [changedCategory, setChangedCategory] = useState<Category | null>(null)
-  const [parentId, setParentId] = useState<number | null>(null)
-
   const [deleteDialog, setDeleteDialog] = useState(false)
-  const [changeDialog, setChangeDialog] = useState(false)
-  const [addDialog, setAddDialog] = useState(false)
 
   useEffect(() => {
     loadCategories()
@@ -52,9 +57,22 @@ export const CategoryList: React.FC = () => {
     setDeleteDialog(false)
   }
 
-  const setChangeCategory = (category: Category) => {
-    setChangedCategory(category)
-    setChangeDialog(true)
+  const openCategoryModal = (
+    category: Category | null,
+    parentId: number | null,
+  ) => {
+    const onSubmit = ({
+      values,
+      image,
+    }: {
+      values: CategoryFormValues
+      image: File | null
+    }) => {
+      if (category) changeCategory({ values, category })
+      else createCategory({ values, parentId, image })
+    }
+
+    open('categoryModal', { category, onSubmit })
   }
 
   const setDeleteCategory = (category: Category) => {
@@ -63,25 +81,15 @@ export const CategoryList: React.FC = () => {
   }
 
   const handleSetParentId = (id: number) => {
-    setParentId(id)
-    setAddDialog(true)
+    openCategoryModal(null, id)
   }
 
   return (
     <Stack spacing={2}>
-      <Paper variant='outlined' sx={{ overflow: 'hidden' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 2,
-            px: 2,
-            py: 1.5,
-          }}
-        >
+      <Paper variant='outlined' className={s.panel}>
+        <Box className={s.header}>
           <Box>
-            <Typography variant='subtitle1' sx={{ fontWeight: 600 }}>
+            <Typography variant='subtitle1' className={s.title}>
               Дерево категорий
             </Typography>
             <Typography variant='body2' color='text.secondary'>
@@ -92,10 +100,7 @@ export const CategoryList: React.FC = () => {
           <Button
             variant='contained'
             startIcon={<AddIcon />}
-            onClick={() => {
-              setParentId(null)
-              setAddDialog(true)
-            }}
+            onClick={() => openCategoryModal(null, null)}
           >
             Добавить
           </Button>
@@ -103,29 +108,21 @@ export const CategoryList: React.FC = () => {
 
         <Divider />
 
-        {rootCategories.length === 0 ? (
-          <Box sx={{ px: 2, py: 4, textAlign: 'center' }}>
-            <Typography color='text.secondary'>
-              Пока нет категорий — создайте первую
-            </Typography>
-          </Box>
-        ) : (
-          <List disablePadding>
-            {rootCategories.map((category, index) => (
-              <React.Fragment key={category.id}>
-                {index > 0 ? <Divider component='li' /> : null}
-                <CategoryDetails
-                  categories={categories}
-                  category={category}
-                  getCategories={getCategories}
-                  setParentId={handleSetParentId}
-                  setDeletedCategory={setDeleteCategory}
-                  setChangedCategory={setChangeCategory}
-                />
-              </React.Fragment>
-            ))}
-          </List>
-        )}
+        <FetchState
+          loading={loading}
+          empty={rootCategories.length === 0}
+          emptyText='Пока нет категорий — создайте первую'
+          framed={false}
+        >
+          <CategoryTree
+            categories={categories}
+            roots={rootCategories}
+            getCategories={getCategories}
+            onAddChild={handleSetParentId}
+            onDelete={setDeleteCategory}
+            onEdit={(category) => openCategoryModal(category, null)}
+          />
+        </FetchState>
       </Paper>
 
       <Confirm
@@ -137,20 +134,6 @@ export const CategoryList: React.FC = () => {
           Удалить
         </Button>
       </Confirm>
-
-      {changedCategory && (
-        <CategoryMenu
-          isOpen={changeDialog}
-          onClose={() => setChangeDialog(false)}
-          category={changedCategory}
-        />
-      )}
-
-      <CategoryMenu
-        isOpen={addDialog}
-        parentId={parentId}
-        onClose={() => setAddDialog(false)}
-      />
     </Stack>
   )
 }

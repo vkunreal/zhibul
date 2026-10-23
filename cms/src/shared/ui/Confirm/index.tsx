@@ -1,11 +1,8 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogTitle,
-} from '@mui/material'
+import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material'
 
 import { ConfirmProps } from './interfaces'
+
+import s from './styles.module.scss'
 
 export const Confirm: React.FC<ConfirmProps> = ({
   title,
@@ -17,7 +14,7 @@ export const Confirm: React.FC<ConfirmProps> = ({
     <Dialog open={isOpen} onClose={onClose}>
       <DialogTitle>{title}</DialogTitle>
 
-      <DialogActions sx={{ px: 3, py: 2 }}>
+      <DialogActions className={s.actions}>
         {children}
 
         <Button variant='outlined' color='error' onClick={onClose}>

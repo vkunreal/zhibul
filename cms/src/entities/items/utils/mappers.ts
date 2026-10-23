@@ -29,7 +29,7 @@ export const toCategory = (dto: CategoryWithItemsCountDTO): Category => ({
 
 export const toItem = (dto: ItemDTO): Item => ({
   id: dto.id,
-  code: dto.code,
+  code: dto.code ?? '',
   position: dto.position ?? 0,
   categoryId: dto.category_id,
   categoryUrl: dto.category_url,

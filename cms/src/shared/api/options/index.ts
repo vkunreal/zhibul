@@ -38,6 +38,14 @@ export const changeOption = (body: ChangeOptionDTO) =>
 export const changeOptionPositions = (body: OptionPositionDTO[]) =>
   request({ method: 'PUT', path: '/api/option/positions', auth: true, body })
 
+export const deleteOptions = (itemId: number) =>
+  request({
+    method: 'DELETE',
+    path: `/api/options/${itemId}`,
+    schema: statusResponseSchema,
+    auth: true,
+  })
+
 export const deleteOption = (body: DeleteOptionDTO) =>
   request({
     method: 'DELETE',

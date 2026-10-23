@@ -1,6 +1,6 @@
 import { AddButtonProps } from './interfaces'
 
-import './styles.scss'
+import s from './styles.module.scss'
 
 export const AddButton: React.FC<AddButtonProps> = ({
   children,
@@ -9,7 +9,7 @@ export const AddButton: React.FC<AddButtonProps> = ({
 }) => {
   return (
     <button
-      className={'add-item-button fill-width ' + className}
+      className={[s.root, className].filter(Boolean).join(' ')}
       onClick={onClick}
     >
       &#10010; {children}

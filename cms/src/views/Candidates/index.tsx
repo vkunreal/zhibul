@@ -17,6 +17,7 @@ import {
 } from '@entities/users'
 import { Confirm } from '@shared/ui'
 
+import s from './styles.module.scss'
 
 export const Candidates: React.FC = () => {
   const [candidates, loading, loadCandidates, removeCandidate] = useUnit([
@@ -41,10 +42,10 @@ export const Candidates: React.FC = () => {
   }
 
   return (
-    <div className='pd-4'>
+    <div className={s.page}>
       <h1>Потенциальные покупатели</h1>
 
-      <p className='mt-2 mb-4'>
+      <p className={s.lead}>
         Потенциальные покупатели - раздел, в котором хранятся посетители,
         вводившие данные в обратной связи, но по какой-то причине покинувшие
         сайт
@@ -65,10 +66,7 @@ export const Candidates: React.FC = () => {
             <TableBody>
               {candidates.map(
                 ({ id, phone, name, company, email, comment }) => (
-                  <TableRow
-                    key={id}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
+                  <TableRow key={id} className={s.row}>
                     <TableCell align='center'>{phone || '-'}</TableCell>
                     <TableCell align='center'>{name || '-'}</TableCell>
                     <TableCell align='center'>{company || '-'}</TableCell>
@@ -94,7 +92,7 @@ export const Candidates: React.FC = () => {
       {!candidates.length && !loading && <p>Потенциальных покупателей нет</p>}
 
       {loading && (
-        <div className='d-flex justify-center mt-35'>
+        <div className={s.loader}>
           <CircularProgress />
         </div>
       )}

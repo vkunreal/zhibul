@@ -1,5 +1,4 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material'
-import { useUnit } from 'effector-react'
 import { useEffect } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
@@ -8,33 +7,25 @@ import { FormModal, FormTextField } from '@shared/ui'
 
 import { emptyVariableForm } from './constants'
 import { ChangeVariableMenuProps } from './interfaces'
-import { changeVariableSubmitted, createVariableSubmitted } from './model'
+import { toVariableForm } from './mappers'
 
 export const ChangeVariableMenu: React.FC<ChangeVariableMenuProps> = ({
   isOpen,
-  title,
   variable,
   onClose,
+  onSubmit: submitVariable,
 }) => {
-  const [createVariable, updateVariable] = useUnit([
-    createVariableSubmitted,
-    changeVariableSubmitted,
-  ])
   const { control, reset, watch, handleSubmit } = useForm({
     defaultValues: emptyVariableForm,
   })
 
   const onSubmit = handleSubmit((values) => {
-    if (variable) updateVariable({ values, variable })
-    else createVariable(values)
+    submitVariable(values)
     onClose()
   })
 
   useEffect(() => {
-    reset({
-      name: variable?.name || emptyVariableForm.name,
-      value: variable?.value || emptyVariableForm.value,
-    })
+    reset(toVariableForm(variable))
   }, [isOpen, reset, variable])
 
   const name = watch('name')
@@ -43,7 +34,7 @@ export const ChangeVariableMenu: React.FC<ChangeVariableMenuProps> = ({
   return (
     <FormModal
       isOpen={isOpen}
-      title={title}
+      title={variable ? 'Изменение переменной' : 'Добавление переменной'}
       onClose={onClose}
       onSubmit={onSubmit}
       submitDisabled={!name.trim() || !value.trim()}

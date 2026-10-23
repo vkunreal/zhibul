@@ -1,6 +1,11 @@
 import { createEffect, createStore, sample } from 'effector'
 
-import { deleteItemFile, getItemFiles, uploadItemFile } from '@shared/api'
+import {
+  deleteItemFile,
+  deleteItemFiles,
+  getItemFiles,
+  uploadItemFile,
+} from '@shared/api'
 
 import { ItemFile } from '../model'
 import { toItemFile } from '../utils/mappers'
@@ -14,6 +19,10 @@ export const uploadItemFileFx = createEffect(({ formData }: ItemUpload) =>
 export const deleteItemFileFx = createEffect(({ src }: ItemAsset) =>
   deleteItemFile({ src }),
 )
+export const deleteItemFilesFx = createEffect(async (itemId: number) => {
+  await deleteItemFiles(itemId)
+  return itemId
+})
 
 export const $itemFiles = createStore<ItemFile[]>([]).on(
   getItemFilesFx.doneData,
@@ -23,5 +32,10 @@ export const $itemFiles = createStore<ItemFile[]>([]).on(
 sample({
   clock: [uploadItemFileFx.done, deleteItemFileFx.done],
   fn: ({ params }) => params.itemId,
+  target: getItemFilesFx,
+})
+
+sample({
+  clock: deleteItemFilesFx.doneData,
   target: getItemFilesFx,
 })
