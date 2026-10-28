@@ -16,13 +16,23 @@ const option = (id: number, position: number): ItemOption => ({
 })
 
 describe('reorderOptions', () => {
-  it('переносит карточку на место цели и нумерует позиции с 1', () => {
+  it('меняет две карточки местами и не сдвигает опции между ними', () => {
     const items = [option(1, 10), option(2, 20), option(3, 30)]
 
     expect(reorderOptions(items, 1, 3).map(({ id, position }) => ({ id, position }))).toEqual([
-      { id: 2, position: 1 },
-      { id: 3, position: 2 },
-      { id: 1, position: 3 },
+      { id: 3, position: 10 },
+      { id: 2, position: 20 },
+      { id: 1, position: 30 },
+    ])
+  })
+
+  it('так же меняет местами, если тянуть нижнюю карточку на верхнюю', () => {
+    const items = [option(1, 10), option(2, 20), option(3, 30)]
+
+    expect(reorderOptions(items, 3, 1).map(({ id, position }) => ({ id, position }))).toEqual([
+      { id: 3, position: 10 },
+      { id: 2, position: 20 },
+      { id: 1, position: 30 },
     ])
   })
 
