@@ -27,6 +27,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
 
       {options
         .filter(({ is_dropdown }) => !!is_dropdown)
+        .sort((a, b) => a.position - b.position)
         .map((option) => (
           <SelectOption key={option.id} option={option} />
         ))}

@@ -8,8 +8,10 @@ export interface OptionElemProps {
   id?: string
   itemId: number
   option: ItemOption
+  isDragging: boolean
+  isOver: boolean
   onDragStart: (event: OptionDragEvent, option: ItemOption) => void
-  onDragLeave: (event: OptionDragEvent) => void
-  onDragOver: (event: OptionDragEvent) => void
+  onDragEnd: () => void
+  onDragOver: (event: OptionDragEvent, option: ItemOption) => void
   onDrop: (event: OptionDragEvent, option: ItemOption) => void
 }

@@ -18,8 +18,10 @@ export const OptionElem: React.FC<OptionElemProps> = ({
   id,
   itemId,
   option,
+  isDragging,
+  isOver,
   onDragStart,
-  onDragLeave,
+  onDragEnd,
   onDragOver,
   onDrop,
 }) => {
@@ -50,15 +52,24 @@ export const OptionElem: React.FC<OptionElemProps> = ({
     <Paper
       id={id}
       variant='outlined'
-      draggable
-      onDragStart={(event) => onDragStart(event, option)}
-      onDragLeave={(event) => onDragLeave(event)}
-      onDragOver={(event) => onDragOver(event)}
+      onDragOver={(event) => onDragOver(event, option)}
       onDrop={(event) => onDrop(event, option)}
-      className={s.card}
+      className={
+        isDragging ? `${s.card} ${s.cardDragging}` : isOver ? `${s.card} ${s.cardOver}` : s.card
+      }
     >
       <Box component='form' onSubmit={onSubmit} className={s.form}>
-        <Box className={s.handle}>
+        <Box
+          draggable
+          aria-label='Перетащить опцию'
+          onDragStart={(event) => {
+            event.dataTransfer.effectAllowed = 'move'
+            event.dataTransfer.setData('text/plain', String(option.id))
+            onDragStart(event, option)
+          }}
+          onDragEnd={onDragEnd}
+          className={s.handle}
+        >
           <DragIndicatorIcon fontSize='small' />
         </Box>
 

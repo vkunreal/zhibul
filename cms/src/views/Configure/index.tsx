@@ -42,6 +42,7 @@ import s from './styles.module.scss'
 export const Configure: React.FC = () => {
   const { item_id } = useParams()
   const navigate = useNavigate()
+  const backToItems = () => navigate(-1)
   const { open } = useModal()
   const [
     item,
@@ -119,7 +120,7 @@ export const Configure: React.FC = () => {
       <RecordState
         className={s.page}
         backLabel='К товарам'
-        onBack={() => navigate('/items')}
+        onBack={backToItems}
         missing={itemId === null || (!loading && !item)}
         missingText='Товар не найден'
       />
@@ -135,9 +136,7 @@ export const Configure: React.FC = () => {
     <Stack spacing={2.5} className={s.page}>
       <DetailHeader
         backLabel='К товарам'
-        onBack={() =>
-          navigate(item.categoryUrl ? `/items/${item.categoryUrl}` : '/items')
-        }
+        onBack={backToItems}
         title={item.name || 'Товар'}
         meta={
           [item.code, item.url ? `/${item.url}` : '']

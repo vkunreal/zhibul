@@ -25,7 +25,6 @@ export const ItemsTable: React.FC<ItemsTableProps> = ({
   setCopyItem,
 }) => {
   const navigate = useNavigate()
-
   if (!loading && items.length === 0) {
     return (
       <Paper variant='outlined' className={s.empty}>

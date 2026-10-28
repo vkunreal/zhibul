@@ -15,6 +15,7 @@ import { OptionDragEvent } from '@entities/options/ui/OptionElem/interfaces'
 import { Confirm, FetchState } from '@shared/ui'
 
 import { OptionsListProps } from './interfaces'
+import { reorderOptions, sortByPosition } from './reorder'
 import { OptionsToolbar } from './ui/OptionsToolbar'
 
 import s from './styles.module.scss'
@@ -31,7 +32,8 @@ export const OptionsList: React.FC<OptionsListProps> = ({ itemId }) => {
   const [deleteDialog, setDeleteDialog] = useState(false)
   const [items, setItems] = useState<ItemOption[]>(options)
   const [positions, setPositions] = useState<OptionPosition[]>([])
-  const [currentOption, setCurrentOption] = useState<ItemOption | null>(null)
+  const [dragId, setDragId] = useState<number | null>(null)
+  const [overId, setOverId] = useState<number | null>(null)
   const { open } = useModal()
 
   useEffect(() => {
@@ -46,36 +48,25 @@ export const OptionsList: React.FC<OptionsListProps> = ({ itemId }) => {
     setPositions(items.map((i) => ({ id: i.id, position: i.position })))
   }, [items])
 
+  const clearDrag = () => {
+    setDragId(null)
+    setOverId(null)
+  }
+
   const onDragStart = (_: OptionDragEvent, option: ItemOption) => {
-    setCurrentOption(option)
-  }
-  const onDragLeave = (e: OptionDragEvent) => {
-    e.currentTarget.classList.remove(s.dragging)
-  }
-  const onDragOver = (e: OptionDragEvent) => {
-    e.preventDefault()
-    e.currentTarget.classList.add(s.dragging)
+    setDragId(option.id)
   }
 
-  const onDrop = (e: OptionDragEvent, option: ItemOption) => {
-    if (!currentOption) return
-    e.preventDefault()
-    e.currentTarget.classList.remove(s.dragging)
-    const nItems = items.map((c) => {
-      if (c.id === option.id) {
-        return { ...c, position: currentOption.position }
-      } else if (c.id === currentOption.id) {
-        return { ...c, position: option.position }
-      }
-      return c
-    })
-    setItems(nItems)
-    setPositions(nItems.map((i) => ({ id: i.id, position: i.position })))
+  const onDragOver = (event: OptionDragEvent, option: ItemOption) => {
+    event.preventDefault()
+    event.dataTransfer.dropEffect = 'move'
+    if (option.id !== dragId) setOverId(option.id)
   }
 
-  const sortOptions = (a: ItemOption, b: ItemOption) => {
-    if (a.position > b.position) return 1
-    return -1
+  const onDrop = (event: OptionDragEvent, option: ItemOption) => {
+    event.preventDefault()
+    if (dragId !== null) setItems(reorderOptions(items, dragId, option.id))
+    clearDrag()
   }
 
   const cancelDiffs = () => {
@@ -101,7 +92,8 @@ export const OptionsList: React.FC<OptionsListProps> = ({ itemId }) => {
     <Stack spacing={2}>
       <Alert severity='info' variant='outlined' className={s.hint}>
         Для выпадающего меню включите галочку и укажите значения через дефис,
-        например: 1.1-1.2-1.3. Перетаскивайте карточки, чтобы менять порядок.
+        например: 1.1-1.2-1.3. Порядок меняется перетаскиванием за значок слева,
+        затем нажмите «Сохранить порядок».
       </Alert>
 
       <FetchState
@@ -111,14 +103,16 @@ export const OptionsList: React.FC<OptionsListProps> = ({ itemId }) => {
         framed={false}
       >
         <Stack spacing={1.25}>
-          {[...items].sort(sortOptions).map((option, i) => (
+          {[...items].sort(sortByPosition).map((option, i) => (
             <OptionElem
               option={option}
               itemId={itemId}
               id={'c' + i}
               key={option.id}
+              isDragging={option.id === dragId}
+              isOver={option.id === overId}
               onDragStart={onDragStart}
-              onDragLeave={onDragLeave}
+              onDragEnd={clearDrag}
               onDragOver={onDragOver}
               onDrop={onDrop}
             />
