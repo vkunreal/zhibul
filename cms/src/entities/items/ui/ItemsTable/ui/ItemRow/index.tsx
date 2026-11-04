@@ -16,7 +16,7 @@ export const ItemRow = ({
   onDelete,
 }: ItemRowProps) => {
   return (
-    <TableRow hover className={s.row}>
+    <TableRow hover className={s.row} onDoubleClick={onConfigure}>
       <TableCell align='right'>
         <Typography variant='body2' color='text.secondary'>
           {item.position}
@@ -77,7 +77,10 @@ export const ItemRow = ({
         />
       </TableCell>
 
-      <TableCell align='right'>
+      <TableCell
+        align='right'
+        onDoubleClick={(event) => event.stopPropagation()}
+      >
         <ItemActions
           siteHref={`${env.siteUrl}/menu/${item.categoryUrl}/${item.url}`}
           onConfigure={onConfigure}

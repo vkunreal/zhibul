@@ -9,8 +9,7 @@ import {
   Stack,
 } from '@mui/material'
 import { useUnit } from 'effector-react'
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import React, { useEffect } from 'react'
 
 import {
   $itemPages,
@@ -24,6 +23,8 @@ import {
 import { PageHeader } from '@shared/ui'
 import { ItemsView } from '@widgets/items/ItemsView'
 
+import { useItemsQuery } from './hook'
+
 import s from './styles.module.scss'
 
 export const Items: React.FC = () => {
@@ -36,42 +37,23 @@ export const Items: React.FC = () => {
       itemsRequested,
       pageLimitChanged,
     ])
-  const { url: categoryUrl = '' } = useParams()
-
-  const [page, setPage] = useState(1)
-  const [searchInput, setSearchInput] = useState('')
-  const [search, setSearch] = useState('')
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      const nextSearch = searchInput.trim()
-      setSearch((prev) => (prev === nextSearch ? prev : nextSearch))
-    }, 1000)
-
-    return () => window.clearTimeout(timer)
-  }, [searchInput])
-
-  useEffect(() => {
-    setPage(1)
-  }, [search])
+  const {
+    categoryUrl,
+    search,
+    searchInput,
+    setSearchInput,
+    page,
+    onCategoryChange,
+    resetPage,
+    onPageChange,
+  } = useItemsQuery(itemPages)
 
   useEffect(() => {
     loadItems({ page, categoryUrl, search })
   }, [loadItems, page, categoryUrl, pageLimit, search])
 
-  // После удаления последнего товара на последней странице её больше нет.
-  useEffect(() => {
-    if (itemPages > 0 && page > itemPages) setPage(itemPages)
-  }, [itemPages, page])
-
-  const handleCategoryChange = (nextCategoryUrl: string) => {
-    setPage(1)
-    navigate(nextCategoryUrl ? `/items/${nextCategoryUrl}` : '/items')
-  }
-
   const handlePageLimitChange = (event: SelectChangeEvent<number>) => {
-    setPage(1)
+    resetPage()
     changePageLimit(Number(event.target.value))
   }
 
@@ -84,7 +66,7 @@ export const Items: React.FC = () => {
         categoryUrl={categoryUrl}
         search={searchInput}
         loading={loading}
-        onCategoryChange={handleCategoryChange}
+        onCategoryChange={onCategoryChange}
         onSearchChange={setSearchInput}
       />
 
@@ -108,7 +90,7 @@ export const Items: React.FC = () => {
         <Pagination
           count={itemPages}
           page={page}
-          onChange={(_, value) => setPage(value)}
+          onChange={(_, value) => onPageChange(value)}
           size='large'
           color='primary'
         />

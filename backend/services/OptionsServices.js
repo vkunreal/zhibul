@@ -5,7 +5,9 @@ const { writeLog } = require('../writeLog')
 class OptionsServices {
   // get all options by item id
   async getOptionsByItemId(id) {
-    return await request(`SELECT * FROM options WHERE item_id = "${id}";`)
+    return await request(
+      `SELECT * FROM options WHERE item_id = "${id}" ORDER BY position ASC, id ASC`,
+    )
   }
 
   // change option by id

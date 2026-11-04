@@ -1,4 +1,6 @@
 .row {
+  cursor: pointer;
+
   &:last-child td {
     border-bottom: 0;
   }

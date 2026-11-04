@@ -1,17 +1,22 @@
 .card:global(.MuiPaper-root) {
   overflow: hidden;
-  cursor: grab;
   transition:
     box-shadow 0.15s ease,
-    border-color 0.15s ease;
-
-  &:active {
-    cursor: grabbing;
-  }
+    border-color 0.15s ease,
+    background-color 0.15s ease;
 
   &:hover {
     border-color: rgba(0, 0, 0, 0.12);
   }
+}
+
+.cardDragging:global(.MuiPaper-root) {
+  opacity: 0.45;
+}
+
+.cardOver:global(.MuiPaper-root) {
+  border-color: #1976d2;
+  background: rgba(25, 118, 210, 0.06);
 }
 
 .form {
@@ -25,8 +30,16 @@
 .handle:global(.MuiBox-root) {
   display: flex;
   align-items: center;
+  align-self: stretch;
+  padding-right: 4px;
   color: rgba(0, 0, 0, 0.38);
   flex-shrink: 0;
+  cursor: grab;
+  user-select: none;
+
+  &:active {
+    cursor: grabbing;
+  }
 }
 
 .buttons {
