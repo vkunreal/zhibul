@@ -5,6 +5,12 @@
 
 .table {
   position: relative;
+
+  :global(.MuiTableCell-root) {
+    @media (max-width: 1100px) {
+      padding: 10px 12px;
+    }
+  }
 }
 
 .tableLoading {
@@ -26,7 +32,6 @@
   font-weight: 600;
   color: rgba(0, 0, 0, 0.6);
   border-bottom-color: rgba(0, 0, 0, 0.12);
-  white-space: nowrap;
 }
 
 .row:last-child td {
@@ -37,12 +42,18 @@
   white-space: nowrap;
 }
 
+// Длинные email и названия без пробелов иначе растягивают таблицу шире экрана.
+.wrap {
+  overflow-wrap: anywhere;
+}
+
 .name:global(.MuiTypography-root) {
   font-weight: 600;
 }
 
 .mono {
   font-family: ui-monospace, monospace;
+  white-space: nowrap;
 }
 
 .value:global(.MuiTypography-root) {
@@ -54,10 +65,27 @@
 }
 
 .commentCell {
-  max-width: 280px;
+  min-width: 160px;
 }
 
 .comment {
   white-space: pre-wrap;
-  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+// Если таблица всё же шире экрана, колонка с кнопкой не уезжает за край.
+.actionsCell:global(.MuiTableCell-root) {
+  position: sticky;
+  right: 0;
+  width: 1%;
+  white-space: nowrap;
+  background-color: #fff;
+}
+
+.headCell.actionsCell:global(.MuiTableCell-root) {
+  background-color: #fafafa;
+}
+
+.row:hover .actionsCell:global(.MuiTableCell-root) {
+  background-color: #f5f5f5;
 }

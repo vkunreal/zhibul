@@ -52,7 +52,10 @@ export const UsersTable = ({ users, loading, onDelete }: UsersTableProps) => {
             <TableCell className={s.headCell}>Email</TableCell>
             <TableCell className={s.headCell}>Компания</TableCell>
             <TableCell className={s.headCell}>Комментарий</TableCell>
-            <TableCell align='right' className={s.headCell}>
+            <TableCell
+              align='right'
+              className={`${s.headCell} ${s.actionsCell}`}
+            >
               Действия
             </TableCell>
           </TableRow>
@@ -66,7 +69,7 @@ export const UsersTable = ({ users, loading, onDelete }: UsersTableProps) => {
                 </Typography>
               </TableCell>
               <TableCell>
-                <Typography variant='body2' className={s.name}>
+                <Typography variant='body2' className={`${s.name} ${s.wrap}`}>
                   {name || '—'}
                 </Typography>
               </TableCell>
@@ -78,7 +81,7 @@ export const UsersTable = ({ users, loading, onDelete }: UsersTableProps) => {
               <TableCell>
                 <Typography
                   variant='body2'
-                  className={email ? s.value : s.muted}
+                  className={`${email ? s.value : s.muted} ${s.wrap}`}
                 >
                   {email || '—'}
                 </Typography>
@@ -86,7 +89,7 @@ export const UsersTable = ({ users, loading, onDelete }: UsersTableProps) => {
               <TableCell>
                 <Typography
                   variant='body2'
-                  className={company ? s.value : s.muted}
+                  className={`${company ? s.value : s.muted} ${s.wrap}`}
                 >
                   {company || '—'}
                 </Typography>
@@ -101,7 +104,7 @@ export const UsersTable = ({ users, loading, onDelete }: UsersTableProps) => {
                   {comment || '—'}
                 </Typography>
               </TableCell>
-              <TableCell align='right'>
+              <TableCell align='right' className={s.actionsCell}>
                 <Tooltip title='Удалить'>
                   <IconButton
                     size='small'

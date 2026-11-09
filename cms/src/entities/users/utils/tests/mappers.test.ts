@@ -1,6 +1,17 @@
 import { describe, expect, it } from 'vitest'
 
-import { toCandidate, toUser } from '../mappers'
+import { User } from '../../model'
+import { byNewest, toCandidate, toUser } from '../mappers'
+
+const user = (id: number, time: number | null): User => ({
+  id,
+  phone: '',
+  name: '',
+  company: '',
+  email: '',
+  comment: '',
+  time,
+})
 
 describe('users mappers', () => {
   it('toUser мапит пользователя и время', () => {
@@ -37,6 +48,18 @@ describe('users mappers', () => {
         time: null,
       }).time,
     ).toBeNull()
+  })
+
+  it('byNewest ставит новые заявки сверху, без времени — в конец', () => {
+    const users = [
+      user(1, 100),
+      user(2, null),
+      user(3, 300),
+      user(4, 100),
+      user(5, 200),
+    ]
+
+    expect(users.sort(byNewest).map(({ id }) => id)).toEqual([3, 5, 4, 1, 2])
   })
 
   it('toCandidate подставляет пустые строки', () => {

@@ -12,6 +12,10 @@ export const toUser = (dto: UserDTO): User => ({
   time: dto.time ? Number(dto.time) : null,
 })
 
+// Новые заявки сверху. Без времени — в конец; при равном времени выше больший id.
+export const byNewest = (a: User, b: User) =>
+  (b.time ?? -Infinity) - (a.time ?? -Infinity) || b.id - a.id
+
 export const toCandidate = (dto: CandidateDTO): Candidate => ({
   id: dto.id,
   phone: dto.phone ?? '',
