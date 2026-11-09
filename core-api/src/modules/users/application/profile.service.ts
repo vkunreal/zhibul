@@ -7,25 +7,24 @@ import {
 import { Prisma, VerificationChannel, VerificationPurpose } from 'prisma/client'
 import { PrismaService } from 'prisma/prisma.service'
 import { VerificationService } from 'src/modules/verification/application/verification.service'
-import { ProfileResponseDTO } from '../api/v1/dto/profile-response-dto'
 import { UpdateProfileDTO } from '../api/v1/dto/update-profile-dto'
-import { toProfileResponse } from './to-profile-response'
+import { userWithRolesInclude } from './db/user-include'
+import { UsersService } from './users.service'
+import { transformUserWithRoles } from './utils/transform-user-with-role'
 
 @Injectable()
 export class ProfileService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly verification: VerificationService,
+    private readonly usersService: UsersService,
   ) {}
 
-  async getProfile(userId: string): Promise<ProfileResponseDTO> {
-    return toProfileResponse(await this.requireUser(userId))
+  async getProfile(userId: string) {
+    return transformUserWithRoles(await this.requireUser(userId))
   }
 
-  async updateProfile(
-    userId: string,
-    dto: UpdateProfileDTO,
-  ): Promise<ProfileResponseDTO> {
+  async updateProfile(userId: string, dto: UpdateProfileDTO) {
     await this.requireUser(userId)
 
     await this.prisma.user.update({
@@ -34,6 +33,10 @@ export class ProfileService {
     })
 
     return this.getProfile(userId)
+  }
+
+  async deleteAccount(userId: string) {
+    await this.usersService.deactivateUser(userId)
   }
 
   async requestEmailConfirmation(userId: string, email: string) {
@@ -45,8 +48,8 @@ export class ProfileService {
 
     await this.assertEmailIsFree(email, userId)
 
-    // The address waits in `pendingEmail` until the code comes back, so an
-    // unconfirmed address never occupies the unique `email` index.
+    // Адрес ждёт в `pendingEmail`, пока не вернётся код: неподтверждённый
+    // адрес не занимает уникальный индекс `email`.
     await this.prisma.user.update({
       where: { id: userId },
       data: { pendingEmail: email },
@@ -125,7 +128,7 @@ export class ProfileService {
     return this.getProfile(userId)
   }
 
-  // Shared with access recovery, where the caller has no session to keep.
+  // Общая с восстановлением доступа: там у вызывающего нет сессии, которую стоит сохранять.
   async applyPhoneChange(
     userId: string,
     phoneNumber: string,
@@ -137,8 +140,8 @@ export class ProfileService {
           where: { id: userId },
           data: { phoneNumber, phoneConfirmedAt: new Date() },
         }),
-        // The phone number is the login identity, so every other session has
-        // to go: it may belong to whoever held the old number.
+        // Телефон — это логин, поэтому остальные сессии надо снять:
+        // они могли принадлежать тому, у кого номер был раньше.
         this.prisma.session.updateMany({
           where: {
             userId,
@@ -156,7 +159,7 @@ export class ProfileService {
   private async requireUser(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
-      include: { roles: { include: { role: { select: { name: true } } } } },
+      include: userWithRolesInclude,
     })
 
     if (!user) {

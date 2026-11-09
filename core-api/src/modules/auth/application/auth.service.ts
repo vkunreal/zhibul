@@ -10,8 +10,9 @@ import { UsersService } from 'src/modules/users/application/users.service'
 import { VerificationFailedException } from 'src/modules/verification/application/verification.errors'
 import { VerificationService } from 'src/modules/verification/application/verification.service'
 import { PrismaService } from 'prisma/prisma.service'
-import { parseDurationToMs } from 'shared/utils/duration'
-import { generateSecureToken, hashToken } from 'shared/utils/hash'
+import { parseDurationToMs } from 'shared/utils/duration/duration'
+import { Duration } from 'shared/utils/duration/interfaces'
+import { generateSecureToken, hashToken } from 'shared/utils/hash/hash'
 import { User } from 'shared/models/User'
 import {
   AuthCredentials,
@@ -19,11 +20,12 @@ import {
   AuthenticatedUser,
   TokenCouple,
 } from './auth.types'
+import { revokeOpenSessions } from './utils/revoke-open-sessions'
 
 @Injectable()
 export class AuthService {
-  private readonly accessExpiresIn: string
-  private readonly refreshExpiresIn: string
+  private readonly accessExpiresIn: Duration
+  private readonly refreshExpiresIn: Duration
   readonly accessMaxAgeMs: number
   readonly refreshMaxAgeMs: number
 
@@ -34,11 +36,11 @@ export class AuthService {
     private readonly verification: VerificationService,
     configService: ConfigService,
   ) {
-    this.accessExpiresIn = configService.get<string>(
+    this.accessExpiresIn = configService.get<Duration>(
       'JWT_ACCESS_EXPIRES_IN',
       '15m',
     )
-    this.refreshExpiresIn = configService.get<string>(
+    this.refreshExpiresIn = configService.get<Duration>(
       'JWT_REFRESH_EXPIRES_IN',
       '30d',
     )
@@ -62,8 +64,8 @@ export class AuthService {
         code: credentials.code,
       })
     } catch (e) {
-      // Signing in is the one flow where a bad code really does mean
-      // "unauthenticated", so it keeps answering 401 instead of 400.
+      // Вход — единственный поток, где неверный код правда значит
+      // «не авторизован», поэтому здесь остаётся 401, а не 400.
       if (e instanceof VerificationFailedException) {
         throw new UnauthorizedException(e.message)
       }
@@ -93,8 +95,8 @@ export class AuthService {
       throw new UnauthorizedException('User is inactive')
     }
 
-    // Users seeded or created outside the sign-up flow have never proven they
-    // own the number until this point.
+    // Пользователи из сида и созданные вне регистрации до этого момента
+    // не доказывали, что номер принадлежит им.
     if (!user.phoneConfirmedAt) {
       await this.prisma.user.update({
         where: { id: user.id },
@@ -153,10 +155,7 @@ export class AuthService {
   }
 
   async logoutAll(userId: string) {
-    await this.prisma.session.updateMany({
-      where: { userId, revokedAt: null },
-      data: { revokedAt: new Date() },
-    })
+    await revokeOpenSessions(this.prisma, userId)
   }
 
   async assertActiveSession(
@@ -214,9 +213,7 @@ export class AuthService {
 
     const accessToken = await this.jwtService.signAsync(
       { sub: userId, sid: session.id },
-      {
-        expiresIn: this.accessExpiresIn as `${number}${'s' | 'm' | 'h' | 'd'}`,
-      },
+      { expiresIn: this.accessExpiresIn },
     )
 
     return {

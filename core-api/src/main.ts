@@ -1,9 +1,9 @@
 import { ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import cookieParser from 'cookie-parser'
 import { AppModule } from './app.module'
+import { setupSwagger } from './swagger/setup-swagger'
 
 const defaultCorsOrigins = [
   'http://localhost:3000',
@@ -21,8 +21,8 @@ async function bootstrap() {
     .map((origin) => origin.trim())
     .filter(Boolean)
 
-  // A concrete origin is required: browsers drop Set-Cookie when
-  // Access-Control-Allow-Origin is `*` together with credentials.
+  // Нужен конкретный origin: браузер выбрасывает Set-Cookie, когда
+  // Access-Control-Allow-Origin равен `*` и при этом включены credentials.
   app.enableCors({
     origin: allowedOrigins,
     credentials: true,
@@ -41,19 +41,9 @@ async function bootstrap() {
     }),
   )
 
-  const config = new DocumentBuilder()
-    .setTitle('Core')
-    .setDescription('Service works with authorization, payments, orders')
-    .setVersion('1.0.0')
-    .addTag('core')
-    .addCookieAuth('accessToken')
-    .build()
-
-  const document = SwaggerModule.createDocument(app, config)
-
-  SwaggerModule.setup('api', app, document)
+  setupSwagger(app)
 
   await app.listen(process.env.PORT ?? 5002)
 }
 
-bootstrap()
+void bootstrap()

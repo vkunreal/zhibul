@@ -2,9 +2,9 @@ import 'dotenv/config'
 import { defineConfig, env } from 'prisma/config'
 
 export default defineConfig({
-  // Directory, not a single file: every `.prisma` file under `prisma/schema` is loaded.
-  // `schema.prisma` must sit in this directory, not above it, or the language
-  // server validates each model file alone and cannot see types like `User`.
+  // Каталог, не один файл: загружается каждый `.prisma` из `prisma/schema`.
+  // `schema.prisma` должен лежать в этом каталоге, не выше, иначе языковой
+  // сервер проверяет каждый файл модели отдельно и не видит типы вроде `User`.
   schema: 'prisma/schema',
   migrations: {
     path: 'prisma/migrations',

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsNotEmpty, IsString } from 'class-validator'
-import { EMAIL_EXAMPLE } from 'shared/utils/email'
-import { BELARUSIAN_PHONE_EXAMPLE } from 'shared/utils/phone'
+import { EMAIL_EXAMPLE } from 'shared/utils/email/constants'
+import { BELARUSIAN_PHONE_EXAMPLE } from 'shared/utils/phone/constants'
 import { IsBelarusianPhoneNumber } from 'shared/validation/is-belarusian-phone-number.decorator'
 import { IsEmailAddress } from 'shared/validation/is-email-address.decorator'
 import {

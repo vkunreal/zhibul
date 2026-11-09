@@ -71,6 +71,25 @@ async function main() {
     })
   }
 
+  console.log('Seeding currencies...')
+
+  const currencies = [
+    { title: 'USD', value: 3.11348 },
+    { title: 'EUR', value: 3.59254 },
+    { title: 'RUB', value: 0.036 },
+    { title: 'BYN', value: 1 },
+    { title: 'USD_NB', value: 3.0228 },
+    { title: 'EUR_NB', value: 3.4879 },
+  ]
+
+  for (const currency of currencies) {
+    await prisma.currency.upsert({
+      where: { title: currency.title },
+      update: {},
+      create: currency,
+    })
+  }
+
   console.log('Seeding completed!')
 }
 

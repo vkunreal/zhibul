@@ -1,11 +1,16 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
   Patch,
   Post,
+  Res,
+  SerializeOptions,
+  UseInterceptors,
 } from '@nestjs/common'
 import {
   ApiCookieAuth,
@@ -13,24 +18,34 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger'
+import type { Response } from 'express'
+import { clearAuthCookies } from 'src/modules/auth/api/v1/auth-cookies'
 import { Auth } from 'src/modules/auth/api/v1/decorators/auth.decorator'
 import { CurrentUser } from 'src/modules/auth/api/v1/decorators/current-user.decorator'
 import { IssuedCodeDTO } from 'src/modules/auth/api/v1/dto/issued-code.dto'
 import type { AuthenticatedUser } from 'src/modules/auth/application/auth.types'
+import { ApiTag } from 'src/swagger/api-tags'
 import { ProfileService } from '../../application/profile.service'
 import { ChangeEmailDTO, ConfirmEmailDTO } from './dto/change-email-dto'
 import { ChangePhoneDTO, ConfirmPhoneDTO } from './dto/change-phone-dto'
 import { ProfileResponseDTO } from './dto/profile-response-dto'
 import { UpdateProfileDTO } from './dto/update-profile-dto'
 
-@ApiTags('profile')
+const profileResponse = SerializeOptions({
+  type: ProfileResponseDTO,
+  excludeExtraneousValues: true,
+})
+
+@ApiTags(ApiTag.publicProfile)
 @ApiCookieAuth('accessToken')
 @Auth()
-@Controller('v1/users/me')
-export class ProfileControllerV1 {
+@Controller('public/v1/users/me')
+@UseInterceptors(ClassSerializerInterceptor)
+export class PublicUsersControllerV1 {
   constructor(private readonly profileService: ProfileService) {}
 
   @Get()
+  @profileResponse
   @ApiOperation({ summary: 'Current user profile' })
   @ApiResponse({ status: 200, type: ProfileResponseDTO })
   getProfile(@CurrentUser() user: AuthenticatedUser) {
@@ -38,6 +53,7 @@ export class ProfileControllerV1 {
   }
 
   @Patch()
+  @profileResponse
   @ApiOperation({ summary: 'Update first and last name' })
   @ApiResponse({ status: 200, type: ProfileResponseDTO })
   updateProfile(
@@ -45,6 +61,18 @@ export class ProfileControllerV1 {
     @Body() dto: UpdateProfileDTO,
   ) {
     return this.profileService.updateProfile(user.id, dto)
+  }
+
+  @Delete()
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Delete the current account' })
+  @ApiResponse({ status: 204 })
+  async deleteAccount(
+    @CurrentUser() user: AuthenticatedUser,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    await this.profileService.deleteAccount(user.id)
+    clearAuthCookies(res)
   }
 
   @Post('email')
@@ -61,6 +89,7 @@ export class ProfileControllerV1 {
 
   @Post('email/confirm')
   @HttpCode(HttpStatus.OK)
+  @profileResponse
   @ApiOperation({ summary: 'Confirm the pending email address' })
   @ApiResponse({ status: 200, type: ProfileResponseDTO })
   @ApiResponse({ status: 400, description: 'Invalid or expired code' })
@@ -85,6 +114,7 @@ export class ProfileControllerV1 {
 
   @Post('phone/confirm')
   @HttpCode(HttpStatus.OK)
+  @profileResponse
   @ApiOperation({
     summary: 'Confirm the new phone number and revoke other sessions',
   })

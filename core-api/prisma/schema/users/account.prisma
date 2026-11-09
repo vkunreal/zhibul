@@ -1,42 +1,43 @@
-// The phone number is the account. Email is optional and is written only after
-// the owner confirms it, so an unconfirmed address cannot occupy the unique
-// index and lock out its real owner.
+// Телефон — это аккаунт. Почта необязательна и пишется только после
+// подтверждения владельцем, чтобы неподтверждённый адрес не занял
+// уникальный индекс и не закрыл его настоящему владельцу.
 model User {
   id        String  @id @default(uuid(7))
   firstName String?
   lastName  String?
 
   phoneNumber      String    @unique
-  // Empty until the first successful sign-in. Seeded accounts stay that way
-  // until the owner actually logs in.
+  // Пусто до первого успешного входа. Сидированные аккаунты остаются такими,
+  // пока владелец сам не войдёт.
   phoneConfirmedAt DateTime?
 
   email            String?   @unique
-  // Not unique on purpose. Several people may request the same address;
-  // only the one who confirms it copies the value into `email`.
+  // Нарочно не уникально. Несколько человек могут запросить один адрес;
+  // в `email` его копирует только тот, кто подтвердит.
   pendingEmail     String?
   emailConfirmedAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  // Inactive accounts are rejected at sign-in and during recovery.
+  // Неактивные аккаунты отклоняются на входе и при восстановлении.
   isActive  Boolean  @default(true)
 
   roles             UserRole[]
   sessions          Session[]
   verificationCodes VerificationCode[]
   recoveryTickets   RecoveryTicket[]
+  addresses         UserAddress[]
 
   @@map("users")
 }
 
-// Named grant. Users receive roles through `UserRole`, so one user can hold
-// several roles and one role can belong to several users.
+// Именованное право. Роли выдаются через `UserRole`: один пользователь
+// может держать несколько ролей, одна роль — принадлежать нескольким.
 model Role {
   id          String   @id @default(uuid(7))
   name        String   @unique
   description String?
-  // Opaque text for now. The API does not interpret it yet.
+  // Пока непрозрачный текст. API его ещё не разбирает.
   permissions String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -53,7 +54,7 @@ model UserRole {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
 
-  // A user holds each role at most once.
+  // У пользователя каждая роль не больше одного раза.
   @@unique([userId, roleId])
   @@map("user_roles")
 }

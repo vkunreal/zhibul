@@ -1,7 +1,18 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsArray, IsBoolean, IsOptional, IsString } from 'class-validator'
-import { BELARUSIAN_PHONE_EXAMPLE } from 'shared/utils/phone'
+import {
+  ArrayMinSize,
+  ArrayUnique,
+  IsArray,
+  IsBoolean,
+  IsIn,
+  IsOptional,
+  IsString,
+} from 'class-validator'
+import { Role } from 'src/modules/auth/application/auth.types'
+import { BELARUSIAN_PHONE_EXAMPLE } from 'shared/utils/phone/constants'
 import { IsBelarusianPhoneNumber } from 'shared/validation/is-belarusian-phone-number.decorator'
+
+const ROLE_NAMES = [Role.USER, Role.ADMIN]
 
 export class CreateUserDTO {
   @ApiProperty({
@@ -32,8 +43,11 @@ export class CreateUserDTO {
     example: ['USER'],
     default: ['USER'],
   })
-  @IsArray()
   @IsOptional()
+  @IsArray()
+  @ArrayUnique()
+  @ArrayMinSize(1)
+  @IsIn(ROLE_NAMES, { each: true })
   roles?: string[]
 
   @ApiPropertyOptional({

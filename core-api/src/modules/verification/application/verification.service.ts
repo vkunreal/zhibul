@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { PrismaService } from 'prisma/prisma.service'
-import { parseDurationToMs } from 'shared/utils/duration'
-import { hashToken } from 'shared/utils/hash'
+import { parseDurationToMs } from 'shared/utils/duration/duration'
+import { hashToken } from 'shared/utils/hash/hash'
 import { CodeDeliveryService } from '../infrastructure/code-delivery.service'
 import { VerificationFailedException } from './verification.errors'
 import {
@@ -11,7 +11,7 @@ import {
   IssuedCode,
 } from './verification.types'
 
-// Delivery is not implemented yet, so every issued code is this stub.
+// Доставка ещё не сделана, поэтому каждый выданный код — эта заглушка.
 const STUB_CODE = '000000'
 
 @Injectable()
@@ -32,8 +32,8 @@ export class VerificationService {
     this.maxAgeMs = parseDurationToMs(this.expiresIn)
   }
 
-  // Lets a caller answer with the usual code metadata without issuing anything,
-  // so that "no such account" is indistinguishable from "code sent".
+  // Вызывающий отвечает обычными метаданными кода, ничего не выдавая,
+  // чтобы «нет такого аккаунта» не отличалось от «код отправлен».
   describeCode(): IssuedCode {
     return {
       ttl: this.maxAgeMs / 1000,
@@ -43,12 +43,12 @@ export class VerificationService {
 
   async issueCode(options: IssueCodeOptions): Promise<IssuedCode> {
     const { channel, purpose, destination, userId } = options
-    // TODO: generate a random code once delivery is in place
+    // TODO: генерировать случайный код, когда появится доставка
     const code = STUB_CODE
     const expiresAt = new Date(Date.now() + this.maxAgeMs)
 
-    // Requesting a new code replaces the previous one for the same destination
-    // and purpose, which also resets its used flag and attempt counter.
+    // Новый код для того же адресата и цели заменяет предыдущий
+    // и заодно сбрасывает флаг использования и счётчик попыток.
     await this.prisma.verificationCode.upsert({
       where: { destination_purpose: { destination, purpose } },
       create: {
@@ -99,15 +99,22 @@ export class VerificationService {
     }
 
     if (record.codeHash !== hashToken(code)) {
-      await this.prisma.verificationCode.update({
-        where: { id: record.id },
+      // Условное обновление: параллельные попытки не проталкивают счётчик выше потолка.
+      const { count } = await this.prisma.verificationCode.updateMany({
+        where: { id: record.id, attempts: { lt: this.maxAttempts } },
         data: { attempts: { increment: 1 } },
       })
+
+      if (count === 0) {
+        throw new VerificationFailedException(
+          'Too many invalid attempts, request a new code',
+        )
+      }
 
       throw new VerificationFailedException('Invalid code')
     }
 
-    // Conditional update keeps two parallel requests from consuming one code.
+    // Условное обновление не даёт двум параллельным запросам потратить один код.
     const { count } = await this.prisma.verificationCode.updateMany({
       where: { id: record.id, isUsed: false },
       data: { isUsed: true },

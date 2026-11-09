@@ -13,8 +13,8 @@ export interface FindUserOptions {
 
 export interface CreateUserOptions {
   withRoles?: boolean
-  // Only the sign-up flow may set this, because there the OTP has just proven
-  // the caller owns the number.
+  // Это может выставить только регистрация: там код только что доказал,
+  // что номер принадлежит вызывающему.
   phoneConfirmedAt?: Date
 }
 

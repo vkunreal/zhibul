@@ -5,6 +5,8 @@ import { AppController } from './app.controller'
 import { AuthGuard } from 'src/modules/auth/api/v1/guards/auth.guard'
 import { AuthModule } from 'src/modules/auth/auth.module'
 import { UsersModule } from 'src/modules/users/users.module'
+import { CurrenciesModule } from 'src/modules/currencies/currencies.module'
+import { VariablesModule } from 'src/modules/variables/variables.module'
 import { PrismaModule } from 'prisma/prisma.module'
 
 @Module({
@@ -17,6 +19,8 @@ import { PrismaModule } from 'prisma/prisma.module'
     PrismaModule,
     UsersModule,
     AuthModule,
+    VariablesModule,
+    CurrenciesModule,
   ],
   controllers: [AppController],
   providers: [

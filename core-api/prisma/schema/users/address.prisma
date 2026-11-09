@@ -1,0 +1,56 @@
+// Сохранённый адрес доставки. Одна таблица на все службы: колонки общие,
+// обязательность зависит от `provider` и `method`.
+//
+// До двери (`DOOR`): адрес получателя, `apartment` необязателен.
+// ПВЗ (`PICKUP`): пользователь сам вводит адрес точки в те же поля,
+// `apartment` пустой. Номера точки и справочника нет.
+//
+// Минск (`MINSK`): улица, дом.
+// Белпочта (`BELPOST`): индекс, область, район, населённый пункт, улица, дом.
+// Европочта (`EUROPOST`): населённый пункт, улица, дом.
+// Авто Лайт (`AVTOLIGHT`): область, район, населённый пункт, улица, дом.
+
+enum DeliveryProvider {
+  MINSK
+  BELPOST
+  EUROPOST
+  AVTOLIGHT
+
+  @@map("delivery_provider")
+}
+
+enum DeliveryMethod {
+  DOOR
+  PICKUP
+
+  @@map("delivery_method")
+}
+
+model UserAddress {
+  id     String @id @default(uuid(7))
+  userId String
+
+  provider DeliveryProvider
+  method   DeliveryMethod
+
+  // Область. Белпочта и Авто Лайт.
+  region            String?
+  // Район. Белпочта и Авто Лайт.
+  district          String?
+  // Населённый пункт. Белпочта, Европочта, Авто Лайт.
+  settlement        String?
+  // Почтовый индекс. Только Белпочта.
+  postalCode        String?
+  street            String?
+  house             String?
+  // Квартира или офис. Только до двери, необязательно.
+  apartment         String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("user_addresses")
+}

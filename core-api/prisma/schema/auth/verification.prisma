@@ -10,24 +10,24 @@ enum VerificationPurpose {
   RECOVER_ACCESS
 }
 
-// One-time code. The plaintext is never stored. A new request for the same
-// destination and purpose overwrites this row instead of adding another,
-// which also resets `isUsed` and `attempts`.
+// Одноразовый код. Открытый текст не хранится. Новый запрос на тот же
+// адресат и цель перезаписывает строку, а не добавляет ещё одну,
+// и заодно сбрасывает `isUsed` и `attempts`.
 model VerificationCode {
   id          String              @id @default(uuid(7))
-  // Empty for login codes: they are issued before we know whether the phone
-  // already belongs to an account.
+  // Пусто у кодов входа: их выдают до того, как известно, есть ли уже
+  // аккаунт с этим телефоном.
   userId      String?
   channel     VerificationChannel
   purpose     VerificationPurpose
-  // Phone number or email address the code was sent to.
+  // Телефон или почта, куда отправили код.
   destination String
   codeHash    String
   expiresAt   DateTime
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
   isUsed      Boolean             @default(false)
-  // Wrong guesses. Capped in the service; a replacement code starts again at 0.
+  // Неверные попытки. Потолок в сервисе; заменяющий код начинает снова с 0.
   attempts    Int                 @default(0)
 
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -38,9 +38,9 @@ model VerificationCode {
   @@map("verification_codes")
 }
 
-// Proof that the owner of a confirmed email passed the first step of access
-// recovery. Single use and short lived, because it authorizes a phone change.
-// The value handed to the client is stored only as `tokenHash`.
+// Доказательство, что владелец подтверждённой почты прошёл первый шаг
+// восстановления доступа. Одноразовый и короткий: он разрешает смену телефона.
+// Значение, отданное клиенту, хранится только как `tokenHash`.
 model RecoveryTicket {
   id        String    @id @default(uuid(7))
   userId    String

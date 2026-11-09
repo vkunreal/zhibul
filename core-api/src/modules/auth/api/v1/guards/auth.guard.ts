@@ -3,54 +3,63 @@ import {
   ExecutionContext,
   ForbiddenException,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
-import { JwtService } from '@nestjs/jwt'
 import type { Request } from 'express'
-import { AuthService } from '../../../application/auth.service'
-import { ACCESS_TOKEN_COOKIE } from '../auth-cookies'
 import { AUTH_KEY, ROLES_KEY } from '../decorators/auth.decorator'
+import { isAdminPath, isPublicPath } from './utils/route-zone'
+import { AdminGuard } from './zones/admin.guard'
+import { PublicGuard } from './zones/public.guard'
+import { UnauthGuard } from './zones/unauth.guard'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    private readonly jwtService: JwtService,
-    private readonly authService: AuthService,
+    private readonly unauthGuard: UnauthGuard,
+    private readonly publicGuard: PublicGuard,
+    private readonly adminGuard: AdminGuard,
   ) {}
 
+  /*
+    Перед каждым запросом смотрит сегмент пути сразу после /api.
+
+      unauth    сессия не нужна
+      admin     живая сессия и роль ADMIN
+      public    живая сессия, пользователь попадает в request.user
+      @Auth()   то же, что public, и роли с декоратора, если они указаны
+
+    Ручки вне этих зон и без @Auth() проходят как есть. Так живёт healthCheck.
+  */
   async canActivate(context: ExecutionContext) {
-    const requiresAuth = this.reflector.getAllAndOverride<boolean>(AUTH_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ])
+    // Код, вход, восстановление доступа. Куку не читаем.
+    if (this.unauthGuard.canActivate(context)) {
+      return true
+    }
+
+    const request = context.switchToHttp().getRequest<Request>()
+
+    // Нет сессии — 401, сессия без роли ADMIN — 403.
+    if (isAdminPath(request)) {
+      return this.adminGuard.canActivate(context)
+    }
+
+    // Зона public либо метка @Auth(). Метка метода перекрывает метку класса.
+    const requiresAuth =
+      isPublicPath(request) ||
+      this.reflector.getAllAndOverride<boolean>(AUTH_KEY, [
+        context.getHandler(),
+        context.getClass(),
+      ])
 
     if (!requiresAuth) {
       return true
     }
 
-    const request = context.switchToHttp().getRequest<Request>()
-    const token = request.cookies?.[ACCESS_TOKEN_COOKIE] as string | undefined
+    // Проверяет куку и кладёт пользователя в request.user.
+    await this.publicGuard.canActivate(context)
 
-    if (!token) {
-      throw new UnauthorizedException()
-    }
-
-    try {
-      const payload = await this.jwtService.verifyAsync<{
-        sub: string
-        sid: string
-      }>(token)
-
-      request.user = await this.authService.assertActiveSession(
-        payload.sid,
-        payload.sub,
-      )
-    } catch {
-      throw new UnauthorizedException()
-    }
-
+    // Роли из @Auth(Role.ADMIN). Список пуст — хватает самого входа.
     const requiredRoles = this.reflector.getAllAndOverride<string[]>(
       ROLES_KEY,
       [context.getHandler(), context.getClass()],

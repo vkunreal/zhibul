@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import type { Request, Response } from 'express'
+import { ApiTag } from 'src/swagger/api-tags'
 import { AccountRecoveryService } from '../../application/account-recovery.service'
 import { AuthService } from '../../application/auth.service'
 import { setAuthCookies } from './auth-cookies'
@@ -21,9 +22,9 @@ import {
 } from './dto/recovery.dto'
 import { requestContext } from './request-context'
 
-@ApiTags('auth')
-@Controller('v1/auth/recovery')
-export class RecoveryControllerV1 {
+@ApiTags(ApiTag.unauthRecovery)
+@Controller('unauth/v1/auth/recovery')
+export class UnauthRecoveryControllerV1 {
   constructor(
     private readonly recoveryService: AccountRecoveryService,
     private readonly authService: AuthService,

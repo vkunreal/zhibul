@@ -1,0 +1,34 @@
+---
+description: Папки утилит core-api в shared/utils
+globs: core-api/src/**/utils/**/*.ts
+alwaysApply: false
+---
+
+# Утилиты core-api
+
+Каждая утилита — папка в `core-api/src/shared/utils`. Функции лежат в файле с именем утилиты.
+
+Интерфейсы и типы — в `interfaces.ts` этой папки. Константы — в `constants.ts`. Эти файлы добавляй, только когда в них есть что положить.
+
+```ts
+// ❌ BAD
+shared/utils/page.ts
+shared/pagination/page.ts
+
+// ✅ GOOD
+shared/utils/pagination/page.ts
+shared/utils/pagination/interfaces.ts
+shared/utils/pagination/constants.ts
+
+shared/utils/hash/hash.ts
+```
+
+Чистая функция модуля лежит в `utils` рядом с сервисом, не в корне `application`.
+
+```ts
+// ❌ BAD
+users/application/find-user-condition.ts
+
+// ✅ GOOD
+users/application/utils/find-user-condition.ts
+```

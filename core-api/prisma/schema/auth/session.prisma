@@ -1,6 +1,6 @@
-// Refresh-token session. The raw token is never stored; lookup is by hash.
-// Rotation revokes this row and points `replacedBy` at the successor, so a
-// replayed token can be told apart from one that simply expired.
+// Сессия refresh-токена. Сырой токен не хранится, поиск идёт по хешу.
+// Ротация отзывает эту строку и ставит `replacedBy` на следующую, чтобы
+// повторно предъявленный токен отличался от просто истёкшего.
 model Session {
   id           String    @id @default(uuid(7))
   userId       String
@@ -8,7 +8,7 @@ model Session {
   expiresAt    DateTime
   revokedAt    DateTime?
   replacedById String?
-  // Client snapshot taken when the session was opened.
+  // Снимок клиента на момент открытия сессии.
   userAgent    String?
   ip           String?
   createdAt    DateTime  @default(now())

@@ -4,14 +4,14 @@ import { VerificationChannel, VerificationPurpose } from 'prisma/client'
 import { PrismaService } from 'prisma/prisma.service'
 import { ProfileService } from 'src/modules/users/application/profile.service'
 import { VerificationService } from 'src/modules/verification/application/verification.service'
-import { parseDurationToMs } from 'shared/utils/duration'
-import { generateSecureToken, hashToken } from 'shared/utils/hash'
+import { parseDurationToMs } from 'shared/utils/duration/duration'
+import { generateSecureToken, hashToken } from 'shared/utils/hash/hash'
 import { AuthService } from './auth.service'
 import { AuthRequestContext } from './auth.types'
 
-// Recovery is for people who cannot sign in at all, so none of it sits behind a
-// session. The confirmed email is the only thing standing between a request and
-// a phone number change, which is why every step is deliberately narrow.
+// Восстановление для тех, кто войти не может, поэтому сессии здесь нет.
+// Подтверждённая почта — единственное, что стоит между запросом и сменой
+// телефона, оттого каждый шаг нарочно узкий.
 @Injectable()
 export class AccountRecoveryService {
   private readonly ticketExpiresIn: string
@@ -34,8 +34,8 @@ export class AccountRecoveryService {
   async requestEmailCode(email: string) {
     const user = await this.prisma.user.findUnique({ where: { email } })
 
-    // The response is identical whether or not the address exists, so this
-    // endpoint cannot be used to enumerate accounts.
+    // Ответ одинаковый, есть адрес или нет, чтобы по этой ручке
+    // нельзя было перебирать аккаунты.
     if (user?.emailConfirmedAt && user.isActive) {
       return this.verification.issueCode({
         channel: VerificationChannel.EMAIL,
@@ -93,8 +93,8 @@ export class AccountRecoveryService {
       userId: ticket.userId,
     })
 
-    // No session is kept, so every device signed in with the old number loses
-    // access before the new one gets a session.
+    // Сессию не сохраняем: каждое устройство со старым номером теряет
+    // доступ раньше, чем новый номер получит свою сессию.
     await this.profileService.applyPhoneChange(ticket.userId, phoneNumber)
 
     await this.prisma.recoveryTicket.update({

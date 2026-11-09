@@ -1,7 +1,7 @@
 import { applyDecorators } from '@nestjs/common'
 import { Transform } from 'class-transformer'
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator'
-import { normalizeEmail } from 'shared/utils/email'
+import { normalizeEmail } from 'shared/utils/email/email'
 
 export const IsEmailAddress = () =>
   applyDecorators(

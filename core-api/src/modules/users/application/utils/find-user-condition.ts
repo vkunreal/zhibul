@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common'
-import { FindUserWhere } from './users.types'
+import { FindUserWhere } from '../users.types'
 
 export const findUserCondition = ({
   id,

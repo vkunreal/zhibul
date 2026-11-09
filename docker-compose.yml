@@ -150,57 +150,57 @@ services:
         condition: service_healthy
     networks: [app]
 
-  cms:
-    build:
-      context: ./cms
-    restart: unless-stopped
-    environment:
-      NODE_ENV: development
-      # Vite вшивает VITE_* в клиентский бандл: браузер ходит на хост-порты.
-      VITE_API_URL: http://localhost:5001
-      VITE_SITE_URL: http://localhost:3000
-      CHOKIDAR_USEPOLLING: "true"
-    ports:
-      - "4000:3000"
-    volumes:
-      - ./cms:/app
-      - /app/node_modules
-    networks: [app]
-    depends_on:
-      legacy-api:
-        condition: service_started
+  # cms:
+  #   build:
+  #     context: ./cms
+  #   restart: unless-stopped
+  #   environment:
+  #     NODE_ENV: development
+  #     # Vite вшивает VITE_* в клиентский бандл: браузер ходит на хост-порты.
+  #     VITE_API_URL: http://localhost:5001
+  #     VITE_SITE_URL: http://localhost:3000
+  #     CHOKIDAR_USEPOLLING: "true"
+  #   ports:
+  #     - "4000:3000"
+  #   volumes:
+  #     - ./cms:/app
+  #     - /app/node_modules
+  #   networks: [app]
+  #   depends_on:
+  #     legacy-api:
+  #       condition: service_started
 
-  frontend:
-    build:
-      context: ./frontend
-      target: dev
-      args:
-        NEXT_PUBLIC_API_URL: "http://localhost:5001"
-        NEXT_PUBLIC_API_CORE_URL: "http://localhost:5002"
-        NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
-        NEXT_PUBLIC_METRIKA_ID: "54863989"
-        NEXT_PUBLIC_GTM_ID: "GTM-THSSBC2"
-    ports:
-      - "3000:3000"
-    environment:
-      NEXT_PUBLIC_API_URL: "http://legacy-api:5001"
-      NEXT_PUBLIC_API_CORE_URL: "http://api:5002"
-      NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
-      NEXT_PUBLIC_METRIKA_ID: "54863989"
-      NEXT_PUBLIC_GTM_ID: "GTM-THSSBC2"
-    extra_hosts:
-      - "localhost:host-gateway"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-      - /app/.next
-    restart: unless-stopped
-    depends_on:
-      legacy-api:
-        condition: service_started
-      api:
-        condition: service_started
-    networks: [app]
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     target: dev
+  #     args:
+  #       NEXT_PUBLIC_API_URL: "http://localhost:5001"
+  #       NEXT_PUBLIC_API_CORE_URL: "http://localhost:5002"
+  #       NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
+  #       NEXT_PUBLIC_METRIKA_ID: "54863989"
+  #       NEXT_PUBLIC_GTM_ID: "GTM-THSSBC2"
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     NEXT_PUBLIC_API_URL: "http://legacy-api:5001"
+  #     NEXT_PUBLIC_API_CORE_URL: "http://api:5002"
+  #     NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
+  #     NEXT_PUBLIC_METRIKA_ID: "54863989"
+  #     NEXT_PUBLIC_GTM_ID: "GTM-THSSBC2"
+  #   extra_hosts:
+  #     - "localhost:host-gateway"
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #     - /app/.next
+  #   restart: unless-stopped
+  #   depends_on:
+  #     legacy-api:
+  #       condition: service_started
+  #     api:
+  #       condition: service_started
+  #   networks: [app]
 
   # gateway:
   #   image: nginx:1.27-alpine

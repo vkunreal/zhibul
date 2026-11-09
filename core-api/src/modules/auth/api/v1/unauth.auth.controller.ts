@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -9,30 +8,19 @@ import {
   Res,
   UnauthorizedException,
 } from '@nestjs/common'
-import {
-  ApiCookieAuth,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from '@nestjs/swagger'
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import type { Request, Response } from 'express'
+import { ApiTag } from 'src/swagger/api-tags'
 import { AuthService } from '../../application/auth.service'
-import type { AuthenticatedUser } from '../../application/auth.types'
-import {
-  REFRESH_TOKEN_COOKIE,
-  clearAuthCookies,
-  setAuthCookies,
-} from './auth-cookies'
-import { Auth } from './decorators/auth.decorator'
-import { CurrentUser } from './decorators/current-user.decorator'
+import { REFRESH_TOKEN_COOKIE, setAuthCookies } from './auth-cookies'
 import { AuthUserDTO } from './dto/auth-user.dto'
 import { GetAuthCodeDTO } from './dto/get-auth-code-dto'
 import { IssuedCodeDTO } from './dto/issued-code.dto'
 import { requestContext } from './request-context'
 
-@ApiTags('auth')
-@Controller('v1/auth')
-export class AuthControllerV1 {
+@ApiTags(ApiTag.unauthAuth)
+@Controller('unauth/v1/auth')
+export class UnauthAuthControllerV1 {
   constructor(private readonly authService: AuthService) {}
 
   @Post('getAuthCode')
@@ -96,37 +84,5 @@ export class AuthControllerV1 {
       this.authService.accessMaxAgeMs,
       this.authService.refreshMaxAgeMs,
     )
-  }
-
-  @Auth()
-  @Post('logout')
-  @ApiCookieAuth('accessToken')
-  @ApiOperation({ summary: 'Revoke current session' })
-  async logout(
-    @CurrentUser() user: AuthenticatedUser,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    await this.authService.logout(user.sessionId)
-    clearAuthCookies(res)
-  }
-
-  @Auth()
-  @Post('logout-all')
-  @ApiCookieAuth('accessToken')
-  @ApiOperation({ summary: 'Revoke all sessions for the current user' })
-  async logoutAll(
-    @CurrentUser() user: AuthenticatedUser,
-    @Res({ passthrough: true }) res: Response,
-  ) {
-    await this.authService.logoutAll(user.id)
-    clearAuthCookies(res)
-  }
-
-  @Auth()
-  @Get('me')
-  @ApiCookieAuth('accessToken')
-  @ApiOperation({ summary: 'Current authenticated user' })
-  me(@CurrentUser() user: AuthenticatedUser) {
-    return user
   }
 }

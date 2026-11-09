@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { EMAIL_EXAMPLE } from 'shared/utils/email'
+import { EMAIL_EXAMPLE } from 'shared/utils/email/constants'
 import { IsEmailAddress } from 'shared/validation/is-email-address.decorator'
 import {
   IsVerificationCode,

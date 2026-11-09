@@ -4,8 +4,8 @@ import { IsNotEmpty, IsString, Matches } from 'class-validator'
 import {
   BELARUSIAN_PHONE_EXAMPLE,
   BELARUSIAN_PHONE_PATTERN,
-  normalizePhoneNumber,
-} from 'shared/utils/phone'
+} from 'shared/utils/phone/constants'
+import { normalizePhoneNumber } from 'shared/utils/phone/phone'
 
 export const IsBelarusianPhoneNumber = () =>
   applyDecorators(

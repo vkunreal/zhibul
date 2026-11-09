@@ -1,9 +1,9 @@
 import { httpClient } from '@/shared/api'
 
 const ENDPOINTS = {
-  getAuthCode: '/api/v1/auth/getAuthCode',
-  verifyCode: '/api/v1/auth',
-  me: '/api/v1/auth/me',
+  getAuthCode: '/api/unauth/v1/auth/getAuthCode',
+  verifyCode: '/api/unauth/v1/auth',
+  me: '/api/public/v1/auth/me',
 }
 
 export const authApi = {
@@ -16,7 +16,6 @@ export const authApi = {
       url: ENDPOINTS.getAuthCode,
       data: { phoneNumber },
     })
-    console.log('response', response)
     return response
   },
 

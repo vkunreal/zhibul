@@ -1,6 +1,6 @@
-// Generator and datasource stay in this file, at the root of the schema
-// directory. Domain models live in the folders next to it. Prisma loads every
-// `.prisma` file under the directory set in `prisma.config.ts`.
+// Генератор и источник данных остаются в этом файле, в корне каталога
+// схемы. Модели предметной области лежат в соседних папках. Prisma
+// загружает каждый файл `.prisma` из каталога, указанного в `prisma.config.ts`.
 
 generator client {
   provider            = "prisma-client"
