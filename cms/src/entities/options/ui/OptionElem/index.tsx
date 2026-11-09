@@ -3,7 +3,7 @@ import DragIndicatorIcon from '@mui/icons-material/DragIndicator'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import { Box, Button, Paper, Stack } from '@mui/material'
 import { useUnit } from 'effector-react'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { changeOptionSubmitted, deleteOptionFx } from '@entities/options'
@@ -29,6 +29,7 @@ export const OptionElem: React.FC<OptionElemProps> = ({
     changeOptionSubmitted,
     deleteOptionFx,
   ])
+  const cardRef = useRef<HTMLDivElement>(null)
   const { register, control, reset, handleSubmit } = useForm({
     defaultValues: toOptionForm(option),
   })
@@ -51,6 +52,7 @@ export const OptionElem: React.FC<OptionElemProps> = ({
   return (
     <Paper
       id={id}
+      ref={cardRef}
       variant='outlined'
       onDragOver={(event) => onDragOver(event, option)}
       onDrop={(event) => onDrop(event, option)}
@@ -65,6 +67,16 @@ export const OptionElem: React.FC<OptionElemProps> = ({
           onDragStart={(event) => {
             event.dataTransfer.effectAllowed = 'move'
             event.dataTransfer.setData('text/plain', String(option.id))
+            // Без этого браузер тащит за курсором только иконку ручки.
+            const card = cardRef.current
+            if (card) {
+              const rect = card.getBoundingClientRect()
+              event.dataTransfer.setDragImage(
+                card,
+                event.clientX - rect.left,
+                event.clientY - rect.top,
+              )
+            }
             onDragStart(event, option)
           }}
           onDragEnd={onDragEnd}

@@ -3,6 +3,9 @@ import { toBool } from '@shared/utils'
 
 import { ItemOption } from '../model'
 
+export const nextOptionPosition = (options: ItemOption[]) =>
+  options.reduce((max, option) => Math.max(max, option.position), 0) + 1
+
 export const toItemOption = (dto: OptionDTO): ItemOption => ({
   id: dto.id,
   itemId: dto.item_id,

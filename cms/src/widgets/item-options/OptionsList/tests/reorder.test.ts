@@ -15,24 +15,48 @@ const option = (id: number, position: number): ItemOption => ({
   isDropdown: false,
 })
 
+const positionsOf = (items: ItemOption[]) =>
+  items.map(({ id, position }) => ({ id, position }))
+
 describe('reorderOptions', () => {
   it('меняет две карточки местами и не сдвигает опции между ними', () => {
-    const items = [option(1, 10), option(2, 20), option(3, 30)]
+    const items = [option(1, 1), option(2, 2), option(3, 3)]
 
-    expect(reorderOptions(items, 1, 3).map(({ id, position }) => ({ id, position }))).toEqual([
-      { id: 3, position: 10 },
-      { id: 2, position: 20 },
-      { id: 1, position: 30 },
+    expect(positionsOf(reorderOptions(items, 1, 3))).toEqual([
+      { id: 3, position: 1 },
+      { id: 2, position: 2 },
+      { id: 1, position: 3 },
     ])
   })
 
   it('так же меняет местами, если тянуть нижнюю карточку на верхнюю', () => {
+    const items = [option(1, 1), option(2, 2), option(3, 3)]
+
+    expect(positionsOf(reorderOptions(items, 3, 1))).toEqual([
+      { id: 3, position: 1 },
+      { id: 2, position: 2 },
+      { id: 1, position: 3 },
+    ])
+  })
+
+  it('меняет местами опции с одинаковой позицией', () => {
+    const items = [option(1, 1), option(2, 2), option(3, 3), option(4, 3)]
+
+    expect(positionsOf(reorderOptions(items, 4, 3))).toEqual([
+      { id: 1, position: 1 },
+      { id: 2, position: 2 },
+      { id: 4, position: 3 },
+      { id: 3, position: 4 },
+    ])
+  })
+
+  it('нумерует позиции заново, если между ними были пропуски', () => {
     const items = [option(1, 10), option(2, 20), option(3, 30)]
 
-    expect(reorderOptions(items, 3, 1).map(({ id, position }) => ({ id, position }))).toEqual([
-      { id: 3, position: 10 },
-      { id: 2, position: 20 },
-      { id: 1, position: 30 },
+    expect(positionsOf(reorderOptions(items, 1, 2))).toEqual([
+      { id: 2, position: 1 },
+      { id: 1, position: 2 },
+      { id: 3, position: 3 },
     ])
   })
 

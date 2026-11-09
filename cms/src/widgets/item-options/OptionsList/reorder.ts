@@ -3,7 +3,10 @@ import { ItemOption } from '@entities/options/model'
 export const sortByPosition = (a: ItemOption, b: ItemOption) =>
   a.position - b.position
 
-// Меняет две карточки местами. Опции между ними остаются на своих позициях.
+// Меняет две карточки местами. Опции между ними остаются на своих местах.
+// После обмена позиции нумеруются заново с 1: если у двух опций была одна
+// позиция, обмен иначе не меняет чисел — порядок не сохранится, а кнопка
+// «Сохранить порядок» не появится.
 export const reorderOptions = (
   items: ItemOption[],
   fromId: number,
@@ -15,10 +18,8 @@ export const reorderOptions = (
   if (from < 0 || to < 0 || from === to) return ordered
 
   const next = ordered.slice()
-  const source = next[from]
-  const target = next[to]
-  next[from] = { ...target, position: source.position }
-  next[to] = { ...source, position: target.position }
+  next[from] = ordered[to]
+  next[to] = ordered[from]
 
-  return next
+  return next.map((item, index) => ({ ...item, position: index + 1 }))
 }

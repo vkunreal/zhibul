@@ -10,7 +10,6 @@ import { addOptionSubmitted } from './model'
 export const AddOptionMenu: React.FC<AddOptionMenuProps> = ({
   isOpen,
   itemId,
-  position,
   onClose,
 }) => {
   const submitOption = useUnit(addOptionSubmitted)
@@ -19,7 +18,7 @@ export const AddOptionMenu: React.FC<AddOptionMenuProps> = ({
   })
 
   const onSubmit = handleSubmit((values) => {
-    submitOption({ ...values, itemId, position })
+    submitOption({ ...values, itemId })
     reset(emptyOption)
   })
 

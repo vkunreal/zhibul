@@ -3,19 +3,13 @@ const path = require('path')
 
 const { request } = require('../db/database')
 const { writeLog } = require('../writeLog')
-const { replaceQuotes } = require('../utils/quotes')
 
 const publicDir = path.resolve(__dirname, '..', 'public')
 
-const sqlText = (value) => {
-  if (value === null || value === undefined) return 'null'
-  return `"${replaceQuotes(String(value))}"`
-}
-
-const sqlNumber = (value) => {
-  if (value === null || value === undefined || value === '') return 'null'
+const toNumber = (value) => {
+  if (value === null || value === undefined || value === '') return null
   const number = Number(value)
-  return Number.isFinite(number) ? String(number) : 'null'
+  return Number.isFinite(number) ? number : null
 }
 
 const fileNameOf = (src) => {
@@ -92,7 +86,7 @@ const SORT_MODE_ORDER_BY = {
   newest: 'it.id DESC',
 }
 
-const queryItemsByCategoryUrl = (category_url, { onlyActive = false } = {}) => {
+const queryItemsByCategoryUrl = ({ onlyActive = false } = {}) => {
   const activeFilter = onlyActive ? 'AND it.is_active = 1' : ''
 
   return `
@@ -119,14 +113,14 @@ const queryItemsByCategoryUrl = (category_url, { onlyActive = false } = {}) => {
     it.is_active,
     it.is_order_only
   FROM items it
-  JOIN categories c ON it.category_id = c.id AND c.url = "${category_url}"
+  JOIN categories c ON it.category_id = c.id AND c.url = ?
   JOIN countries ct ON ct.id = it.manufacturer_id
   WHERE 1 = 1 ${activeFilter}
   GROUP BY it.id
 `
 }
 
-const queryItemByUrl = (item_url) => `
+const queryItemByUrl = `
   SELECT
     it.id,
     it.code,
@@ -152,11 +146,11 @@ const queryItemByUrl = (item_url) => `
   FROM items it
   JOIN categories c ON it.category_id = c.id
   JOIN countries ct ON ct.id = it.manufacturer_id
-  WHERE it.url = "${item_url}"
+  WHERE it.url = ?
   GROUP BY it.id
 `
 
-const queryItemById = (item_id) => `
+const queryItemById = `
   SELECT
     it.id,
     it.code,
@@ -182,7 +176,7 @@ const queryItemById = (item_id) => `
   FROM items it
   JOIN categories c ON it.category_id = c.id
   JOIN countries ct ON ct.id = it.manufacturer_id
-  WHERE it.id = "${item_id}"
+  WHERE it.id = ?
   GROUP BY it.id
 `
 
@@ -215,21 +209,19 @@ class ItemsServices {
       throw new Error(`Invalid parametrs page: ${page}, limit: ${limit}`)
     }
 
-    const safeCategoryUrl = categoryUrl
-      ? String(categoryUrl).replace(/"/g, '')
-      : ''
-    // Убираем кавычки и LIKE-метасимволы из поисковой строки.
+    const safeCategoryUrl = categoryUrl ? String(categoryUrl) : ''
+    // LIKE-метасимволы убираем, чтобы % и _ во вводе искались как текст.
     const safeSearch = String(search || '')
       .trim()
-      .replace(/["\\%_]/g, '')
+      .replace(/[\\%_]/g, '')
       .slice(0, 100)
-    const searchFilter = safeSearch
-      ? `(it.name LIKE "%${safeSearch}%" OR it.code LIKE "%${safeSearch}%")`
-      : ''
+    const searchFilter = safeSearch ? '(it.name LIKE ? OR it.code LIKE ?)' : ''
+    const searchParams = safeSearch
+      ? [`%${safeSearch}%`, `%${safeSearch}%`]
+      : []
+    const categoryParams = safeCategoryUrl ? [safeCategoryUrl] : []
 
-    const baseQuery = safeCategoryUrl
-      ? queryItemsByCategoryUrl(safeCategoryUrl)
-      : queryItems
+    const baseQuery = safeCategoryUrl ? queryItemsByCategoryUrl() : queryItems
     const filteredQuery = searchFilter
       ? safeCategoryUrl
         ? baseQuery.replace('WHERE 1 = 1', `WHERE 1 = 1 AND ${searchFilter}`)
@@ -242,18 +234,21 @@ class ItemsServices {
     const countQuery = safeCategoryUrl
       ? `SELECT COUNT(*) as count
          FROM items it
-         JOIN categories c ON it.category_id = c.id AND c.url = "${safeCategoryUrl}"
+         JOIN categories c ON it.category_id = c.id AND c.url = ?
          ${searchFilter ? `WHERE ${searchFilter}` : ''}`
       : `SELECT COUNT(*) as count FROM items it
          ${searchFilter ? `WHERE ${searchFilter}` : ''}`
 
     const items = await request(
-      `${filteredQuery} ORDER BY it.position ASC, it.id ASC LIMIT ${limit} OFFSET ${
-        (page - 1) * limit
-      }`,
+      `${filteredQuery} ORDER BY it.position ASC, it.id ASC LIMIT ? OFFSET ?`,
+      [...categoryParams, ...searchParams, limit, (page - 1) * limit],
     )
 
-    const { count } = await request(countQuery, (res) => res[0][0])
+    const { count } = await request(
+      countQuery,
+      [...categoryParams, ...searchParams],
+      (res) => res[0][0],
+    )
 
     return { items, count: Number(count) }
   }
@@ -264,21 +259,24 @@ class ItemsServices {
 
   async getItemsFromCategoryUrl(category_url, { onlyActive = false } = {}) {
     try {
-      const safeUrl = String(category_url).replace(/"/g, '')
+      const safeUrl = String(category_url)
       let sortMode = 'manual'
 
       if (onlyActive) {
         const category = await request(
-          `SELECT sort_mode FROM categories WHERE url = "${safeUrl}" LIMIT 1`,
+          'SELECT sort_mode FROM categories WHERE url = ? LIMIT 1',
+          [safeUrl],
           (res) => res[0][0],
         )
         sortMode = category?.sort_mode || 'manual'
       }
 
+      // ORDER BY не передать через ?, поэтому он берётся только из SORT_MODE_ORDER_BY.
       const orderBy = SORT_MODE_ORDER_BY[sortMode] || SORT_MODE_ORDER_BY.manual
 
       return await request(
-        `${queryItemsByCategoryUrl(safeUrl, { onlyActive })} ORDER BY ${orderBy}`,
+        `${queryItemsByCategoryUrl({ onlyActive })} ORDER BY ${orderBy}`,
+        [safeUrl],
       )
     } catch (e) {
       console.error(e)
@@ -286,7 +284,7 @@ class ItemsServices {
   }
 
   async getItemImages(item_id) {
-    return await request(`SELECT * FROM images WHERE item_id = "${item_id}"`)
+    return await request('SELECT * FROM images WHERE item_id = ?', [item_id])
   }
 
   // get item from db by id
@@ -295,7 +293,7 @@ class ItemsServices {
       const safeId = parseInt(item_id, 10)
       if (!safeId) return null
 
-      return await request(queryItemById(safeId), (res) => res[0][0])
+      return await request(queryItemById, [safeId], (res) => res[0][0])
     } catch (e) {
       console.error(e)
     }
@@ -303,7 +301,7 @@ class ItemsServices {
 
   async getItemFromUrl(item_url) {
     try {
-      return await request(queryItemByUrl(item_url), (it) => it[0][0])
+      return await request(queryItemByUrl, [item_url], (it) => it[0][0])
     } catch (e) {
       console.error(e)
     }
@@ -316,9 +314,10 @@ class ItemsServices {
     if (!article) return null
 
     const except = parseInt(exceptId, 10)
-    const exceptSql = Number.isInteger(except) && except > 0 ? ` AND id != ${except}` : ''
+    const hasExcept = Number.isInteger(except) && except > 0
     const row = await request(
-      `SELECT id FROM items WHERE code = ${sqlText(article)}${exceptSql} LIMIT 1`,
+      `SELECT id FROM items WHERE code = ?${hasExcept ? ' AND id != ?' : ''} LIMIT 1`,
+      hasExcept ? [article, except] : [article],
       (res) => res[0][0],
     )
 
@@ -334,6 +333,7 @@ class ItemsServices {
   async nextDefaultCode() {
     const lastId = await request(
       'SELECT MAX(id) as id FROM items',
+      [],
       (d) => d[0][0],
     )
     let n = Number(lastId?.id) || 0
@@ -372,41 +372,34 @@ class ItemsServices {
     if (code !== undefined) await this.assertCodeFree(code, item_id)
 
     try {
-      const updateItemField = async (field, value) =>
-        await request(
-          `UPDATE items SET ${field} = ${
-            value ? `"${value}"` : 'null'
-          } WHERE id = "${item_id}"`,
-        )
-
-      updateItemField('category_id', category_id)
-      if (code !== undefined) {
-        await updateItemField('code', replaceQuotes(normalizeCode(code)))
+      // Пустые значения полей сохраняются как null.
+      const fields = {
+        category_id,
+        name,
+        position,
+        url,
+        description,
+        brand,
+        manufacturer_id: manufacturer,
+        price,
+        valute_id,
+        purchase_price,
+        profitabilaty,
+        price_postfix,
+        seo_title,
+        seo_description,
+        seo_keywords,
       }
-      updateItemField('name', replaceQuotes(name))
-      updateItemField('position', position)
-      updateItemField('url', url)
-      updateItemField('description', replaceQuotes(description))
-      updateItemField('brand', replaceQuotes(brand))
-      updateItemField('manufacturer_id', manufacturer)
-      updateItemField('price', replaceQuotes(price))
-      updateItemField('valute_id', valute_id)
-      updateItemField('purchase_price', purchase_price)
-      updateItemField('profitabilaty', profitabilaty)
-      updateItemField('price_postfix', price_postfix)
-      updateItemField('seo_title', replaceQuotes(seo_title))
-      updateItemField('seo_description', replaceQuotes(seo_description))
-      updateItemField('seo_keywords', replaceQuotes(seo_keywords))
+      if (code !== undefined) fields.code = normalizeCode(code)
 
-      // false нельзя гонять через updateItemField — там falsy превращается в null
-      await request(
-        `UPDATE items SET is_active = ${toSqlBool(is_active)} WHERE id = "${item_id}"`,
-      )
-      await request(
-        `UPDATE items SET is_order_only = ${toSqlBool(
-          is_order_only,
-        )} WHERE id = "${item_id}"`,
-      )
+      const changes = {}
+      for (const [field, value] of Object.entries(fields)) {
+        changes[field] = value || null
+      }
+      changes.is_active = toSqlBool(is_active)
+      changes.is_order_only = toSqlBool(is_order_only)
+
+      await request('UPDATE items SET ? WHERE id = ?', [changes, item_id])
 
       writeLog('Item was changed')
       return { status: true }
@@ -441,20 +434,28 @@ class ItemsServices {
     if (typedCode) await this.assertCodeFree(article)
 
     try {
-      await request(`
-        INSERT INTO items(code, position, url, category_id, name, description, brand, manufacturer_id, price, valute_id, purchase_price, profitabilaty, price_postfix, seo_title, seo_description, seo_keywords, is_active, is_order_only)
-        VALUES (${sqlText(article)}, "${position}", "${url}", "${category_id}", "${name}", "${replaceQuotes(
+      await request('INSERT INTO items SET ?', [
+        {
+          code: article,
+          position,
+          url,
+          category_id,
+          name,
           description,
-        )}", "${brand}", "${manufacturer}", "${price}", "${valute_id || 1}", ${
-          purchase_price ? `"${purchase_price}"` : 'null'
-        }, ${
-          profitabilaty ? `"${profitabilaty}"` : 'null'
-        }, "${price_postfix}", "${replaceQuotes(seo_title)}", "${replaceQuotes(
+          brand,
+          manufacturer_id: manufacturer,
+          price,
+          valute_id: valute_id || 1,
+          purchase_price: purchase_price || null,
+          profitabilaty: profitabilaty || null,
+          price_postfix,
+          seo_title,
           seo_description,
-        )}", "${replaceQuotes(seo_keywords)}", ${toSqlBool(
-          is_active,
-        )}, ${toSqlBool(is_order_only)})
-      `)
+          seo_keywords,
+          is_active: toSqlBool(is_active),
+          is_order_only: toSqlBool(is_order_only),
+        },
+      ])
 
       writeLog('Item was added')
       return { status: true }
@@ -467,7 +468,7 @@ class ItemsServices {
   // delete item from db by id
   async deleteItemFromId(item_id) {
     try {
-      await request(`DELETE FROM items WHERE id = "${item_id}"`)
+      await request('DELETE FROM items WHERE id = ?', [item_id])
 
       writeLog('Item was delete')
       return { status: true }
@@ -478,9 +479,7 @@ class ItemsServices {
 
   async addImageToDB(item_id, imageName) {
     try {
-      await request(`INSERT INTO images (item_id, src)
-        VALUES
-        ("${item_id}", "${imageName}")`)
+      await request('INSERT INTO images SET ?', [{ item_id, src: imageName }])
     } catch (e) {
       console.error(e)
     }
@@ -489,13 +488,14 @@ class ItemsServices {
   async putMainImage(src) {
     try {
       const result = await request(
-        `SELECT item_id FROM images WHERE src = "${src}"`,
+        'SELECT item_id FROM images WHERE src = ?',
+        [src],
         (res) => res[0][0],
       )
-      await request(
-        `UPDATE images SET is_main = "0" WHERE item_id = "${result.item_id}"`,
-      )
-      await request(`UPDATE images SET is_main = "1" WHERE src = "${src}"`)
+      await request('UPDATE images SET is_main = 0 WHERE item_id = ?', [
+        result.item_id,
+      ])
+      await request('UPDATE images SET is_main = 1 WHERE src = ?', [src])
     } catch (e) {
       console.error(e)
     }
@@ -510,7 +510,8 @@ class ItemsServices {
       const suffix = n === 1 ? '-copy' : `-copy-${n}`
       const candidate = `${raw.slice(0, 120 - suffix.length)}${suffix}`
       const existing = await request(
-        `SELECT id FROM items WHERE url = ${sqlText(candidate)} LIMIT 1`,
+        'SELECT id FROM items WHERE url = ? LIMIT 1',
+        [candidate],
         (res) => res[0][0],
       )
       if (!existing) return candidate
@@ -526,13 +527,15 @@ class ItemsServices {
     if (!safeId) return null
 
     const source = await request(
-      `SELECT * FROM items WHERE id = "${safeId}" LIMIT 1`,
+      'SELECT * FROM items WHERE id = ? LIMIT 1',
+      [safeId],
       (res) => res[0][0],
     )
     if (!source) return null
 
     const category = await request(
-      `SELECT url FROM categories WHERE id = "${source.category_id}" LIMIT 1`,
+      'SELECT url FROM categories WHERE id = ? LIMIT 1',
+      [source.category_id],
       (res) => res[0][0],
     )
     if (!category?.url) return null
@@ -543,83 +546,75 @@ class ItemsServices {
     let newId = null
 
     try {
-      const inserted = await request(`
-        INSERT INTO items (
-          code, position, url, category_id, name, description, brand, manufacturer_id,
-          price, valute_id, purchase_price, profitabilaty, price_postfix,
-          seo_title, seo_description, seo_keywords, is_active, is_order_only
-        ) VALUES (
-          ${sqlText(article)},
-          ${sqlNumber(source.position) === 'null' ? 0 : sqlNumber(source.position)},
-          ${sqlText(url)},
-          ${sqlNumber(source.category_id)},
-          ${sqlText(source.name)},
-          ${sqlText(source.description)},
-          ${sqlText(source.brand)},
-          ${sqlNumber(source.manufacturer_id)},
-          ${sqlText(source.price ?? '')},
-          ${sqlNumber(source.valute_id) === 'null' ? 1 : sqlNumber(source.valute_id)},
-          ${sqlNumber(source.purchase_price)},
-          ${sqlNumber(source.profitabilaty)},
-          ${sqlText(source.price_postfix)},
-          ${sqlText(source.seo_title)},
-          ${sqlText(source.seo_description)},
-          ${sqlText(source.seo_keywords)},
-          0,
-          ${toSqlBool(source.is_order_only)}
-        )
-      `)
+      const inserted = await request('INSERT INTO items SET ?', [
+        {
+          code: article,
+          position: toNumber(source.position) ?? 0,
+          url,
+          category_id: toNumber(source.category_id),
+          name: source.name,
+          description: source.description,
+          brand: source.brand,
+          manufacturer_id: toNumber(source.manufacturer_id),
+          price: source.price ?? '',
+          valute_id: toNumber(source.valute_id) ?? 1,
+          purchase_price: toNumber(source.purchase_price),
+          profitabilaty: toNumber(source.profitabilaty),
+          price_postfix: source.price_postfix,
+          seo_title: source.seo_title,
+          seo_description: source.seo_description,
+          seo_keywords: source.seo_keywords,
+          is_active: 0,
+          is_order_only: toSqlBool(source.is_order_only),
+        },
+      ])
 
       newId = inserted?.insertId
       if (!newId) throw new Error('Insert did not return id')
 
       const images =
-        (await request(`SELECT * FROM images WHERE item_id = "${safeId}"`)) ||
+        (await request('SELECT * FROM images WHERE item_id = ?', [safeId])) ||
         []
       for (const image of images) {
         const copied = await copyStoredFile('images', image.src)
         if (!copied) continue
         createdFiles.push(copied.path)
-        await request(`
-          INSERT INTO images (item_id, src, is_main)
-          VALUES ("${newId}", ${sqlText(copied.src)}, ${image.is_main ? 1 : 0})
-        `)
+        await request('INSERT INTO images SET ?', [
+          { item_id: newId, src: copied.src, is_main: image.is_main ? 1 : 0 },
+        ])
       }
 
       const files =
-        (await request(`SELECT * FROM files WHERE item_id = "${safeId}"`)) || []
+        (await request('SELECT * FROM files WHERE item_id = ?', [safeId])) || []
       for (const file of files) {
         const copied = await copyStoredFile('files', file.src)
         if (!copied) continue
         createdFiles.push(copied.path)
-        await request(`
-          INSERT INTO files (item_id, src, title, icon)
-          VALUES (
-            "${newId}",
-            ${sqlText(copied.src)},
-            ${sqlText(file.title || '')},
-            ${sqlText(file.icon || '')}
-          )
-        `)
+        await request('INSERT INTO files SET ?', [
+          {
+            item_id: newId,
+            src: copied.src,
+            title: file.title || '',
+            icon: file.icon || '',
+          },
+        ])
       }
 
       const options =
-        (await request(`SELECT * FROM options WHERE item_id = "${safeId}"`)) ||
+        (await request('SELECT * FROM options WHERE item_id = ?', [safeId])) ||
         []
       for (const option of options) {
-        await request(`
-          INSERT INTO options (
-            item_id, position, name, value, show_item, show_menu, is_dropdown
-          ) VALUES (
-            "${newId}",
-            ${sqlNumber(option.position) === 'null' ? 0 : sqlNumber(option.position)},
-            ${sqlText(option.name || '')},
-            ${sqlText(option.value || '')},
-            ${option.show_item ? 1 : 0},
-            ${option.show_menu ? 1 : 0},
-            ${option.is_dropdown ? 1 : 0}
-          )
-        `)
+        await request('INSERT INTO options SET ?', [
+          {
+            item_id: newId,
+            position: toNumber(option.position) ?? 0,
+            name: option.name || '',
+            value: option.value || '',
+            show_item: option.show_item ? 1 : 0,
+            show_menu: option.show_menu ? 1 : 0,
+            is_dropdown: option.is_dropdown ? 1 : 0,
+          },
+        ])
       }
 
       writeLog('Item was copied')
@@ -629,7 +624,7 @@ class ItemsServices {
         createdFiles.map((filePath) => fs.unlink(filePath).catch(() => {})),
       )
       if (newId) {
-        await request(`DELETE FROM items WHERE id = "${newId}"`).catch(() => {})
+        await request('DELETE FROM items WHERE id = ?', [newId]).catch(() => {})
       }
       throw error
     }
@@ -637,7 +632,7 @@ class ItemsServices {
 
   async deleteImageInDB(imageSrc) {
     try {
-      await request(`DELETE FROM images WHERE src = "${imageSrc}"`)
+      await request('DELETE FROM images WHERE src = ?', [imageSrc])
     } catch (e) {
       console.error(e)
     }

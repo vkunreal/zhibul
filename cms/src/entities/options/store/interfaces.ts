@@ -4,7 +4,6 @@ export interface NewOptionValues {
   itemId: number
   name: string
   value: string
-  position: number
 }
 
 export interface OptionChanges {

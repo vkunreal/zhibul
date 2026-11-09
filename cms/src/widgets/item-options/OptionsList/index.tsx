@@ -77,10 +77,6 @@ export const OptionsList: React.FC<OptionsListProps> = ({ itemId }) => {
     savePositions({ positions, itemId })
   }
 
-  const nextPosition = positions.length
-    ? Math.max(...positions.map((position) => position.position)) + 1
-    : 1
-
   const orderChanged =
     items.length > 0 &&
     items.some((item) => {
@@ -121,7 +117,7 @@ export const OptionsList: React.FC<OptionsListProps> = ({ itemId }) => {
       </FetchState>
 
       <OptionsToolbar
-        onAdd={() => open('optionModal', { itemId, position: nextPosition })}
+        onAdd={() => open('optionModal', { itemId })}
         canDeleteAll={items.length > 0}
         onDeleteAll={() => setDeleteDialog(true)}
         orderChanged={orderChanged}

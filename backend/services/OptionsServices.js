@@ -1,12 +1,12 @@
 const { request } = require('../db/database')
-const { replaceQuotes } = require('../utils/quotes')
 const { writeLog } = require('../writeLog')
 
 class OptionsServices {
   // get all options by item id
   async getOptionsByItemId(id) {
     return await request(
-      `SELECT * FROM options WHERE item_id = "${id}" ORDER BY position ASC, id ASC`,
+      'SELECT * FROM options WHERE item_id = ? ORDER BY position ASC, id ASC',
+      [id],
     )
   }
 
@@ -14,39 +14,16 @@ class OptionsServices {
   async changeOptionById({ option_id, name, value, is_dropdown, show_menu }) {
     let response
 
-    await request(
-      `UPDATE options SET name = "${replaceQuotes(
-        name
-      )}" WHERE id = "${option_id}"`
-    ).catch(() => {
-      writeLog('Changing name was failed')
-      response = { status: false }
-    })
-
-    await request(
-      `UPDATE options SET value = "${replaceQuotes(
-        value
-      )}" WHERE id = "${option_id}"`
-    ).catch(() => {
-      writeLog('Changing value was failed')
-      response = { status: false }
-    })
-
-    await request(
-      `UPDATE options SET is_dropdown = "${
-        is_dropdown ? 1 : 0
-      }" WHERE id = "${option_id}"`
-    ).catch(() => {
-      writeLog('Changing is_dropdown was failed')
-      response = { status: false }
-    })
-
-    await request(
-      `UPDATE options SET show_menu = "${
-        show_menu ? 1 : 0
-      }" WHERE id = "${option_id}"`
-    ).catch(() => {
-      writeLog('Changing show_menu was failed')
+    await request('UPDATE options SET ? WHERE id = ?', [
+      {
+        name,
+        value,
+        is_dropdown: is_dropdown ? 1 : 0,
+        show_menu: show_menu ? 1 : 0,
+      },
+      option_id,
+    ]).catch(() => {
+      writeLog('Changing option was failed')
       response = { status: false }
     })
 
@@ -61,9 +38,10 @@ class OptionsServices {
   async changeOptionsPosition(positions) {
     let response
     for (let i = 0; i < positions.length; i++) {
-      await request(
-        `UPDATE options SET position = "${positions[i].position}" WHERE id = "${positions[i].id}"`
-      )
+      await request('UPDATE options SET position = ? WHERE id = ?', [
+        positions[i].position,
+        positions[i].id,
+      ])
         .then(() => {
           response = { status: true }
         })
@@ -76,12 +54,9 @@ class OptionsServices {
   async addOptionByItemId({ item_id, name, value, position }) {
     let response
 
-    await request(`
-      INSERT INTO options (item_id, name, value, position)
-      VALUES ("${item_id}", "${replaceQuotes(name)}", "${replaceQuotes(
-      value
-    )}", "${position}")
-    `).catch(() => {
+    await request('INSERT INTO options SET ?', [
+      { item_id, name, value, position },
+    ]).catch(() => {
       writeLog('Adding option was failed')
       response = { status: false }
     })
@@ -98,7 +73,7 @@ class OptionsServices {
     const safeId = parseInt(item_id, 10)
     if (!safeId) return { status: false }
 
-    await request(`DELETE FROM options WHERE item_id = "${safeId}"`)
+    await request('DELETE FROM options WHERE item_id = ?', [safeId])
     writeLog('Options were deleted')
     return { status: true }
   }
@@ -107,7 +82,7 @@ class OptionsServices {
   async deleteOptionById(option_id) {
     let response
 
-    await request(`DELETE FROM options WHERE id = "${option_id}"`).catch(() => {
+    await request('DELETE FROM options WHERE id = ?', [option_id]).catch(() => {
       writeLog('Deleting option was failed')
       response = { status: false }
     })

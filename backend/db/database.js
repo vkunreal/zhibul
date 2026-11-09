@@ -12,27 +12,21 @@ const connection = mysql
 
 const defaultRequestFunc = (results) => results[0]
 
-// request to database function
-// const request = async (sqlRequest, func = defaultRequestFunc) => {
-//   let data
-
-//   try {
-//     await connection
-//       .query(sqlRequest)
-//       .then((results) => (data = func(results)))
-//       .catch((e) => console.error(e))
-//   } catch (e) {
-//     console.error(e)
-//   }
-
-//   return data
-// }
-const request = (sqlRequest, func = defaultRequestFunc) =>
-  new Promise((resolve, reject) => {
-    connection
-      .query(sqlRequest)
-      .then((results) => resolve(func(results)))
-      .catch(reject)
-  })
+// Защита от SQL-инъекций: значения никогда не вклеиваются в текст запроса,
+// а передаются отдельно в params. mysql2 сам подставляет их на место плейсхолдеров
+// и экранирует по типу, поэтому кавычки и слэши во вводе остаются обычным текстом.
+//
+//   ?        — значение: строка, число, null, массив для IN (?)
+//              request('SELECT * FROM news WHERE url = ?', [url])
+//   SET ?    — объект { колонка: значение } для INSERT и UPDATE
+//              request('INSERT INTO files SET ?', [{ item_id, src }])
+//              request('UPDATE items SET ? WHERE id = ?', [{ name, price }, id])
+//
+// Ключи объекта становятся именами колонок, поэтому объект собирается в коде
+// из явного списка полей — req.body целиком передавать нельзя.
+// Имена колонок, ORDER BY и другие куски SQL плейсхолдером не подставить:
+// они берутся только из белого списка в коде.
+const request = (sql, params = [], func = defaultRequestFunc) =>
+  connection.query(sql, params).then(func)
 
 module.exports = { connection, request }

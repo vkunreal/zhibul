@@ -6,7 +6,7 @@ class ValutesServices {
   }
 
   async changeValuteValue(id, value) {
-    await request(`UPDATE valutes SET value = "${value}" WHERE id = "${id}"`)
+    await request('UPDATE valutes SET value = ? WHERE id = ?', [value, id])
   }
 }
 

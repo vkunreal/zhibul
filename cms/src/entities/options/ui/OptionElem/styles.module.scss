@@ -1,3 +1,5 @@
+$primary: #1976d2;
+
 .card:global(.MuiPaper-root) {
   overflow: hidden;
   transition:
@@ -6,17 +8,44 @@
     background-color 0.15s ease;
 
   &:hover {
-    border-color: rgba(0, 0, 0, 0.12);
+    border-color: rgba(0, 0, 0, 0.23);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   }
-}
 
-.cardDragging:global(.MuiPaper-root) {
-  opacity: 0.45;
-}
+  &:hover .handle {
+    color: rgba(0, 0, 0, 0.6);
+  }
 
-.cardOver:global(.MuiPaper-root) {
-  border-color: #1976d2;
-  background: rgba(25, 118, 210, 0.06);
+  .handle:hover {
+    color: $primary;
+    background: rgba($primary, 0.08);
+  }
+
+  // Карточка, которую тянут: на её месте остаётся пунктирный «слот».
+  &.cardDragging {
+    border-style: dashed;
+    border-color: rgba($primary, 0.5);
+    background: rgba($primary, 0.03);
+    box-shadow: none;
+
+    .form {
+      opacity: 0.35;
+    }
+  }
+
+  // Карточка, с которой поменяется местами перетаскиваемая.
+  // Вторая линия рамки — через box-shadow, чтобы карточка не прыгала.
+  &.cardOver {
+    border-color: $primary;
+    background: rgba($primary, 0.06);
+    box-shadow:
+      0 0 0 1px $primary,
+      0 6px 16px rgba($primary, 0.18);
+
+    .handle {
+      color: $primary;
+    }
+  }
 }
 
 .form {
@@ -25,17 +54,24 @@
   padding: 16px;
   align-items: stretch;
   flex-wrap: wrap;
+  transition: opacity 0.15s ease;
 }
 
 .handle:global(.MuiBox-root) {
   display: flex;
   align-items: center;
+  justify-content: center;
   align-self: stretch;
-  padding-right: 4px;
+  width: 28px;
+  margin: -8px 0 -8px -8px;
+  border-radius: 6px;
   color: rgba(0, 0, 0, 0.38);
   flex-shrink: 0;
   cursor: grab;
   user-select: none;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease;
 
   &:active {
     cursor: grabbing;
