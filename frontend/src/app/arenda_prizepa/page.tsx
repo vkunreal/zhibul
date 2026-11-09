@@ -1,9 +1,11 @@
-import { trailersApi } from '@/entities/trailer'
-import { getPage, useVariables } from '@/shared/api'
-import { Breadcrumbs, Wrapper } from '@/shared/ui'
 import { TrailerList } from '@/widgets/trailer'
 
-import styles from './styles.module.scss'
+import { trailersApi } from '@/entities/trailer'
+
+import { getPage, useVariables } from '@/shared/api'
+import { Breadcrumbs, Wrapper } from '@/shared/ui'
+
+import s from './styles.module.scss'
 
 const PAGE = 'arenda_prizepa'
 
@@ -33,7 +35,7 @@ export default async function TrailersRent() {
         elements={[{ url: '/', title: 'Главная' }]}
         activeTitle="Аренда автоприцепов"
       />
-      <Wrapper className={styles.container}>
+      <Wrapper className={s.container}>
         <TrailerList list={trailers} phone={variable('phone_services')} />
       </Wrapper>
     </>

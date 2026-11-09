@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 import { Typography } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const ProductDescription: FC<{ children: string }> = ({ children }) => {
   if (!children) {
@@ -15,7 +15,7 @@ export const ProductDescription: FC<{ children: string }> = ({ children }) => {
         Описание товара:
       </Typography>
 
-      <Typography className={styles.description} size="sm">
+      <Typography className={s.description} size="sm">
         <span dangerouslySetInnerHTML={{ __html: children }} />
       </Typography>
     </section>

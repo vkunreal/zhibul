@@ -2,13 +2,9 @@ import type { MetadataRoute } from 'next'
 
 import { Product } from '@/entities/product'
 import { TrailerRent } from '@/entities/trailer'
+
+import { httpClient } from '@/shared/api'
 import { Category } from '@/shared/model'
-
-const apiGet = async <T>(url: string) => {
-  const response = await fetch(url).then((data) => data.json())
-
-  return response as T
-}
 
 const staticUrls = [
   'uslugi',
@@ -29,17 +25,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   // const [categories, items, trailers] = await Promise.all([
-  //   apiGet<Category[]>('https://api.zhbl.by/api/categories'),
-  //   apiGet<Product[]>('https://api.zhbl.by/api/items'),
-  //   apiGet<TrailerRent[]>('https://api.zhbl.by/api/trailers-rent'),
+  //   httpClient.get<Category[]>({ url: 'https://api.zhbl.by/api/categories' }),
+  //   httpClient.get<Product[]>({ url: 'https://api.zhbl.by/api/items' }),
+  //   httpClient.get<TrailerRent[]>({
+  //     url: 'https://api.zhbl.by/api/trailers-rent',
+  //   }),
   // ])
-  const categories = await apiGet<Category[]>(
-    'https://api.zhbl.by/api/categories',
-  )
-  const items = await apiGet<Product[]>('https://api.zhbl.by/api/items')
-  const trailers = await apiGet<TrailerRent[]>(
-    'https://api.zhbl.by/api/trailers-rent',
-  )
+  const { data: categories } = await httpClient.get<Category[]>({
+    url: 'https://api.zhbl.by/api/categories',
+  })
+  const { data: items } = await httpClient.get<Product[]>({
+    url: 'https://api.zhbl.by/api/items',
+  })
+  const { data: trailers } = await httpClient.get<TrailerRent[]>({
+    url: 'https://api.zhbl.by/api/trailers-rent',
+  })
 
   // categories urls
   if (categories?.length) {

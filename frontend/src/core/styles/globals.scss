@@ -22,6 +22,15 @@ iframe {
   padding: 0;
 }
 
+// Bitrix site button uses a very high layer and otherwise covers dialogs.
+.b24-widget-button-wrapper,
+.b24-widget-button-popup,
+.b24-widget-button-shadow,
+.bx-livechat-wrapper,
+.bx-livechat {
+  z-index: 1200 !important;
+}
+
 html::-webkit-scrollbar {
   width: 8px;
   height: 8px;

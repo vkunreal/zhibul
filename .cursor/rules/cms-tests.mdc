@@ -1,0 +1,26 @@
+---
+description: Юнит-тесты CMS лежат в папке tests рядом с модулем
+globs: cms/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Тесты CMS
+
+Юнит-тест не клади рядом с исходником. Его место — папка `tests` в той же директории, что и тестируемый файл.
+
+```
+features/save-item/mappers.ts
+features/save-item/tests/mappers.test.ts
+
+entities/items/store/index.ts
+entities/items/store/tests/index.test.ts
+
+shared/utils/number.ts
+shared/utils/tests/number.test.ts
+```
+
+Имя файла совпадает с модулем: `mappers.test.ts`, `index.test.ts`. Импорт тестируемого кода — на уровень вверх: `from '../mappers'`.
+
+Общий setup Vitest остаётся в `cms/src/test/setup.ts`. Это не папка юнит-тестов.
+
+Vitest подхватывает только `src/**/tests/**/*.{test,spec}.{ts,tsx}`. Новый тест сразу создавай в `tests/`.

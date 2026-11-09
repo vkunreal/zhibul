@@ -1,11 +1,11 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common'
+import { ApiExcludeController } from '@nestjs/swagger'
 
+@ApiExcludeController()
 @Controller()
 export class AppController {
-  constructor() {}
-
   @Get('/healthCheck')
   healthCheck() {
-    return true;
+    return true
   }
 }

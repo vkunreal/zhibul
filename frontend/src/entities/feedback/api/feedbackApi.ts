@@ -1,4 +1,4 @@
-import { apiPost, DefaultResponse } from '@/shared/api'
+import { DefaultResponse, httpClient } from '@/shared/api'
 
 import { SendFeedbackDTO } from '../model'
 
@@ -8,11 +8,11 @@ const ENDPOINTS = {
 
 export const feedbackApi = {
   async sendFeedback(dto: SendFeedbackDTO) {
-    const response = await apiPost<DefaultResponse, SendFeedbackDTO>(
-      ENDPOINTS.sendFeedback,
-      dto,
-    )
+    const { data } = await httpClient.post<DefaultResponse, SendFeedbackDTO>({
+      url: ENDPOINTS.sendFeedback,
+      data: dto,
+    })
 
-    return response
+    return data
   },
 }

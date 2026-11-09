@@ -1,8 +1,8 @@
 import cn from 'classnames'
 import { FC } from 'react'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const Divider: FC<{ center?: boolean }> = ({ center }) => {
-  return <div className={cn(styles.divider, { [styles.center]: center })} />
+  return <div className={cn(s.divider, { [s.center]: center })} />
 }

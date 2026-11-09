@@ -3,20 +3,20 @@ import { FC } from 'react'
 
 import { CategoriesButton, CategoriesTabs } from '@/entities/category'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const Navbar: FC = () => {
   return (
-    <div className={styles.wrapper}>
-      <nav className={styles.nav}>
-        <div className={cn(styles.navSpacer, styles.navSpacerLeft)} />
+    <div className={s.wrapper}>
+      <nav className={s.nav}>
+        <div className={cn(s.navSpacer, s.navSpacerLeft)} />
 
-        <section className={styles.categories}>
+        <section className={s.categories}>
           <CategoriesButton />
           <CategoriesTabs />
         </section>
 
-        <div className={cn(styles.navSpacer, styles.navSpacerRight)} />
+        <div className={cn(s.navSpacer, s.navSpacerRight)} />
       </nav>
     </div>
   )

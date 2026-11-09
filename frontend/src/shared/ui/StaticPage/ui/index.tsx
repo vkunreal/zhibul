@@ -4,8 +4,7 @@ import { getPage } from '@/shared/api'
 import { Typography, Wrapper } from '@/shared/ui'
 
 import { StaticPageProps } from '../interfaces'
-
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const StaticPage: FC<StaticPageProps> = async ({
   page,
@@ -16,13 +15,13 @@ export const StaticPage: FC<StaticPageProps> = async ({
 
   return (
     <Wrapper {...rest}>
-      <div className={styles.content}>
+      <div className={s.content}>
         <div>
           <Typography
             tag="h1"
             size="xxlRelative"
             textCenter
-            className={styles.title}
+            className={s.title}
           >
             {pageData?.name}
           </Typography>

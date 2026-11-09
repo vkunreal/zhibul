@@ -5,23 +5,23 @@ import { ButtonLink, FlexImage } from '@/shared/ui'
 import { getDate } from '@/shared/utils'
 
 import { NewsItemProps } from './interfaces'
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const NewsItem: FC<NewsItemProps> = ({ item }) => {
   return (
-    <div className={styles.item}>
+    <div className={s.item}>
       <FlexImage src={item.media[0].src} alt="image" maxWidth={350} />
 
-      <div className={styles.content}>
-        <div className={styles.info}>
-          <h2 className={styles.title}>
+      <div className={s.content}>
+        <div className={s.info}>
+          <h2 className={s.title}>
             <Link href={`/news/${item.url}`}>{item.title}</Link>
           </h2>
 
-          <time className={styles.time}>{getDate(item.date)}</time>
+          <time className={s.time}>{getDate(item.date)}</time>
 
           <p
-            className={styles.description}
+            className={s.description}
             dangerouslySetInnerHTML={{ __html: item.short_text }}
           />
         </div>

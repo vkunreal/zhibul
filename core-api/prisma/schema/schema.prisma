@@ -1,0 +1,14 @@
+// Генератор и источник данных остаются в этом файле, в корне каталога
+// схемы. Модели предметной области лежат в соседних папках. Prisma
+// загружает каждый файл `.prisma` из каталога, указанного в `prisma.config.ts`.
+
+generator client {
+  provider            = "prisma-client"
+  output              = "../../src/generated/prisma"
+  moduleFormat        = "cjs"
+  importFileExtension = ""
+}
+
+datasource db {
+  provider = "postgresql"
+}

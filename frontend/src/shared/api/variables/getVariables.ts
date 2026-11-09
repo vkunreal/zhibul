@@ -1,6 +1,6 @@
 import type { Variable } from '@/shared/model'
 
-import { apiGet } from '../base'
+import { httpClient } from '../httpClient'
 
 const ENDPOINTS = {
   variables: '/api/variables',
@@ -8,8 +8,10 @@ const ENDPOINTS = {
 
 export const variablesApi = {
   async getVariables() {
-    const variables = await apiGet<Variable[]>(ENDPOINTS.variables, 3600)
+    const { data } = await httpClient.get<Variable[]>({
+      url: ENDPOINTS.variables,
+    })
 
-    return variables
+    return data
   },
 }

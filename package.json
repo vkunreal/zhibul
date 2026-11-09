@@ -6,11 +6,14 @@
     "backend:serve": "cd backend && npm run dev",
     "backend:start": "cd backend && npm start",
     "backend:forever": "cd backend && forever app.js",
-    "cms:install": "cd cms && npm install",
-    "cms:serve": "cd cms && npm run serve",
-    "cms:build": "cd cms && npm run build",
+    "cms:install": "cd cms && yarn install",
+    "cms:serve": "cd cms && yarn dev",
+    "cms:build": "cd cms && yarn build",
     "frontend:install": "cd frontend && npm install",
     "frontend:serve": "cd frontend && yarn dev",
-    "frontend:build": "cd frontend && yarn build"
+    "frontend:build": "cd frontend && yarn build",
+    "docker:build": "docker compose build legacy-api && docker compose build migrate && docker compose build api && docker compose build cms && docker compose build frontend && docker compose up",
+    "docker:dev": "docker compose up",
+    "docker:prod": "docker compose -f infra/docker/docker-compose.yml --env-file .env up -d --build"
   }
 }

@@ -1,12 +1,14 @@
 import cn from 'classnames'
 import { notFound } from 'next/navigation'
 
-import { newsApi, NewsTitle } from '@/entities/news'
-import { manrope } from '@/shared/assets'
-import { Breadcrumbs, Gallery, Typography, Wrapper } from '@/shared/ui'
 import { FeedbackBlock } from '@/widgets/feedback'
 
-import styles from './styles.module.scss'
+import { newsApi, NewsTitle } from '@/entities/news'
+
+import { manrope } from '@/shared/assets'
+import { Breadcrumbs, Gallery, Typography, Wrapper } from '@/shared/ui'
+
+import s from './styles.module.scss'
 
 export async function generateStaticParams() {
   const news = await newsApi.getNews()
@@ -70,11 +72,11 @@ export default async function NewsList({
         activeTitle={newsItem.title}
       />
 
-      <Wrapper className={styles.container}>
+      <Wrapper className={s.container}>
         <NewsTitle>{title}</NewsTitle>
 
-        <section className={cn(styles.top, manrope.className)}>
-          <div className={styles.media}>
+        <section className={cn(s.top, manrope.className)}>
+          <div className={s.media}>
             <Gallery images={media} alt={title} />
           </div>
 

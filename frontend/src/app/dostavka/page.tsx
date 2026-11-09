@@ -1,9 +1,10 @@
-import { getPage } from '@/shared/api'
-import { StaticPage, Breadcrumbs } from '@/shared/ui'
 import { FeedbackBlock } from '@/widgets/feedback'
 import { MAPS_TYPES, YandexMap } from '@/widgets/yandex'
 
-import styles from './styles.module.scss'
+import { getPage } from '@/shared/api'
+import { StaticPage, Breadcrumbs } from '@/shared/ui'
+
+import s from './styles.module.scss'
 
 const PAGE = 'dostavka'
 
@@ -24,7 +25,7 @@ export default async function Delivery() {
         elements={[{ url: '/', title: 'Главная' }]}
         activeTitle="Доставка"
       />
-      <StaticPage className={styles.wrapper} page={PAGE} />
+      <StaticPage className={s.wrapper} page={PAGE} />
       <YandexMap type={MAPS_TYPES.DELIVERY} />
       <FeedbackBlock />
     </>

@@ -75,7 +75,7 @@ class NewsController {
         short_text,
         seo_title,
         seo_description,
-        seo_keywords
+        seo_keywords,
       )
 
       res.status(201).json({ status: true })
@@ -104,7 +104,7 @@ class NewsController {
         short_text,
         seo_title,
         seo_description,
-        seo_keywords
+        seo_keywords,
       )
 
       res.status(201).json({ status: true })
@@ -149,9 +149,9 @@ class NewsController {
           '..',
           'public',
           'images',
-          mediaName
+          mediaName,
         )
-        const mediaUrl = 'https://api.zhbl.by/images/' + mediaName
+        const mediaUrl = '/images/' + mediaName
         urls.push(mediaUrl)
         await file.mv(mediaPath, async (err) => {
           if (err) {
@@ -177,7 +177,7 @@ class NewsController {
         '..',
         'public',
         'images',
-        mediaName
+        mediaName,
       )
 
       if (!fs.existsSync(mediaPath)) {
@@ -189,9 +189,7 @@ class NewsController {
           res.status(500).json({ status: false })
           console.log(err)
         }
-        await NewsServices.deleteNewsMedia(
-          'https://api.zhbl.by/images/' + mediaName
-        )
+        await NewsServices.deleteNewsMedia(`/images/${mediaName}`)
       })
 
       res.status(200).json({ status: true })

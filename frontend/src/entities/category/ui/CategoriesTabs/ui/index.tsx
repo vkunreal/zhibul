@@ -8,8 +8,7 @@ import { FC, useState } from 'react'
 import { Icon } from '@/shared/ui'
 
 import { TABS } from '../utils'
-
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const CategoriesTabs: FC = () => {
   const [activeTab, setActiveTab] = useState<string | null>(null)
@@ -21,18 +20,18 @@ export const CategoriesTabs: FC = () => {
   }
 
   return (
-    <ul className={styles.tabs}>
+    <ul className={s.tabs}>
       {TABS.map(({ title, url, tabs }, key) => (
         <li
           key={key}
-          className={styles.parentTab}
+          className={s.parentTab}
           onMouseOver={() => setActiveTab(url)}
           onMouseLeave={() => setActiveTab(null)}
         >
           {url ? (
             <Link
               className={classNames({
-                [styles.activeLink]: isActive(url),
+                [s.activeLink]: isActive(url),
               })}
               href={url}
             >
@@ -43,9 +42,9 @@ export const CategoriesTabs: FC = () => {
           )}
 
           {tabs && activeTab === url && (
-            <div className={styles.childTabList}>
+            <div className={s.childTabList}>
               {tabs.map(({ title, url }) => (
-                <Link className={styles.childTab} href={url} key={url}>
+                <Link className={s.childTab} href={url} key={url}>
                   {title}
 
                   <Icon name="slider-arrow" width={12} height={12} />

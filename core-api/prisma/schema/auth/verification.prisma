@@ -1,0 +1,57 @@
+enum VerificationChannel {
+  PHONE
+  EMAIL
+}
+
+enum VerificationPurpose {
+  LOGIN
+  CONFIRM_EMAIL
+  CHANGE_PHONE
+  RECOVER_ACCESS
+}
+
+// Одноразовый код. Открытый текст не хранится. Новый запрос на тот же
+// адресат и цель перезаписывает строку, а не добавляет ещё одну,
+// и заодно сбрасывает `isUsed` и `attempts`.
+model VerificationCode {
+  id          String              @id @default(uuid(7))
+  // Пусто у кодов входа: их выдают до того, как известно, есть ли уже
+  // аккаунт с этим телефоном.
+  userId      String?
+  channel     VerificationChannel
+  purpose     VerificationPurpose
+  // Телефон или почта, куда отправили код.
+  destination String
+  codeHash    String
+  expiresAt   DateTime
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  isUsed      Boolean             @default(false)
+  // Неверные попытки. Потолок в сервисе; заменяющий код начинает снова с 0.
+  attempts    Int                 @default(0)
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([destination, purpose])
+  @@index([expiresAt])
+  @@index([userId])
+  @@map("verification_codes")
+}
+
+// Доказательство, что владелец подтверждённой почты прошёл первый шаг
+// восстановления доступа. Одноразовый и короткий: он разрешает смену телефона.
+// Значение, отданное клиенту, хранится только как `tokenHash`.
+model RecoveryTicket {
+  id        String    @id @default(uuid(7))
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("recovery_tickets")
+}

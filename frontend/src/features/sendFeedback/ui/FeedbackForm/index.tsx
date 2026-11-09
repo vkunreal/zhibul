@@ -7,11 +7,12 @@ import { PatternFormat } from 'react-number-format'
 
 import { SendFeedbackDTO } from '@/entities/feedback'
 
+import s from './styles.module.scss'
+
 import { FIELDS_CONFIGURATION } from '../../config'
 import { FeedbackFormProps } from '../../interfaces'
 import { useSendFeedback } from '../../model'
 
-import styles from './styles.module.scss'
 
 export const FeedbackForm: FC<FeedbackFormProps> = ({
   sendButton: SendButton,
@@ -27,7 +28,7 @@ export const FeedbackForm: FC<FeedbackFormProps> = ({
   const { send, loading } = useSendFeedback()
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit(send)}>
+    <form className={s.form} onSubmit={handleSubmit(send)}>
       <TextField
         label="Имя *"
         fullWidth

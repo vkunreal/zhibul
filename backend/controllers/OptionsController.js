@@ -62,6 +62,23 @@ class OptionsController {
     }
   }
 
+  async deleteOptions(req, res) {
+    try {
+      const result = await OptionsServices.deleteOptionsByItemId(
+        req.params.item_id,
+      )
+
+      if (!result.status) {
+        return res.status(400).json(result)
+      }
+
+      return res.status(200).json(result)
+    } catch (e) {
+      console.error(e)
+      return res.status(500).json({ status: false })
+    }
+  }
+
   // delete option by option id
   async deleteOption(req, res) {
     try {

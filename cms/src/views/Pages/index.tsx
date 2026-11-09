@@ -1,122 +1,94 @@
-import { Button } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
+import { Button, Stack } from '@mui/material'
+import { useUnit } from 'effector-react'
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useSelector } from 'react-redux'
+
+import { useModal } from '@app/contexts/ModalContext'
+import { $pages, deletePageFx, getPagesFx } from '@entities/pages'
+import { Page } from '@entities/pages/model'
 import {
-  addPagesDB,
-  changePageDB,
-  deletePageDB,
-  getPagesDB,
-} from '../../store/pages/actions'
-import { selectPages } from '../../store/pages/selectors'
-import AddPageButton from '../../components/AddButton'
-import { AddPageMenu } from '../../components/AddPageMenu'
-import { IPage } from '../../interfaces/App'
-import './styles.scss'
+  changePageSubmitted,
+  createPageSubmitted,
+} from '@features/save-page/model'
+import { Confirm, FetchState, PageHeader } from '@shared/ui'
+
+import { PageCard } from './ui/PageCard'
+
+import s from './styles.module.scss'
 
 export const Pages: React.FC = () => {
-  const [addMenu, setAddMenu] = useState(false)
-  const [changeMenu, setChangeMenu] = useState(false)
-  const [changedPage, setChangedPage] = useState<IPage | null>(null)
+  const [deletedPage, setDeletedPage] = useState<Page | null>(null)
+  const { open } = useModal()
 
-  const pages = useSelector(selectPages)
-  const dispatch = useDispatch()
+  const [pages, loading, loadPages, removePage, createPage, changePage] =
+    useUnit([
+      $pages,
+      getPagesFx.pending,
+      getPagesFx,
+      deletePageFx,
+      createPageSubmitted,
+      changePageSubmitted,
+    ])
 
   useEffect(() => {
-    dispatch(getPagesDB())
-  }, [])
+    loadPages()
+  }, [loadPages])
 
-  const setChangePage = (page: IPage) => {
-    setChangeMenu(true)
-    setChangedPage(page)
+  const openPageModal = (page: Page | null) => {
+    open('pageModal', {
+      page,
+      onSubmit: page ? changePage : createPage,
+    })
   }
 
-  const addPage = (page: IPage) => {
-    setAddMenu(false)
-    dispatch(addPagesDB(page))
-  }
-
-  const changePage = (page: IPage) => {
-    setChangeMenu(false)
-    dispatch(changePageDB(page))
-  }
-
-  const deletePage = (url: string) => {
-    dispatch(deletePageDB(url))
+  const confirmDelete = () => {
+    if (!deletedPage) return
+    removePage(deletedPage.url)
+    setDeletedPage(null)
   }
 
   return (
-    <div className="pages pd-4">
-      <h1>Страницы</h1>
-
-      <p className="mt-2 mb-4">
-        Страницы - раздел, в котором хранится статическая информация и картинки
-        для страниц.
-      </p>
-
-      <div className="mt-2 d-flex flex-column g-2">
-        <AddPageButton onClick={() => setAddMenu(true)}>
-          Добавить страницу
-        </AddPageButton>
-
-        {pages.map((page) => (
-          <div className="pages__page pd-2" key={page.url}>
-            <div className="d-flex flex-column g-1">
-              <h2>{page.name}</h2>
-              <p>
-                <b>URL:</b> {page.url}
-              </p>
-              <p>
-                <b>Текст:</b> {page.text}
-              </p>
-
-              <h3 className="mt-2">SEO:</h3>
-              <p>
-                <b>Title:</b> {page.seo_title}
-              </p>
-              <p>
-                <b>Description:</b> {page.seo_description}
-              </p>
-              <p>
-                <b>Keywords:</b> {page.seo_keywords}
-              </p>
-            </div>
-
-            <div className="d-flex g-2 mt-2">
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={() => setChangePage(page)}
-              >
-                Изменить
-              </Button>
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={() => deletePage(page.url)}
-              >
-                Удалить
-              </Button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <AddPageMenu
-        title="Добавление страницы"
-        isOpen={addMenu}
-        onClose={() => setAddMenu(false)}
-        addPage={addPage}
+    <Stack spacing={2.5} className={s.page}>
+      <PageHeader
+        title='Страницы'
+        subtitle='Статический контент и SEO-данные для страниц сайта'
+        actions={
+          <Button
+            variant='contained'
+            startIcon={<AddIcon />}
+            onClick={() => openPageModal(null)}
+          >
+            Добавить
+          </Button>
+        }
       />
 
-      <AddPageMenu
-        title="Изменение страницы"
-        isOpen={changeMenu}
-        page={changedPage}
-        onClose={() => setChangeMenu(false)}
-        addPage={changePage}
-        change
-      />
-    </div>
+      <FetchState
+        loading={loading}
+        empty={pages.length === 0}
+        emptyText='Пока нет страниц — создайте первую'
+      >
+        <Stack spacing={2}>
+          {pages.map((page) => (
+            <PageCard
+              key={page.url}
+              page={page}
+              onEdit={() => openPageModal(page)}
+              onDelete={() => setDeletedPage(page)}
+            />
+          ))}
+        </Stack>
+      </FetchState>
+
+      <Confirm
+        isOpen={deletedPage !== null}
+        onClose={() => setDeletedPage(null)}
+        title={`Удалить страницу «${deletedPage?.name || deletedPage?.url || ''}»?`}
+      >
+        <Button variant='outlined' color='success' onClick={confirmDelete}>
+          Удалить
+        </Button>
+      </Confirm>
+    </Stack>
   )
 }

@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 import { FlexImage, Icon, Typography } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const RembazaCard: FC<{ text?: string }> = ({ text }) => {
   if (!text) {
@@ -10,7 +10,7 @@ export const RembazaCard: FC<{ text?: string }> = ({ text }) => {
   }
 
   return (
-    <section className={styles.card}>
+    <section className={s.card}>
       <FlexImage
         src="https://api.zhbl.by/images/remont-image.png"
         alt="Ремонт"
@@ -20,7 +20,7 @@ export const RembazaCard: FC<{ text?: string }> = ({ text }) => {
 
       <div>
         <Typography
-          className={styles.title}
+          className={s.title}
           tag="h2"
           size="smRelative"
           uppercase
@@ -28,7 +28,7 @@ export const RembazaCard: FC<{ text?: string }> = ({ text }) => {
           <Icon name="info" width={28} height={28} />О нашем сервисе
         </Typography>
 
-        <hr className={styles.hr} />
+        <hr className={s.hr} />
 
         <Typography size="sm">
           <span dangerouslySetInnerHTML={{ __html: text }} />

@@ -2,9 +2,10 @@ import { FC } from 'react'
 
 import { Icon, Typography } from '@/shared/ui'
 
+import s from './styles.module.scss'
+
 import { ProductFile } from '../../model'
 
-import styles from './styles.module.scss'
 
 interface ProductFilesProps {
   files: ProductFile[]
@@ -21,10 +22,10 @@ export const ProductFiles: FC<ProductFilesProps> = ({ files }) => {
         Прикрепленные файлы:
       </Typography>
 
-      <ul className={styles.list}>
+      <ul className={s.list}>
         {files.map(({ src, title, icon }) => (
-          <li key={src} className={styles.item}>
-            <a href={src} className={styles.link}>
+          <li key={src} className={s.item}>
+            <a href={src} className={s.link}>
               <Icon name={icon} width={32} height={32} />
 
               <p>{title}</p>

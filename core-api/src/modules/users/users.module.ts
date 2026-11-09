@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common'
-import { UsersController } from './users.controller'
-import { UsersService } from './users.service'
-import { AuthGuard } from 'src/modules/auth/auth.guard'
-import { JwtService } from '@nestjs/jwt'
+import { VerificationModule } from 'src/modules/verification/verification.module'
+import { AdminUsersControllerV1 } from './api/v1/admin.users.controller'
+import { PublicUsersControllerV1 } from './api/v1/public.users.controller'
+import { ProfileService } from './application/profile.service'
+import { UsersService } from './application/users.service'
 
 @Module({
-  controllers: [UsersController],
-  providers: [UsersService, JwtService, AuthGuard],
-  exports: [UsersService],
+  imports: [VerificationModule],
+  controllers: [AdminUsersControllerV1, PublicUsersControllerV1],
+  providers: [UsersService, ProfileService],
+  exports: [UsersService, ProfileService],
 })
 export class UsersModule {}

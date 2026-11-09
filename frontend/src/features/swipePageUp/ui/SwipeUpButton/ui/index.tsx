@@ -5,7 +5,7 @@ import { FC } from 'react'
 
 import { Icon } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const SwipeUpButton: FC = () => {
   const trigger = useScrollTrigger({
@@ -22,7 +22,7 @@ export const SwipeUpButton: FC = () => {
 
   return (
     <Fade in={trigger} unmountOnExit timeout={500}>
-      <button type="button" className={styles.button} onClick={scrollToTop}>
+      <button type="button" className={s.button} onClick={scrollToTop}>
         <Icon name="arrow" width={42} height={42} />
       </button>
     </Fade>

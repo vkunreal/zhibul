@@ -10,6 +10,9 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   images: {
+    // Next.js 16 blocks Image Optimization from private IPs (SSRF guard).
+    // Local backend at localhost:5001 resolves to 127.0.0.1 / ::1.
+    dangerouslyAllowLocalIP: process.env.NODE_ENV === 'development',
     remotePatterns: [
       {
         protocol: 'https',
@@ -24,6 +27,24 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'api.zhbl.by',
+        pathname: '/trailer/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '5001',
+        pathname: '/images/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '5001',
+        pathname: '/trailers/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '5001',
         pathname: '/trailer/**',
       },
     ],

@@ -4,7 +4,7 @@ class AuthServices {
   async getAdminDB(name) {
     return await request(
       `SELECT * FROM admins WHERE name = "${name}"`,
-      (res) => res[0][0]
+      (res) => res[0][0],
     )
   }
 

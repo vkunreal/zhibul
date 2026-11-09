@@ -1,0 +1,35 @@
+---
+description: Имена HTTP-контроллеров core-api по зоне доступа
+globs: core-api/**/*controller.ts
+alwaysApply: false
+---
+
+# Контроллеры core-api
+
+Файл называется `{zone}.{resource}.controller.ts`. Зона совпадает с сегментом пути.
+
+- `unauth` — без сессии
+- `public` — сессия любого пользователя
+- `admin` — роль админа
+
+```ts
+// ❌ BAD
+auth.controller.ts
+@Controller('v1/auth')
+
+// ✅ GOOD
+unauth.auth.controller.ts
+@Controller('unauth/v1/auth')
+
+public.auth.controller.ts
+@Controller('public/v1/auth')
+
+admin.auth.controller.ts
+@Controller('admin/v1/auth')
+```
+
+Класс в PascalCase от имени файла и с суффиксом версии: `UnauthAuthControllerV1`, `PublicAuthControllerV1`, `AdminAuthControllerV1`.
+
+Один файл — одна зона и один ресурс. Ручки входа без сессии не клади в `public.auth.controller.ts`.
+
+В Swagger тег бери из `ApiTag` в `core-api/src/swagger/api-tags.ts`: `unauth · auth`, `public · profile`, `admin · users`. Новый раздел добавляй туда же, в том порядке, в каком он должен стоять в документации.

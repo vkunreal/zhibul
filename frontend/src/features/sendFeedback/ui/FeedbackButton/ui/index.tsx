@@ -2,9 +2,9 @@
 
 import { FC } from 'react'
 
-import { useModal } from '@/core/providers'
+import { ModalEnum, useModal } from '@/core/providers'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const FeedbackButton: FC = () => {
   const { open } = useModal()
@@ -12,8 +12,8 @@ export const FeedbackButton: FC = () => {
   return (
     <button
       type="button"
-      className={styles.feedbackButton}
-      onClick={() => open('feedbackModal')}
+      className={s.feedbackButton}
+      onClick={() => open(ModalEnum.feedbackModal)}
     >
       Заказать звонок
     </button>

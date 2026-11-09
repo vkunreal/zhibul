@@ -1,10 +1,10 @@
-import { FC } from 'react'
 import cn from 'classnames'
+import { FC } from 'react'
 
-import { Typography } from '@/shared/ui'
 import { notoSans } from '@/shared/assets'
+import { Typography } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 interface ProductOptionProps {
   name: string
@@ -17,8 +17,8 @@ export const ProductOption: FC<ProductOptionProps> = ({
   value,
   isDropdown = false,
 }) => (
-  <Typography className={styles.field}>
-    <span className={cn(styles.fieldName, notoSans.className)}>{name}:</span>
+  <Typography className={s.field}>
+    <span className={cn(s.fieldName, notoSans.className)}>{name}:</span>
 
     <span className={notoSans.className}>
       {' '}

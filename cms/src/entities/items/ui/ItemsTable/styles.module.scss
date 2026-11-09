@@ -1,0 +1,39 @@
+.empty {
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.table {
+  position: relative;
+}
+
+.tableMin {
+  min-height: 220px;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.72);
+}
+
+.headCell:global(.MuiTableCell-root) {
+  background-color: #fafafa;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.6);
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+  white-space: nowrap;
+}
+
+.colPosition {
+  width: 72px;
+}
+
+.colCategory {
+  width: 160px;
+  max-width: 160px;
+}

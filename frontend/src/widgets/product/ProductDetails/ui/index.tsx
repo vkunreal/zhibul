@@ -1,13 +1,13 @@
 import { FC } from 'react'
 
 import { SelectOption } from '@/features/item/selectOption'
+
 import { notoSerif } from '@/shared/assets'
 import { Typography } from '@/shared/ui'
 
 import { ProductDetailsProps } from '../interfaces'
-
 import { Option } from './Option'
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const ProductDetails: FC<ProductDetailsProps> = ({
   options,
@@ -20,13 +20,14 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
     .sort((a, b) => (a.position < b.position ? -1 : 1))
 
   return (
-    <section className={styles.container}>
+    <section className={s.container}>
       <Typography tag="h2" size="xl">
         Характеристики товара:
       </Typography>
 
       {options
         .filter(({ is_dropdown }) => !!is_dropdown)
+        .sort((a, b) => a.position - b.position)
         .map((option) => (
           <SelectOption key={option.id} option={option} />
         ))}
@@ -39,7 +40,7 @@ export const ProductDetails: FC<ProductDetailsProps> = ({
         <Option key={id} name={name} value={value} />
       ))}
 
-      <div className={styles.price}>
+      <div className={s.price}>
         <p>Стоимость: {displayPrice}</p>
       </div>
     </section>

@@ -8,7 +8,12 @@ class FilesController {
 
     const files = await FilesServices.getFilesByItemId(item_id)
 
-    res.status(200).json(files)
+    const result = files.map(({ src, ...file }) => ({
+      ...file,
+      src: `${process.env.BACKEND_DOMAIN ?? 'https://api.zhbl.by'}${src}`,
+    }))
+
+    res.status(200).json(result)
   }
 
   async addFile(req, res) {
@@ -31,11 +36,10 @@ class FilesController {
         '..',
         'public',
         'files',
-        fileName
+        fileName,
       )
 
-      const fileUrl = 'https://api.zhbl.by/files/' + fileName
-      // const fileUrl = 'http://localhost:5000/files/' + fileName
+      const fileUrl = `/files/${fileName}`
 
       await file.mv(filePath, async (err) => {
         if (err) {
@@ -53,6 +57,34 @@ class FilesController {
     }
   }
 
+  async deleteFiles(req, res) {
+    try {
+      const itemId = parseInt(req.params.item_id, 10)
+      if (!itemId) return res.status(400).json({ status: false })
+
+      const files = (await FilesServices.getFilesByItemId(itemId)) || []
+      const dir = path.resolve(__dirname, '..', 'public', 'files')
+
+      await Promise.all(
+        files.map(async (file) => {
+          const name = path.basename(String(file.src || '').split('?')[0])
+          if (!name || name === '.' || name === '..') return
+
+          const filePath = path.resolve(dir, name)
+          if (!filePath.startsWith(dir + path.sep)) return
+
+          await fs.promises.unlink(filePath).catch(() => {})
+        }),
+      )
+
+      const result = await FilesServices.deleteFilesByItemId(itemId)
+      return res.status(200).json(result)
+    } catch (e) {
+      console.error(e)
+      return res.status(500).json({ status: false })
+    }
+  }
+
   async deleteFile(req, res) {
     try {
       const fileName = req.body.src.split('/').pop()
@@ -61,7 +93,7 @@ class FilesController {
         '..',
         'public',
         'files',
-        fileName
+        fileName,
       )
       if (fs.existsSync(filePath)) {
         fs.unlink(filePath, async (err) => {
@@ -70,8 +102,7 @@ class FilesController {
             console.log(err)
           }
           await FilesServices.deleteFileBySrc(
-            'https://api.zhbl.by/files/' + fileName
-            // 'http://localhost:5000/files/' + fileName
+            '/files/' + fileName,
           )
           res.status(200).json({ status: true })
         })

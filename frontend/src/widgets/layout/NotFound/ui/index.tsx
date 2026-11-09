@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 
 import { Wrapper } from '@/shared/ui'
 
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const NotFound = () => {
   const router = useRouter()
@@ -15,26 +15,26 @@ export const NotFound = () => {
   }
 
   return (
-    <Wrapper className={styles.wrapper}>
-      <div className={styles.content}>
+    <Wrapper className={s.wrapper}>
+      <div className={s.content}>
         <div>
-          <h1 className={styles.title}>404</h1>
-          <div className={styles.divider} />
-          <p className={styles.text}>Страница не найдена</p>
+          <h1 className={s.title}>404</h1>
+          <div className={s.divider} />
+          <p className={s.text}>Страница не найдена</p>
         </div>
 
-        <div className={styles.buttons}>
+        <div className={s.buttons}>
           <div>
             <button
               type="button"
-              className={styles.button}
+              className={s.button}
               onClick={handleBack}
             >
               Назад
             </button>
           </div>
           <div>
-            <Link className={styles.button} href="/">
+            <Link className={s.button} href="/">
               Главная
             </Link>
           </div>

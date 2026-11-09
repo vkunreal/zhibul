@@ -3,13 +3,13 @@ import { FC } from 'react'
 import { OptionList, Typography } from '@/shared/ui'
 
 import { TABS } from './config'
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const RembazaOptions: FC = () => {
   return (
     <section>
       <Typography
-        className={styles.title}
+        className={s.title}
         tag="h2"
         size="xlRelative"
         uppercase

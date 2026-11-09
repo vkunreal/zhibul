@@ -1,115 +1,91 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
-import API from '../../utils/api'
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  TextField,
-} from '@mui/material'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined'
+import { IconButton, Stack, Tooltip, Typography } from '@mui/material'
+import { useUnit } from 'effector-react'
+import { useEffect } from 'react'
 
-interface IValute {
-  id: number
-  title: string
-  value: number
-}
+import { useModal } from '@app/contexts/ModalContext'
+import {
+  $valutes,
+  changeValuteSubmitted,
+  getValutesFx,
+  valutesRequested,
+} from '@entities/valutes'
+import { Valute } from '@entities/valutes/model'
+import { FetchState, PageHeader, Panel } from '@shared/ui'
+
+import s from './styles.module.scss'
 
 export const Valutes = () => {
-  const [valutes, setValutes] = useState<IValute[]>([])
-  const [changeValute, setChangeValute] = useState<IValute | null>(null)
-  const [value, setValue] = useState('')
-  const [isModal, setIsModal] = useState(false)
-
-  const fetchData = async () => {
-    const valutesData = await axios.get(`${API}/api/valutes`)
-
-    setValutes(valutesData.data)
-  }
-
-  const changeValuteValue = async () => {
-    await axios.put(`${API}/api/valutes`, {
-      id: changeValute?.id,
-      value,
-    })
-
-    setIsModal(false)
-    fetchData()
-  }
+  const { open } = useModal()
+  const [valutes, loading, loadValutes, submitValute] = useUnit([
+    $valutes,
+    getValutesFx.pending,
+    valutesRequested,
+    changeValuteSubmitted,
+  ])
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    loadValutes()
+  }, [loadValutes])
+
+  const openEdit = (valute: Valute) => {
+    open('valuteModal', {
+      valute,
+      onSubmit: (value) => submitValute({ id: valute.id, value }),
+    })
+  }
 
   return (
-    <div className="pd-4">
-      <h1>Валюты</h1>
+    <Stack spacing={2.5} className={s.page}>
+      <PageHeader
+        title='Валюты'
+        subtitle='Курсы валют относительно белорусского рубля (BYN)'
+      />
 
-      <div className="d-flex flex-column g-2 mt-2">
-        {!!valutes.length &&
-          valutes.map((valute) => (
-            <div
-              className="d-flex justify-space-between pd-2"
-              style={{ border: '1px solid #ccc' }}
+      <FetchState
+        loading={loading}
+        empty={valutes.length === 0}
+        emptyText='Валюты пока не загружены'
+      >
+        <Stack spacing={1.5}>
+          {valutes.map((valute) => (
+            <Panel
               key={valute.id}
+              title={
+                <Typography variant='subtitle1' className={s.code}>
+                  {valute.title}
+                </Typography>
+              }
+              actions={
+                <Tooltip title='Изменить курс'>
+                  <IconButton size='small' onClick={() => openEdit(valute)}>
+                    <EditOutlinedIcon fontSize='small' />
+                  </IconButton>
+                </Tooltip>
+              }
             >
-              <div>
-                <p>
-                  ID: <b>{valute.title}</b>
-                </p>
-                <p className="mt-1">Значение: {valute.value} BLR</p>
-              </div>
-
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  setChangeValute(valute)
-                  setValue(String(valute.value))
-                  setIsModal(true)
-                }}
+              <Typography
+                variant='caption'
+                color='text.secondary'
+                className={s.fieldLabel}
               >
-                Изменить
-              </Button>
-            </div>
+                Курс к BYN
+              </Typography>
+              <Typography variant='h6' className={s.rate}>
+                {valute.value}{' '}
+                <Typography
+                  component='span'
+                  variant='body2'
+                  color='text.secondary'
+                  className={s.rateUnit}
+                >
+                  BYN
+                </Typography>
+              </Typography>
+            </Panel>
           ))}
-      </div>
-
-      <Dialog open={isModal} onClose={() => setIsModal(false)} fullWidth>
-        <DialogTitle>Изменение валюты</DialogTitle>
-
-        <DialogContent className="d-flex flex-column g-3 pt-1">
-          <div className="d-flex align-center g-2">
-            <TextField
-              className="fill-width"
-              label="Значение"
-              value={value}
-              autoComplete="off"
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                setValue(e.target.value)
-              }}
-            />
-            <span>BLR</span>
-          </div>
-
-          <div className="d-flex justify-end g-1">
-            <Button
-              variant="outlined"
-              color="success"
-              onClick={changeValuteValue}
-            >
-              Сохранить
-            </Button>
-
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={() => setIsModal(false)}
-            >
-              Отменить
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-    </div>
+        </Stack>
+      </FetchState>
+    </Stack>
   )
 }

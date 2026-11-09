@@ -1,70 +1,100 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Pagination } from "@mui/material";
-import { CategoryList } from "../../components/CategoryList";
-import { ItemsView } from "../../components/ItemsView";
-import { getItemsDB } from "../../store/items/actions";
-import { selectItemPages, selectItems } from "../../store/items/selectors";
-import "./styles.scss";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Pagination,
+  Select,
+  SelectChangeEvent,
+  Stack,
+} from '@mui/material'
+import { useUnit } from 'effector-react'
+import React, { useEffect } from 'react'
 
-const viewTypes = ["По категориям", "По товарам"];
+import {
+  $itemPages,
+  $items,
+  $itemsLoading,
+  $pageLimit,
+  ITEMS_PAGE_LIMIT_OPTIONS,
+  itemsRequested,
+  pageLimitChanged,
+} from '@entities/items'
+import { PageHeader } from '@shared/ui'
+import { ItemsView } from '@widgets/items/ItemsView'
+
+import { useItemsQuery } from './hook'
+
+import s from './styles.module.scss'
 
 export const Items: React.FC = () => {
-  const [viewType, setViewType] = useState(viewTypes[1]);
-  const items = useSelector(selectItems);
-  const itemPages = useSelector(selectItemPages);
-
-  const [page, setPage] = useState(1);
-  const dispatch = useDispatch();
+  const [items, itemPages, pageLimit, loading, loadItems, changePageLimit] =
+    useUnit([
+      $items,
+      $itemPages,
+      $pageLimit,
+      $itemsLoading,
+      itemsRequested,
+      pageLimitChanged,
+    ])
+  const {
+    categoryUrl,
+    search,
+    searchInput,
+    setSearchInput,
+    page,
+    onCategoryChange,
+    resetPage,
+    onPageChange,
+  } = useItemsQuery(itemPages)
 
   useEffect(() => {
-    console.log(page);
-    dispatch(getItemsDB(page));
-  }, [page]);
+    loadItems({ page, categoryUrl, search })
+  }, [loadItems, page, categoryUrl, pageLimit, search])
+
+  const handlePageLimitChange = (event: SelectChangeEvent<number>) => {
+    resetPage()
+    changePageLimit(Number(event.target.value))
+  }
 
   return (
-    <div className="items pd-4">
-      <h1>Товары</h1>
+    <Stack spacing={2.5} className={s.page}>
+      <PageHeader title='Товары' subtitle='Каталог позиций, цены и видимость' />
 
-      <div className="items__sort d-flex align-center g-2 mt-1">
-        <h3 className="items__sort--title mt-1 mb-1">Вид:</h3>
+      <ItemsView
+        items={items}
+        categoryUrl={categoryUrl}
+        search={searchInput}
+        loading={loading}
+        onCategoryChange={onCategoryChange}
+        onSearchChange={setSearchInput}
+      />
 
-        <ul className="items__sort__list d-flex">
-          {viewTypes.map((type: string) => (
-            <li
-              className={
-                viewType === type
-                  ? "items__sort__list--item active"
-                  : "items__sort__list--item"
-              }
-              key={type}
-              onClick={() => setViewType(type)}
-            >
-              {type}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <Box className={s.footer}>
+        <FormControl size='small' className={s.pageLimit}>
+          <InputLabel id='items-page-limit-label'>На странице</InputLabel>
+          <Select
+            labelId='items-page-limit-label'
+            label='На странице'
+            value={pageLimit}
+            onChange={handlePageLimitChange}
+          >
+            {ITEMS_PAGE_LIMIT_OPTIONS.map((limit) => (
+              <MenuItem key={limit} value={limit}>
+                {limit}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
 
-      <div className="mt-2">
-        {viewType === viewTypes[0] && <CategoryList />}
-
-        {viewType === viewTypes[1] && (
-          <>
-            <ItemsView items={items} />
-
-            <div className="fill-width d-flex justify-center mt-2 mb-2">
-              <Pagination
-                count={itemPages}
-                page={page}
-                onChange={(_, value) => setPage(value)}
-                size="large"
-                color="primary"
-              />
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-};
+        <Pagination
+          count={itemPages}
+          page={page}
+          onChange={(_, value) => onPageChange(value)}
+          size='large'
+          color='primary'
+        />
+      </Box>
+    </Stack>
+  )
+}

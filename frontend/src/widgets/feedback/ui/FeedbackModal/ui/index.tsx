@@ -5,6 +5,7 @@ import { Button } from '@mui/material'
 import { FC } from 'react'
 
 import { FeedbackForm } from '@/features/sendFeedback'
+
 import { Modal } from '@/shared/ui'
 
 import { FeedbackModalProps } from '../interfaces'

@@ -1,0 +1,60 @@
+// Телефон — это аккаунт. Почта необязательна и пишется только после
+// подтверждения владельцем, чтобы неподтверждённый адрес не занял
+// уникальный индекс и не закрыл его настоящему владельцу.
+model User {
+  id        String  @id @default(uuid(7))
+  firstName String?
+  lastName  String?
+
+  phoneNumber      String    @unique
+  // Пусто до первого успешного входа. Сидированные аккаунты остаются такими,
+  // пока владелец сам не войдёт.
+  phoneConfirmedAt DateTime?
+
+  email            String?   @unique
+  // Нарочно не уникально. Несколько человек могут запросить один адрес;
+  // в `email` его копирует только тот, кто подтвердит.
+  pendingEmail     String?
+  emailConfirmedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Неактивные аккаунты отклоняются на входе и при восстановлении.
+  isActive  Boolean  @default(true)
+
+  roles             UserRole[]
+  sessions          Session[]
+  verificationCodes VerificationCode[]
+  recoveryTickets   RecoveryTicket[]
+  addresses         UserAddress[]
+
+  @@map("users")
+}
+
+// Именованное право. Роли выдаются через `UserRole`: один пользователь
+// может держать несколько ролей, одна роль — принадлежать нескольким.
+model Role {
+  id          String   @id @default(uuid(7))
+  name        String   @unique
+  description String?
+  // Пока непрозрачный текст. API его ещё не разбирает.
+  permissions String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users UserRole[]
+
+  @@map("roles")
+}
+
+model UserRole {
+  id     String @id @default(uuid(7))
+  userId String
+  roleId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  // У пользователя каждая роль не больше одного раза.
+  @@unique([userId, roleId])
+  @@map("user_roles")
+}

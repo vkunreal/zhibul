@@ -1,236 +1,190 @@
-import { Button } from '@mui/material'
-import { useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router'
-import { OptionsList } from '../../components/OptionsList'
-import { IItem } from '../../interfaces/Items'
+import { Stack } from '@mui/material'
+import { useUnit } from 'effector-react'
+import { useEffect, useLayoutEffect, useMemo } from 'react'
+import { useNavigate, useParams } from 'react-router'
+
+import { useModal } from '@app/contexts/ModalContext'
+import { countriesRequested } from '@entities/countries'
 import {
-  deleteImageDB,
-  getItemImages,
-  putMainDB,
-} from '../../store/items/requests'
-import './styles.scss'
-import { useSelector } from 'react-redux'
-import { selectToken } from '../../store/variables/selectors'
-import API, { DOMAIN } from '../../utils/api'
-import { FileManager } from '../../components/FileManager'
-import axios from 'axios'
+  $categories,
+  $configureItem,
+  $configureItemLoading,
+  $itemImages,
+  configureItemRequested,
+  deleteItemImageFx,
+  getCategoriesFx,
+  getItemImagesFx,
+  setMainItemImageFx,
+  uploadItemImagesFx,
+} from '@entities/items'
+import { CategoryOption } from '@entities/items/model'
+import { ItemStatusChips } from '@entities/items/ui/ItemStatusChips'
+import { $valutes, valutesRequested } from '@entities/valutes'
+import { ItemFormValues } from '@features/save-item/interfaces'
+import { changeItemSubmitted } from '@features/save-item/model'
+import { env } from '@shared/config'
+import {
+  DetailHeader,
+  EditableImageGallery,
+  Panel,
+  RecordState,
+  SiteLink,
+} from '@shared/ui'
+import { filesToFormData, toPositiveId } from '@shared/utils'
+import { FileManager } from '@widgets/item-files/FileManager'
+import { OptionsList } from '@widgets/item-options/OptionsList'
 
-interface ILocationItem {
-  item: IItem
-}
+import { ConfigureImage } from './ui/ConfigureImage'
+import { ConfigureProperties } from './ui/ConfigureProperties'
 
-interface IImage {
-  src: string
-  is_main: number
-}
+import s from './styles.module.scss'
 
 export const Configure: React.FC = () => {
-  const item = (useLocation().state as ILocationItem).item
-  const fileRef = useRef<HTMLInputElement | null>(null)
-  const [images, setImages] = useState<IImage[]>([])
-  const [loadedImages, setLoadedImages] = useState<any[]>([])
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([])
-  const [change, setChange] = useState(false)
-  const [valutes, setValutes] = useState<any[]>([])
+  const { item_id } = useParams()
+  const navigate = useNavigate()
+  const backToItems = () => navigate(-1)
+  const { open } = useModal()
+  const [
+    item,
+    loading,
+    images,
+    imagesLoading,
+    valutes,
+    allCategories,
+    loadItem,
+    loadImages,
+    loadValutes,
+    loadCategories,
+    loadCountries,
+    changeItem,
+    uploadImages,
+    setMainImage,
+    removeImage,
+  ] = useUnit([
+    $configureItem,
+    $configureItemLoading,
+    $itemImages,
+    getItemImagesFx.pending,
+    $valutes,
+    $categories,
+    configureItemRequested,
+    getItemImagesFx,
+    valutesRequested,
+    getCategoriesFx,
+    countriesRequested,
+    changeItemSubmitted,
+    uploadItemImagesFx,
+    setMainItemImageFx,
+    deleteItemImageFx,
+  ])
 
-  const token = useSelector(selectToken)
+  const itemId = toPositiveId(item_id)
+
+  useLayoutEffect(() => {
+    if (itemId === null) return
+    loadItem(itemId)
+  }, [itemId, loadItem])
 
   useEffect(() => {
-    getItemImages(item?.id || 0).then((imagesDB: IImage[]) =>
-      setImages(imagesDB)
-    )
-  }, [item])
+    if (!item || itemId === null || item.id !== itemId) return
+    loadImages(item.id)
+  }, [item, itemId, loadImages])
 
   useEffect(() => {
-    setSelectedFiles([])
-    setLoadedImages([])
-  }, [change])
+    loadValutes()
+    loadCategories()
+    loadCountries()
+  }, [loadValutes, loadCategories, loadCountries])
 
-  useEffect(() => {
-    async function fetch() {
-      const valutesData = await axios.get(`${API}/api/valutes`)
+  const categories = useMemo<CategoryOption[]>(
+    () =>
+      allCategories
+        .filter((category) => !category.hasSubcategories)
+        .map(({ id, name, url }) => ({ id, name, url }))
+        .sort((a, b) => a.name.localeCompare(b.name, 'ru')),
+    [allCategories],
+  )
 
-      setValutes(valutesData.data)
+  const openEdit = () => {
+    if (!item) return
+
+    const onSubmit = (values: ItemFormValues) => {
+      changeItem({ values, item })
     }
-    fetch()
-  }, [])
 
-  const handleOpenFile = () => fileRef?.current?.click()
-
-  const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target?.files?.length) {
-      return
-    }
-    const files: File[] = Array.from(e.target?.files || [])
-    setSelectedFiles(files)
-
-    files.forEach((file) => {
-      if (!file.type.match('image')) {
-        return
-      }
-      const fileName = file.name
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const result = (e.target as any).result
-        setLoadedImages((oldImages) => [
-          ...oldImages,
-          { name: fileName, result },
-        ])
-      }
-      reader.readAsDataURL(file)
-    })
+    open('itemModal', { item, categories, valutes, onSubmit })
   }
 
-  const handleLoadImage = async () => {
-    setChange(false)
-    if (!selectedFiles.length) return
-    const formData = new FormData()
-    for (let i = 0; i < selectedFiles.length; i++) {
-      formData.append(selectedFiles[i].name, selectedFiles[i])
-    }
-    const res = await fetch(API + '/api/item/images/' + (item?.id || 0), {
-      method: 'POST',
-      body: formData,
-      headers: {
-        authorization: token,
-      },
-    })
-    const { status } = await res.json()
-    if (status) {
-      getItemImages(item?.id || 0).then((imagesDB: IImage[]) =>
-        setImages(imagesDB)
-      )
-    }
-    setLoadedImages([])
-    setSelectedFiles([])
-  }
-
-  const deleteLoadImage = (name: string) => {
-    setLoadedImages(loadedImages.filter((elem) => elem.name !== name))
-    setSelectedFiles(selectedFiles.filter((elem) => elem.name !== name))
-  }
-
-  const deleteImage = async (src: string) => {
-    await deleteImageDB(src, token)
-    await getItemImages(item?.id || 0).then((imagesDB) => setImages(imagesDB))
-  }
-
-  const putMain = async (src: string) => {
-    await putMainDB(src, token)
-    getItemImages(item?.id || 0).then((imagesDB: IImage[]) =>
-      setImages(imagesDB)
+  if (itemId === null || !item || item.id !== itemId) {
+    return (
+      <RecordState
+        className={s.page}
+        backLabel='К товарам'
+        onBack={backToItems}
+        missing={itemId === null || (!loading && !item)}
+        missingText='Товар не найден'
+      />
     )
   }
+
+  const siteUrl = `${env.siteUrl}/menu/${item.categoryUrl}/${item.url}`
+  const valuteTitle = valutes.find(
+    (valute) => valute.id === item.valuteId,
+  )?.title
 
   return (
-    <div className="configure d-flex flex-column g-2 mt-4">
-      <div className="configure-images scroll d-flex g-2">
-        {images.map((image, i) => (
-          <div
-            className="configure-image d-flex flex-column"
-            key={image.src + i}
-          >
-            {change && (
-              <span
-                className="configure-image-close"
-                onClick={() => deleteImage(image.src)}
-              >
-                &#10006;
-              </span>
-            )}
-            <img src={image.src} alt="item image" />
-            {!image.is_main && change && (
-              <Button className="mt-1 mb-1" onClick={() => putMain(image.src)}>
-                Сделать главной
-              </Button>
-            )}
-          </div>
-        ))}
-        {loadedImages.map((image, i) => (
-          <div className="configure-image loaded" key={image.name + i}>
-            {change && (
-              <span
-                className="configure-image-close"
-                onClick={() => deleteLoadImage(image.name)}
-              >
-                &#10006;
-              </span>
-            )}
-            <img src={image.result} alt="item image" />
-          </div>
-        ))}
-      </div>
+    <Stack spacing={2.5} className={s.page}>
+      <DetailHeader
+        backLabel='К товарам'
+        onBack={backToItems}
+        title={item.name || 'Товар'}
+        meta={
+          [item.code, item.url ? `/${item.url}` : '']
+            .filter(Boolean)
+            .join(' · ') || '—'
+        }
+        chips={
+          <ItemStatusChips
+            isActive={item.isActive}
+            isOrderOnly={item.isOrderOnly}
+          />
+        }
+        actions={<SiteLink href={siteUrl} />}
+      />
 
-      <div>
-        <input
-          type="file"
-          className="d-none"
-          accept="image/jpeg,image/png"
-          ref={fileRef}
-          onChange={handleChangeInput}
-          multiple
-        />
-        {change ? (
-          <div className="d-flex g-1">
-            <Button
-              variant="outlined"
-              color="success"
-              onClick={handleLoadImage}
-            >
-              Готово
-            </Button>
-            <Button variant="outlined" color="warning" onClick={handleOpenFile}>
-              Загрузить
-            </Button>
-          </div>
-        ) : (
-          <Button variant="outlined" onClick={() => setChange(true)}>
-            Добавить / удалить картинку
-          </Button>
+      <EditableImageGallery
+        images={images}
+        loading={imagesLoading}
+        onUpload={(files) =>
+          uploadImages({
+            itemId: item.id,
+            formData: filesToFormData(files),
+          })
+        }
+        renderImage={(image, editing) => (
+          <ConfigureImage
+            src={image.src}
+            editable={editing}
+            isMain={image.isMain}
+            onRemove={() => removeImage({ itemId: item.id, src: image.src })}
+            onMakeMain={() => setMainImage({ itemId: item.id, src: image.src })}
+          />
         )}
-      </div>
+      />
 
-      <h2>{item.name}</h2>
-      <p>
-        <b>Категория:</b> {item.category_name}
-      </p>
-      <p>
-        <b>Бренд:</b> {item.brand}
-      </p>
-      <p>
-        <b>Производитель:</b> {item.manufacturer}
-      </p>
-      <p>
-        <b>Описание:</b> {item.description}
-      </p>
-      <p>
-        <b>Цена:</b> {item.price}
-      </p>
-      <p>
-        <b>Валюта:</b> {valutes.find((v) => v.id === item.valute_id)?.title}
-      </p>
-      <p>
-        <b>Закупочная цена:</b> {item.purchase_price}
-      </p>
-      <p>
-        <b>Рентабельность:</b> {item.profitabilaty}
-      </p>
-      <p>
-        <b>Постфикс цены:</b> {item.price_postfix}
-      </p>
+      <ConfigureProperties
+        item={item}
+        valuteTitle={valuteTitle}
+        onEdit={openEdit}
+      />
 
-      <a
-        href={`${DOMAIN}/menu/${item.category_url}/${item.url}`}
-        target="_blank"
-      >
-        Открыть на сайте
-      </a>
+      <Panel title='Файлы'>
+        <FileManager itemId={item.id} />
+      </Panel>
 
-      <div className="mt-2 mb-2">
-        <FileManager item_id={item.id} />
-      </div>
-
-      <OptionsList item_id={item.id || 0} />
-    </div>
+      <Panel title='Опции'>
+        <OptionsList itemId={item.id} />
+      </Panel>
+    </Stack>
   )
 }

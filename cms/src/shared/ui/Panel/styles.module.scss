@@ -1,0 +1,35 @@
+.root {
+  overflow: hidden;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  background-color: #fafafa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.headStart {
+  align-items: flex-start;
+}
+
+.main {
+  min-width: 0;
+}
+
+.title:global(.MuiTypography-root) {
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.body {
+  padding: 20px;
+}

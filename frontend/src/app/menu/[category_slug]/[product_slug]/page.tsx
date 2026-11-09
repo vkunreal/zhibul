@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation'
 
+import { ProductDetails } from '@/widgets/product'
+
 import { useCategories } from '@/entities/category'
 import {
   ProductDescription,
@@ -8,10 +10,10 @@ import {
   useProduct,
 } from '@/entities/product'
 import { ProductFiles } from '@/entities/product'
-import { Breadcrumbs, buildBreadcrumbs, Gallery, Wrapper } from '@/shared/ui'
-import { ProductDetails } from '@/widgets/product'
 
-import styles from './styles.module.scss'
+import { Breadcrumbs, buildBreadcrumbs, Gallery, Wrapper } from '@/shared/ui'
+
+import s from './styles.module.scss'
 
 export async function generateStaticParams() {
   const products = await productsApi.getAllProducts()
@@ -80,10 +82,10 @@ export default async function ProductPage({ params }: { params: Params }) {
         itemCode={code}
       />
 
-      <Wrapper className={styles.container}>
+      <Wrapper className={s.container}>
         <ProductTitle>{name}</ProductTitle>
 
-        <section className={styles.top}>
+        <section className={s.top}>
           <Gallery images={images} alt={name} />
 
           <ProductDetails

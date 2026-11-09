@@ -1,0 +1,32 @@
+.paper:global(.MuiPaper-root) {
+  min-width: 220px;
+}
+
+.list:global(.MuiList-root) {
+  padding: 4px;
+}
+
+.item:global(.MuiMenuItem-root) {
+  border-radius: 6px;
+}
+
+.icon:global(.MuiListItemIcon-root) {
+  min-width: 36px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.label:global(.MuiTypography-root) {
+  font-size: 0.875rem;
+}
+
+.divider:global(.MuiDivider-root) {
+  margin: 4px 0;
+}
+
+.danger:global(.MuiMenuItem-root) {
+  color: #d32f2f;
+
+  .icon:global(.MuiListItemIcon-root) {
+    color: inherit;
+  }
+}

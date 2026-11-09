@@ -1,0 +1,25 @@
+// Настройки ключ-значение, которым не место в окружении.
+// Имя не уникально: на сайте несколько строк с одним ключом, например work_time.
+model AppVariables {
+  id    String @id @default(uuid(7))
+  name  String
+  value String
+
+  @@map("app_variables")
+}
+
+model Countries {
+  id   String @id @default(uuid(7))
+  name String @unique
+
+  @@map("countries")
+}
+
+// Курс к BYN. title — код валюты, value — сколько BYN за одну единицу.
+model Currency {
+  id    String  @id @default(uuid(7))
+  title String? @unique @db.VarChar(15)
+  value Float
+
+  @@map("valutes")
+}

@@ -3,10 +3,11 @@ import { FC, memo, useMemo } from 'react'
 
 import { Button, ButtonLink, FlexImage, Typography } from '@/shared/ui'
 
-import { Product } from '../../model'
 
 import { ProductOption } from './Option'
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
+
+import { Product } from '../../model'
 
 interface ProductItemProps {
   product: Product
@@ -37,14 +38,18 @@ export const ProductItem: FC<ProductItemProps> = memo(
 
     return (
       <article
-        className={cn(styles.product, {
-          [styles.wide]: isWide,
+        className={cn(s.product, {
+          [s.wide]: isWide,
         })}
       >
-        <FlexImage src={productImage.src} alt={name} maxWidth={400} />
+        <FlexImage
+          wrapperClassName={styles.productImage}
+          src={productImage.src}
+          alt={name}
+        />
 
-        <div className={styles.productBody}>
-          <div className={styles.productInfo}>
+        <div className={s.productBody}>
+          <div className={s.productInfo}>
             <Typography tag="h2" size="sm">
               <span dangerouslySetInnerHTML={{ __html: name }} />
             </Typography>
@@ -65,10 +70,10 @@ export const ProductItem: FC<ProductItemProps> = memo(
             ))}
           </div>
 
-          <div className={styles.productButtons}>
+          <div className={s.productButtons}>
             <ButtonLink
               href={`${category_url}/${url}`}
-              className={styles.productButton}
+              className={s.productButton}
               size="small"
               uppercase
             >
@@ -76,7 +81,7 @@ export const ProductItem: FC<ProductItemProps> = memo(
             </ButtonLink>
 
             <Button
-              className={styles.productButton}
+              className={s.productButton}
               size="small"
               variant="white"
               uppercase

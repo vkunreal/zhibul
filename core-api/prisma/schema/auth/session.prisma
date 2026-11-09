@@ -1,0 +1,23 @@
+// Сессия refresh-токена. Сырой токен не хранится, поиск идёт по хешу.
+// Ротация отзывает эту строку и ставит `replacedBy` на следующую, чтобы
+// повторно предъявленный токен отличался от просто истёкшего.
+model Session {
+  id           String    @id @default(uuid(7))
+  userId       String
+  tokenHash    String    @unique
+  expiresAt    DateTime
+  revokedAt    DateTime?
+  replacedById String?
+  // Снимок клиента на момент открытия сессии.
+  userAgent    String?
+  ip           String?
+  createdAt    DateTime  @default(now())
+
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  replacedBy Session?  @relation("SessionRotation", fields: [replacedById], references: [id], onDelete: SetNull)
+  replaces   Session[] @relation("SessionRotation")
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}

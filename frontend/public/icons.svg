@@ -253,5 +253,13 @@
           d="M480-280q17 0 28.5-11.5T520-320q0-17-11.5-28.5T480-360q-17 0-28.5 11.5T440-320q0 17 11.5 28.5T480-280Zm-40-160h80v-240h-80v240ZM330-120 120-330v-300l210-210h300l210 210v300L630-120H330Zm34-80h232l164-164v-232L596-760H364L200-596v232l164 164Zm116-280Z" />
       </svg>
     </symbol>
+    <symbol id="spinner" viewBox="0 0 48 48">
+      <circle cx="24" cy="24" r="20" fill="none" stroke="#ffefbf" stroke-width="4" stroke-linecap="round" />
+      <circle cx="24" cy="24" r="20" fill="none" stroke="#ffd866" stroke-width="4" stroke-linecap="round" stroke-dasharray="84 160" />
+    </symbol>
+    <symbol id="error" viewBox="0 0 64 64">
+      <path fill="#d32f2f" d="M22.3 4h19.4L60 22.3v19.4L41.7 60H22.3L4 41.7V22.3L22.3 4z" />
+      <rect x="16" y="28" width="32" height="8" rx="2" fill="#fff" />
+    </symbol>
   </defs>
 </svg>

@@ -1,3 +1,13 @@
+/** Как сортировать товары категории на фронте. */
+export enum CategorySortMode {
+  Manual = 'manual',
+  Alphabet = 'alphabet',
+  Random = 'random',
+  PriceAsc = 'price_asc',
+  PriceDesc = 'price_desc',
+  Newest = 'newest',
+}
+
 export interface Category {
   id: number
   position: number
@@ -11,4 +21,5 @@ export interface Category {
   seo_description: string
   seo_keywords: string
   active: number
+  sort_mode: CategorySortMode
 }

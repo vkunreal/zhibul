@@ -6,7 +6,7 @@ const fileUpload = require('express-fileupload')
 const { existsSync } = require('fs')
 
 const app = express()
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 5001
 
 const AuthRouter = require('./routers/AuthRouter')
 const ItemsRouter = require('./routers/ItemsRouter')
@@ -29,7 +29,7 @@ app.use(
   cors({
     origin: '*',
     credentials: true,
-  })
+  }),
 )
 app.use(fileUpload({}))
 
@@ -40,7 +40,7 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'content-type')
   res.setHeader(
     'Access-Control-Allow-Methods',
-    'PUT, POST, GET, DELETE, PATCH, OPTIONS'
+    'PUT, POST, GET, DELETE, PATCH, OPTIONS',
   )
   next()
 })
@@ -73,7 +73,7 @@ app.get('/slider/:image', (req, res) => {
     __dirname,
     'public',
     'slider',
-    req.params.image
+    req.params.image,
   )
   if (existsSync(imagePath)) {
     res.sendFile(imagePath)
@@ -87,7 +87,7 @@ app.get('/trailer/:image', (req, res) => {
     __dirname,
     'public',
     'trailers',
-    req.params.image
+    req.params.image,
   )
   if (existsSync(imagePath)) {
     res.sendFile(imagePath)

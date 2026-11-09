@@ -5,7 +5,9 @@ const { writeLog } = require('../writeLog')
 class OptionsServices {
   // get all options by item id
   async getOptionsByItemId(id) {
-    return await request(`SELECT * FROM options WHERE item_id = "${id}";`)
+    return await request(
+      `SELECT * FROM options WHERE item_id = "${id}" ORDER BY position ASC, id ASC`,
+    )
   }
 
   // change option by id
@@ -90,6 +92,15 @@ class OptionsServices {
     }
 
     return response
+  }
+
+  async deleteOptionsByItemId(item_id) {
+    const safeId = parseInt(item_id, 10)
+    if (!safeId) return { status: false }
+
+    await request(`DELETE FROM options WHERE item_id = "${safeId}"`)
+    writeLog('Options were deleted')
+    return { status: true }
   }
 
   // delete option by id

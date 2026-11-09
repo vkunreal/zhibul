@@ -8,38 +8,44 @@ ItemsRouter.get('/items/', ItemsController.getAllItems)
 ItemsRouter.get('/items-splitted', ItemsController.getAllItemsSplitted)
 ItemsRouter.get(
   '/items/without-images',
-  ItemsController.getAllItemsWithoutImages
+  ItemsController.getAllItemsWithoutImages,
 )
 ItemsRouter.get('/items/:category_url', ItemsController.getItemsFromUrl)
 
 ItemsRouter.get(
   '/items/without-images/:category_url',
-  ItemsController.getItemsWithoutImages
+  ItemsController.getItemsWithoutImages,
 )
 ItemsRouter.get('/countries', ItemsController.getCountries)
 
-// ItemsRouter.get('/item/:id', ItemsController.getItem)
+ItemsRouter.get('/item/id/:id', ItemsController.getItem)
+ItemsRouter.get('/item/code', authenticateToken, ItemsController.isCodeFree)
 ItemsRouter.get('/item/:item_url', ItemsController.getItemFromUrl)
 ItemsRouter.get('/item/images/:item_id', ItemsController.getItemImages)
 
 ItemsRouter.post(
   '/item/images/:item_id',
   // authenticateToken,
-  ItemsController.loadImages
+  ItemsController.loadImages,
 )
 ItemsRouter.post('/item/', authenticateToken, ItemsController.addItem)
+ItemsRouter.post(
+  '/item/:id/copy',
+  authenticateToken,
+  ItemsController.copyItem,
+)
 ItemsRouter.put('/item/', authenticateToken, ItemsController.changeItem)
 ItemsRouter.put('/item/image-main/', authenticateToken, ItemsController.putMain)
 
 ItemsRouter.delete(
   '/item/:id',
   authenticateToken,
-  ItemsController.deleteItemById
+  ItemsController.deleteItemById,
 )
 ItemsRouter.delete(
   '/item/delete/image',
   authenticateToken,
-  ItemsController.deleteImage
+  ItemsController.deleteImage,
 )
 
 module.exports = ItemsRouter

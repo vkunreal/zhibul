@@ -1,0 +1,30 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 6px;
+  background-color: #fafafa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.blockType:global(.MuiFormControl-root) {
+  min-width: 120px;
+  margin-right: 4px;
+}
+
+.blockSelect:global(.MuiInputBase-root) {
+  height: 32px;
+  font-size: 13px;
+  background-color: #fff;
+
+  :global(.MuiSelect-select) {
+    padding-top: 4px;
+    padding-bottom: 4px;
+  }
+}
+
+.divider:global(.MuiDivider-root) {
+  margin-left: 4px;
+  margin-right: 4px;
+}

@@ -1,14 +1,13 @@
 import { FC } from 'react'
 
 import { WrapperProps } from '../interfaces'
-
-import styles from './styles.module.scss'
+import s from './styles.module.scss'
 
 export const Wrapper: FC<WrapperProps> = ({ children, maxWidth, ...rest }) => {
   return (
-    <div className={styles.wrapper} {...rest}>
+    <div className={s.wrapper} {...rest}>
       <div
-        className={styles.content}
+        className={s.content}
         style={{
           ...(maxWidth ? { maxWidth } : {}),
         }}

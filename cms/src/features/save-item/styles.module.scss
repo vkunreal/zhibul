@@ -1,0 +1,9 @@
+.menu {
+  padding-top: 0.5rem;
+
+  :global(.MuiFormLabel-root) {
+    background: #fff;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
